@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>tech.lapsa.insurance</groupId>
+		<artifactId>insurance-esbd-root</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>insurance-esbd</artifactId>
+	<packaging>ejb</packaging>
+
+	<name>Insurance Lib : ESBD : EJB</name>
+
+	<dependencies>
+		<!-- tech -->
+		<dependency>
+			<groupId>tech.lapsa.java</groupId>
+			<artifactId>java-commons</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>tech.lapsa.lapsa</groupId>
+			<artifactId>lapsa-arquillian-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- own -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>insurance-esbd-client</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<!-- oldies -->
+		<dependency>
+			<groupId>com.lapsa.esbd-lib</groupId>
+			<artifactId>esbd-connection</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.lapsa.esbd-lib</groupId>
+			<artifactId>esbd-connection-impl-default</artifactId>
+			<scope>runtime</scope>
+			<optional>false</optional>
+			<type>ejb</type>
+		</dependency>
+		<!-- JavaEE -->
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.ejb</groupId>
+			<artifactId>javax.ejb-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- test -->
+	</dependencies>
+
+	<build>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+			</testResource>
+			<testResource>
+				<directory>${asb.keystore.path}</directory>
+				<targetPath>config</targetPath>
+			</testResource>
+		</testResources>
+	</build>
+
+	<scm>
+		<connection>scm:git:https://gitlab.lapsa.tech/lapsa/insurance/dao.git</connection>
+		<developerConnection>scm:git:https://gitlab.lapsa.tech/lapsa/insurance/dao.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<issueManagement>
+		<system>gitlab</system>
+		<url>https://gitlab.lapsa.tech/lapsa/insurance/dao/issues</url>
+	</issueManagement>
+
+</project>
