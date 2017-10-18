@@ -7,8 +7,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.lapsa.insurance.elements.SubjectType;
 
-import tech.lapsa.insurance.esbd.domain.infos.general.IdentityCardInfo;
-import tech.lapsa.insurance.esbd.domain.infos.general.PersonalInfo;
+import tech.lapsa.insurance.esbd.infos.IdentityCardInfo;
+import tech.lapsa.insurance.esbd.infos.PersonalInfo;
 
 /**
  * Класс для представления данных о субъекте - физ.лице

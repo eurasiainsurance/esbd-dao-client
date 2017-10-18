@@ -8,8 +8,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.lapsa.insurance.elements.SubjectType;
 import com.lapsa.kz.economic.KZEconomicSector;
 
-import tech.lapsa.insurance.esbd.domain.infos.general.ContactInfo;
-import tech.lapsa.insurance.esbd.domain.infos.general.OriginInfo;
+import tech.lapsa.insurance.esbd.infos.ContactInfo;
+import tech.lapsa.insurance.esbd.infos.OriginInfo;
 
 /**
  * Абстрактный класс для представления лица

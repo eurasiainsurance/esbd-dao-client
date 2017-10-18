@@ -9,8 +9,8 @@ import com.lapsa.insurance.elements.VehicleAgeClass;
 import com.lapsa.insurance.elements.VehicleClass;
 
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
-import tech.lapsa.insurance.esbd.domain.infos.general.RecordOperationInfo;
-import tech.lapsa.insurance.esbd.domain.infos.general.VehicleCertificateInfo;
+import tech.lapsa.insurance.esbd.infos.RecordOperationInfo;
+import tech.lapsa.insurance.esbd.infos.VehicleCertificateInfo;
 
 public class InsuredVehicleEntity {
 

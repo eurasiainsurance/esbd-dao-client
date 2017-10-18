@@ -13,7 +13,7 @@ import com.lapsa.insurance.elements.CancelationReason;
 
 import tech.lapsa.insurance.esbd.dict.BranchEntity;
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
-import tech.lapsa.insurance.esbd.domain.infos.general.RecordOperationInfo;
+import tech.lapsa.insurance.esbd.infos.RecordOperationInfo;
 
 public class PolicyEntity {
 

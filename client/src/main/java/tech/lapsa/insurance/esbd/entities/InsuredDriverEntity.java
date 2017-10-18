@@ -12,12 +12,12 @@ import com.lapsa.insurance.elements.InsuredExpirienceClass;
 import com.lapsa.insurance.elements.MaritalStatus;
 
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
-import tech.lapsa.insurance.esbd.domain.infos.general.RecordOperationInfo;
-import tech.lapsa.insurance.esbd.domain.infos.policy.DriverLicenseInfo;
-import tech.lapsa.insurance.esbd.domain.infos.policy.GPWParticipantInfo;
-import tech.lapsa.insurance.esbd.domain.infos.policy.InvalidInfo;
-import tech.lapsa.insurance.esbd.domain.infos.policy.PensionerInfo;
-import tech.lapsa.insurance.esbd.domain.infos.policy.PrivilegerInfo;
+import tech.lapsa.insurance.esbd.infos.DriverLicenseInfo;
+import tech.lapsa.insurance.esbd.infos.GPWParticipantInfo;
+import tech.lapsa.insurance.esbd.infos.InvalidInfo;
+import tech.lapsa.insurance.esbd.infos.PensionerInfo;
+import tech.lapsa.insurance.esbd.infos.PrivilegerInfo;
+import tech.lapsa.insurance.esbd.infos.RecordOperationInfo;
 
 public class InsuredDriverEntity {
 
