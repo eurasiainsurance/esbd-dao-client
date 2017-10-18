@@ -44,7 +44,7 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity<I>, I 
     public T getById(I id) throws NotFound {
 	MyNumbers.requireNonZero(id, "id");
 	return getAll().stream() //
-		.filter(x -> MyNumbers.equals(id, x.getId())) //
+		.filter(x -> MyNumbers.numbericEquals(id, x.getId())) //
 		.findFirst()
 		.orElseThrow(() -> new NotFound(String.format("Dictionary entity with id = '%1$s' is not found", id)));
     }

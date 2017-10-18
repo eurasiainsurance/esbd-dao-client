@@ -51,7 +51,7 @@ public class UserEntityServiceBean implements UserEntityService {
     public UserEntity getById(final Integer id) throws NotFound {
 	MyNumbers.requireNonZero(id, "id");
 	return getAll().stream() //
-		.filter(x -> MyNumbers.equals(id, x.getId())) //
+		.filter(x -> MyNumbers.numbericEquals(id, x.getId())) //
 		.findAny() //
 		.orElseThrow(
 			() -> new NotFound(UserEntity.class.getSimpleName() + " not found with ID = '" + id + "'"));
