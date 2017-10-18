@@ -1,23 +1,16 @@
-package com.lapsa.insurance.esbd.services.impl.elements;
+package tech.lapsa.insurance.esbd.beans.elements;
 
 import javax.ejb.Singleton;
 
 import com.lapsa.insurance.elements.VehicleAgeClass;
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.elements.VehicleAgeClassServiceDAO;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.VehicleAgeClassMapping;
 
-import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.VehicleAgeClassMapping;
+import tech.lapsa.insurance.esbd.elements.VehicleAgeClassService;
 
 @Singleton
-public class VehicleAgeClassServiceEJB implements VehicleAgeClassServiceDAO {
+public class VehicleAgeClassServiceBean extends AElementsService<VehicleAgeClass, Integer> implements VehicleAgeClassService {
 
-    @Override
-    public VehicleAgeClass getById(Integer id) throws NotFound {
-	MyNumbers.requireNonZero(id, "id");
-	VehicleAgeClass result = VehicleAgeClassMapping.getInstance().forId(id);
-	if (result == null)
-	    throw new NotFound(VehicleAgeClass.class.getSimpleName() + " not found with ID = '" + id + "'");
-	return result;
+    public VehicleAgeClassServiceBean() {
+	super(VehicleAgeClassMapping.getInstance()::forId);
     }
 }

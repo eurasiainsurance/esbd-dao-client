@@ -1,23 +1,16 @@
-package com.lapsa.insurance.esbd.services.impl.elements;
+package tech.lapsa.insurance.esbd.beans.elements;
 
 import javax.ejb.Singleton;
 
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.elements.KZAreaServiceDAO;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.KZAreaMapping;
 import com.lapsa.kz.country.KZArea;
 
-import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.KZAreaMapping;
+import tech.lapsa.insurance.esbd.elements.KZAreaService;
 
 @Singleton
-public class KZAreaServiceEJB implements KZAreaServiceDAO {
+public class KZAreaServiceBean extends AElementsService<KZArea, Integer> implements KZAreaService {
 
-    @Override
-    public KZArea getById(Integer id) throws NotFound {
-	MyNumbers.requireNonZero(id, "id");
-	KZArea result = KZAreaMapping.getInstance().forId(id);
-	if (result == null)
-	    throw new NotFound(String.format("%1$s not found with ID = '%2$s'", KZArea.class.getSimpleName(), id));
-	return result;
+    public KZAreaServiceBean() {
+	super(KZAreaMapping.getInstance()::forId);
     }
 }

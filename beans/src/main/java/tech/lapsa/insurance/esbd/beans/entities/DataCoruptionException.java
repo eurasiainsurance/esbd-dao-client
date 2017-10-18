@@ -1,4 +1,4 @@
-package com.lapsa.insurance.esbd.services.impl.entities;
+package tech.lapsa.insurance.esbd.beans.entities;
 
 public class DataCoruptionException extends RuntimeException {
 

@@ -1,4 +1,4 @@
-package com.lapsa.insurance.esbd.services.impl.entities;
+package tech.lapsa.insurance.esbd.beans.entities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,22 +10,21 @@ import com.lapsa.esbd.connection.pool.ESBDConnection;
 import com.lapsa.esbd.connection.pool.ESBDConnectionPool;
 import com.lapsa.esbd.jaxws.client.ArrayOfVOITUREMARK;
 import com.lapsa.esbd.jaxws.client.VOITUREMARK;
-import com.lapsa.insurance.esbd.domain.entities.policy.VehicleManufacturerEntity;
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.policy.VehicleManufacturerServiceDAO;
 
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntity;
+import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntityService;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyStrings;
 
 @Stateless
-public class VehicleManufacturerEntityServiceWS extends AbstractESBDEntityServiceWS
-	implements VehicleManufacturerServiceDAO {
+public class VehicleManufacturerEntityServiceBean implements VehicleManufacturerEntityService {
 
     @Inject
     private ESBDConnectionPool pool;
 
     @Override
-    public VehicleManufacturerEntity getById(Long id) throws NotFound {
+    public VehicleManufacturerEntity getById(Integer id) throws NotFound {
 	MyNumbers.requireNonZero(id, "id");
 	try (ESBDConnection con = pool.getConnection()) {
 	    VOITUREMARK m = new VOITUREMARK();

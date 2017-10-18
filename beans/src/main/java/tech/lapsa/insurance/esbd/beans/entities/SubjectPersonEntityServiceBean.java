@@ -1,39 +1,36 @@
-package com.lapsa.insurance.esbd.services.impl.entities;
+package tech.lapsa.insurance.esbd.beans.entities;
 
-import javax.ejb.EJB;
+import static tech.lapsa.insurance.esbd.beans.ESBDDates.*;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.lapsa.esbd.connection.pool.ESBDConnection;
-import com.lapsa.esbd.connection.pool.ESBDConnectionPool;
 import com.lapsa.esbd.jaxws.client.Client;
-import com.lapsa.insurance.esbd.domain.entities.general.SubjectCompanyEntity;
-import com.lapsa.insurance.esbd.domain.entities.general.SubjectEntity;
-import com.lapsa.insurance.esbd.domain.entities.general.SubjectPersonEntity;
-import com.lapsa.insurance.esbd.domain.infos.general.IdentityCardInfo;
-import com.lapsa.insurance.esbd.domain.infos.general.PersonalInfo;
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.elements.IdentityCardTypeServiceDAO;
-import com.lapsa.insurance.esbd.services.elements.SexServiceDAO;
-import com.lapsa.insurance.esbd.services.general.SubjectPersonServiceDAO;
 
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.elements.GenderService;
+import tech.lapsa.insurance.esbd.elements.IdentityCardTypeService;
+import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntity;
+import tech.lapsa.insurance.esbd.entities.SubjectEntity;
+import tech.lapsa.insurance.esbd.entities.SubjectPersonEntity;
+import tech.lapsa.insurance.esbd.entities.SubjectPersonEntityService;
+import tech.lapsa.insurance.esbd.infos.IdentityCardInfo;
+import tech.lapsa.insurance.esbd.infos.PersonalInfo;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyStrings;
 
 @Stateless
-public class SubjectPersonEntityServiceWS extends SubjectEntityServiceWS implements SubjectPersonServiceDAO {
-
-    @EJB
-    private IdentityCardTypeServiceDAO identityCardTypeService;
-
-    @EJB
-    private SexServiceDAO sexService;
+public class SubjectPersonEntityServiceBean extends ASubjectEntityService implements SubjectPersonEntityService {
 
     @Inject
-    private ESBDConnectionPool pool;
+    private IdentityCardTypeService identityCardTypeService;
+
+    @Inject
+    private GenderService sexService;
 
     @Override
-    public SubjectPersonEntity getById(Long id) throws NotFound {
+    public SubjectPersonEntity getById(Integer id) throws NotFound {
 	MyNumbers.requireNonZero(id, "id");
 
 	try (ESBDConnection con = pool.getConnection()) {
@@ -62,14 +59,14 @@ public class SubjectPersonEntityServiceWS extends SubjectEntityServiceWS impleme
 	return convert(source);
     }
 
-    SubjectPersonEntity convert(Client source) {
+    protected SubjectPersonEntity convert(Client source) {
 	SubjectPersonEntity target = new SubjectPersonEntity();
 	fillValues(source, target);
 	return target;
     }
 
-    void fillValues(Client source, SubjectPersonEntity target) {
-	fillValues(source, (SubjectEntity) target);
+    protected void fillValues(Client source, SubjectPersonEntity target) {
+	super.fillValues(source, (SubjectEntity) target);
 
 	// First_Name s:string Имя (для физ. лица)
 	// Last_Name s:string Фамилия (для физ. лица)
@@ -82,12 +79,8 @@ public class SubjectPersonEntityServiceWS extends SubjectEntityServiceWS impleme
 	pi.setSurename(source.getLastName());
 	pi.setPatronymic(source.getMiddleName());
 	pi.setDayOfBirth(convertESBDDateToLocalDate(source.getBorn()));
-	try {
-	    pi.setSex(sexService.getById(source.getSexID()));
-	} catch (NotFound e) {
-	    // non mandatory
-	    pi.setSex(null);
-	}
+	// non mandatory
+	pi.setSex(sexService.optionalById(source.getSexID()).orElseGet(null));
 
 	// DOCUMENT_TYPE_ID s:int Тип документа (справочник DOCUMENTS_TYPES)
 	// DOCUMENT_NUMBER s:string Номер документа
@@ -98,12 +91,7 @@ public class SubjectPersonEntityServiceWS extends SubjectEntityServiceWS impleme
 	di.setDateOfIssue(convertESBDDateToCalendar(source.getDOCUMENTGIVEDDATE()));
 	di.setIssuingAuthority(source.getDOCUMENTGIVEDBY());
 	di.setNumber(source.getDOCUMENTNUMBER());
-	try {
-	    di.setIdentityCardType(identityCardTypeService
-		    .getById(source.getDOCUMENTTYPEID()));
-	} catch (NotFound e) {
-	    // non mandatory
-	    di.setIdentityCardType(null);
-	}
+	// non mandatory
+	di.setIdentityCardType(identityCardTypeService.optionalById(source.getDOCUMENTTYPEID()).orElse(null));
     }
 }

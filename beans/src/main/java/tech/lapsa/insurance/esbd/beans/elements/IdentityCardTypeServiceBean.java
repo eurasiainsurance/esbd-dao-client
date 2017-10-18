@@ -1,23 +1,17 @@
-package com.lapsa.insurance.esbd.services.impl.elements;
+package tech.lapsa.insurance.esbd.beans.elements;
 
 import javax.ejb.Singleton;
 
 import com.lapsa.insurance.elements.IdentityCardType;
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.elements.IdentityCardTypeServiceDAO;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.IdentityCardTypeMapping;
 
-import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.IdentityCardTypeMapping;
+import tech.lapsa.insurance.esbd.elements.IdentityCardTypeService;
 
 @Singleton
-public class IdentityCardTypeServiceEJB implements IdentityCardTypeServiceDAO {
+public class IdentityCardTypeServiceBean extends AElementsService<IdentityCardType, Integer>
+	implements IdentityCardTypeService {
 
-    @Override
-    public IdentityCardType getById(Integer id) throws NotFound {
-	MyNumbers.requireNonZero(id, "id");
-	IdentityCardType result = IdentityCardTypeMapping.getInstance().forId(id);
-	if (result == null)
-	    throw new NotFound(IdentityCardType.class.getSimpleName() + " not found with ID = '" + id + "'");
-	return result;
+    public IdentityCardTypeServiceBean() {
+	super(IdentityCardTypeMapping.getInstance()::forId);
     }
 }

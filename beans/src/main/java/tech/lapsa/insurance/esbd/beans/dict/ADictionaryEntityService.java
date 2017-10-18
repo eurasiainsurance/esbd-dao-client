@@ -1,0 +1,64 @@
+package tech.lapsa.insurance.esbd.beans.dict;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Function;
+
+import javax.inject.Inject;
+
+import com.lapsa.esbd.connection.pool.ESBDConnection;
+import com.lapsa.esbd.connection.pool.ESBDConnectionPool;
+import com.lapsa.esbd.jaxws.client.ArrayOfItem;
+import com.lapsa.esbd.jaxws.client.Item;
+
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.dict.DictionaryEntity;
+import tech.lapsa.insurance.esbd.dict.DictionaryEntityService;
+import tech.lapsa.java.commons.function.MyCollectors;
+import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.java.commons.function.MyOptionals;
+
+public abstract class ADictionaryEntityService<T extends DictionaryEntity<I>, I extends Number>
+	implements DictionaryEntityService<T, I> {
+
+    private final String dictionaryName;
+    private final Function<Item, T> converter;
+
+    ADictionaryEntityService(String dictionaryName, Function<Item, T> converter) {
+	this.dictionaryName = dictionaryName;
+	this.converter = converter;
+    }
+
+    @Inject
+    private ESBDConnectionPool pool;
+
+    private List<T> all;
+
+    @Override
+    public List<T> getAll() {
+	return MyOptionals.of(all)
+		.orElseGet(() -> (all = getAllFromESBD()));
+    }
+
+    @Override
+    public T getById(I id) throws NotFound {
+	MyNumbers.requireNonZero(id, "id");
+	return getAll().stream() //
+		.filter(x -> MyNumbers.equals(id, x.getId())) //
+		.findFirst()
+		.orElseThrow(() -> new NotFound(String.format("Dictionary entity with id = '%1$s' is not found", id)));
+    }
+
+    // PRIVATE
+
+    private List<T> getAllFromESBD() {
+	try (ESBDConnection con = pool.getConnection()) {
+	    ArrayOfItem items = con.getItems(dictionaryName);
+	    if (items == null)
+		return Collections.unmodifiableList(Collections.emptyList());
+	    return items.getItem().stream() //
+		    .map(converter) //
+		    .collect(MyCollectors.unmodifiableList());
+	}
+    }
+}

@@ -1,23 +1,16 @@
-package com.lapsa.insurance.esbd.services.impl.elements;
+package tech.lapsa.insurance.esbd.beans.elements;
 
 import javax.ejb.Singleton;
 
 import com.lapsa.insurance.elements.MaritalStatus;
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.elements.MaritalStatusServiceDAO;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.MaritalStatusMapping;
 
-import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.MaritalStatusMapping;
+import tech.lapsa.insurance.esbd.elements.MaritalStatusService;
 
 @Singleton
-public class MaritalStatusServiceEJB implements MaritalStatusServiceDAO {
+public class MaritalStatusServiceBean extends AElementsService<MaritalStatus, Integer> implements MaritalStatusService {
 
-    @Override
-    public MaritalStatus getById(Integer id) throws NotFound {
-	MyNumbers.requireNonZero(id, "id");
-	MaritalStatus result = MaritalStatusMapping.getInstance().forId(id);
-	if (result == null)
-	    throw new NotFound(MaritalStatus.class.getSimpleName() + " not found with ID = '" + id + "'");
-	return result;
+    public MaritalStatusServiceBean() {
+	super(MaritalStatusMapping.getInstance()::forId);
     }
 }

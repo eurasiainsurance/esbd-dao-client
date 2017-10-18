@@ -1,4 +1,4 @@
-package com.lapsa.insurance.esbd.services.impl.elements.mapping;
+package tech.lapsa.insurance.esbd.beans.elements.mapping;
 
 import com.lapsa.international.country.Country;
 

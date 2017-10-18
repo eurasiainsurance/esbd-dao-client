@@ -1,4 +1,4 @@
-package com.lapsa.insurance.esbd.services.impl.elements;
+package tech.lapsa.insurance.esbd.beans.elements;
 
 import java.time.LocalDate;
 
@@ -9,17 +9,17 @@ import javax.xml.ws.soap.SOAPFaultException;
 import com.lapsa.esbd.connection.pool.ESBDConnection;
 import com.lapsa.esbd.connection.pool.ESBDConnectionPool;
 import com.lapsa.insurance.elements.InsuranceClassType;
-import com.lapsa.insurance.esbd.domain.entities.general.SubjectPersonEntity;
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.elements.InsuranceClassTypeServiceDAO;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.InsuranceClassTypeMapping;
-import com.lapsa.insurance.esbd.services.impl.entities.AbstractESBDServiceWS;
 
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.beans.ESBDDates;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.InsuranceClassTypeMapping;
+import tech.lapsa.insurance.esbd.elements.InsuranceClassTypeService;
+import tech.lapsa.insurance.esbd.entities.SubjectPersonEntity;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 
 @Stateless
-public class InsuranceClassTypeServiceEJB extends AbstractESBDServiceWS implements InsuranceClassTypeServiceDAO {
+public class InsuranceClassTypeServiceBean implements InsuranceClassTypeService {
 
     @Inject
     private ESBDConnectionPool pool;
@@ -28,7 +28,7 @@ public class InsuranceClassTypeServiceEJB extends AbstractESBDServiceWS implemen
     public InsuranceClassType getById(Integer id) throws NotFound {
 	MyNumbers.requireNonZero(id, "id");
 	try (ESBDConnection con = pool.getConnection()) {
-	    String classCode = con.getClassText(new Long(id).intValue());
+	    String classCode = con.getClassText(id);
 	    if (classCode == null || classCode.trim().equals(""))
 		throw new NotFound(InsuranceClassType.class.getSimpleName() + " not found with ID = '" + id + "'");
 	    return getByCode(classCode);
@@ -54,7 +54,7 @@ public class InsuranceClassTypeServiceEJB extends AbstractESBDServiceWS implemen
 	MyObjects.requireNonNull(subjectPerson, "subjectPerson");
 	MyObjects.requireNonNull(date, "date");
 	try (ESBDConnection con = pool.getConnection()) {
-	    String esbdDate = convertLocalDateToESBDDate(date);
+	    String esbdDate = ESBDDates.convertLocalDateToESBDDate(date);
 	    try {
 		int aClassID = con.getClassId(new Long(subjectPerson.getId()).intValue(), esbdDate, 0);
 		if (aClassID == 0)

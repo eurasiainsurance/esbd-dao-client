@@ -1,33 +1,28 @@
-package com.lapsa.insurance.esbd.services.impl.entities;
+package tech.lapsa.insurance.esbd.beans.entities;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.lapsa.esbd.connection.pool.ESBDConnection;
-import com.lapsa.esbd.connection.pool.ESBDConnectionPool;
 import com.lapsa.esbd.jaxws.client.Client;
-import com.lapsa.insurance.esbd.domain.entities.general.SubjectCompanyEntity;
-import com.lapsa.insurance.esbd.domain.entities.general.SubjectEntity;
-import com.lapsa.insurance.esbd.domain.entities.general.SubjectPersonEntity;
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.general.CompanyActivityKindServiceDAO;
-import com.lapsa.insurance.esbd.services.general.SubjectCompanyServiceDAO;
 
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntityService;
+import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntity;
+import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntityService;
+import tech.lapsa.insurance.esbd.entities.SubjectEntity;
+import tech.lapsa.insurance.esbd.entities.SubjectPersonEntity;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyStrings;
 
 @Stateless
-public class SubjectCompanyEntityServiceWS extends SubjectEntityServiceWS implements SubjectCompanyServiceDAO {
-
-    @EJB
-    private CompanyActivityKindServiceDAO companyActivityKindService;
+public class SubjectCompanyEntityServiceBean extends ASubjectEntityService implements SubjectCompanyEntityService {
 
     @Inject
-    private ESBDConnectionPool pool;
+    private CompanyActivityKindEntityService companyActivityKindService;
 
     @Override
-    public SubjectCompanyEntity getById(Long id) throws NotFound {
+    public SubjectCompanyEntity getById(Integer id) throws NotFound {
 	MyNumbers.requireNonZero(id, "id");
 	try (ESBDConnection con = pool.getConnection()) {
 	    Client source = con.getClientByID(id.intValue());
@@ -55,14 +50,14 @@ public class SubjectCompanyEntityServiceWS extends SubjectEntityServiceWS implem
 	return convert(source);
     }
 
-    SubjectCompanyEntity convert(Client source) {
+    protected SubjectCompanyEntity convert(Client source) {
 	SubjectCompanyEntity target = new SubjectCompanyEntity();
 	fillValues(source, target);
 	return target;
     }
 
-    void fillValues(Client source, SubjectCompanyEntity target) {
-	fillValues(source, (SubjectEntity) target);
+    protected void fillValues(Client source, SubjectCompanyEntity target) {
+	super.fillValues(source, (SubjectEntity) target);
 
 	// Juridical_Person_Name s:string Наименование (для юр. лица)
 	target.setCompanyName(source.getJuridicalPersonName());
@@ -75,11 +70,9 @@ public class SubjectCompanyEntityServiceWS extends SubjectEntityServiceWS implem
 
 	// ACTIVITY_KIND_ID s:int Вид деятельности (справочник ACTIVITY_KINDS)
 	target.setCompanyActivityKindId(new Long(source.getACTIVITYKINDID()));
-	try {
-	    if (MyNumbers.nonZero(source.getACTIVITYKINDID()))
-		target.setCompanyActivityKind(companyActivityKindService.getById(new Long(source.getACTIVITYKINDID())));
-	} catch (NotFound e) {
-	    // non mandatory field
-	}
+	// non mandatory field
+	if (MyNumbers.nonZero(source.getACTIVITYKINDID()))
+	    target.setCompanyActivityKind(
+		    companyActivityKindService.optionalById(source.getACTIVITYKINDID()).orElse(null));
     }
 }

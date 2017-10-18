@@ -1,9 +1,8 @@
-package com.lapsa.insurance.esbd.services.impl.entities;
+package tech.lapsa.insurance.esbd.beans.entities;
 
 import java.util.List;
 import java.util.stream.Stream;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -11,12 +10,12 @@ import com.lapsa.esbd.connection.pool.ESBDConnection;
 import com.lapsa.esbd.connection.pool.ESBDConnectionPool;
 import com.lapsa.esbd.jaxws.client.ArrayOfVOITUREMODEL;
 import com.lapsa.esbd.jaxws.client.VOITUREMODEL;
-import com.lapsa.insurance.esbd.domain.entities.policy.VehicleManufacturerEntity;
-import com.lapsa.insurance.esbd.domain.entities.policy.VehicleModelEntity;
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.policy.VehicleManufacturerServiceDAO;
-import com.lapsa.insurance.esbd.services.policy.VehicleModelServiceDAO;
 
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntity;
+import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntityService;
+import tech.lapsa.insurance.esbd.entities.VehicleModelEntity;
+import tech.lapsa.insurance.esbd.entities.VehicleModelEntityService;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
@@ -24,16 +23,16 @@ import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.java.commons.function.MyStrings;
 
 @Stateless
-public class VehicleModelEntityServiceWS extends AbstractESBDEntityServiceWS implements VehicleModelServiceDAO {
+public class VehicleModelEntityServiceBean implements VehicleModelEntityService {
 
-    @EJB
-    private VehicleManufacturerServiceDAO vehicleManufacturerService;
+    @Inject
+    private VehicleManufacturerEntityService vehicleManufacturerService;
 
     @Inject
     private ESBDConnectionPool pool;
 
     @Override
-    public VehicleModelEntity getById(Long id) throws NotFound {
+    public VehicleModelEntity getById(Integer id) throws NotFound {
 	MyNumbers.requireNonZero(id, "id");
 	try (ESBDConnection con = pool.getConnection()) {
 	    // VOITURE_MODEL_ID, NAME, VOITURE_MARK_ID
@@ -97,7 +96,7 @@ public class VehicleModelEntityServiceWS extends AbstractESBDEntityServiceWS imp
 	target.setId(source.getID());
 	target.setName(source.getNAME());
 	try {
-	    target.setManufacturer(vehicleManufacturerService.getById(new Long(source.getVOITUREMARKID())));
+	    target.setManufacturer(vehicleManufacturerService.getById(source.getVOITUREMARKID()));
 	} catch (NotFound e) {
 	    // mandatory field
 	    throw new DataCoruptionException(

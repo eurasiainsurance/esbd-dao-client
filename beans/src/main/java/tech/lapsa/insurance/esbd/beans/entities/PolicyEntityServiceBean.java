@@ -1,9 +1,10 @@
-package com.lapsa.insurance.esbd.services.impl.entities;
+package tech.lapsa.insurance.esbd.beans.entities;
+
+import static tech.lapsa.insurance.esbd.beans.ESBDDates.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.xml.ws.soap.SOAPFaultException;
@@ -16,87 +17,87 @@ import com.lapsa.esbd.jaxws.client.ArrayOfPolicy;
 import com.lapsa.esbd.jaxws.client.Driver;
 import com.lapsa.esbd.jaxws.client.PoliciesTF;
 import com.lapsa.esbd.jaxws.client.Policy;
-import com.lapsa.insurance.esbd.domain.entities.policy.InsuredDriverEntity;
-import com.lapsa.insurance.esbd.domain.entities.policy.InsuredVehicleEntity;
-import com.lapsa.insurance.esbd.domain.entities.policy.PolicyEntity;
-import com.lapsa.insurance.esbd.domain.infos.general.RecordOperationInfo;
-import com.lapsa.insurance.esbd.domain.infos.general.VehicleCertificateInfo;
-import com.lapsa.insurance.esbd.domain.infos.policy.DriverLicenseInfo;
-import com.lapsa.insurance.esbd.domain.infos.policy.GPWParticipantInfo;
-import com.lapsa.insurance.esbd.domain.infos.policy.InvalidInfo;
-import com.lapsa.insurance.esbd.domain.infos.policy.PensionerInfo;
-import com.lapsa.insurance.esbd.domain.infos.policy.PrivilegerInfo;
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.elements.CancelationReasonServiceDAO;
-import com.lapsa.insurance.esbd.services.elements.InsuranceClassTypeServiceDAO;
-import com.lapsa.insurance.esbd.services.elements.InsuredAgeAndExpirienceClassServiceDAO;
-import com.lapsa.insurance.esbd.services.elements.KZAreaServiceDAO;
-import com.lapsa.insurance.esbd.services.elements.MaritalStatusServiceDAO;
-import com.lapsa.insurance.esbd.services.elements.VehicleAgeClassServiceDAO;
-import com.lapsa.insurance.esbd.services.elements.VehicleClassServiceDAO;
-import com.lapsa.insurance.esbd.services.general.BranchServiceDAO;
-import com.lapsa.insurance.esbd.services.general.InsuranceCompanyServiceDAO;
-import com.lapsa.insurance.esbd.services.general.SubjectPersonServiceDAO;
-import com.lapsa.insurance.esbd.services.general.SubjectServiceDAO;
-import com.lapsa.insurance.esbd.services.general.UserServiceDAO;
-import com.lapsa.insurance.esbd.services.policy.PolicyServiceDAO;
-import com.lapsa.insurance.esbd.services.policy.VehicleServiceDAO;
 
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.dict.BranchEntityService;
+import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntityService;
+import tech.lapsa.insurance.esbd.elements.CancelationReasonServiceService;
+import tech.lapsa.insurance.esbd.elements.InsuranceClassTypeService;
+import tech.lapsa.insurance.esbd.elements.InsuredAgeAndExpirienceClassService;
+import tech.lapsa.insurance.esbd.elements.KZAreaService;
+import tech.lapsa.insurance.esbd.elements.MaritalStatusService;
+import tech.lapsa.insurance.esbd.elements.VehicleAgeClassService;
+import tech.lapsa.insurance.esbd.elements.VehicleClassService;
+import tech.lapsa.insurance.esbd.entities.InsuredDriverEntity;
+import tech.lapsa.insurance.esbd.entities.InsuredVehicleEntity;
+import tech.lapsa.insurance.esbd.entities.PolicyEntity;
+import tech.lapsa.insurance.esbd.entities.PolicyEntityService;
+import tech.lapsa.insurance.esbd.entities.SubjectEntityService;
+import tech.lapsa.insurance.esbd.entities.SubjectPersonEntityService;
+import tech.lapsa.insurance.esbd.entities.UserEntityService;
+import tech.lapsa.insurance.esbd.entities.VehicleEntityService;
+import tech.lapsa.insurance.esbd.infos.DriverLicenseInfo;
+import tech.lapsa.insurance.esbd.infos.GPWParticipantInfo;
+import tech.lapsa.insurance.esbd.infos.InvalidInfo;
+import tech.lapsa.insurance.esbd.infos.PensionerInfo;
+import tech.lapsa.insurance.esbd.infos.PrivilegerInfo;
+import tech.lapsa.insurance.esbd.infos.RecordOperationInfo;
+import tech.lapsa.insurance.esbd.infos.VehicleCertificateInfo;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyStrings;
 
 @Stateless
-public class PolicyEntityServiceWS extends AbstractESBDEntityServiceWS implements PolicyServiceDAO {
+public class PolicyEntityServiceBean implements PolicyEntityService {
 
-    @EJB
-    private InsuranceCompanyServiceDAO insuranceCompanyService;
+    @Inject
+    private InsuranceCompanyEntityService insuranceCompanyService;
 
-    @EJB
-    private SubjectServiceDAO subjectService;
+    @Inject
+    private SubjectEntityService subjectService;
 
-    @EJB
-    private CancelationReasonServiceDAO cancelationReasonTypeService;
+    @Inject
+    private CancelationReasonServiceService cancelationReasonTypeService;
 
-    @EJB
-    private BranchServiceDAO branchService;
+    @Inject
+    private BranchEntityService branchService;
 
-    @EJB
-    private InsuredAgeAndExpirienceClassServiceDAO driverExpirienceClassificationService;
+    @Inject
+    private InsuredAgeAndExpirienceClassService driverExpirienceClassificationService;
 
-    @EJB
-    private InsuranceClassTypeServiceDAO insuranceClassTypeService;
+    @Inject
+    private InsuranceClassTypeService insuranceClassTypeService;
 
-    @EJB
-    private SubjectPersonServiceDAO subjectPersonService;
+    @Inject
+    private SubjectPersonEntityService subjectPersonService;
 
-    @EJB
-    private MaritalStatusServiceDAO maritalStatusService;
+    @Inject
+    private MaritalStatusService maritalStatusService;
 
-    @EJB
-    private UserServiceDAO userService;
+    @Inject
+    private UserEntityService userService;
 
-    @EJB
-    private VehicleServiceDAO vehicleService;
+    @Inject
+    private VehicleEntityService vehicleService;
 
-    @EJB
-    private VehicleClassServiceDAO vehicleClassService;
+    @Inject
+    private VehicleClassService vehicleClassService;
 
-    @EJB
-    private VehicleAgeClassServiceDAO vehicleAgeClassService;
+    @Inject
+    private VehicleAgeClassService vehicleAgeClassService;
 
-    @EJB
-    private KZAreaServiceDAO countryRegionService;
+    @Inject
+    private KZAreaService countryRegionService;
 
     @Inject
     private ESBDConnectionPool pool;
 
     @Override
-    public PolicyEntity getById(Long id) throws NotFound {
-	MyNumbers.requireNonZero(id, "ID must be not null");
+    public PolicyEntity getById(Integer id) throws NotFound {
+	MyNumbers.requireNonZero(id, "id");
 	try (ESBDConnection con = pool.getConnection()) {
 	    Policy source = null;
 	    try {
-		source = con.getPolicyByID(new Long(id).intValue());
+		source = con.getPolicyByID(id);
 	    } catch (SOAPFaultException e) {
 		source = null;
 	    }
@@ -148,7 +149,7 @@ public class PolicyEntityServiceWS extends AbstractESBDEntityServiceWS implement
 
 	// SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
 	try {
-	    target.setInsurer(insuranceCompanyService.getById(new Long(source.getSYSTEMDELIMITERID())));
+	    target.setInsurer(insuranceCompanyService.getById(source.getSYSTEMDELIMITERID()));
 	} catch (NotFound e) {
 	    // mandatory field
 	    throw new DataCoruptionException(
@@ -160,7 +161,7 @@ public class PolicyEntityServiceWS extends AbstractESBDEntityServiceWS implement
 
 	// CLIENT_ID s:int Идентификатор страхователя (обязательно)
 	try {
-	    target.setInsurant(subjectService.getById(new Long(source.getCLIENTID())));
+	    target.setInsurant(subjectService.getById(source.getCLIENTID()));
 	} catch (NotFound e) {
 	    // mandatory field
 	    throw new DataCoruptionException(
@@ -176,17 +177,14 @@ public class PolicyEntityServiceWS extends AbstractESBDEntityServiceWS implement
 	target.setDateOfCancelation(convertESBDDateToCalendar(source.getRESCINDINGDATE()));
 
 	// RESCINDING_REASON_ID s:int Идентификатор причины расторжения
-	try {
-	    if (MyNumbers.nonZero(source.getRESCINDINGREASONID()))
-		target.setCancelationReasonType(
-			cancelationReasonTypeService.getById(source.getRESCINDINGREASONID()));
-	} catch (NotFound e) {
-	    // non mandatory field
-	}
+	// non mandatory field
+	if (MyNumbers.nonZero(source.getRESCINDINGREASONID()))
+	    target.setCancelationReasonType(
+		    cancelationReasonTypeService.optionalById(source.getRESCINDINGREASONID()).orElse(null));
 
 	// BRANCH_ID s:int Филиал (обязательно)
 	try {
-	    target.setBranch(branchService.getById(new Long(source.getBRANCHID())));
+	    target.setBranch(branchService.getById(source.getBRANCHID()));
 	} catch (NotFound e) {
 	    // mandatory field
 	    throw new DataCoruptionException(
@@ -236,7 +234,7 @@ public class PolicyEntityServiceWS extends AbstractESBDEntityServiceWS implement
 	target.setCreated(created);
 	created.setDate(convertESBDDateToLocalDate(source.getINPUTDATE()));
 	try {
-	    created.setAuthor(userService.getById(new Long(source.getCREATEDBYUSERID())));
+	    created.setAuthor(userService.getById(source.getCREATEDBYUSERID()));
 	} catch (NotFound e) {
 	    throw new DataCoruptionException(
 		    "Error while fetching Policy ID = '" + source.getPOLICYID()
@@ -254,7 +252,7 @@ public class PolicyEntityServiceWS extends AbstractESBDEntityServiceWS implement
 	modified.setDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()));
 	if (modified.getDate() != null)
 	    try {
-		modified.setAuthor(userService.getById(new Long(source.getCHANGEDBYUSERID())));
+		modified.setAuthor(userService.getById(source.getCHANGEDBYUSERID()));
 	    } catch (NotFound e) {
 		throw new DataCoruptionException(
 			"Error while fetching Policy ID = '" + source.getPOLICYID()
@@ -284,7 +282,7 @@ public class PolicyEntityServiceWS extends AbstractESBDEntityServiceWS implement
 	    target.setPolicy(policy);
 	else {
 	    try {
-		target.setPolicy(getById(new Long(source.getPOLICYID())));
+		target.setPolicy(getById(source.getPOLICYID()));
 	    } catch (NotFound e) {
 		throw new DataCoruptionException(
 			"Error while fetching Driver ID = '" + source.getDRIVERID()
@@ -295,7 +293,7 @@ public class PolicyEntityServiceWS extends AbstractESBDEntityServiceWS implement
 
 	// CLIENT_ID s:int Идентификатор клиента (обязательно)
 	try {
-	    target.setInsuredPerson(subjectPersonService.getById(new Long(source.getCLIENTID())));
+	    target.setInsuredPerson(subjectPersonService.getById(source.getCLIENTID()));
 	} catch (NotFound e) {
 	    throw new DataCoruptionException(
 		    "Error while fetching Driver ID = '" + source.getDRIVERID()
@@ -409,7 +407,7 @@ public class PolicyEntityServiceWS extends AbstractESBDEntityServiceWS implement
 	target.setCreated(created);
 	created.setDate(convertESBDDateToLocalDate(source.getINPUTDATE()));
 	try {
-	    created.setAuthor(userService.getById(new Long(source.getCREATEDBYUSERID())));
+	    created.setAuthor(userService.getById(source.getCREATEDBYUSERID()));
 	} catch (NotFound e) {
 	    throw new DataCoruptionException(
 		    "Error while fetching Driver ID = '" + source.getDRIVERID()
@@ -427,7 +425,7 @@ public class PolicyEntityServiceWS extends AbstractESBDEntityServiceWS implement
 	modified.setDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()));
 	if (modified.getDate() != null)
 	    try {
-		modified.setAuthor(userService.getById(new Long(source.getCHANGEDBYUSERID())));
+		modified.setAuthor(userService.getById(source.getCHANGEDBYUSERID()));
 	    } catch (NotFound e) {
 		throw new DataCoruptionException(
 			"Error while fetching Driver ID = '" + source.getDRIVERID()
@@ -439,7 +437,7 @@ public class PolicyEntityServiceWS extends AbstractESBDEntityServiceWS implement
 
 	// SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
 	try {
-	    target.setInsurer(insuranceCompanyService.getById(new Long(source.getSYSTEMDELIMITERID())));
+	    target.setInsurer(insuranceCompanyService.getById(source.getSYSTEMDELIMITERID()));
 	} catch (NotFound e) {
 	    throw new DataCoruptionException(
 		    "Error while fetching Driver ID = '" + source.getDRIVERID()
@@ -460,7 +458,7 @@ public class PolicyEntityServiceWS extends AbstractESBDEntityServiceWS implement
 	    target.setPolicy(policy);
 	else {
 	    try {
-		target.setPolicy(getById(new Long(source.getPOLICYID())));
+		target.setPolicy(getById(source.getPOLICYID()));
 	    } catch (NotFound e) {
 		throw new DataCoruptionException(
 			"Error while fetching InsuredVehicle ID = '" + source.getPOLICYTFID()
@@ -472,7 +470,7 @@ public class PolicyEntityServiceWS extends AbstractESBDEntityServiceWS implement
 
 	// TF_ID s:int Идентификатор ТС
 	try {
-	    target.setVehicle(vehicleService.getById(new Long(source.getTFID())));
+	    target.setVehicle(vehicleService.getById(source.getTFID()));
 	} catch (NotFound e) {
 	    // TODO is mandatory?
 	    throw new DataCoruptionException(
@@ -540,7 +538,7 @@ public class PolicyEntityServiceWS extends AbstractESBDEntityServiceWS implement
 	target.setCreated(created);
 	created.setDate(convertESBDDateToLocalDate(source.getINPUTDATE()));
 	try {
-	    created.setAuthor(userService.getById(new Long(source.getCREATEDBYUSERID())));
+	    created.setAuthor(userService.getById(source.getCREATEDBYUSERID()));
 	} catch (NotFound e) {
 	    throw new DataCoruptionException(
 		    "Error while fetching InsuredVehicle ID = '" + source.getPOLICYTFID()
@@ -558,7 +556,7 @@ public class PolicyEntityServiceWS extends AbstractESBDEntityServiceWS implement
 	modified.setDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()));
 	if (modified.getDate() != null)
 	    try {
-		modified.setAuthor(userService.getById(new Long(source.getCHANGEDBYUSERID())));
+		modified.setAuthor(userService.getById(source.getCHANGEDBYUSERID()));
 	    } catch (NotFound e) {
 		throw new DataCoruptionException(
 			"Error while fetching InsuredVehicle ID = '" + source.getPOLICYTFID()
@@ -570,7 +568,7 @@ public class PolicyEntityServiceWS extends AbstractESBDEntityServiceWS implement
 
 	// SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
 	try {
-	    target.setInsurer(insuranceCompanyService.getById(new Long(source.getSYSTEMDELIMITERID())));
+	    target.setInsurer(insuranceCompanyService.getById(source.getSYSTEMDELIMITERID()));
 	} catch (NotFound e) {
 	    throw new DataCoruptionException(
 		    "Error while fetching InsuredVehicle ID = '" + source.getPOLICYTFID()
