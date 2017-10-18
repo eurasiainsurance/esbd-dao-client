@@ -10,16 +10,16 @@ import javax.naming.NamingException;
 import org.junit.Test;
 
 import com.lapsa.insurance.elements.VehicleAgeClass;
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.elements.VehicleAgeClassServiceDAO;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.VehicleAgeClassMapping;
 
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.VehicleAgeClassMapping;
+import tech.lapsa.insurance.esbd.elements.VehicleAgeClassService;
 import test.ArquillianBaseTestCase;
 
 public class VehicleAgeClassServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private VehicleAgeClassServiceDAO service;
+    private VehicleAgeClassService service;
 
     @Test
     public void testGetById() throws NamingException {

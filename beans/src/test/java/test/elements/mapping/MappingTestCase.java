@@ -16,21 +16,22 @@ import com.lapsa.insurance.elements.MaritalStatus;
 import com.lapsa.insurance.elements.Sex;
 import com.lapsa.insurance.elements.VehicleAgeClass;
 import com.lapsa.insurance.elements.VehicleClass;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.CancelationReasonMapping;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.CountryMapping;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.IdentityCardTypeMapping;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.InsuredAgeAndExpirienceClassMapping;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.KZAreaMapping;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.KZCityMapping;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.KZEconomicSectorMapping;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.MaritalStatusMapping;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.SexMapping;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.VehicleAgeClassMapping;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.VehicleClassMapping;
 import com.lapsa.international.country.Country;
 import com.lapsa.kz.country.KZArea;
 import com.lapsa.kz.country.KZCity;
 import com.lapsa.kz.economic.KZEconomicSector;
+
+import tech.lapsa.insurance.esbd.beans.elements.mapping.CancelationReasonMapping;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.CountryMapping;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.IdentityCardTypeMapping;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.InsuredAgeAndExpirienceClassMapping;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.KZAreaMapping;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.KZCityMapping;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.KZEconomicSectorMapping;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.MaritalStatusMapping;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.SexMapping;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.VehicleAgeClassMapping;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.VehicleClassMapping;
 
 public class MappingTestCase extends BaseTestCase {
 

@@ -10,16 +10,16 @@ import javax.naming.NamingException;
 import org.junit.Test;
 
 import com.lapsa.insurance.elements.CancelationReason;
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.elements.CancelationReasonServiceDAO;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.CancelationReasonMapping;
 
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.CancelationReasonMapping;
+import tech.lapsa.insurance.esbd.elements.CancelationReasonServiceService;
 import test.ArquillianBaseTestCase;
 
 public class CancelationReasonServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private CancelationReasonServiceDAO service;
+    private CancelationReasonServiceService service;
 
     @Test
     public void testGetById() throws NamingException {

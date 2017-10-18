@@ -11,16 +11,15 @@ import javax.naming.NamingException;
 
 import org.junit.Test;
 
-import com.lapsa.insurance.esbd.domain.entities.general.CompanyActivityKindEntity;
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.general.CompanyActivityKindServiceDAO;
-
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntity;
+import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntityService;
 import test.ArquillianBaseTestCase;
 
 public class CompanyActivityKindServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private CompanyActivityKindServiceDAO service;
+    private CompanyActivityKindEntityService service;
 
     @Test
     public void testGetAll() throws NamingException {

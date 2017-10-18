@@ -12,17 +12,17 @@ import javax.naming.NamingException;
 import org.junit.Test;
 
 import com.lapsa.insurance.elements.InsuranceClassType;
-import com.lapsa.insurance.esbd.domain.entities.general.SubjectPersonEntity;
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.elements.InsuranceClassTypeServiceDAO;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.InsuranceClassTypeMapping;
 
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.InsuranceClassTypeMapping;
+import tech.lapsa.insurance.esbd.elements.InsuranceClassTypeService;
+import tech.lapsa.insurance.esbd.entities.SubjectPersonEntity;
 import test.ArquillianBaseTestCase;
 
 public class InsuranceClassTypeTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private InsuranceClassTypeServiceDAO service;
+    private InsuranceClassTypeService service;
 
     @Test
     public void testGetById() throws NamingException {

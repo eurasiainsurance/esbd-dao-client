@@ -10,16 +10,16 @@ import javax.naming.NamingException;
 import org.junit.Test;
 
 import com.lapsa.insurance.elements.InsuredAgeAndExpirienceClass;
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.elements.InsuredAgeAndExpirienceClassServiceDAO;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.InsuredAgeAndExpirienceClassMapping;
 
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.InsuredAgeAndExpirienceClassMapping;
+import tech.lapsa.insurance.esbd.elements.InsuredAgeAndExpirienceClassService;
 import test.ArquillianBaseTestCase;
 
 public class InsuranceAgeExpirienceServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private InsuredAgeAndExpirienceClassServiceDAO service;
+    private InsuredAgeAndExpirienceClassService service;
 
     @Test
     public void testGetById() throws NamingException {

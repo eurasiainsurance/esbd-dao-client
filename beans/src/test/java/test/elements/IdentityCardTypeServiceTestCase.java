@@ -10,16 +10,16 @@ import javax.naming.NamingException;
 import org.junit.Test;
 
 import com.lapsa.insurance.elements.IdentityCardType;
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.elements.IdentityCardTypeServiceDAO;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.IdentityCardTypeMapping;
 
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.IdentityCardTypeMapping;
+import tech.lapsa.insurance.esbd.elements.IdentityCardTypeService;
 import test.ArquillianBaseTestCase;
 
 public class IdentityCardTypeServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private IdentityCardTypeServiceDAO service;
+    private IdentityCardTypeService service;
 
     @Test
     public void testGetById() throws NamingException {

@@ -9,17 +9,17 @@ import javax.naming.NamingException;
 
 import org.junit.Test;
 
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.elements.KZEconomicSectorServiceDAO;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.KZEconomicSectorMapping;
 import com.lapsa.kz.economic.KZEconomicSector;
 
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.KZEconomicSectorMapping;
+import tech.lapsa.insurance.esbd.elements.KZEconomicSectorService;
 import test.ArquillianBaseTestCase;
 
 public class EconomicsSectorServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private KZEconomicSectorServiceDAO service;
+    private KZEconomicSectorService service;
 
     @Test
     public void testGetById() throws NamingException {
