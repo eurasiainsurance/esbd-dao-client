@@ -8,7 +8,7 @@ import tech.lapsa.insurance.esbd.elements.ElementsService;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyOptionals;
 
-abstract class AElementsService<T extends Enum<T>, I extends Number> implements ElementsService<T, I> {
+public abstract class AElementsService<T extends Enum<T>, I extends Number> implements ElementsService<T, I> {
 
     private final Function<I, T> converter;
 
