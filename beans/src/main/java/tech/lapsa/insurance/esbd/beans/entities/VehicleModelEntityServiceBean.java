@@ -6,11 +6,11 @@ import java.util.stream.Stream;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import com.lapsa.esbd.connection.pool.ESBDConnection;
-import com.lapsa.esbd.connection.pool.ESBDConnectionPool;
 import com.lapsa.esbd.jaxws.client.ArrayOfVOITUREMODEL;
 import com.lapsa.esbd.jaxws.client.VOITUREMODEL;
 
+import tech.lapsa.esbd.connection.Connection;
+import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntity;
 import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntityService;
@@ -29,12 +29,12 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityService 
     private VehicleManufacturerEntityService vehicleManufacturerService;
 
     @Inject
-    private ESBDConnectionPool pool;
+    private ConnectionPool pool;
 
     @Override
     public VehicleModelEntity getById(Integer id) throws NotFound {
 	MyNumbers.requireNonZero(id, "id");
-	try (ESBDConnection con = pool.getConnection()) {
+	try (Connection con = pool.getConnection()) {
 	    // VOITURE_MODEL_ID, NAME, VOITURE_MARK_ID
 	    VOITUREMODEL m = new VOITUREMODEL();
 	    m.setID(new Long(id).intValue());
@@ -51,7 +51,7 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityService 
     @Override
     public List<VehicleModelEntity> getByName(String name) {
 	MyStrings.requireNonEmpty(name, "name");
-	try (ESBDConnection con = pool.getConnection()) {
+	try (Connection con = pool.getConnection()) {
 	    // VOITURE_MODEL_ID, NAME, VOITURE_MARK_ID
 	    // List<VehicleModelEntity> res = new ArrayList<>();
 	    VOITUREMODEL m = new VOITUREMODEL();
@@ -67,7 +67,7 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityService 
     @Override
     public List<VehicleModelEntity> getByManufacturer(VehicleManufacturerEntity manufacturer) {
 	MyObjects.requireNonNull(manufacturer, "manufacturer");
-	try (ESBDConnection con = pool.getConnection()) {
+	try (Connection con = pool.getConnection()) {
 	    // VOITURE_MODEL_ID, NAME, VOITURE_MARK_ID
 	    VOITUREMODEL m = new VOITUREMODEL();
 	    m.setVOITUREMARKID(new Long(manufacturer.getId()).intValue());

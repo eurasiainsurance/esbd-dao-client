@@ -5,12 +5,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import com.lapsa.esbd.connection.pool.ESBDConnection;
-import com.lapsa.esbd.connection.pool.ESBDConnectionPool;
 import com.lapsa.esbd.jaxws.client.ArrayOfClient;
 import com.lapsa.esbd.jaxws.client.Client;
 import com.lapsa.international.phone.PhoneNumber;
 
+import tech.lapsa.esbd.connection.Connection;
+import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.elements.CountryService;
 import tech.lapsa.insurance.esbd.elements.KZCityService;
@@ -32,7 +32,7 @@ public abstract class ASubjectEntityService {
     protected KZCityService cityService;
 
     @Inject
-    protected ESBDConnectionPool pool;
+    protected ConnectionPool pool;
 
     protected Client fetchClientByIdNumber(String idNumber, boolean fetchNaturals, boolean fetchCompanies) {
 	int[] residentBools = new int[] { 1, 0 };
@@ -42,7 +42,7 @@ public abstract class ASubjectEntityService {
 	if (fetchCompanies)
 	    naturalPersonBools.add(0);
 
-	try (ESBDConnection con = pool.getConnection()) {
+	try (Connection con = pool.getConnection()) {
 	    for (int residentBool : residentBools) {
 		for (int naturalPersonBool : naturalPersonBools) {
 		    Client requestClient = new Client();

@@ -6,11 +6,11 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import com.lapsa.esbd.connection.pool.ESBDConnection;
-import com.lapsa.esbd.connection.pool.ESBDConnectionPool;
 import com.lapsa.esbd.jaxws.client.ArrayOfUser;
 import com.lapsa.esbd.jaxws.client.User;
 
+import tech.lapsa.esbd.connection.Connection;
+import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.dict.BranchEntityService;
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntityService;
@@ -29,7 +29,7 @@ public class UserEntityServiceBean implements UserEntityService {
     private InsuranceCompanyEntityService insuranceCompanyService;
 
     @Inject
-    private ESBDConnectionPool pool;
+    private ConnectionPool pool;
 
     private List<UserEntity> all;
 
@@ -37,7 +37,7 @@ public class UserEntityServiceBean implements UserEntityService {
     public List<UserEntity> getAll() {
 	if (all != null)
 	    return all;
-	try (ESBDConnection con = pool.getConnection()) {
+	try (Connection con = pool.getConnection()) {
 	    ArrayOfUser users = con.getUsers();
 	    if (users == null)
 		return (all = Collections.unmodifiableList(Collections.emptyList()));

@@ -6,11 +6,11 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import com.lapsa.esbd.connection.pool.ESBDConnection;
-import com.lapsa.esbd.connection.pool.ESBDConnectionPool;
 import com.lapsa.esbd.jaxws.client.ArrayOfVOITUREMARK;
 import com.lapsa.esbd.jaxws.client.VOITUREMARK;
 
+import tech.lapsa.esbd.connection.Connection;
+import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntity;
 import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntityService;
@@ -21,12 +21,12 @@ import tech.lapsa.java.commons.function.MyStrings;
 public class VehicleManufacturerEntityServiceBean implements VehicleManufacturerEntityService {
 
     @Inject
-    private ESBDConnectionPool pool;
+    private ConnectionPool pool;
 
     @Override
     public VehicleManufacturerEntity getById(Integer id) throws NotFound {
 	MyNumbers.requireNonZero(id, "id");
-	try (ESBDConnection con = pool.getConnection()) {
+	try (Connection con = pool.getConnection()) {
 	    VOITUREMARK m = new VOITUREMARK();
 	    m.setID(new Long(id).intValue());
 	    ArrayOfVOITUREMARK manufacturers = con.getVoitureMarks(m);
@@ -45,7 +45,7 @@ public class VehicleManufacturerEntityServiceBean implements VehicleManufacturer
     @Override
     public List<VehicleManufacturerEntity> getByName(String name) {
 	MyStrings.requireNonEmpty(name, "name");
-	try (ESBDConnection con = pool.getConnection()) {
+	try (Connection con = pool.getConnection()) {
 	    List<VehicleManufacturerEntity> res = new ArrayList<>();
 	    VOITUREMARK m = new VOITUREMARK();
 	    m.setNAME(name);

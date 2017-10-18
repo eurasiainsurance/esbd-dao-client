@@ -3,9 +3,9 @@ package tech.lapsa.insurance.esbd.beans.entities;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import com.lapsa.esbd.connection.pool.ESBDConnection;
 import com.lapsa.esbd.jaxws.client.Client;
 
+import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntityService;
 import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntity;
@@ -24,7 +24,7 @@ public class SubjectCompanyEntityServiceBean extends ASubjectEntityService imple
     @Override
     public SubjectCompanyEntity getById(Integer id) throws NotFound {
 	MyNumbers.requireNonZero(id, "id");
-	try (ESBDConnection con = pool.getConnection()) {
+	try (Connection con = pool.getConnection()) {
 	    Client source = con.getClientByID(id.intValue());
 	    if (source == null)
 		throw new NotFound(SubjectCompanyEntity.class.getSimpleName() + " not found with ID = '" + id + "'");

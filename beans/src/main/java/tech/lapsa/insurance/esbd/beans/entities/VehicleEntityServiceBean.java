@@ -8,12 +8,12 @@ import java.util.stream.Stream;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import com.lapsa.esbd.connection.pool.ESBDConnection;
-import com.lapsa.esbd.connection.pool.ESBDConnectionPool;
 import com.lapsa.esbd.jaxws.client.ArrayOfTF;
 import com.lapsa.esbd.jaxws.client.TF;
 import com.lapsa.insurance.elements.SteeringWheelLocation;
 
+import tech.lapsa.esbd.connection.Connection;
+import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.elements.VehicleClassService;
 import tech.lapsa.insurance.esbd.entities.VehicleEntity;
@@ -34,12 +34,12 @@ public class VehicleEntityServiceBean implements VehicleEntityService {
     private VehicleModelEntityService vehicleModelService;
 
     @Inject
-    private ESBDConnectionPool pool;
+    private ConnectionPool pool;
 
     @Override
     public List<VehicleEntity> getByRegNumber(String regNumber) {
 	MyStrings.requireNonEmpty(regNumber, "regNumber");
-	try (ESBDConnection con = pool.getConnection()) {
+	try (Connection con = pool.getConnection()) {
 	    ArrayOfTF vehicles = con.getTFByNumber(regNumber);
 	    return MyOptionals.of(vehicles) //
 		    .map(ArrayOfTF::getTF) //
@@ -53,7 +53,7 @@ public class VehicleEntityServiceBean implements VehicleEntityService {
     @Override
     public VehicleEntity getById(Integer id) throws NotFound {
 	MyNumbers.requireNonZero(id, "id");
-	try (ESBDConnection con = pool.getConnection()) {
+	try (Connection con = pool.getConnection()) {
 	    TF tf = new TF();
 	    tf.setTFID(new Long(id).intValue());
 	    ArrayOfTF vehicles = con.getTFByKeyFields(tf);
@@ -69,7 +69,7 @@ public class VehicleEntityServiceBean implements VehicleEntityService {
     @Override
     public List<VehicleEntity> getByVINCode(String vinCode) {
 	MyStrings.requireNonEmpty(vinCode, "vinCode");
-	try (ESBDConnection con = pool.getConnection()) {
+	try (Connection con = pool.getConnection()) {
 	    ArrayOfTF vehicles = con.getTFByVIN(vinCode);
 	    return MyOptionals.of(vehicles) //
 		    .map(ArrayOfTF::getTF) //

@@ -6,11 +6,11 @@ import java.util.function.Function;
 
 import javax.inject.Inject;
 
-import com.lapsa.esbd.connection.pool.ESBDConnection;
-import com.lapsa.esbd.connection.pool.ESBDConnectionPool;
 import com.lapsa.esbd.jaxws.client.ArrayOfItem;
 import com.lapsa.esbd.jaxws.client.Item;
 
+import tech.lapsa.esbd.connection.Connection;
+import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.dict.DictionaryEntity;
 import tech.lapsa.insurance.esbd.dict.DictionaryEntityService;
@@ -30,7 +30,7 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity<I>, I 
     }
 
     @Inject
-    private ESBDConnectionPool pool;
+    private ConnectionPool pool;
 
     private List<T> all;
 
@@ -52,7 +52,7 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity<I>, I 
     // PRIVATE
 
     private List<T> getAllFromESBD() {
-	try (ESBDConnection con = pool.getConnection()) {
+	try (Connection con = pool.getConnection()) {
 	    ArrayOfItem items = con.getItems(dictionaryName);
 	    if (items == null)
 		return Collections.unmodifiableList(Collections.emptyList());

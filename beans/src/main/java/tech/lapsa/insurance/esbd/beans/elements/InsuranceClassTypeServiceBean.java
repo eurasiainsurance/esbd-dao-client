@@ -6,10 +6,10 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.xml.ws.soap.SOAPFaultException;
 
-import com.lapsa.esbd.connection.pool.ESBDConnection;
-import com.lapsa.esbd.connection.pool.ESBDConnectionPool;
 import com.lapsa.insurance.elements.InsuranceClassType;
 
+import tech.lapsa.esbd.connection.Connection;
+import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.beans.ESBDDates;
 import tech.lapsa.insurance.esbd.beans.elements.mapping.InsuranceClassTypeMapping;
@@ -22,12 +22,12 @@ import tech.lapsa.java.commons.function.MyObjects;
 public class InsuranceClassTypeServiceBean implements InsuranceClassTypeService {
 
     @Inject
-    private ESBDConnectionPool pool;
+    private ConnectionPool pool;
 
     @Override
     public InsuranceClassType getById(Integer id) throws NotFound {
 	MyNumbers.requireNonZero(id, "id");
-	try (ESBDConnection con = pool.getConnection()) {
+	try (Connection con = pool.getConnection()) {
 	    String classCode = con.getClassText(id);
 	    if (classCode == null || classCode.trim().equals(""))
 		throw new NotFound(InsuranceClassType.class.getSimpleName() + " not found with ID = '" + id + "'");
@@ -53,7 +53,7 @@ public class InsuranceClassTypeServiceBean implements InsuranceClassTypeService 
     public InsuranceClassType getForSubject(SubjectPersonEntity subjectPerson, LocalDate date) throws NotFound {
 	MyObjects.requireNonNull(subjectPerson, "subjectPerson");
 	MyObjects.requireNonNull(date, "date");
-	try (ESBDConnection con = pool.getConnection()) {
+	try (Connection con = pool.getConnection()) {
 	    String esbdDate = ESBDDates.convertLocalDateToESBDDate(date);
 	    try {
 		int aClassID = con.getClassId(new Long(subjectPerson.getId()).intValue(), esbdDate, 0);

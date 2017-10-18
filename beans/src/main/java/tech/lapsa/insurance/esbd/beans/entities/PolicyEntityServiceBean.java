@@ -9,8 +9,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.xml.ws.soap.SOAPFaultException;
 
-import com.lapsa.esbd.connection.pool.ESBDConnection;
-import com.lapsa.esbd.connection.pool.ESBDConnectionPool;
 import com.lapsa.esbd.jaxws.client.ArrayOfDriver;
 import com.lapsa.esbd.jaxws.client.ArrayOfPoliciesTF;
 import com.lapsa.esbd.jaxws.client.ArrayOfPolicy;
@@ -18,6 +16,8 @@ import com.lapsa.esbd.jaxws.client.Driver;
 import com.lapsa.esbd.jaxws.client.PoliciesTF;
 import com.lapsa.esbd.jaxws.client.Policy;
 
+import tech.lapsa.esbd.connection.Connection;
+import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.dict.BranchEntityService;
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntityService;
@@ -89,12 +89,12 @@ public class PolicyEntityServiceBean implements PolicyEntityService {
     private KZAreaService countryRegionService;
 
     @Inject
-    private ESBDConnectionPool pool;
+    private ConnectionPool pool;
 
     @Override
     public PolicyEntity getById(Integer id) throws NotFound {
 	MyNumbers.requireNonZero(id, "id");
-	try (ESBDConnection con = pool.getConnection()) {
+	try (Connection con = pool.getConnection()) {
 	    Policy source = null;
 	    try {
 		source = con.getPolicyByID(id);
@@ -113,7 +113,7 @@ public class PolicyEntityServiceBean implements PolicyEntityService {
     public PolicyEntity getByNumber(String number) throws NotFound {
 	MyStrings.requireNonEmpty(number, "number");
 
-	try (ESBDConnection con = pool.getConnection()) {
+	try (Connection con = pool.getConnection()) {
 	    ArrayOfPolicy policies = con.getPoliciesByNumber(number);
 	    if (policies == null || policies.getPolicy() == null || policies.getPolicy().isEmpty())
 		throw new NotFound(PolicyEntity.class.getSimpleName() + " not found with NUMBER = '" + number + "'");
