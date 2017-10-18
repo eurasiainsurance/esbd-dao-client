@@ -1,4 +1,4 @@
-package com.lapsa.insurance.esbd.domain.infos.general;
+package tech.lapsa.insurance.esbd.infos;
 
 import java.util.Calendar;
 

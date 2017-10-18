@@ -1,4 +1,4 @@
-package com.lapsa.insurance.esbd.domain.infos.general;
+package tech.lapsa.insurance.esbd.infos;
 
 import java.time.LocalDate;
 
@@ -7,7 +7,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import com.lapsa.insurance.esbd.domain.entities.general.UserEntity;
+import tech.lapsa.insurance.esbd.entities.UserEntity;
 
 public class RecordOperationInfo {
 

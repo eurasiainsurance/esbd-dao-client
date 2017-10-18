@@ -1,4 +1,4 @@
-package com.lapsa.insurance.esbd.domain.infos.general;
+package tech.lapsa.insurance.esbd.infos;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
