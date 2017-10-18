@@ -1,10 +1,7 @@
-package com.lapsa.insurance.esbd.services.general;
+package tech.lapsa.insurance.esbd.dict;
 
-import java.util.List;
+import javax.ejb.Local;
 
-import com.lapsa.insurance.esbd.domain.entities.general.CompanyActivityKindEntity;
-import com.lapsa.insurance.esbd.services.GeneralServiceDAO;
-
-public interface CompanyActivityKindServiceDAO extends GeneralServiceDAO<CompanyActivityKindEntity, Long> {
-    List<CompanyActivityKindEntity> getAll();
+@Local
+public interface CompanyActivityKindEntityService extends DictionaryEntityService<CompanyActivityKindEntity, Integer> {
 }

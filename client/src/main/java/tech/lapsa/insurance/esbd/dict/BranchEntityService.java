@@ -1,10 +1,7 @@
-package com.lapsa.insurance.esbd.services.general;
+package tech.lapsa.insurance.esbd.dict;
 
-import java.util.List;
+import javax.ejb.Local;
 
-import com.lapsa.insurance.esbd.domain.entities.general.BranchEntity;
-import com.lapsa.insurance.esbd.services.GeneralServiceDAO;
-
-public interface BranchServiceDAO extends GeneralServiceDAO<BranchEntity, Long> {
-    List<BranchEntity> getAll();
+@Local
+public interface BranchEntityService extends DictionaryEntityService<BranchEntity, Integer> {
 }

@@ -1,11 +1,11 @@
-package com.lapsa.insurance.esbd.domain.entities.general;
+package tech.lapsa.insurance.esbd.dict;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class BranchEntity {
+public class BranchEntity implements DictionaryEntity<Integer> {
 
     @Override
     public String toString() {
@@ -22,17 +22,18 @@ public class BranchEntity {
 	return HashCodeBuilder.reflectionHashCode(this, false);
     }
 
-    private long id;
+    private Integer id;
     private String code;
     private String name;
 
     // GENERATED
 
-    public long getId() {
+    @Override
+    public Integer getId() {
 	return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
 	this.id = id;
     }
 
@@ -51,5 +52,4 @@ public class BranchEntity {
     public void setName(String name) {
 	this.name = name;
     }
-
 }
