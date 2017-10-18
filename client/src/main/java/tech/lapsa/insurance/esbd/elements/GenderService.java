@@ -1,6 +1,9 @@
-package com.lapsa.insurance.esbd.services.elements;
+package tech.lapsa.insurance.esbd.elements;
+
+import javax.ejb.Local;
 
 import com.lapsa.insurance.elements.Sex;
 
-public interface SexServiceDAO extends ElementsServiceDAO<Sex, Integer> {
+@Local
+public interface GenderService extends ElementsService<Sex, Integer> {
 }

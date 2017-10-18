@@ -1,6 +1,9 @@
-package com.lapsa.insurance.esbd.services.elements;
+package tech.lapsa.insurance.esbd.elements;
+
+import javax.ejb.Local;
 
 import com.lapsa.kz.economic.KZEconomicSector;
 
-public interface KZEconomicSectorServiceDAO extends ElementsServiceDAO<KZEconomicSector, Integer> {
+@Local
+public interface KZEconomicSectorService extends ElementsService<KZEconomicSector, Integer> {
 }

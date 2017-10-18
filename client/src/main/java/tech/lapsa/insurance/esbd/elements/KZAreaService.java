@@ -1,6 +1,9 @@
-package com.lapsa.insurance.esbd.services.elements;
+package tech.lapsa.insurance.esbd.elements;
+
+import javax.ejb.Local;
 
 import com.lapsa.kz.country.KZArea;
 
-public interface KZAreaServiceDAO extends ElementsServiceDAO<KZArea, Integer> {
+@Local
+public interface KZAreaService extends ElementsService<KZArea, Integer> {
 }

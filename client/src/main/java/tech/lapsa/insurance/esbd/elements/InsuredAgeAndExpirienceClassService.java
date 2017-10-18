@@ -1,6 +1,9 @@
-package com.lapsa.insurance.esbd.services.elements;
+package tech.lapsa.insurance.esbd.elements;
+
+import javax.ejb.Local;
 
 import com.lapsa.insurance.elements.InsuredAgeAndExpirienceClass;
 
-public interface InsuredAgeAndExpirienceClassServiceDAO extends ElementsServiceDAO<InsuredAgeAndExpirienceClass, Integer> {
+@Local
+public interface InsuredAgeAndExpirienceClassService extends ElementsService<InsuredAgeAndExpirienceClass, Integer> {
 }

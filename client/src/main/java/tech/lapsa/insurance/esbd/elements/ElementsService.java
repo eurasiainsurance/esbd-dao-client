@@ -1,7 +1,6 @@
-package com.lapsa.insurance.esbd.services.elements;
+package tech.lapsa.insurance.esbd.elements;
 
-import com.lapsa.insurance.esbd.services.GeneralServiceDAO;
+import tech.lapsa.insurance.esbd.GeneralService;
 
-public interface ElementsServiceDAO<T, I> extends GeneralServiceDAO<T, I> {
-
+public interface ElementsService<T extends Enum<T>, I extends Number> extends GeneralService<T, I> {
 }

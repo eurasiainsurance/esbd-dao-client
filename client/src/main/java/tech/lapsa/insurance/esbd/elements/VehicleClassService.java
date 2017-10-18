@@ -1,6 +1,9 @@
-package com.lapsa.insurance.esbd.services.elements;
+package tech.lapsa.insurance.esbd.elements;
+
+import javax.ejb.Local;
 
 import com.lapsa.insurance.elements.VehicleClass;
 
-public interface VehicleClassServiceDAO extends ElementsServiceDAO<VehicleClass, Integer> {
+@Local
+public interface VehicleClassService extends ElementsService<VehicleClass, Integer> {
 }

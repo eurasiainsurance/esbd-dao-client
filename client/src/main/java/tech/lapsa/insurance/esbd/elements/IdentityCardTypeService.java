@@ -1,6 +1,9 @@
-package com.lapsa.insurance.esbd.services.elements;
+package tech.lapsa.insurance.esbd.elements;
+
+import javax.ejb.Local;
 
 import com.lapsa.insurance.elements.IdentityCardType;
 
-public interface IdentityCardTypeServiceDAO extends ElementsServiceDAO<IdentityCardType, Integer> {
+@Local
+public interface IdentityCardTypeService extends ElementsService<IdentityCardType, Integer> {
 }
