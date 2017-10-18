@@ -4,20 +4,11 @@ import java.util.Optional;
 
 import javax.ejb.Local;
 
+import tech.lapsa.insurance.esbd.GeneralService;
 import tech.lapsa.insurance.esbd.NotFound;
 
 @Local
-public interface SubjectEntityService {
-
-    SubjectEntity getById(Integer id) throws NotFound;
-
-    default Optional<SubjectEntity> optionalById(Integer id) {
-	try {
-	    return Optional.of(getById(id));
-	} catch (NotFound e) {
-	    return Optional.empty();
-	}
-    }
+public interface SubjectEntityService extends GeneralService<SubjectEntity, Integer> {
 
     SubjectEntity getByIdNumber(String idNumber) throws NotFound;
 

@@ -9,6 +9,7 @@ import tech.lapsa.insurance.esbd.NotFound;
 
 @Local
 public interface SubjectCompanyEntityService extends GeneralService<SubjectCompanyEntity, Integer> {
+
     SubjectCompanyEntity getByBIN(String bin) throws NotFound;
 
     default Optional<SubjectCompanyEntity> optionalByBIN(String bin) {
