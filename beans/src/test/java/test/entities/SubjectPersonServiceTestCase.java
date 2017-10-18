@@ -9,21 +9,20 @@ import javax.naming.NamingException;
 
 import org.junit.Test;
 
-import com.lapsa.insurance.esbd.domain.entities.general.SubjectPersonEntity;
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.general.SubjectPersonServiceDAO;
-
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.entities.SubjectPersonEntity;
+import tech.lapsa.insurance.esbd.entities.SubjectPersonEntityService;
 import test.ArquillianBaseTestCase;
 
 public class SubjectPersonServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private SubjectPersonServiceDAO service;
+    private SubjectPersonEntityService service;
 
     @Test
     public void testGetById() throws NamingException {
 	try {
-	    for (long valid : VALID_SUBJECT_PERSON_IDS) {
+	    for (int valid : VALID_SUBJECT_PERSON_IDS) {
 		SubjectPersonEntity res = service.getById(valid);
 		assertThat(res, not(nullValue()));
 	    }
@@ -34,7 +33,7 @@ public class SubjectPersonServiceTestCase extends ArquillianBaseTestCase {
 
     @Test
     public void testGetById_NotFound() throws NamingException {
-	for (long invalid : INVALID_SUBJECT_PERSON_IDS) {
+	for (int invalid : INVALID_SUBJECT_PERSON_IDS) {
 	    try {
 		service.getById(invalid);
 		fail("Not found exception Expected");

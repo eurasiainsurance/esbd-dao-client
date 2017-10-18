@@ -10,22 +10,22 @@ import javax.naming.NamingException;
 import org.junit.Test;
 
 import com.lapsa.insurance.elements.SubjectType;
-import com.lapsa.insurance.esbd.domain.entities.general.SubjectEntity;
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.general.SubjectServiceDAO;
 
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.entities.SubjectEntity;
+import tech.lapsa.insurance.esbd.entities.SubjectEntityService;
 import test.ArquillianBaseTestCase;
 
 public class SubjectServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private SubjectServiceDAO service;
+    private SubjectEntityService service;
 
     @Test
     public void testGetById() throws NamingException {
 	try {
 	    for (int i = 0; i < VALID_SUBJECT_IDS.length; i++) {
-		long validSubjectId = VALID_SUBJECT_IDS[i];
+		int validSubjectId = VALID_SUBJECT_IDS[i];
 		SubjectType validSubjectType = VALID_SUBJECT_TYPES[i];
 		Class<?> validSubjectClass = VALID_SUBJECT_CLASSES[i];
 		SubjectEntity res = service.getById(validSubjectId);

@@ -7,15 +7,14 @@ import javax.naming.NamingException;
 
 import org.junit.Test;
 
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.policy.PolicyServiceDAO;
-
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.entities.PolicyEntityService;
 import test.ArquillianBaseTestCase;
 
 public class PolicyServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private PolicyServiceDAO service;
+    private PolicyEntityService service;
 
     @Test(expected = NotFound.class)
     public void testGetById_NotFound() throws NamingException, NotFound {

@@ -9,17 +9,17 @@ import javax.naming.NamingException;
 
 import org.junit.Test;
 
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.elements.KZAreaServiceDAO;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.KZAreaMapping;
 import com.lapsa.kz.country.KZArea;
 
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.KZAreaMapping;
+import tech.lapsa.insurance.esbd.elements.KZAreaService;
 import test.ArquillianBaseTestCase;
 
 public class CountryRegionServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private KZAreaServiceDAO service;
+    private KZAreaService service;
 
     @Test
     public void testGetById() throws NamingException {

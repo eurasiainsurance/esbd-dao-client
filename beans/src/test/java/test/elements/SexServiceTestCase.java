@@ -10,16 +10,16 @@ import javax.naming.NamingException;
 import org.junit.Test;
 
 import com.lapsa.insurance.elements.Sex;
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.elements.SexServiceDAO;
-import com.lapsa.insurance.esbd.services.impl.elements.mapping.SexMapping;
 
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.beans.elements.mapping.SexMapping;
+import tech.lapsa.insurance.esbd.elements.GenderService;
 import test.ArquillianBaseTestCase;
 
 public class SexServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private SexServiceDAO service;
+    private GenderService service;
 
     @Test
     public void testGetById() throws NamingException {

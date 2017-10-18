@@ -10,18 +10,17 @@ import javax.naming.NamingException;
 
 import org.junit.Test;
 
-import com.lapsa.insurance.esbd.domain.entities.policy.VehicleEntity;
-import com.lapsa.insurance.esbd.services.NotFound;
-import com.lapsa.insurance.esbd.services.policy.VehicleServiceDAO;
-
+import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.insurance.esbd.entities.VehicleEntity;
+import tech.lapsa.insurance.esbd.entities.VehicleEntityService;
 import test.ArquillianBaseTestCase;
 
 public class VehicleServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private VehicleServiceDAO service;
+    private VehicleEntityService service;
 
-    private static final long VALID_VEHICLE_ID = 9187329L; // Vadims Car
+    private static final int VALID_VEHICLE_ID = 9187329; // Vadims Car
 							   // Infiniti
 
     @Test
@@ -35,7 +34,7 @@ public class VehicleServiceTestCase extends ArquillianBaseTestCase {
 	}
     }
 
-    private static final long INVALID_VEHICLE_ID = 999999999L;
+    private static final int INVALID_VEHICLE_ID = 999999999;
 
     @Test(expected = NotFound.class)
     public void testGetById_NotFound() throws NamingException, NotFound {
