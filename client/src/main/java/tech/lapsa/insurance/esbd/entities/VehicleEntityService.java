@@ -1,11 +1,14 @@
-package com.lapsa.insurance.esbd.services.policy;
+package tech.lapsa.insurance.esbd.entities;
 
 import java.util.List;
 
-import com.lapsa.insurance.esbd.domain.entities.policy.VehicleEntity;
-import com.lapsa.insurance.esbd.services.GeneralServiceDAO;
+import javax.ejb.Local;
 
-public interface VehicleServiceDAO extends GeneralServiceDAO<VehicleEntity, Long> {
+import tech.lapsa.insurance.esbd.GeneralService;
+
+@Local
+public interface VehicleEntityService extends GeneralService<VehicleEntity, Integer> {
+
     List<VehicleEntity> getByVINCode(String vinCode);
 
     List<VehicleEntity> getByRegNumber(String regNumber);

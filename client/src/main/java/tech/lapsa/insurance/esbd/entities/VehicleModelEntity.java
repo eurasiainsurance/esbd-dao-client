@@ -1,4 +1,4 @@
-package com.lapsa.insurance.esbd.domain.entities.policy;
+package tech.lapsa.insurance.esbd.entities;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -23,7 +23,7 @@ public class VehicleModelEntity {
     }
 
     // ID s:int Идентификатор модели
-    private long id;
+    private Integer id;
 
     // NAME s:string Наименование модели
     private String name;
@@ -33,11 +33,11 @@ public class VehicleModelEntity {
 
     // GENERATED
 
-    public long getId() {
+    public Integer getId() {
 	return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
 	this.id = id;
     }
 

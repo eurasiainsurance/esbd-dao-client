@@ -1,4 +1,4 @@
-package com.lapsa.insurance.esbd.domain.entities.general;
+package tech.lapsa.insurance.esbd.entities;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -6,8 +6,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.lapsa.insurance.elements.SubjectType;
-import com.lapsa.insurance.esbd.domain.infos.general.IdentityCardInfo;
-import com.lapsa.insurance.esbd.domain.infos.general.PersonalInfo;
+
+import tech.lapsa.insurance.esbd.domain.infos.general.IdentityCardInfo;
+import tech.lapsa.insurance.esbd.domain.infos.general.PersonalInfo;
 
 /**
  * Класс для представления данных о субъекте - физ.лице

@@ -1,9 +1,22 @@
-package com.lapsa.insurance.esbd.services.general;
+package tech.lapsa.insurance.esbd.entities;
 
-import com.lapsa.insurance.esbd.domain.entities.general.SubjectPersonEntity;
-import com.lapsa.insurance.esbd.services.GeneralServiceDAO;
-import com.lapsa.insurance.esbd.services.NotFound;
+import java.util.Optional;
 
-public interface SubjectPersonServiceDAO extends GeneralServiceDAO<SubjectPersonEntity, Long> {
+import javax.ejb.Local;
+
+import tech.lapsa.insurance.esbd.GeneralService;
+import tech.lapsa.insurance.esbd.NotFound;
+
+@Local
+public interface SubjectPersonEntityService extends GeneralService<SubjectPersonEntity, Integer> {
+
     SubjectPersonEntity getByIIN(String iin) throws NotFound;
+
+    default Optional<SubjectPersonEntity> optionalByIIN(String iin) {
+	try {
+	    return Optional.of(getByIIN(iin));
+	} catch (NotFound e) {
+	    return Optional.empty();
+	}
+    }
 }

@@ -1,4 +1,4 @@
-package com.lapsa.insurance.esbd.domain.entities.policy;
+package tech.lapsa.insurance.esbd.entities;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -10,10 +10,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.lapsa.insurance.elements.CancelationReason;
-import com.lapsa.insurance.esbd.domain.entities.general.BranchEntity;
-import com.lapsa.insurance.esbd.domain.entities.general.InsuranceCompanyEntity;
-import com.lapsa.insurance.esbd.domain.entities.general.SubjectEntity;
-import com.lapsa.insurance.esbd.domain.infos.general.RecordOperationInfo;
+
+import tech.lapsa.insurance.esbd.dict.BranchEntity;
+import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
+import tech.lapsa.insurance.esbd.domain.infos.general.RecordOperationInfo;
 
 public class PolicyEntity {
 
@@ -33,7 +33,7 @@ public class PolicyEntity {
     }
 
     // POLICY_ID s:int Идентификатор полиса (обязательно)
-    private long id;
+    private Integer id;
 
     // POLICY_NUMBER s:string Номер полиса (обязательно)
     private String number;
@@ -72,7 +72,7 @@ public class PolicyEntity {
     private boolean reissued = false;
 
     // REWRITE_POLICY_ID s:int Ссылка на переоформляемый полис
-    private long reissuedPolicyId;
+    private Integer reissuedPolicyId;
 
     // DESCRIPTION s:string Комментарии к полису
     private String comments;
@@ -104,11 +104,11 @@ public class PolicyEntity {
 
     // GENERATED
 
-    public long getId() {
+    public Integer getId() {
 	return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
 	this.id = id;
     }
 
@@ -212,7 +212,7 @@ public class PolicyEntity {
 	return reissuedPolicyId;
     }
 
-    public void setReissuedPolicyId(long reissuedPolicyId) {
+    public void setReissuedPolicyId(Integer reissuedPolicyId) {
 	this.reissuedPolicyId = reissuedPolicyId;
     }
 

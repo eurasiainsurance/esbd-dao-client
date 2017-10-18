@@ -1,4 +1,4 @@
-package com.lapsa.insurance.esbd.domain.entities.policy;
+package tech.lapsa.insurance.esbd.entities;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -10,14 +10,14 @@ import com.lapsa.insurance.elements.InsuredAgeAndExpirienceClass;
 import com.lapsa.insurance.elements.InsuredAgeClass;
 import com.lapsa.insurance.elements.InsuredExpirienceClass;
 import com.lapsa.insurance.elements.MaritalStatus;
-import com.lapsa.insurance.esbd.domain.entities.general.InsuranceCompanyEntity;
-import com.lapsa.insurance.esbd.domain.entities.general.SubjectPersonEntity;
-import com.lapsa.insurance.esbd.domain.infos.general.RecordOperationInfo;
-import com.lapsa.insurance.esbd.domain.infos.policy.DriverLicenseInfo;
-import com.lapsa.insurance.esbd.domain.infos.policy.GPWParticipantInfo;
-import com.lapsa.insurance.esbd.domain.infos.policy.InvalidInfo;
-import com.lapsa.insurance.esbd.domain.infos.policy.PensionerInfo;
-import com.lapsa.insurance.esbd.domain.infos.policy.PrivilegerInfo;
+
+import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
+import tech.lapsa.insurance.esbd.domain.infos.general.RecordOperationInfo;
+import tech.lapsa.insurance.esbd.domain.infos.policy.DriverLicenseInfo;
+import tech.lapsa.insurance.esbd.domain.infos.policy.GPWParticipantInfo;
+import tech.lapsa.insurance.esbd.domain.infos.policy.InvalidInfo;
+import tech.lapsa.insurance.esbd.domain.infos.policy.PensionerInfo;
+import tech.lapsa.insurance.esbd.domain.infos.policy.PrivilegerInfo;
 
 public class InsuredDriverEntity {
 
@@ -37,7 +37,7 @@ public class InsuredDriverEntity {
     }
 
     // DRIVER_ID s:int Идентификатор водителя
-    private long id;
+    private Integer id;
 
     // POLICY_ID s:int Идентификатор полиса
     private PolicyEntity policy;
@@ -120,11 +120,11 @@ public class InsuredDriverEntity {
 
     // GENERATED
 
-    public long getId() {
+    public Integer getId() {
 	return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
 	this.id = id;
     }
 

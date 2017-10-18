@@ -1,9 +1,12 @@
-package com.lapsa.insurance.esbd.domain.entities.general;
+package tech.lapsa.insurance.esbd.entities;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import tech.lapsa.insurance.esbd.dict.BranchEntity;
+import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
 
 public class UserEntity {
 
@@ -23,7 +26,7 @@ public class UserEntity {
     }
 
     // ID s:int Идентификатор пользователя
-    private long id;
+    private Integer id;
 
     // Name s:string Имя пользователя
     private String login;
@@ -49,11 +52,11 @@ public class UserEntity {
 
     // GENERATED
 
-    public long getId() {
+    public Integer getId() {
 	return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
 	this.id = id;
     }
 

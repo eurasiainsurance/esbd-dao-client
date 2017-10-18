@@ -1,4 +1,4 @@
-package com.lapsa.insurance.esbd.domain.entities.policy;
+package tech.lapsa.insurance.esbd.entities;
 
 import java.time.LocalDate;
 
@@ -28,7 +28,7 @@ public class VehicleEntity {
     }
 
     // TF_ID s:int Идентификатор ТС
-    private long id;
+    private Integer id;
 
     // TF_TYPE_ID s:int Тип ТС (справочник TF_TYPES)
     private VehicleClass vehicleClass;
@@ -61,11 +61,11 @@ public class VehicleEntity {
 
     // GENERATED
 
-    public long getId() {
+    public Integer getId() {
 	return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
 	this.id = id;
     }
 

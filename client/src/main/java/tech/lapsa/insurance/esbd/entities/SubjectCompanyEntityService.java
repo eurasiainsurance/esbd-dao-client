@@ -1,9 +1,21 @@
-package com.lapsa.insurance.esbd.services.general;
+package tech.lapsa.insurance.esbd.entities;
 
-import com.lapsa.insurance.esbd.domain.entities.general.SubjectCompanyEntity;
-import com.lapsa.insurance.esbd.services.GeneralServiceDAO;
-import com.lapsa.insurance.esbd.services.NotFound;
+import java.util.Optional;
 
-public interface SubjectCompanyServiceDAO extends GeneralServiceDAO<SubjectCompanyEntity, Long> {
+import javax.ejb.Local;
+
+import tech.lapsa.insurance.esbd.GeneralService;
+import tech.lapsa.insurance.esbd.NotFound;
+
+@Local
+public interface SubjectCompanyEntityService extends GeneralService<SubjectCompanyEntity, Integer> {
     SubjectCompanyEntity getByBIN(String bin) throws NotFound;
+
+    default Optional<SubjectCompanyEntity> optionalByBIN(String bin) {
+	try {
+	    return Optional.of(getByBIN(bin));
+	} catch (NotFound e) {
+	    return Optional.empty();
+	}
+    }
 }

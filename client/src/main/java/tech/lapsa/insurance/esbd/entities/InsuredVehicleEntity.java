@@ -1,4 +1,4 @@
-package com.lapsa.insurance.esbd.domain.entities.policy;
+package tech.lapsa.insurance.esbd.entities;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -7,9 +7,10 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.lapsa.insurance.elements.VehicleAgeClass;
 import com.lapsa.insurance.elements.VehicleClass;
-import com.lapsa.insurance.esbd.domain.entities.general.InsuranceCompanyEntity;
-import com.lapsa.insurance.esbd.domain.infos.general.RecordOperationInfo;
-import com.lapsa.insurance.esbd.domain.infos.general.VehicleCertificateInfo;
+
+import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
+import tech.lapsa.insurance.esbd.domain.infos.general.RecordOperationInfo;
+import tech.lapsa.insurance.esbd.domain.infos.general.VehicleCertificateInfo;
 
 public class InsuredVehicleEntity {
 
@@ -29,7 +30,7 @@ public class InsuredVehicleEntity {
     }
 
     // POLICY_TF_ID s:int Идентификатор ТС полиса
-    private long id;
+    private Integer id;
 
     // POLICY_ID s:int Идентификатор полиса
     private PolicyEntity policy;
@@ -69,11 +70,11 @@ public class InsuredVehicleEntity {
 
     // GENERATED
 
-    public long getId() {
+    public Integer getId() {
 	return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
 	this.id = id;
     }
 

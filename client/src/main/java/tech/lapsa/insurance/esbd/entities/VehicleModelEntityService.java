@@ -1,12 +1,14 @@
-package com.lapsa.insurance.esbd.services.policy;
+package tech.lapsa.insurance.esbd.entities;
 
 import java.util.List;
 
-import com.lapsa.insurance.esbd.domain.entities.policy.VehicleManufacturerEntity;
-import com.lapsa.insurance.esbd.domain.entities.policy.VehicleModelEntity;
-import com.lapsa.insurance.esbd.services.GeneralServiceDAO;
+import javax.ejb.Local;
 
-public interface VehicleModelServiceDAO extends GeneralServiceDAO<VehicleModelEntity, Long> {
+import tech.lapsa.insurance.esbd.GeneralService;
+
+@Local
+public interface VehicleModelEntityService extends GeneralService<VehicleModelEntity, Integer> {
+
     List<VehicleModelEntity> getByName(String name);
 
     List<VehicleModelEntity> getByManufacturer(VehicleManufacturerEntity manufacturer);

@@ -1,4 +1,4 @@
-package com.lapsa.insurance.esbd.domain.entities.general;
+package tech.lapsa.insurance.esbd.entities;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -6,9 +6,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.lapsa.insurance.elements.SubjectType;
-import com.lapsa.insurance.esbd.domain.infos.general.ContactInfo;
-import com.lapsa.insurance.esbd.domain.infos.general.OriginInfo;
 import com.lapsa.kz.economic.KZEconomicSector;
+
+import tech.lapsa.insurance.esbd.domain.infos.general.ContactInfo;
+import tech.lapsa.insurance.esbd.domain.infos.general.OriginInfo;
 
 /**
  * Абстрактный класс для представления лица
@@ -34,7 +35,7 @@ public abstract class SubjectEntity {
     }
 
     // ID s:int Идентификатор клиента (обязательно)
-    private long id;
+    private Integer id;
 
     // Natural_Person_Bool s:int Признак принадлежности к физ. лицу (1 - физ.
     // лицо; 0 - юр. лицо)(обязательно)
@@ -70,11 +71,11 @@ public abstract class SubjectEntity {
 
     // GENERATED
 
-    public long getId() {
+    public Integer getId() {
 	return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
 	this.id = id;
     }
 
