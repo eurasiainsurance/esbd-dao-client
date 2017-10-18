@@ -1,4 +1,4 @@
-package com.lapsa.insurance.esbd.services;
+package tech.lapsa.insurance.esbd;
 
 public class NotFound extends Exception {
 
