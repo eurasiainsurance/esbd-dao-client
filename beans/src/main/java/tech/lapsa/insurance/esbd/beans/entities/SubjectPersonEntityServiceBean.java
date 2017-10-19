@@ -5,9 +5,8 @@ import static tech.lapsa.insurance.esbd.beans.ESBDDates.*;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import com.lapsa.esbd.jaxws.client.Client;
-
 import tech.lapsa.esbd.connection.Connection;
+import tech.lapsa.esbd.jaxws.wsimport.Client;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.elements.GenderService;
 import tech.lapsa.insurance.esbd.elements.IdentityCardTypeService;

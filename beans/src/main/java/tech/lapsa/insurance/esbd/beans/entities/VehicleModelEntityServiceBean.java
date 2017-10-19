@@ -6,11 +6,10 @@ import java.util.stream.Stream;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import com.lapsa.esbd.jaxws.client.ArrayOfVOITUREMODEL;
-import com.lapsa.esbd.jaxws.client.VOITUREMODEL;
-
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
+import tech.lapsa.esbd.jaxws.wsimport.ArrayOfVOITUREMODEL;
+import tech.lapsa.esbd.jaxws.wsimport.VOITUREMODEL;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntity;
 import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntityService;

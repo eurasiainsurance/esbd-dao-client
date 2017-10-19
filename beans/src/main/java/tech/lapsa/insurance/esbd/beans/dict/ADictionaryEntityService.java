@@ -6,11 +6,10 @@ import java.util.function.Function;
 
 import javax.inject.Inject;
 
-import com.lapsa.esbd.jaxws.client.ArrayOfItem;
-import com.lapsa.esbd.jaxws.client.Item;
-
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
+import tech.lapsa.esbd.jaxws.wsimport.ArrayOfItem;
+import tech.lapsa.esbd.jaxws.wsimport.Item;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.dict.DictionaryEntity;
 import tech.lapsa.insurance.esbd.dict.DictionaryEntityService;

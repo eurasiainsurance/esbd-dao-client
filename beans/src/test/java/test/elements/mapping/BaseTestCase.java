@@ -2,9 +2,9 @@ package test.elements.mapping;
 
 import org.junit.BeforeClass;
 
-import com.lapsa.esbd.jaxws.client.IICWebService;
-import com.lapsa.esbd.jaxws.client.IICWebServiceSoap;
-import com.lapsa.esbd.jaxws.client.User;
+import tech.lapsa.esbd.jaxws.wsimport.IICWebService;
+import tech.lapsa.esbd.jaxws.wsimport.IICWebServiceSoap;
+import tech.lapsa.esbd.jaxws.wsimport.User;
 
 public abstract class BaseTestCase {
 

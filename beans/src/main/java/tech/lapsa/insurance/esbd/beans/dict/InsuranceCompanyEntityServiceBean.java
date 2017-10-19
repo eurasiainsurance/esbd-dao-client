@@ -2,8 +2,7 @@ package tech.lapsa.insurance.esbd.beans.dict;
 
 import javax.ejb.Stateless;
 
-import com.lapsa.esbd.jaxws.client.Item;
-
+import tech.lapsa.esbd.jaxws.wsimport.Item;
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntityService;
 

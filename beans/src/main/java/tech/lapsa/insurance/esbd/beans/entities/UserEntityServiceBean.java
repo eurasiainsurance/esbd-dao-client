@@ -6,11 +6,10 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import com.lapsa.esbd.jaxws.client.ArrayOfUser;
-import com.lapsa.esbd.jaxws.client.User;
-
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
+import tech.lapsa.esbd.jaxws.wsimport.ArrayOfUser;
+import tech.lapsa.esbd.jaxws.wsimport.User;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.dict.BranchEntityService;
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntityService;

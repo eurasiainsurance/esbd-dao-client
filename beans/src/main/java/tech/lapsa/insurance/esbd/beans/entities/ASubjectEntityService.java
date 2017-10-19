@@ -5,12 +5,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import com.lapsa.esbd.jaxws.client.ArrayOfClient;
-import com.lapsa.esbd.jaxws.client.Client;
 import com.lapsa.international.phone.PhoneNumber;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
+import tech.lapsa.esbd.jaxws.wsimport.ArrayOfClient;
+import tech.lapsa.esbd.jaxws.wsimport.Client;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.elements.CountryService;
 import tech.lapsa.insurance.esbd.elements.KZCityService;

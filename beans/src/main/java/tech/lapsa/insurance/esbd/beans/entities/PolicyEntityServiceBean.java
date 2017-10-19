@@ -9,15 +9,14 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.xml.ws.soap.SOAPFaultException;
 
-import com.lapsa.esbd.jaxws.client.ArrayOfDriver;
-import com.lapsa.esbd.jaxws.client.ArrayOfPoliciesTF;
-import com.lapsa.esbd.jaxws.client.ArrayOfPolicy;
-import com.lapsa.esbd.jaxws.client.Driver;
-import com.lapsa.esbd.jaxws.client.PoliciesTF;
-import com.lapsa.esbd.jaxws.client.Policy;
-
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
+import tech.lapsa.esbd.jaxws.wsimport.ArrayOfDriver;
+import tech.lapsa.esbd.jaxws.wsimport.ArrayOfPoliciesTF;
+import tech.lapsa.esbd.jaxws.wsimport.ArrayOfPolicy;
+import tech.lapsa.esbd.jaxws.wsimport.Driver;
+import tech.lapsa.esbd.jaxws.wsimport.PoliciesTF;
+import tech.lapsa.esbd.jaxws.wsimport.Policy;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.dict.BranchEntityService;
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntityService;

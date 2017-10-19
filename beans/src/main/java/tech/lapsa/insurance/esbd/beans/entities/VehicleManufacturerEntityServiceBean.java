@@ -6,11 +6,10 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import com.lapsa.esbd.jaxws.client.ArrayOfVOITUREMARK;
-import com.lapsa.esbd.jaxws.client.VOITUREMARK;
-
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
+import tech.lapsa.esbd.jaxws.wsimport.ArrayOfVOITUREMARK;
+import tech.lapsa.esbd.jaxws.wsimport.VOITUREMARK;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntity;
 import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntityService;

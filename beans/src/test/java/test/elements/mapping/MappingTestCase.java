@@ -7,8 +7,6 @@ import java.util.Iterator;
 
 import org.junit.Test;
 
-import com.lapsa.esbd.jaxws.client.ArrayOfItem;
-import com.lapsa.esbd.jaxws.client.Item;
 import com.lapsa.insurance.elements.CancelationReason;
 import com.lapsa.insurance.elements.IdentityCardType;
 import com.lapsa.insurance.elements.InsuredAgeAndExpirienceClass;
@@ -21,6 +19,8 @@ import com.lapsa.kz.country.KZArea;
 import com.lapsa.kz.country.KZCity;
 import com.lapsa.kz.economic.KZEconomicSector;
 
+import tech.lapsa.esbd.jaxws.wsimport.ArrayOfItem;
+import tech.lapsa.esbd.jaxws.wsimport.Item;
 import tech.lapsa.insurance.esbd.beans.elements.mapping.CancelationReasonMapping;
 import tech.lapsa.insurance.esbd.beans.elements.mapping.CountryMapping;
 import tech.lapsa.insurance.esbd.beans.elements.mapping.IdentityCardTypeMapping;

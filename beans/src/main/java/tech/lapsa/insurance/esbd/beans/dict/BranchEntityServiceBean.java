@@ -2,13 +2,13 @@ package tech.lapsa.insurance.esbd.beans.dict;
 
 import javax.ejb.Singleton;
 
-import com.lapsa.esbd.jaxws.client.Item;
-
+import tech.lapsa.esbd.jaxws.wsimport.Item;
 import tech.lapsa.insurance.esbd.dict.BranchEntity;
 import tech.lapsa.insurance.esbd.dict.BranchEntityService;
 
 @Singleton
-public class BranchEntityServiceBean extends ADictionaryEntityService<BranchEntity, Integer> implements BranchEntityService {
+public class BranchEntityServiceBean extends ADictionaryEntityService<BranchEntity, Integer>
+	implements BranchEntityService {
 
     private static final String DICT_NAME = "BRANCHES";
 

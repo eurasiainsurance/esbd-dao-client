@@ -8,12 +8,12 @@ import java.util.stream.Stream;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import com.lapsa.esbd.jaxws.client.ArrayOfTF;
-import com.lapsa.esbd.jaxws.client.TF;
 import com.lapsa.insurance.elements.SteeringWheelLocation;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
+import tech.lapsa.esbd.jaxws.wsimport.ArrayOfTF;
+import tech.lapsa.esbd.jaxws.wsimport.TF;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.elements.VehicleClassService;
 import tech.lapsa.insurance.esbd.entities.VehicleEntity;
