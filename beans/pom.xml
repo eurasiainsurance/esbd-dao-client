@@ -22,6 +22,19 @@
 			<optional>false</optional>
 		</dependency>
 		<dependency>
+			<groupId>tech.lapsa.esbd</groupId>
+			<artifactId>esbd-connection-client</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>tech.lapsa.esbd</groupId>
+			<artifactId>esbd-connection</artifactId>
+			<scope>runtime</scope>
+			<optional>false</optional>
+			<type>ejb</type>
+		</dependency>
+		<dependency>
 			<groupId>tech.lapsa.lapsa</groupId>
 			<artifactId>lapsa-arquillian-test</artifactId>
 			<scope>test</scope>
@@ -32,20 +45,6 @@
 			<artifactId>insurance-esbd-client</artifactId>
 			<scope>compile</scope>
 			<optional>false</optional>
-		</dependency>
-		<!-- oldies -->
-		<dependency>
-			<groupId>com.lapsa.esbd-lib</groupId>
-			<artifactId>esbd-connection</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.esbd-lib</groupId>
-			<artifactId>esbd-connection-impl-default</artifactId>
-			<scope>runtime</scope>
-			<optional>false</optional>
-			<type>ejb</type>
 		</dependency>
 		<!-- JavaEE -->
 		<dependency>

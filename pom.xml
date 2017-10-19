@@ -26,12 +26,11 @@
 		<java-commons-root.version>1.0-SNAPSHOT</java-commons-root.version>
 		<!-- tech -->
 		<lapsa-arquillian-test.version>1.0-SNAPSHOT</lapsa-arquillian-test.version>
+		<esbd-connection.version>1.0-SNAPSHOT</esbd-connection.version>
 		<!-- oldies -->
 		<insurance-lib.version>2.3-SNAPSHOT</insurance-lib.version>
 		<kz-lib.version>3.1-SNAPSHOT</kz-lib.version>
 		<international-lib.version>3.2-SNAPSHOT</international-lib.version>
-		<esbd-lib.version>4.1-SNAPSHOT</esbd-lib.version>
-		<esbd-connection-impl-default.version>4.1-SNAPSHOT</esbd-connection-impl-default.version>
 		<!-- ASB -->
 		<asb.keystore.path>${env.ASB_PATH}</asb.keystore.path>
 	</properties>
@@ -54,9 +53,9 @@
 				<scope>import</scope>
 			</dependency>
 			<dependency>
-				<groupId>com.lapsa.esbd-lib</groupId>
-				<artifactId>esbd-root</artifactId>
-				<version>${esbd-lib.version}</version>
+				<groupId>tech.lapsa.esbd</groupId>
+				<artifactId>esbd-connection-root</artifactId>
+				<version>${esbd-connection.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -99,12 +98,6 @@
 				<version>${international-lib.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.esbd-lib</groupId>
-				<artifactId>esbd-connection-impl-default</artifactId>
-				<version>${esbd-connection-impl-default.version}</version>
-				<type>ejb</type>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
