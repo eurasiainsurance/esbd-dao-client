@@ -17,6 +17,7 @@ import tech.lapsa.insurance.esbd.entities.UserEntity;
 import tech.lapsa.insurance.esbd.entities.UserEntityService;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.java.commons.function.MyOptionals;
 
 @Stateless
 public class UserEntityServiceBean implements UserEntityService {
@@ -70,18 +71,22 @@ public class UserEntityServiceBean implements UserEntityService {
 	target.setLogin(source.getName());
 
 	// Branch_ID s:int Филиал пользователя (справочник BRANCHES)
+
 	// non mandatory field
-	if (MyNumbers.nonZero(source.getBranchID()))
-	    target.setBranch(branchService.optionalById(source.getBranchID()).orElse(null));
+	target.setBranch(MyOptionals.of(source.getBranchID()) //
+		.flatMap(branchService::optionalById) //
+		.orElse(null));
 
 	// CLIENT_ID s:int Клиент пользователя (справочник CLIENTS)
 	target.setSubjectId(new Long(source.getCLIENTID()));
 
 	// SYSTEM_DELIMITER_ID s:int Разделитель учета (справочник
 	// SYSTEM_DELIMITER)
+
 	// non mandatory field
-	if (MyNumbers.nonZero(source.getSYSTEMDELIMITERID()))
-	    target.setOrganization(insuranceCompanyService.optionalById(source.getSYSTEMDELIMITERID()).orElse(null));
+	target.setOrganization(MyOptionals.of(source.getSYSTEMDELIMITERID()) //
+		.flatMap(insuranceCompanyService::optionalById) //
+		.orElse(null));
 
 	// IsAuthenticated s:int Пользователь аутентифицирован
 	target.setAuthentificated(source.getIsAuthenticated() == 1);

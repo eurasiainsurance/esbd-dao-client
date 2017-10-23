@@ -18,7 +18,7 @@ import tech.lapsa.insurance.esbd.elements.KZEconomicSectorService;
 import tech.lapsa.insurance.esbd.entities.SubjectEntity;
 import tech.lapsa.insurance.esbd.infos.ContactInfo;
 import tech.lapsa.insurance.esbd.infos.OriginInfo;
-import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.java.commons.function.MyOptionals;
 
 public abstract class ASubjectEntityService {
 
@@ -70,11 +70,14 @@ public abstract class ASubjectEntityService {
 	oi.setResident(source.getRESIDENTBOOL() == 1);
 
 	// non mandatory field
-	if (MyNumbers.nonZero(source.getCOUNTRYID()))
-	    oi.setCountry(countryService.optionalById(source.getCOUNTRYID()).orElse(null));
+	oi.setCountry(MyOptionals.of(source.getCOUNTRYID()) //
+		.flatMap(countryService::optionalById) //
+		.orElse(null));
+
 	// non mandatory field
-	if (MyNumbers.nonZero(source.getSETTLEMENTID()))
-	    oi.setCity(cityService.optionalById(source.getSETTLEMENTID()).orElse(null));
+	oi.setCity(MyOptionals.of(source.getSETTLEMENTID()) //
+		.flatMap(cityService::optionalById) //
+		.orElse(null));
 
 	// PHONES s:string Номера телефонов
 	// EMAIL s:string Адрес электронной почты

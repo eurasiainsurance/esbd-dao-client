@@ -17,6 +17,7 @@ import tech.lapsa.insurance.esbd.entities.SubjectPersonEntityService;
 import tech.lapsa.insurance.esbd.infos.IdentityCardInfo;
 import tech.lapsa.insurance.esbd.infos.PersonalInfo;
 import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.java.commons.function.MyStrings;
 
 @Stateless
@@ -79,7 +80,9 @@ public class SubjectPersonEntityServiceBean extends ASubjectEntityService implem
 	pi.setPatronymic(source.getMiddleName());
 	pi.setDayOfBirth(convertESBDDateToLocalDate(source.getBorn()));
 	// non mandatory
-	pi.setSex(sexService.optionalById(source.getSexID()).orElseGet(null));
+	pi.setSex(MyOptionals.of(source.getSexID()) //
+		.flatMap(sexService::optionalById) //
+		.orElse(null));
 
 	// DOCUMENT_TYPE_ID s:int Тип документа (справочник DOCUMENTS_TYPES)
 	// DOCUMENT_NUMBER s:string Номер документа
@@ -90,7 +93,10 @@ public class SubjectPersonEntityServiceBean extends ASubjectEntityService implem
 	di.setDateOfIssue(convertESBDDateToCalendar(source.getDOCUMENTGIVEDDATE()));
 	di.setIssuingAuthority(source.getDOCUMENTGIVEDBY());
 	di.setNumber(source.getDOCUMENTNUMBER());
-	// non mandatory
-	di.setIdentityCardType(identityCardTypeService.optionalById(source.getDOCUMENTTYPEID()).orElse(null));
+
+	// non mandatory field
+	di.setIdentityCardType(MyOptionals.of(source.getDOCUMENTTYPEID()) //
+		.flatMap(identityCardTypeService::optionalById) //
+		.orElse(null));
     }
 }

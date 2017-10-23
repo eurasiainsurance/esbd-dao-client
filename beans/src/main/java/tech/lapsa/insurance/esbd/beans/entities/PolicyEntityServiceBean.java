@@ -43,6 +43,7 @@ import tech.lapsa.insurance.esbd.infos.PrivilegerInfo;
 import tech.lapsa.insurance.esbd.infos.RecordOperationInfo;
 import tech.lapsa.insurance.esbd.infos.VehicleCertificateInfo;
 import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.java.commons.function.MyStrings;
 
 @Stateless
@@ -176,10 +177,11 @@ public class PolicyEntityServiceBean implements PolicyEntityService {
 	target.setDateOfCancelation(convertESBDDateToCalendar(source.getRESCINDINGDATE()));
 
 	// RESCINDING_REASON_ID s:int Идентификатор причины расторжения
+
 	// non mandatory field
-	if (MyNumbers.nonZero(source.getRESCINDINGREASONID()))
-	    target.setCancelationReasonType(
-		    cancelationReasonTypeService.optionalById(source.getRESCINDINGREASONID()).orElse(null));
+	target.setCancelationReasonType(MyOptionals.of(source.getRESCINDINGREASONID()) //
+		.flatMap(cancelationReasonTypeService::optionalById) //
+		.orElse(null));
 
 	// BRANCH_ID s:int Филиал (обязательно)
 	try {

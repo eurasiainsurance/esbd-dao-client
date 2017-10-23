@@ -12,6 +12,7 @@ import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntityService;
 import tech.lapsa.insurance.esbd.entities.SubjectEntity;
 import tech.lapsa.insurance.esbd.entities.SubjectPersonEntity;
 import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.java.commons.function.MyStrings;
 
 @Stateless
@@ -69,9 +70,10 @@ public class SubjectCompanyEntityServiceBean extends ASubjectEntityService imple
 
 	// ACTIVITY_KIND_ID s:int Вид деятельности (справочник ACTIVITY_KINDS)
 	target.setCompanyActivityKindId(new Long(source.getACTIVITYKINDID()));
+
 	// non mandatory field
-	if (MyNumbers.nonZero(source.getACTIVITYKINDID()))
-	    target.setCompanyActivityKind(
-		    companyActivityKindService.optionalById(source.getACTIVITYKINDID()).orElse(null));
+	target.setCompanyActivityKind(MyOptionals.of(source.getACTIVITYKINDID()) //
+		.flatMap(companyActivityKindService::optionalById) //
+		.orElse(null));
     }
 }
