@@ -59,6 +59,8 @@ public class VehicleEntity {
     // BORN_MONTH s:int Месяц выпуска ТС
     private LocalDate realeaseDate;
 
+    private String regNum;
+
     // GENERATED
 
     public Integer getId() {
@@ -139,5 +141,13 @@ public class VehicleEntity {
 
     public void setRealeaseDate(LocalDate realeaseDate) {
 	this.realeaseDate = realeaseDate;
+    }
+
+    public void setRegNum(String regNum) {
+	this.regNum = regNum;
+    }
+
+    public String getRegNum() {
+	return regNum;
     }
 }

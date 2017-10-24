@@ -46,6 +46,7 @@ public class VehicleEntityServiceBean implements VehicleEntityService {
 		    .map(Collection::stream) //
 		    .orElseGet(Stream::empty) //
 		    .map(this::convert) //
+		    .peek(x -> x.setRegNum(regNumber))
 		    .collect(MyCollectors.unmodifiableList());
 	}
     }
