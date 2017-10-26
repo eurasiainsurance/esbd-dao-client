@@ -19,6 +19,7 @@ import tech.lapsa.insurance.esbd.entities.SubjectEntity;
 import tech.lapsa.insurance.esbd.infos.ContactInfo;
 import tech.lapsa.insurance.esbd.infos.OriginInfo;
 import tech.lapsa.java.commons.function.MyOptionals;
+import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 public abstract class ASubjectEntityService {
 
@@ -34,7 +35,7 @@ public abstract class ASubjectEntityService {
     @Inject
     protected ConnectionPool pool;
 
-    protected Client fetchClientByIdNumber(String idNumber, boolean fetchNaturals, boolean fetchCompanies) {
+    protected Client fetchClientByIdNumber(TaxpayerNumber taxpayerNumber, boolean fetchNaturals, boolean fetchCompanies) {
 	int[] residentBools = new int[] { 1, 0 };
 	List<Integer> naturalPersonBools = new ArrayList<>();
 	if (fetchNaturals)
@@ -46,7 +47,7 @@ public abstract class ASubjectEntityService {
 	    for (int residentBool : residentBools) {
 		for (int naturalPersonBool : naturalPersonBools) {
 		    Client requestClient = new Client();
-		    requestClient.setIIN(idNumber);
+		    requestClient.setIIN(taxpayerNumber.getNumber());
 		    requestClient.setNaturalPersonBool(naturalPersonBool);
 		    requestClient.setRESIDENTBOOL(residentBool);
 		    ArrayOfClient clients = con.getClientsByKeyFields(requestClient);

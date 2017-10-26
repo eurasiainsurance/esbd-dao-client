@@ -12,8 +12,9 @@ import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntityService;
 import tech.lapsa.insurance.esbd.entities.SubjectEntity;
 import tech.lapsa.insurance.esbd.entities.SubjectPersonEntity;
 import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyOptionals;
-import tech.lapsa.java.commons.function.MyStrings;
+import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 @Stateless
 public class SubjectCompanyEntityServiceBean extends ASubjectEntityService implements SubjectCompanyEntityService {
@@ -37,15 +38,18 @@ public class SubjectCompanyEntityServiceBean extends ASubjectEntityService imple
     }
 
     @Override
-    public SubjectCompanyEntity getByBIN(String bin) throws NotFound {
-	MyStrings.requireNonEmpty(bin, "bin");
-	Client source = fetchClientByIdNumber(bin, false, true);
+    public SubjectCompanyEntity getByBIN(TaxpayerNumber taxpayerNumber) throws NotFound {
+	MyObjects.requireNonNull(taxpayerNumber, "taxpayerNumber")
+		.requireValid("taxpayerNumber");
+	Client source = fetchClientByIdNumber(taxpayerNumber, false, true);
 	if (source == null)
 	    throw new NotFound(
-		    SubjectCompanyEntity.class.getSimpleName() + " not found with 'bin' = '" + bin + "'");
+		    SubjectCompanyEntity.class.getSimpleName() + " not found with 'bin' = '"
+			    + taxpayerNumber.getNumber() + "'");
 	boolean isNotPerson = source.getNaturalPersonBool() == 0;
 	if (!isNotPerson)
-	    throw new NotFound(SubjectCompanyEntity.class.getSimpleName() + " not found with 'bin' = '" + bin
+	    throw new NotFound(SubjectCompanyEntity.class.getSimpleName() + " not found with 'bin' = '"
+		    + taxpayerNumber.getNumber()
 		    + "'. It was a " + SubjectPersonEntity.class.getName());
 	return convert(source);
     }

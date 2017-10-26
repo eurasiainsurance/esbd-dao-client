@@ -12,6 +12,7 @@ import org.junit.Test;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.entities.SubjectPersonEntity;
 import tech.lapsa.insurance.esbd.entities.SubjectPersonEntityService;
+import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 import test.ArquillianBaseTestCase;
 
 public class SubjectPersonServiceTestCase extends ArquillianBaseTestCase {
@@ -42,10 +43,13 @@ public class SubjectPersonServiceTestCase extends ArquillianBaseTestCase {
 	}
     }
 
+    public static final TaxpayerNumber[] VALID_SUBJECT_PERSON_IINS = new TaxpayerNumber[] {
+	    TaxpayerNumber.of("581114350286"), TaxpayerNumber.of("870622300359") };
+
     @Test
     public void testGetByIIN() throws NamingException {
 	try {
-	    for (String valid : VALID_SUBJECT_PERSON_IINS) {
+	    for (TaxpayerNumber valid : VALID_SUBJECT_PERSON_IINS) {
 		SubjectPersonEntity res = service.getByIIN(valid);
 		assertThat(res, not(nullValue()));
 	    }
@@ -54,9 +58,12 @@ public class SubjectPersonServiceTestCase extends ArquillianBaseTestCase {
 	}
     }
 
+    public static final TaxpayerNumber[] INVALID_SUBJECT_PERSON_IINS = new TaxpayerNumber[] {
+	    TaxpayerNumber.of("930840000071"), TaxpayerNumber.of("ZZZZ") };
+
     @Test
     public void testGetByIIN_NotFound() throws NamingException {
-	for (String invalid : INVALID_SUBJECT_PERSON_IINS) {
+	for (TaxpayerNumber invalid : INVALID_SUBJECT_PERSON_IINS) {
 	    try {
 		service.getByIIN(invalid);
 		fail("Not found exception Expected");
