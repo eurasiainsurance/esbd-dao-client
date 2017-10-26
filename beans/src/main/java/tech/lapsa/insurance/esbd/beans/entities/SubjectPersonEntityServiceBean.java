@@ -48,8 +48,9 @@ public class SubjectPersonEntityServiceBean extends ASubjectEntityService implem
 
     @Override
     public SubjectPersonEntity getByIIN(TaxpayerNumber taxpayerNumber) throws NotFound {
-	MyObjects.requireNonNull(taxpayerNumber, "taxpayerNumber")
-		.requireValid("taxpayerNumber");
+	MyObjects.requireNonNull(taxpayerNumber, "taxpayerNumber") //
+		.requireValid("taxpayerNumber") //
+	;
 	Client source = fetchClientByIdNumber(taxpayerNumber, true, false);
 	if (source == null)
 	    throw new NotFound(

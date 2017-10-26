@@ -59,7 +59,7 @@ public class SubjectCompanyServiceTestCase extends ArquillianBaseTestCase {
     }
 
     public static final TaxpayerNumber[] INVALID_SUBJECT_COMPANY_BINS = new TaxpayerNumber[] {
-	    TaxpayerNumber.of("581114350286"), TaxpayerNumber.of("ZZZZ") };
+	    TaxpayerNumber.of("581114350286") };
 
     @Test
     public void testGetByBIN_NotFound() throws NamingException {
