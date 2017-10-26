@@ -59,7 +59,7 @@ public class SubjectPersonServiceTestCase extends ArquillianBaseTestCase {
     }
 
     public static final TaxpayerNumber[] INVALID_SUBJECT_PERSON_IINS = new TaxpayerNumber[] {
-	    TaxpayerNumber.of("930840000071"), TaxpayerNumber.of("ZZZZ") };
+	    TaxpayerNumber.of("930840000071") };
 
     @Test
     public void testGetByIIN_NotFound() throws NamingException {

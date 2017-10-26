@@ -58,14 +58,14 @@ public class SubjectServiceTestCase extends ArquillianBaseTestCase {
 		assertThat(res, allOf(not(nullValue()), instanceOf(validSubjectClass)));
 		assertThat(res.getSubjectType(), allOf(not(nullValue()),
 			is(validSubjectType)));
-		assertThat(res.getIdNumber(), allOf(not(nullValue()), equalTo(subjecdIdNumber)));
+		assertThat(res.getIdNumber(), allOf(not(nullValue()), is(subjecdIdNumber.getNumber())));
 	    }
 	} catch (NotFound e) {
 	    fail(e.getMessage());
 	}
     }
 
-    public static final TaxpayerNumber INVALID_SUBJECT_ID_NUMBER = TaxpayerNumber.of("6666");
+    public static final TaxpayerNumber INVALID_SUBJECT_ID_NUMBER = TaxpayerNumber.of("800225000001");
 
     @Test(expected = NotFound.class)
     public void testGetByIDNumber_NotFound() throws NamingException, NotFound {

@@ -39,8 +39,9 @@ public class SubjectCompanyEntityServiceBean extends ASubjectEntityService imple
 
     @Override
     public SubjectCompanyEntity getByBIN(TaxpayerNumber taxpayerNumber) throws NotFound {
-	MyObjects.requireNonNull(taxpayerNumber, "taxpayerNumber")
-		.requireValid("taxpayerNumber");
+	MyObjects.requireNonNull(taxpayerNumber, "taxpayerNumber") //
+		.requireValid("taxpayerNumber") //
+	;
 	Client source = fetchClientByIdNumber(taxpayerNumber, false, true);
 	if (source == null)
 	    throw new NotFound(
