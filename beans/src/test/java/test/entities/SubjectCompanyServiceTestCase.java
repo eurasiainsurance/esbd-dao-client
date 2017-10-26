@@ -12,6 +12,7 @@ import org.junit.Test;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntity;
 import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntityService;
+import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 import test.ArquillianBaseTestCase;
 
 public class SubjectCompanyServiceTestCase extends ArquillianBaseTestCase {
@@ -42,10 +43,13 @@ public class SubjectCompanyServiceTestCase extends ArquillianBaseTestCase {
 	}
     }
 
+    public static final TaxpayerNumber[] VALID_SUBJECT_COMPANY_BINS = new TaxpayerNumber[] {
+	    TaxpayerNumber.of("930840000071") };
+
     @Test
     public void testGetByBIN() throws NamingException {
 	try {
-	    for (String valid : VALID_SUBJECT_COMPANY_BINS) {
+	    for (TaxpayerNumber valid : VALID_SUBJECT_COMPANY_BINS) {
 		SubjectCompanyEntity res = service.getByBIN(valid);
 		assertThat(res, not(nullValue()));
 	    }
@@ -54,9 +58,12 @@ public class SubjectCompanyServiceTestCase extends ArquillianBaseTestCase {
 	}
     }
 
+    public static final TaxpayerNumber[] INVALID_SUBJECT_COMPANY_BINS = new TaxpayerNumber[] {
+	    TaxpayerNumber.of("581114350286"), TaxpayerNumber.of("ZZZZ") };
+
     @Test
     public void testGetByBIN_NotFound() throws NamingException {
-	for (String invalid : INVALID_SUBJECT_COMPANY_BINS) {
+	for (TaxpayerNumber invalid : INVALID_SUBJECT_COMPANY_BINS) {
 	    try {
 		service.getByBIN(invalid);
 		fail("Not found exception Expected");

@@ -73,9 +73,6 @@ public final class TestConstants {
 
     // Subject
     public static final int[] VALID_SUBJECT_IDS = new int[] { 1, 100 };
-    public static final String[] VALID_SUBJECT_ID_NUMBERS = new String[] {
-	    "930840000071",
-	    "581114350286" };
     public static final SubjectType[] VALID_SUBJECT_TYPES = new SubjectType[] {
 	    SubjectType.COMPANY,
 	    SubjectType.PERSON };
@@ -84,19 +81,14 @@ public final class TestConstants {
 	    SubjectPersonEntity.class };
 
     public static final int INVALID_SUBJECT_ID = -1;
-    public static final String INVALID_SUBJECT_ID_NUMBER = "6666";
 
     // SubjectCompany
     public static final int[] VALID_SUBJECT_COMPANY_IDS = new int[] { 1, 2 };
     public static final int[] INVALID_SUBJECT_COMPANY_IDS = new int[] { 100, -1 };
-    public static final String[] VALID_SUBJECT_COMPANY_BINS = new String[] { "930840000071" };
-    public static final String[] INVALID_SUBJECT_COMPANY_BINS = new String[] { "581114350286", "ZZZZ" };
 
     // SubjectPerson
     public static final int[] VALID_SUBJECT_PERSON_IDS = new int[] { 100, 14132412 };
     public static final int[] INVALID_SUBJECT_PERSON_IDS = new int[] { 1, 2, -1 };
-    public static final String[] VALID_SUBJECT_PERSON_IINS = new String[] { "581114350286", "870622300359" };
-    public static final String[] INVALID_SUBJECT_PERSON_IINS = new String[] { "930840000071", "ZZZZ" };
 
     // Policy
     public static final Integer INVALID_POLICY_ID = 1;

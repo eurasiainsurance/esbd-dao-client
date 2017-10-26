@@ -14,6 +14,7 @@ import com.lapsa.insurance.elements.SubjectType;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.entities.SubjectEntity;
 import tech.lapsa.insurance.esbd.entities.SubjectEntityService;
+import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 import test.ArquillianBaseTestCase;
 
 public class SubjectServiceTestCase extends ArquillianBaseTestCase {
@@ -42,11 +43,15 @@ public class SubjectServiceTestCase extends ArquillianBaseTestCase {
 	service.getById(INVALID_SUBJECT_ID);
     }
 
+    public static final TaxpayerNumber[] VALID_SUBJECT_ID_NUMBERS = new TaxpayerNumber[] {
+	    TaxpayerNumber.of("930840000071"),
+	    TaxpayerNumber.of("581114350286") };
+
     @Test
     public void testGetByIDNumber() throws NamingException {
 	try {
 	    for (int i = 0; i < VALID_SUBJECT_ID_NUMBERS.length; i++) {
-		String subjecdIdNumber = VALID_SUBJECT_ID_NUMBERS[i];
+		TaxpayerNumber subjecdIdNumber = VALID_SUBJECT_ID_NUMBERS[i];
 		SubjectType validSubjectType = VALID_SUBJECT_TYPES[i];
 		Class<?> validSubjectClass = VALID_SUBJECT_CLASSES[i];
 		SubjectEntity res = service.getByIdNumber(subjecdIdNumber);
@@ -59,6 +64,8 @@ public class SubjectServiceTestCase extends ArquillianBaseTestCase {
 	    fail(e.getMessage());
 	}
     }
+
+    public static final TaxpayerNumber INVALID_SUBJECT_ID_NUMBER = TaxpayerNumber.of("6666");
 
     @Test(expected = NotFound.class)
     public void testGetByIDNumber_NotFound() throws NamingException, NotFound {

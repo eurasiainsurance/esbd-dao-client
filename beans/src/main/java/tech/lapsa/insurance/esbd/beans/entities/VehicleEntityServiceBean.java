@@ -21,8 +21,10 @@ import tech.lapsa.insurance.esbd.entities.VehicleEntityService;
 import tech.lapsa.insurance.esbd.entities.VehicleModelEntityService;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.java.commons.function.MyStrings;
+import tech.lapsa.kz.vehicle.VehicleRegNumber;
 
 @Stateless
 public class VehicleEntityServiceBean implements VehicleEntityService {
@@ -37,16 +39,17 @@ public class VehicleEntityServiceBean implements VehicleEntityService {
     private ConnectionPool pool;
 
     @Override
-    public List<VehicleEntity> getByRegNumber(String regNumber) {
-	MyStrings.requireNonEmpty(regNumber, "regNumber");
+    public List<VehicleEntity> getByRegNumber(VehicleRegNumber regNumber) {
+	MyObjects.requireNonNull(regNumber, "regNumber")
+		.requireValid("regNumber");
 	try (Connection con = pool.getConnection()) {
-	    ArrayOfTF vehicles = con.getTFByNumber(regNumber);
+	    ArrayOfTF vehicles = con.getTFByNumber(regNumber.getNumber());
 	    return MyOptionals.of(vehicles) //
 		    .map(ArrayOfTF::getTF) //
 		    .map(Collection::stream) //
 		    .orElseGet(Stream::empty) //
 		    .map(this::convert) //
-		    .peek(x -> x.setRegNum(regNumber))
+		    .peek(x -> x.setRegNum(regNumber.getNumber()))
 		    .collect(MyCollectors.unmodifiableList());
 	}
     }

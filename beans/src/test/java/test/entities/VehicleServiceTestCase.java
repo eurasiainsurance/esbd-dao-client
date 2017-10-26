@@ -13,6 +13,7 @@ import org.junit.Test;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.entities.VehicleEntity;
 import tech.lapsa.insurance.esbd.entities.VehicleEntityService;
+import tech.lapsa.kz.vehicle.VehicleRegNumber;
 import test.ArquillianBaseTestCase;
 
 public class VehicleServiceTestCase extends ArquillianBaseTestCase {
@@ -21,7 +22,7 @@ public class VehicleServiceTestCase extends ArquillianBaseTestCase {
     private VehicleEntityService service;
 
     private static final int VALID_VEHICLE_ID = 9187329; // Vadims Car
-							   // Infiniti
+							 // Infiniti
 
     @Test
     public void testGetById() throws NamingException {
@@ -54,7 +55,7 @@ public class VehicleServiceTestCase extends ArquillianBaseTestCase {
 	entities.forEach(System.out::println);
     }
 
-    private static final String VALID_VEHICLE_REG_NUMBER1 = "082KBA02";
+    private static final VehicleRegNumber VALID_VEHICLE_REG_NUMBER1 = VehicleRegNumber.of("082KBA02");
 
     @Test
     public void testGetByRegNumber1() throws NamingException {
@@ -63,7 +64,7 @@ public class VehicleServiceTestCase extends ArquillianBaseTestCase {
 	entities.forEach(System.out::println);
     }
 
-    private static final String VALID_VEHICLE_REG_NUMBER2 = "A105YRO";
+    private static final VehicleRegNumber VALID_VEHICLE_REG_NUMBER2 = VehicleRegNumber.of("A105YRO");
 
     @Test
     public void testGetByRegNumber2() throws NamingException {
@@ -72,7 +73,7 @@ public class VehicleServiceTestCase extends ArquillianBaseTestCase {
 	entities.forEach(System.out::println);
     }
 
-    private static final String VALID_VEHICLE_REG_NUMBER3 = "357ONA02";
+    private static final VehicleRegNumber VALID_VEHICLE_REG_NUMBER3 = VehicleRegNumber.of("357ONA02");
 
     @Test
     public void testGetByRegNumber3() throws NamingException {

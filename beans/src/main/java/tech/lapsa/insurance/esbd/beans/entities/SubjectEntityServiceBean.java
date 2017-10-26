@@ -11,7 +11,8 @@ import tech.lapsa.insurance.esbd.entities.SubjectEntity;
 import tech.lapsa.insurance.esbd.entities.SubjectEntityService;
 import tech.lapsa.insurance.esbd.entities.SubjectPersonEntityService;
 import tech.lapsa.java.commons.function.MyNumbers;
-import tech.lapsa.java.commons.function.MyStrings;
+import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 @Stateless
 public class SubjectEntityServiceBean extends ASubjectEntityService implements SubjectEntityService {
@@ -42,17 +43,19 @@ public class SubjectEntityServiceBean extends ASubjectEntityService implements S
     }
 
     @Override
-    public SubjectEntity getByIdNumber(String idNumber) throws NotFound {
-	MyStrings.requireNonEmpty(idNumber, "idNumber");
-	Client source = fetchClientByIdNumber(idNumber, true, true);
+    public SubjectEntity getByIdNumber(TaxpayerNumber taxpayerNumber) throws NotFound {
+	MyObjects.requireNonNull(taxpayerNumber, "taxpayerNumber")
+		.requireValid("taxpayerNumber");
+	Client source = fetchClientByIdNumber(taxpayerNumber, true, true);
 	if (source == null)
-	    throw new NotFound(SubjectEntity.class.getSimpleName() + " not found with IDNumber = '" + idNumber + "'");
+	    throw new NotFound(SubjectEntity.class.getSimpleName() + " not found with IDNumber = '"
+		    + taxpayerNumber.getNumber() + "'");
 	if (source.getNaturalPersonBool() == 1) {
 	    // частник SubjectPerson
-	    return subjectPersonService.getByIIN(idNumber);
+	    return subjectPersonService.getByIIN(taxpayerNumber);
 	} else {
 	    // юрлицо SubjectCompany
-	    return subjectCompanyService.getByBIN(idNumber);
+	    return subjectCompanyService.getByBIN(taxpayerNumber);
 	}
     }
 }

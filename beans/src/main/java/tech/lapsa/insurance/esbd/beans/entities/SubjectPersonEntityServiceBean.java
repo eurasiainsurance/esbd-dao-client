@@ -17,8 +17,9 @@ import tech.lapsa.insurance.esbd.entities.SubjectPersonEntityService;
 import tech.lapsa.insurance.esbd.infos.IdentityCardInfo;
 import tech.lapsa.insurance.esbd.infos.PersonalInfo;
 import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyOptionals;
-import tech.lapsa.java.commons.function.MyStrings;
+import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 @Stateless
 public class SubjectPersonEntityServiceBean extends ASubjectEntityService implements SubjectPersonEntityService {
@@ -46,16 +47,19 @@ public class SubjectPersonEntityServiceBean extends ASubjectEntityService implem
     }
 
     @Override
-    public SubjectPersonEntity getByIIN(String iin) throws NotFound {
-	MyStrings.requireNonEmpty(iin, "iin");
-	Client source = fetchClientByIdNumber(iin, true, false);
+    public SubjectPersonEntity getByIIN(TaxpayerNumber taxpayerNumber) throws NotFound {
+	MyObjects.requireNonNull(taxpayerNumber, "taxpayerNumber")
+		.requireValid("taxpayerNumber");
+	Client source = fetchClientByIdNumber(taxpayerNumber, true, false);
 	if (source == null)
 	    throw new NotFound(
-		    SubjectPersonEntity.class.getSimpleName() + " not found with 'iin' = '" + iin + "'");
+		    SubjectPersonEntity.class.getSimpleName() + " not found with 'iin' = '" + taxpayerNumber.getNumber()
+			    + "'");
 	boolean isNotPerson = source.getNaturalPersonBool() == 0;
 	if (isNotPerson)
-	    throw new NotFound(SubjectPersonEntity.class.getSimpleName() + " not found with 'iin' = '" + iin
-		    + "'. It was a " + SubjectCompanyEntity.class.getName());
+	    throw new NotFound(
+		    SubjectPersonEntity.class.getSimpleName() + " not found with 'iin' = '" + taxpayerNumber.getNumber()
+			    + "'. It was a " + SubjectCompanyEntity.class.getName());
 	return convert(source);
     }
 

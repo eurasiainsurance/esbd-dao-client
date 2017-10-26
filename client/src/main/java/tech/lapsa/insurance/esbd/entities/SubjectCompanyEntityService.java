@@ -6,15 +6,16 @@ import javax.ejb.Local;
 
 import tech.lapsa.insurance.esbd.GeneralService;
 import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 @Local
 public interface SubjectCompanyEntityService extends GeneralService<SubjectCompanyEntity, Integer> {
 
-    SubjectCompanyEntity getByBIN(String bin) throws NotFound;
+    SubjectCompanyEntity getByBIN(TaxpayerNumber taxpayerNumber) throws NotFound;
 
-    default Optional<SubjectCompanyEntity> optionalByBIN(String bin) {
+    default Optional<SubjectCompanyEntity> optionalByBIN(TaxpayerNumber taxpayerNumber) {
 	try {
-	    return Optional.of(getByBIN(bin));
+	    return Optional.of(getByBIN(taxpayerNumber));
 	} catch (NotFound e) {
 	    return Optional.empty();
 	}
