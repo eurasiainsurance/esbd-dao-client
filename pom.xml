@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>tech.lapsa.maven</groupId>
 		<artifactId>maven-general</artifactId>
-		<version>3.0-SNAPSHOT</version>
+		<version>3.0</version>
 	</parent>
 
 	<groupId>tech.lapsa.insurance</groupId>
@@ -22,15 +22,15 @@
 
 	<properties>
 		<!-- BOMS -->
-		<javax-javaee-bom.version>7.0-SNAPSHOT</javax-javaee-bom.version>
-		<java-commons-root.version>1.0-SNAPSHOT</java-commons-root.version>
+		<javax-javaee-bom.version>7.0</javax-javaee-bom.version>
+		<java-commons.version>1.0</java-commons.version>
 		<!-- tech -->
-		<lapsa-arquillian-test.version>1.0-SNAPSHOT</lapsa-arquillian-test.version>
-		<esbd-connection.version>1.0-SNAPSHOT</esbd-connection.version>
+		<lapsa-arquillian-test.version>1.0</lapsa-arquillian-test.version>
+		<esbd-connection.version>1.0</esbd-connection.version>
 		<!-- oldies -->
-		<insurance-lib.version>2.3-SNAPSHOT</insurance-lib.version>
-		<kz-lib.version>3.1-SNAPSHOT</kz-lib.version>
-		<international-lib.version>3.2-SNAPSHOT</international-lib.version>
+		<insurance-lib.version>2.3</insurance-lib.version>
+		<kz-lib.version>3.1</kz-lib.version>
+		<international-lib.version>3.2</international-lib.version>
 		<!-- ASB -->
 		<asb.keystore.path>${env.ASB_PATH}</asb.keystore.path>
 	</properties>
@@ -48,7 +48,7 @@
 			<dependency>
 				<groupId>tech.lapsa.java</groupId>
 				<artifactId>java-commons-root</artifactId>
-				<version>${java-commons-root.version}</version>
+				<version>${java-commons.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
