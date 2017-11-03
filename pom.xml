@@ -28,8 +28,8 @@
 		<esbd-connection.version>1.0</esbd-connection.version>
 		<!-- oldies -->
 		<insurance-lib.version>2.3</insurance-lib.version>
-		<kz-lib.version>3.1</kz-lib.version>
-		<international-lib.version>3.2</international-lib.version>
+		<kz-lib.version>3.2-SNAPSHOT</kz-lib.version>
+		<international-lib.version>3.3-SNAPSHOT</international-lib.version>
 		<!-- ASB -->
 		<asb.keystore.path>${env.ASB_PATH}</asb.keystore.path>
 	</properties>
