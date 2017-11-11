@@ -11,17 +11,19 @@ import tech.lapsa.lapsa.arquillian.archive.ArchiveBuilderFactory;
 @RunWith(Arquillian.class)
 public abstract class ArquillianBaseTestCase {
 
+    private static final Archive<?> DEPLOYMENT = ArchiveBuilderFactory.newEarBuilder() //
+	    .withRuntimeDependencies()
+	    .withModule(ArchiveBuilderFactory.newEjbBuilder() //
+		    .withPackageOf(ESBDDates.class) //
+		    .build() //
+		    .dumpingTo(System.out::println) //
+	    ) //
+	    .build() //
+	    .dumpingTo(System.out::println) //
+	    .asEnterpriseArchive();
+
     @Deployment
     public static Archive<?> createDeployment() {
-	return ArchiveBuilderFactory.newEarBuilder() //
-		.withRuntimeDependencies()
-		.withModule(ArchiveBuilderFactory.newEjbBuilder() //
-			.withPackageOf(ESBDDates.class) //
-			.build() //
-			.dumpingTo(System.out::println) //
-		) //
-		.build() //
-		.dumpingTo(System.out::println) //
-		.asEnterpriseArchive();
+	return DEPLOYMENT;
     }
 }
