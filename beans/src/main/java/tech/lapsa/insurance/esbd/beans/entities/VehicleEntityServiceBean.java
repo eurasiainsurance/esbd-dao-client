@@ -40,8 +40,9 @@ public class VehicleEntityServiceBean implements VehicleEntityService {
 
     @Override
     public List<VehicleEntity> getByRegNumber(VehicleRegNumber regNumber) {
-	MyObjects.requireNonNull(regNumber, "regNumber")
-		.requireValid("regNumber");
+	MyObjects.requireNonNull(regNumber, "regNumber"); //
+	VehicleRegNumber.requireValid(regNumber);
+
 	try (Connection con = pool.getConnection()) {
 	    ArrayOfTF vehicles = con.getTFByNumber(regNumber.getNumber());
 	    return MyOptionals.of(vehicles) //

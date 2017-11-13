@@ -87,7 +87,7 @@ public abstract class ASubjectEntityService {
 	ContactInfo cni = new ContactInfo();
 	target.setContact(cni);
 	if (source.getPHONES() != null)
-	    cni.setPhone(PhoneNumber.parse(source.getPHONES()));
+	    cni.setPhone(PhoneNumber.assertValid(source.getPHONES()));
 	cni.setEmail(source.getEMAIL());
 	cni.setHomeAdress(source.getAddress());
 	cni.setSiteUrl(source.getWWW());
