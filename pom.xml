@@ -22,7 +22,7 @@
 	<properties>
 		<!-- BOMS -->
 		<javax-javaee-bom.version>7.0</javax-javaee-bom.version>
-		<java-commons.version>1.0</java-commons.version>
+		<java-commons.version>1.1-SNAPSHOT</java-commons.version>
 		<!-- tech -->
 		<lapsa-arquillian-test.version>1.0</lapsa-arquillian-test.version>
 		<esbd-connection.version>1.0</esbd-connection.version>
