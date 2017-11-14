@@ -44,9 +44,9 @@ public class SubjectEntityServiceBean extends ASubjectEntityService implements S
 
     @Override
     public SubjectEntity getByIdNumber(TaxpayerNumber taxpayerNumber) throws NotFound {
-	MyObjects.requireNonNull(taxpayerNumber, "taxpayerNumber") //
-		.requireValid("taxpayerNumber") //
-	;
+	MyObjects.requireNonNull(taxpayerNumber, "taxpayerNumber"); //
+	TaxpayerNumber.requireValid(taxpayerNumber);
+
 	Client source = fetchClientByIdNumber(taxpayerNumber, true, true);
 	if (source == null)
 	    throw new NotFound(SubjectEntity.class.getSimpleName() + " not found with IDNumber = '"

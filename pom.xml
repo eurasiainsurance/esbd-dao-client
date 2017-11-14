@@ -27,7 +27,7 @@
 		<lapsa-arquillian-test.version>1.0</lapsa-arquillian-test.version>
 		<esbd-connection.version>1.0</esbd-connection.version>
 		<!-- oldies -->
-		<insurance-lib.version>2.3</insurance-lib.version>
+		<insurance-lib.version>2.4-SNAPSHOT</insurance-lib.version>
 		<kz-lib.version>3.2-SNAPSHOT</kz-lib.version>
 		<international-lib.version>3.3-SNAPSHOT</international-lib.version>
 		<!-- ASB -->
@@ -78,13 +78,6 @@
 			</dependency>
 			<!-- oldies -->
 			<dependency>
-				<groupId>com.lapsa.insurance-lib</groupId>
-				<artifactId>insurance-root</artifactId>
-				<version>${insurance-lib.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
 				<groupId>com.lapsa.kz-lib</groupId>
 				<artifactId>kz-root</artifactId>
 				<version>${kz-lib.version}</version>
@@ -95,6 +88,13 @@
 				<groupId>com.lapsa.international-lib</groupId>
 				<artifactId>international-root</artifactId>
 				<version>${international-lib.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.insurance-lib</groupId>
+				<artifactId>insurance-root</artifactId>
+				<version>${insurance-lib.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
