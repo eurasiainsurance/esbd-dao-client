@@ -473,7 +473,6 @@ public class PolicyEntityServiceBean implements PolicyEntityService {
 	try {
 	    target.setVehicle(vehicleService.getById(source.getTFID()));
 	} catch (NotFound e) {
-	    // TODO is mandatory?
 	    throw new DataCoruptionException(
 		    "Error while fetching InsuredVehicle ID = '" + source.getPOLICYTFID()
 			    + "' at Policy ID = '" + source.getPOLICYID()

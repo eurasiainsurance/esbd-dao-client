@@ -48,7 +48,7 @@ public class VehicleManufacturerServiceTestCase extends ArquillianBaseTestCase {
     @Test
     public void testGetByName_empty() throws NamingException {
 	List<VehicleManufacturerEntity> list = service.getByName(INVALID_VEHICLE_MANUFACTURER_NAME);
-	// TODO отладить
+	// TODO DEBUG : Need to debug
 	assertThat(list, allOf(not(nullValue()), not(empty())));
 	for (VehicleManufacturerEntity e : list) {
 	    assertThat(e, not(nullValue()));
