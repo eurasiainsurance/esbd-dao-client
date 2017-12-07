@@ -3,8 +3,8 @@ package tech.lapsa.insurance.esbd.beans.entities;
 import java.util.Collections;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
@@ -22,13 +22,13 @@ import tech.lapsa.java.commons.function.MyOptionals;
 @Stateless
 public class UserEntityServiceBean implements UserEntityService {
 
-    @Inject
+    @EJB
     private BranchEntityService branchService;
 
-    @Inject
+    @EJB
     private InsuranceCompanyEntityService insuranceCompanyService;
 
-    @Inject
+    @EJB
     private ConnectionPool pool;
 
     private List<UserEntity> all;
@@ -74,7 +74,7 @@ public class UserEntityServiceBean implements UserEntityService {
 
 	// non mandatory field
 	target.setBranch(MyOptionals.of(source.getBranchID()) //
-		.flatMap(branchService::optionalById) //
+		.flatMap(id -> MyOptionals.ifAnyException(() -> branchService.getById(id))) //
 		.orElse(null));
 
 	// CLIENT_ID s:int Клиент пользователя (справочник CLIENTS)
@@ -85,7 +85,7 @@ public class UserEntityServiceBean implements UserEntityService {
 
 	// non mandatory field
 	target.setOrganization(MyOptionals.of(source.getSYSTEMDELIMITERID()) //
-		.flatMap(insuranceCompanyService::optionalById) //
+		.flatMap(id -> MyOptionals.ifAnyException(() -> insuranceCompanyService.getById(id))) //
 		.orElse(null));
 
 	// IsAuthenticated s:int Пользователь аутентифицирован

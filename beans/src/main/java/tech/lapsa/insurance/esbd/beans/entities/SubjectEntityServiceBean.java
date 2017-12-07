@@ -1,7 +1,7 @@
 package tech.lapsa.insurance.esbd.beans.entities;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.jaxws.wsimport.Client;
@@ -17,10 +17,10 @@ import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 @Stateless
 public class SubjectEntityServiceBean extends ASubjectEntityService implements SubjectEntityService {
 
-    @Inject
+    @EJB
     private SubjectPersonEntityService subjectPersonService;
 
-    @Inject
+    @EJB
     private SubjectCompanyEntityService subjectCompanyService;
 
     @Override

@@ -1,7 +1,7 @@
 package tech.lapsa.insurance.esbd.beans.entities;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.jaxws.wsimport.Client;
@@ -19,7 +19,7 @@ import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 @Stateless
 public class SubjectCompanyEntityServiceBean extends ASubjectEntityService implements SubjectCompanyEntityService {
 
-    @Inject
+    @EJB
     private CompanyActivityKindEntityService companyActivityKindService;
 
     @Override
@@ -78,7 +78,7 @@ public class SubjectCompanyEntityServiceBean extends ASubjectEntityService imple
 
 	// non mandatory field
 	target.setCompanyActivityKind(MyOptionals.of(source.getACTIVITYKINDID()) //
-		.flatMap(companyActivityKindService::optionalById) //
+		.flatMap(id -> MyOptionals.ifAnyException(() -> companyActivityKindService.getById(id))) //
 		.orElse(null));
     }
 }

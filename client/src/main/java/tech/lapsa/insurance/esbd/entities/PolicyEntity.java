@@ -4,33 +4,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.lapsa.insurance.elements.CancelationReason;
 
 import tech.lapsa.insurance.esbd.dict.BranchEntity;
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
 import tech.lapsa.insurance.esbd.infos.RecordOperationInfo;
+import tech.lapsa.patterns.domain.Pojo;
+import tech.lapsa.patterns.domain.HashCodePrime;
 
-public class PolicyEntity {
+@HashCodePrime(17)
+public class PolicyEntity extends Pojo {
 
-    @Override
-    public String toString() {
-	return ToStringBuilder.reflectionToString(this, ToStringStyle.NO_CLASS_NAME_STYLE);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-	return EqualsBuilder.reflectionEquals(this, obj, false);
-    }
-
-    @Override
-    public int hashCode() {
-	return HashCodeBuilder.reflectionHashCode(this, false);
-    }
+    private static final long serialVersionUID = 1L;
 
     // POLICY_ID s:int Идентификатор полиса (обязательно)
     private Integer id;

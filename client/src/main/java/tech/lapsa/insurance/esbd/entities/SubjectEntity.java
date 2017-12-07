@@ -1,15 +1,11 @@
 package tech.lapsa.insurance.esbd.entities;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.lapsa.insurance.elements.SubjectType;
 import com.lapsa.kz.economic.KZEconomicSector;
 
 import tech.lapsa.insurance.esbd.infos.ContactInfo;
 import tech.lapsa.insurance.esbd.infos.OriginInfo;
+import tech.lapsa.patterns.domain.Pojo;
 
 /**
  * Абстрактный класс для представления лица
@@ -17,22 +13,9 @@ import tech.lapsa.insurance.esbd.infos.OriginInfo;
  * @author vadim.isaev
  *
  */
-public abstract class SubjectEntity {
+public abstract class SubjectEntity extends Pojo {
 
-    @Override
-    public String toString() {
-	return ToStringBuilder.reflectionToString(this, ToStringStyle.NO_CLASS_NAME_STYLE);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-	return EqualsBuilder.reflectionEquals(this, obj, false);
-    }
-
-    @Override
-    public int hashCode() {
-	return HashCodeBuilder.reflectionHashCode(this, false);
-    }
+    private static final long serialVersionUID = 1L;
 
     // ID s:int Идентификатор клиента (обязательно)
     private Integer id;

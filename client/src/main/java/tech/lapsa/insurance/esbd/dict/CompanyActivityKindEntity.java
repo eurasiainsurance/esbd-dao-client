@@ -1,26 +1,12 @@
 package tech.lapsa.insurance.esbd.dict;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import tech.lapsa.patterns.domain.HashCodePrime;
+import tech.lapsa.patterns.domain.Pojo;
 
-public class CompanyActivityKindEntity implements DictionaryEntity<Integer> {
+@HashCodePrime(5)
+public class CompanyActivityKindEntity extends Pojo implements DictionaryEntity<Integer> {
 
-    @Override
-    public String toString() {
-	return ToStringBuilder.reflectionToString(this, ToStringStyle.NO_CLASS_NAME_STYLE);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-	return EqualsBuilder.reflectionEquals(this, obj, false);
-    }
-
-    @Override
-    public int hashCode() {
-	return HashCodeBuilder.reflectionHashCode(this, false);
-    }
+    private static final long serialVersionUID = 1L;
 
     private Integer id;
     private String code;

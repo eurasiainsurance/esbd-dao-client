@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 
 import com.lapsa.insurance.elements.SteeringWheelLocation;
 
@@ -29,13 +29,13 @@ import tech.lapsa.kz.vehicle.VehicleRegNumber;
 @Stateless
 public class VehicleEntityServiceBean implements VehicleEntityService {
 
-    @Inject
+    @EJB
     private VehicleClassService vehicleClassService;
 
-    @Inject
+    @EJB
     private VehicleModelEntityService vehicleModelService;
 
-    @Inject
+    @EJB
     private ConnectionPool pool;
 
     @Override
@@ -99,7 +99,7 @@ public class VehicleEntityServiceBean implements VehicleEntityService {
 	// TF_TYPE_ID s:int Тип ТС (справочник TF_TYPES)
 	// non mandatory field
 	target.setVehicleClass(MyOptionals.of(source.getTFTYPEID()) //
-		.flatMap(vehicleClassService::optionalById) //
+		.flatMap(id -> MyOptionals.ifAnyException(() -> vehicleClassService.getById(id))) //
 		.orElse(null));
 
 	// VIN s:string VIN код (номер кузова) (обязательно)

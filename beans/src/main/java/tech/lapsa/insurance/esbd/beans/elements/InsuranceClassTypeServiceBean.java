@@ -2,8 +2,8 @@ package tech.lapsa.insurance.esbd.beans.elements;
 
 import java.time.LocalDate;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import com.lapsa.insurance.elements.InsuranceClassType;
@@ -21,7 +21,7 @@ import tech.lapsa.java.commons.function.MyObjects;
 @Stateless
 public class InsuranceClassTypeServiceBean implements InsuranceClassTypeService {
 
-    @Inject
+    @EJB
     private ConnectionPool pool;
 
     @Override

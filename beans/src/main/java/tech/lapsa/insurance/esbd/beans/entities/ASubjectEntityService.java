@@ -3,7 +3,7 @@ package tech.lapsa.insurance.esbd.beans.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
+import javax.ejb.EJB;
 
 import com.lapsa.international.phone.PhoneNumber;
 
@@ -23,19 +23,20 @@ import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 public abstract class ASubjectEntityService {
 
-    @Inject
+    @EJB
     protected CountryService countryService;
 
-    @Inject
+    @EJB
     protected KZEconomicSectorService econimicsSectorService;
 
-    @Inject
+    @EJB
     protected KZCityService cityService;
 
-    @Inject
+    @EJB
     protected ConnectionPool pool;
 
-    protected Client fetchClientByIdNumber(TaxpayerNumber taxpayerNumber, boolean fetchNaturals, boolean fetchCompanies) {
+    protected Client fetchClientByIdNumber(TaxpayerNumber taxpayerNumber, boolean fetchNaturals,
+	    boolean fetchCompanies) {
 	int[] residentBools = new int[] { 1, 0 };
 	List<Integer> naturalPersonBools = new ArrayList<>();
 	if (fetchNaturals)
@@ -72,12 +73,12 @@ public abstract class ASubjectEntityService {
 
 	// non mandatory field
 	oi.setCountry(MyOptionals.of(source.getCOUNTRYID()) //
-		.flatMap(countryService::optionalById) //
+		.flatMap(id -> MyOptionals.ifAnyException(() -> countryService.getById(id))) //
 		.orElse(null));
 
 	// non mandatory field
 	oi.setCity(MyOptionals.of(source.getSETTLEMENTID()) //
-		.flatMap(cityService::optionalById) //
+		.flatMap(id -> MyOptionals.ifAnyException(() -> cityService.getById(id))) //
 		.orElse(null));
 
 	// PHONES s:string Номера телефонов

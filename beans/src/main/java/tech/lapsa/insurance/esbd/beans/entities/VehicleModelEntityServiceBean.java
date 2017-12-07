@@ -3,8 +3,8 @@ package tech.lapsa.insurance.esbd.beans.entities;
 import java.util.List;
 import java.util.stream.Stream;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
@@ -24,10 +24,10 @@ import tech.lapsa.java.commons.function.MyStrings;
 @Stateless
 public class VehicleModelEntityServiceBean implements VehicleModelEntityService {
 
-    @Inject
+    @EJB
     private VehicleManufacturerEntityService vehicleManufacturerService;
 
-    @Inject
+    @EJB
     private ConnectionPool pool;
 
     @Override
