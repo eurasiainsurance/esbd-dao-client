@@ -99,7 +99,7 @@ public class VehicleEntityServiceBean implements VehicleEntityService {
 	// TF_TYPE_ID s:int Тип ТС (справочник TF_TYPES)
 	// non mandatory field
 	target.setVehicleClass(MyOptionals.of(source.getTFTYPEID()) //
-		.flatMap(vehicleClassService::optionalById) //
+		.flatMap(id -> MyOptionals.ifAnyException(() -> vehicleClassService.getById(id))) //
 		.orElse(null));
 
 	// VIN s:string VIN код (номер кузова) (обязательно)

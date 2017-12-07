@@ -2,7 +2,7 @@ package tech.lapsa.insurance.esbd;
 
 public class NotFound extends Exception {
 
-    private static final long serialVersionUID = -301391461475363345L;
+    private static final long serialVersionUID = 1;
 
     public NotFound() {
 	super();

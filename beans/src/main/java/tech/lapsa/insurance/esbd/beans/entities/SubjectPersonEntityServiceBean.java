@@ -4,6 +4,8 @@ import static tech.lapsa.insurance.esbd.beans.ESBDDates.*;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.jaxws.wsimport.Client;
@@ -47,6 +49,7 @@ public class SubjectPersonEntityServiceBean extends ASubjectEntityService implem
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public SubjectPersonEntity getByIIN(TaxpayerNumber taxpayerNumber) throws NotFound {
 	MyObjects.requireNonNull(taxpayerNumber, "taxpayerNumber"); //
 	TaxpayerNumber.requireValid(taxpayerNumber);
@@ -61,7 +64,8 @@ public class SubjectPersonEntityServiceBean extends ASubjectEntityService implem
 	    throw new NotFound(
 		    SubjectPersonEntity.class.getSimpleName() + " not found with 'iin' = '" + taxpayerNumber.getNumber()
 			    + "'. It was a " + SubjectCompanyEntity.class.getName());
-	return convert(source);
+	final SubjectPersonEntity res = convert(source);
+	return res;
     }
 
     protected SubjectPersonEntity convert(Client source) {
@@ -86,7 +90,7 @@ public class SubjectPersonEntityServiceBean extends ASubjectEntityService implem
 	pi.setDayOfBirth(convertESBDDateToLocalDate(source.getBorn()));
 	// non mandatory
 	pi.setSex(MyOptionals.of(source.getSexID()) //
-		.flatMap(sexService::optionalById) //
+		.flatMap(id -> MyOptionals.ifAnyException(() -> sexService.getById(id))) //
 		.orElse(null));
 
 	// DOCUMENT_TYPE_ID s:int Тип документа (справочник DOCUMENTS_TYPES)
@@ -101,7 +105,7 @@ public class SubjectPersonEntityServiceBean extends ASubjectEntityService implem
 
 	// non mandatory field
 	di.setIdentityCardType(MyOptionals.of(source.getDOCUMENTTYPEID()) //
-		.flatMap(identityCardTypeService::optionalById) //
+		.flatMap(id -> MyOptionals.ifAnyException(() -> identityCardTypeService.getById(id))) //
 		.orElse(null));
     }
 }

@@ -35,7 +35,8 @@ public abstract class ASubjectEntityService {
     @Inject
     protected ConnectionPool pool;
 
-    protected Client fetchClientByIdNumber(TaxpayerNumber taxpayerNumber, boolean fetchNaturals, boolean fetchCompanies) {
+    protected Client fetchClientByIdNumber(TaxpayerNumber taxpayerNumber, boolean fetchNaturals,
+	    boolean fetchCompanies) {
 	int[] residentBools = new int[] { 1, 0 };
 	List<Integer> naturalPersonBools = new ArrayList<>();
 	if (fetchNaturals)
@@ -72,12 +73,12 @@ public abstract class ASubjectEntityService {
 
 	// non mandatory field
 	oi.setCountry(MyOptionals.of(source.getCOUNTRYID()) //
-		.flatMap(countryService::optionalById) //
+		.flatMap(id -> MyOptionals.ifAnyException(() -> countryService.getById(id))) //
 		.orElse(null));
 
 	// non mandatory field
 	oi.setCity(MyOptionals.of(source.getSETTLEMENTID()) //
-		.flatMap(cityService::optionalById) //
+		.flatMap(id -> MyOptionals.ifAnyException(() -> cityService.getById(id))) //
 		.orElse(null));
 
 	// PHONES s:string Номера телефонов

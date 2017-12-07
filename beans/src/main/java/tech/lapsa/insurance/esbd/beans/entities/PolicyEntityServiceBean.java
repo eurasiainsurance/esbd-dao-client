@@ -180,7 +180,7 @@ public class PolicyEntityServiceBean implements PolicyEntityService {
 
 	// non mandatory field
 	target.setCancelationReasonType(MyOptionals.of(source.getRESCINDINGREASONID()) //
-		.flatMap(cancelationReasonTypeService::optionalById) //
+		.flatMap(id -> MyOptionals.ifAnyException(() -> cancelationReasonTypeService.getById(id))) //
 		.orElse(null));
 
 	// BRANCH_ID s:int Филиал (обязательно)

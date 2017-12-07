@@ -74,7 +74,7 @@ public class UserEntityServiceBean implements UserEntityService {
 
 	// non mandatory field
 	target.setBranch(MyOptionals.of(source.getBranchID()) //
-		.flatMap(branchService::optionalById) //
+		.flatMap(id -> MyOptionals.ifAnyException(() -> branchService.getById(id))) //
 		.orElse(null));
 
 	// CLIENT_ID s:int Клиент пользователя (справочник CLIENTS)
@@ -85,7 +85,7 @@ public class UserEntityServiceBean implements UserEntityService {
 
 	// non mandatory field
 	target.setOrganization(MyOptionals.of(source.getSYSTEMDELIMITERID()) //
-		.flatMap(insuranceCompanyService::optionalById) //
+		.flatMap(id -> MyOptionals.ifAnyException(() -> insuranceCompanyService.getById(id))) //
 		.orElse(null));
 
 	// IsAuthenticated s:int Пользователь аутентифицирован

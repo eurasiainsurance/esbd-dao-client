@@ -78,7 +78,7 @@ public class SubjectCompanyEntityServiceBean extends ASubjectEntityService imple
 
 	// non mandatory field
 	target.setCompanyActivityKind(MyOptionals.of(source.getACTIVITYKINDID()) //
-		.flatMap(companyActivityKindService::optionalById) //
+		.flatMap(id -> MyOptionals.ifAnyException(() -> companyActivityKindService.getById(id))) //
 		.orElse(null));
     }
 }
