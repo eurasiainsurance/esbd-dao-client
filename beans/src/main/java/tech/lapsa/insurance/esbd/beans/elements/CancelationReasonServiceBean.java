@@ -9,7 +9,7 @@ import tech.lapsa.insurance.esbd.elements.CancelationReasonServiceService;
 
 @Singleton
 public class CancelationReasonServiceBean extends AElementsService<CancelationReason, Integer>
-	implements CancelationReasonServiceService {
+	implements CancelationReasonService {
 
     public CancelationReasonServiceBean() {
 	super(CancelationReasonMapping.getInstance()::forId);
