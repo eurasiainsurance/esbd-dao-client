@@ -1,12 +1,10 @@
 package tech.lapsa.insurance.esbd.infos;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.lapsa.international.country.Country;
 import com.lapsa.kz.country.KZCity;
+
+import tech.lapsa.patterns.domain.Pojo;
+import tech.lapsa.patterns.domain.HashCodePrime;
 
 /**
  * Класс для представления данных о происхождении клиента
@@ -14,22 +12,10 @@ import com.lapsa.kz.country.KZCity;
  * @author vadim.isaev
  *
  */
-public class OriginInfo {
+@HashCodePrime(67)
+public class OriginInfo extends Pojo {
 
-    @Override
-    public String toString() {
-	return ToStringBuilder.reflectionToString(this, ToStringStyle.NO_CLASS_NAME_STYLE);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-	return EqualsBuilder.reflectionEquals(this, obj, false);
-    }
-
-    @Override
-    public int hashCode() {
-	return HashCodeBuilder.reflectionHashCode(this, false);
-    }
+    private static final long serialVersionUID = 1L;
 
     // RESIDENT_BOOL s:int Признак резидентства (обязательно)
     private boolean resident;

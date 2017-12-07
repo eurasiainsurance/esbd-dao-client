@@ -2,29 +2,15 @@ package tech.lapsa.insurance.esbd.infos;
 
 import java.util.Calendar;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.lapsa.insurance.elements.IdentityCardType;
 
-public class IdentityCardInfo {
+import tech.lapsa.patterns.domain.Pojo;
+import tech.lapsa.patterns.domain.HashCodePrime;
 
-    @Override
-    public String toString() {
-	return ToStringBuilder.reflectionToString(this, ToStringStyle.NO_CLASS_NAME_STYLE);
-    }
+@HashCodePrime(59)
+public class IdentityCardInfo extends Pojo {
 
-    @Override
-    public boolean equals(Object obj) {
-	return EqualsBuilder.reflectionEquals(this, obj, false);
-    }
-
-    @Override
-    public int hashCode() {
-	return HashCodeBuilder.reflectionHashCode(this, false);
-    }
+    private static final long serialVersionUID = 1L;
 
     // DOCUMENT_GIVED_DATE s:string Дата выдачи документа
     private Calendar dateOfIssue;

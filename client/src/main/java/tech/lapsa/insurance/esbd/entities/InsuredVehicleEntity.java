@@ -1,33 +1,18 @@
 package tech.lapsa.insurance.esbd.entities;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.lapsa.insurance.elements.VehicleAgeClass;
 import com.lapsa.insurance.elements.VehicleClass;
 
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
 import tech.lapsa.insurance.esbd.infos.RecordOperationInfo;
 import tech.lapsa.insurance.esbd.infos.VehicleCertificateInfo;
+import tech.lapsa.patterns.domain.Pojo;
+import tech.lapsa.patterns.domain.HashCodePrime;
 
-public class InsuredVehicleEntity {
+@HashCodePrime(0)
+public class InsuredVehicleEntity extends Pojo {
 
-    @Override
-    public String toString() {
-	return ToStringBuilder.reflectionToString(this, ToStringStyle.NO_CLASS_NAME_STYLE);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-	return EqualsBuilder.reflectionEquals(this, obj, false);
-    }
-
-    @Override
-    public int hashCode() {
-	return HashCodeBuilder.reflectionHashCode(this, false);
-    }
+    private static final long serialVersionUID = 1L;
 
     // POLICY_TF_ID s:int Идентификатор ТС полиса
     private Integer id;

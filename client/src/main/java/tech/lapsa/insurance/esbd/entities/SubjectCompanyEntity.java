@@ -1,13 +1,9 @@
 package tech.lapsa.insurance.esbd.entities;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.lapsa.insurance.elements.SubjectType;
 
 import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntity;
+import tech.lapsa.patterns.domain.HashCodePrime;
 
 /**
  * Класс для представления субъекта - юридического лица (компания)
@@ -15,22 +11,10 @@ import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntity;
  * @author vadim.isaev
  *
  */
+@HashCodePrime(19)
 public class SubjectCompanyEntity extends SubjectEntity {
 
-    @Override
-    public String toString() {
-	return ToStringBuilder.reflectionToString(this, ToStringStyle.NO_CLASS_NAME_STYLE);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-	return EqualsBuilder.reflectionEquals(this, obj, false);
-    }
-
-    @Override
-    public int hashCode() {
-	return HashCodeBuilder.reflectionHashCode(this, false);
-    }
+    private static final long serialVersionUID = 1L;
 
     // Juridical_Person_Name s:string Наименование (для юр. лица)
     private String companyName;
