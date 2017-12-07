@@ -3,8 +3,8 @@ package tech.lapsa.insurance.esbd.beans.entities;
 import java.util.Collections;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
@@ -22,13 +22,13 @@ import tech.lapsa.java.commons.function.MyOptionals;
 @Stateless
 public class UserEntityServiceBean implements UserEntityService {
 
-    @Inject
+    @EJB
     private BranchEntityService branchService;
 
-    @Inject
+    @EJB
     private InsuranceCompanyEntityService insuranceCompanyService;
 
-    @Inject
+    @EJB
     private ConnectionPool pool;
 
     private List<UserEntity> all;

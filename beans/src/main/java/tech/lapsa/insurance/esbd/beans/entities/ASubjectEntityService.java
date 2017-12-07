@@ -3,7 +3,7 @@ package tech.lapsa.insurance.esbd.beans.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
+import javax.ejb.EJB;
 
 import com.lapsa.international.phone.PhoneNumber;
 
@@ -23,16 +23,16 @@ import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 public abstract class ASubjectEntityService {
 
-    @Inject
+    @EJB
     protected CountryService countryService;
 
-    @Inject
+    @EJB
     protected KZEconomicSectorService econimicsSectorService;
 
-    @Inject
+    @EJB
     protected KZCityService cityService;
 
-    @Inject
+    @EJB
     protected ConnectionPool pool;
 
     protected Client fetchClientByIdNumber(TaxpayerNumber taxpayerNumber, boolean fetchNaturals,

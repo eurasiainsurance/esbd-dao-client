@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
-import javax.inject.Inject;
+import javax.ejb.EJB;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
@@ -28,7 +28,7 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity<I>, I 
 	this.converter = converter;
     }
 
-    @Inject
+    @EJB
     private ConnectionPool pool;
 
     private List<T> all;

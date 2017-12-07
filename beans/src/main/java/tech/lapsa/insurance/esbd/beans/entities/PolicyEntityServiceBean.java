@@ -5,8 +5,8 @@ import static tech.lapsa.insurance.esbd.beans.ESBDDates.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import tech.lapsa.esbd.connection.Connection;
@@ -49,46 +49,46 @@ import tech.lapsa.java.commons.function.MyStrings;
 @Stateless
 public class PolicyEntityServiceBean implements PolicyEntityService {
 
-    @Inject
+    @EJB
     private InsuranceCompanyEntityService insuranceCompanyService;
 
-    @Inject
+    @EJB
     private SubjectEntityService subjectService;
 
-    @Inject
+    @EJB
     private CancelationReasonServiceService cancelationReasonTypeService;
 
-    @Inject
+    @EJB
     private BranchEntityService branchService;
 
-    @Inject
+    @EJB
     private InsuredAgeAndExpirienceClassService driverExpirienceClassificationService;
 
-    @Inject
+    @EJB
     private InsuranceClassTypeService insuranceClassTypeService;
 
-    @Inject
+    @EJB
     private SubjectPersonEntityService subjectPersonService;
 
-    @Inject
+    @EJB
     private MaritalStatusService maritalStatusService;
 
-    @Inject
+    @EJB
     private UserEntityService userService;
 
-    @Inject
+    @EJB
     private VehicleEntityService vehicleService;
 
-    @Inject
+    @EJB
     private VehicleClassService vehicleClassService;
 
-    @Inject
+    @EJB
     private VehicleAgeClassService vehicleAgeClassService;
 
-    @Inject
+    @EJB
     private KZAreaService countryRegionService;
 
-    @Inject
+    @EJB
     private ConnectionPool pool;
 
     @Override

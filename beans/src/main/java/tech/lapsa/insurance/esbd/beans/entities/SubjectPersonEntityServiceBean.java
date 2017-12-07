@@ -2,8 +2,8 @@ package tech.lapsa.insurance.esbd.beans.entities;
 
 import static tech.lapsa.insurance.esbd.beans.ESBDDates.*;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
@@ -26,10 +26,10 @@ import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 @Stateless
 public class SubjectPersonEntityServiceBean extends ASubjectEntityService implements SubjectPersonEntityService {
 
-    @Inject
+    @EJB
     private IdentityCardTypeService identityCardTypeService;
 
-    @Inject
+    @EJB
     private GenderService sexService;
 
     @Override
