@@ -9,7 +9,7 @@ import tech.lapsa.insurance.esbd.infos.VehicleCertificateInfo;
 import tech.lapsa.patterns.domain.Pojo;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
-@HashCodePrime(0)
+@HashCodePrime(13)
 public class InsuredVehicleEntity extends Pojo {
 
     private static final long serialVersionUID = 1L;
