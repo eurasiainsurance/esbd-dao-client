@@ -13,13 +13,13 @@ import com.lapsa.insurance.elements.IdentityCardType;
 
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.beans.elements.mapping.IdentityCardTypeMapping;
-import tech.lapsa.insurance.esbd.elements.IdentityCardTypeService;
+import tech.lapsa.insurance.esbd.elements.IdentityCardTypeService.IdentityCardTypeServiceLocal;
 import test.ArquillianBaseTestCase;
 
 public class IdentityCardTypeServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private IdentityCardTypeService service;
+    private IdentityCardTypeServiceLocal service;
 
     @Test
     public void testGetById() throws NamingException {

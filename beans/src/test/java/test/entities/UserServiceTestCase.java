@@ -13,13 +13,13 @@ import org.junit.Test;
 
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.entities.UserEntity;
-import tech.lapsa.insurance.esbd.entities.UserEntityService;
+import tech.lapsa.insurance.esbd.entities.UserEntityService.UserEntityServiceLocal;
 import test.ArquillianBaseTestCase;
 
 public class UserServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private UserEntityService service;
+    private UserEntityServiceLocal service;
 
     @Test
     public void testGetAll() throws NamingException {

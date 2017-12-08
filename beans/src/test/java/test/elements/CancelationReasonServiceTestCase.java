@@ -13,13 +13,13 @@ import com.lapsa.insurance.elements.CancelationReason;
 
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.beans.elements.mapping.CancelationReasonMapping;
-import tech.lapsa.insurance.esbd.elements.CancelationReasonService;
+import tech.lapsa.insurance.esbd.elements.CancelationReasonService.CancelationReasonServiceLocal;
 import test.ArquillianBaseTestCase;
 
 public class CancelationReasonServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private CancelationReasonService service;
+    private CancelationReasonServiceLocal service;
 
     @Test
     public void testGetById() throws NamingException {

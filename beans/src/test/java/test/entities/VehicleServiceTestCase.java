@@ -12,14 +12,14 @@ import org.junit.Test;
 
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.entities.VehicleEntity;
-import tech.lapsa.insurance.esbd.entities.VehicleEntityService;
+import tech.lapsa.insurance.esbd.entities.VehicleEntityService.VehicleEntityServiceLocal;
 import tech.lapsa.kz.vehicle.VehicleRegNumber;
 import test.ArquillianBaseTestCase;
 
 public class VehicleServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private VehicleEntityService service;
+    private VehicleEntityServiceLocal service;
 
     private static final int VALID_VEHICLE_ID = 9187329; // Vadims Car
 							 // Infiniti

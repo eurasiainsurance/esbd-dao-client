@@ -13,13 +13,13 @@ import com.lapsa.insurance.elements.InsuredAgeAndExpirienceClass;
 
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.beans.elements.mapping.InsuredAgeAndExpirienceClassMapping;
-import tech.lapsa.insurance.esbd.elements.InsuredAgeAndExpirienceClassService;
+import tech.lapsa.insurance.esbd.elements.InsuredAgeAndExpirienceClassService.InsuredAgeAndExpirienceClassServiceLocal;
 import test.ArquillianBaseTestCase;
 
 public class InsuranceAgeExpirienceServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private InsuredAgeAndExpirienceClassService service;
+    private InsuredAgeAndExpirienceClassServiceLocal service;
 
     @Test
     public void testGetById() throws NamingException {
