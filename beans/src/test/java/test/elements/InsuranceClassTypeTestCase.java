@@ -15,14 +15,14 @@ import com.lapsa.insurance.elements.InsuranceClassType;
 
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.beans.elements.mapping.InsuranceClassTypeMapping;
-import tech.lapsa.insurance.esbd.elements.InsuranceClassTypeService;
+import tech.lapsa.insurance.esbd.elements.InsuranceClassTypeService.InsuranceClassTypeServiceLocal;
 import tech.lapsa.insurance.esbd.entities.SubjectPersonEntity;
 import test.ArquillianBaseTestCase;
 
 public class InsuranceClassTypeTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private InsuranceClassTypeService service;
+    private InsuranceClassTypeServiceLocal service;
 
     @Test
     public void testGetById() throws NamingException {

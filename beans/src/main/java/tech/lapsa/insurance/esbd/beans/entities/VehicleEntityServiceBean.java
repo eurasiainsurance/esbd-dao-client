@@ -15,10 +15,11 @@ import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfTF;
 import tech.lapsa.esbd.jaxws.wsimport.TF;
 import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.elements.VehicleClassService;
+import tech.lapsa.insurance.esbd.elements.VehicleClassService.VehicleClassServiceLocal;
 import tech.lapsa.insurance.esbd.entities.VehicleEntity;
-import tech.lapsa.insurance.esbd.entities.VehicleEntityService;
-import tech.lapsa.insurance.esbd.entities.VehicleModelEntityService;
+import tech.lapsa.insurance.esbd.entities.VehicleEntityService.VehicleEntityServiceLocal;
+import tech.lapsa.insurance.esbd.entities.VehicleEntityService.VehicleEntityServiceRemote;
+import tech.lapsa.insurance.esbd.entities.VehicleModelEntityService.VehicleModelEntityServiceLocal;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
@@ -27,13 +28,13 @@ import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.kz.vehicle.VehicleRegNumber;
 
 @Stateless
-public class VehicleEntityServiceBean implements VehicleEntityService {
+public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, VehicleEntityServiceRemote {
 
     @EJB
-    private VehicleClassService vehicleClassService;
+    private VehicleClassServiceLocal vehicleClassService;
 
     @EJB
-    private VehicleModelEntityService vehicleModelService;
+    private VehicleModelEntityServiceLocal vehicleModelService;
 
     @EJB
     private ConnectionPool pool;

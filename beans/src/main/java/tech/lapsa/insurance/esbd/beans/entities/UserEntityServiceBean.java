@@ -11,22 +11,23 @@ import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfUser;
 import tech.lapsa.esbd.jaxws.wsimport.User;
 import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.dict.BranchEntityService;
-import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntityService;
+import tech.lapsa.insurance.esbd.dict.BranchEntityService.BranchEntityServiceLocal;
+import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntityService.InsuranceCompanyEntityServiceLocal;
 import tech.lapsa.insurance.esbd.entities.UserEntity;
-import tech.lapsa.insurance.esbd.entities.UserEntityService;
+import tech.lapsa.insurance.esbd.entities.UserEntityService.UserEntityServiceLocal;
+import tech.lapsa.insurance.esbd.entities.UserEntityService.UserEntityServiceRemote;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyOptionals;
 
 @Stateless
-public class UserEntityServiceBean implements UserEntityService {
+public class UserEntityServiceBean implements UserEntityServiceLocal, UserEntityServiceRemote {
 
     @EJB
-    private BranchEntityService branchService;
+    private BranchEntityServiceLocal branchService;
 
     @EJB
-    private InsuranceCompanyEntityService insuranceCompanyService;
+    private InsuranceCompanyEntityServiceLocal insuranceCompanyService;
 
     @EJB
     private ConnectionPool pool;

@@ -18,23 +18,24 @@ import tech.lapsa.esbd.jaxws.wsimport.Driver;
 import tech.lapsa.esbd.jaxws.wsimport.PoliciesTF;
 import tech.lapsa.esbd.jaxws.wsimport.Policy;
 import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.dict.BranchEntityService;
-import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntityService;
-import tech.lapsa.insurance.esbd.elements.CancelationReasonServiceService;
-import tech.lapsa.insurance.esbd.elements.InsuranceClassTypeService;
-import tech.lapsa.insurance.esbd.elements.InsuredAgeAndExpirienceClassService;
-import tech.lapsa.insurance.esbd.elements.KZAreaService;
-import tech.lapsa.insurance.esbd.elements.MaritalStatusService;
-import tech.lapsa.insurance.esbd.elements.VehicleAgeClassService;
-import tech.lapsa.insurance.esbd.elements.VehicleClassService;
+import tech.lapsa.insurance.esbd.dict.BranchEntityService.BranchEntityServiceLocal;
+import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntityService.InsuranceCompanyEntityServiceLocal;
+import tech.lapsa.insurance.esbd.elements.CancelationReasonService.CancelationReasonServiceLocal;
+import tech.lapsa.insurance.esbd.elements.InsuranceClassTypeService.InsuranceClassTypeServiceLocal;
+import tech.lapsa.insurance.esbd.elements.InsuredAgeAndExpirienceClassService.InsuredAgeAndExpirienceClassServiceLocal;
+import tech.lapsa.insurance.esbd.elements.KZAreaService.KZAreaServiceLocal;
+import tech.lapsa.insurance.esbd.elements.MaritalStatusService.MaritalStatusServiceLocal;
+import tech.lapsa.insurance.esbd.elements.VehicleAgeClassService.VehicleAgeClassServiceLocal;
+import tech.lapsa.insurance.esbd.elements.VehicleClassService.VehicleClassServiceLocal;
 import tech.lapsa.insurance.esbd.entities.InsuredDriverEntity;
 import tech.lapsa.insurance.esbd.entities.InsuredVehicleEntity;
 import tech.lapsa.insurance.esbd.entities.PolicyEntity;
-import tech.lapsa.insurance.esbd.entities.PolicyEntityService;
-import tech.lapsa.insurance.esbd.entities.SubjectEntityService;
-import tech.lapsa.insurance.esbd.entities.SubjectPersonEntityService;
-import tech.lapsa.insurance.esbd.entities.UserEntityService;
-import tech.lapsa.insurance.esbd.entities.VehicleEntityService;
+import tech.lapsa.insurance.esbd.entities.PolicyEntityService.PolicyEntityServiceLocal;
+import tech.lapsa.insurance.esbd.entities.PolicyEntityService.PolicyEntityServiceRemote;
+import tech.lapsa.insurance.esbd.entities.SubjectEntityService.SubjectEntityServiceLocal;
+import tech.lapsa.insurance.esbd.entities.SubjectPersonEntityService.SubjectPersonEntityServiceLocal;
+import tech.lapsa.insurance.esbd.entities.UserEntityService.UserEntityServiceLocal;
+import tech.lapsa.insurance.esbd.entities.VehicleEntityService.VehicleEntityServiceLocal;
 import tech.lapsa.insurance.esbd.infos.DriverLicenseInfo;
 import tech.lapsa.insurance.esbd.infos.GPWParticipantInfo;
 import tech.lapsa.insurance.esbd.infos.InvalidInfo;
@@ -47,46 +48,46 @@ import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.java.commons.function.MyStrings;
 
 @Stateless
-public class PolicyEntityServiceBean implements PolicyEntityService {
+public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, PolicyEntityServiceRemote {
 
     @EJB
-    private InsuranceCompanyEntityService insuranceCompanyService;
+    private InsuranceCompanyEntityServiceLocal insuranceCompanyService;
 
     @EJB
-    private SubjectEntityService subjectService;
+    private SubjectEntityServiceLocal subjectService;
 
     @EJB
-    private CancelationReasonServiceService cancelationReasonTypeService;
+    private CancelationReasonServiceLocal cancelationReasonTypeService;
 
     @EJB
-    private BranchEntityService branchService;
+    private BranchEntityServiceLocal branchService;
 
     @EJB
-    private InsuredAgeAndExpirienceClassService driverExpirienceClassificationService;
+    private InsuredAgeAndExpirienceClassServiceLocal driverExpirienceClassificationService;
 
     @EJB
-    private InsuranceClassTypeService insuranceClassTypeService;
+    private InsuranceClassTypeServiceLocal insuranceClassTypeService;
 
     @EJB
-    private SubjectPersonEntityService subjectPersonService;
+    private SubjectPersonEntityServiceLocal subjectPersonService;
 
     @EJB
-    private MaritalStatusService maritalStatusService;
+    private MaritalStatusServiceLocal maritalStatusService;
 
     @EJB
-    private UserEntityService userService;
+    private UserEntityServiceLocal userService;
 
     @EJB
-    private VehicleEntityService vehicleService;
+    private VehicleEntityServiceLocal vehicleService;
 
     @EJB
-    private VehicleClassService vehicleClassService;
+    private VehicleClassServiceLocal vehicleClassService;
 
     @EJB
-    private VehicleAgeClassService vehicleAgeClassService;
+    private VehicleAgeClassServiceLocal vehicleAgeClassService;
 
     @EJB
-    private KZAreaService countryRegionService;
+    private KZAreaServiceLocal countryRegionService;
 
     @EJB
     private ConnectionPool pool;

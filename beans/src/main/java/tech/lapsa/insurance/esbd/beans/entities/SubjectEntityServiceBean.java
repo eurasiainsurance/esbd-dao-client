@@ -6,22 +6,24 @@ import javax.ejb.Stateless;
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.jaxws.wsimport.Client;
 import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntityService;
+import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntityService.SubjectCompanyEntityServiceLocal;
 import tech.lapsa.insurance.esbd.entities.SubjectEntity;
-import tech.lapsa.insurance.esbd.entities.SubjectEntityService;
-import tech.lapsa.insurance.esbd.entities.SubjectPersonEntityService;
+import tech.lapsa.insurance.esbd.entities.SubjectEntityService.SubjectEntityServiceLocal;
+import tech.lapsa.insurance.esbd.entities.SubjectEntityService.SubjectEntityServiceRemote;
+import tech.lapsa.insurance.esbd.entities.SubjectPersonEntityService.SubjectPersonEntityServiceLocal;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 @Stateless
-public class SubjectEntityServiceBean extends ASubjectEntityService implements SubjectEntityService {
+public class SubjectEntityServiceBean extends ASubjectEntityService
+	implements SubjectEntityServiceLocal, SubjectEntityServiceRemote {
 
     @EJB
-    private SubjectPersonEntityService subjectPersonService;
+    private SubjectPersonEntityServiceLocal subjectPersonService;
 
     @EJB
-    private SubjectCompanyEntityService subjectCompanyService;
+    private SubjectCompanyEntityServiceLocal subjectCompanyService;
 
     @Override
     public SubjectEntity getById(Integer id) throws NotFound {

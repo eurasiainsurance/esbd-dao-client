@@ -4,11 +4,12 @@ import javax.ejb.Singleton;
 
 import tech.lapsa.esbd.jaxws.wsimport.Item;
 import tech.lapsa.insurance.esbd.dict.BranchEntity;
-import tech.lapsa.insurance.esbd.dict.BranchEntityService;
+import tech.lapsa.insurance.esbd.dict.BranchEntityService.BranchEntityServiceLocal;
+import tech.lapsa.insurance.esbd.dict.BranchEntityService.BranchEntityServiceRemote;
 
 @Singleton
 public class BranchEntityServiceBean extends ADictionaryEntityService<BranchEntity, Integer>
-	implements BranchEntityService {
+	implements BranchEntityServiceLocal, BranchEntityServiceRemote {
 
     private static final String DICT_NAME = "BRANCHES";
 

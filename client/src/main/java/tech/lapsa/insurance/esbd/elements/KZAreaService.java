@@ -1,9 +1,17 @@
 package tech.lapsa.insurance.esbd.elements;
 
 import javax.ejb.Local;
+import javax.ejb.Remote;
 
 import com.lapsa.kz.country.KZArea;
 
-@Local
 public interface KZAreaService extends ElementsService<KZArea, Integer> {
+
+    @Local
+    public interface KZAreaServiceLocal extends KZAreaService {
+    }
+
+    @Remote
+    public interface KZAreaServiceRemote extends KZAreaService {
+    }
 }

@@ -4,11 +4,12 @@ import javax.ejb.Stateless;
 
 import tech.lapsa.esbd.jaxws.wsimport.Item;
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
-import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntityService;
+import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntityService.InsuranceCompanyEntityServiceLocal;
+import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntityService.InsuranceCompanyEntityServiceRemote;
 
 @Stateless
 public class InsuranceCompanyEntityServiceBean extends ADictionaryEntityService<InsuranceCompanyEntity, Integer>
-	implements InsuranceCompanyEntityService {
+	implements InsuranceCompanyEntityServiceLocal, InsuranceCompanyEntityServiceRemote {
 
     private static final String DICT_NAME = "INSURANCE_COMPANIES";
 

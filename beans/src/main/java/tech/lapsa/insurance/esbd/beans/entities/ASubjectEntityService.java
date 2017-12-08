@@ -12,9 +12,9 @@ import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfClient;
 import tech.lapsa.esbd.jaxws.wsimport.Client;
 import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.elements.CountryService;
-import tech.lapsa.insurance.esbd.elements.KZCityService;
-import tech.lapsa.insurance.esbd.elements.KZEconomicSectorService;
+import tech.lapsa.insurance.esbd.elements.CountryService.CountryServiceLocal;
+import tech.lapsa.insurance.esbd.elements.KZCityService.KZCityServiceLocal;
+import tech.lapsa.insurance.esbd.elements.KZEconomicSectorService.KZEconomicSectorServiceLocal;
 import tech.lapsa.insurance.esbd.entities.SubjectEntity;
 import tech.lapsa.insurance.esbd.infos.ContactInfo;
 import tech.lapsa.insurance.esbd.infos.OriginInfo;
@@ -24,13 +24,13 @@ import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 public abstract class ASubjectEntityService {
 
     @EJB
-    protected CountryService countryService;
+    protected CountryServiceLocal countryService;
 
     @EJB
-    protected KZEconomicSectorService econimicsSectorService;
+    protected KZEconomicSectorServiceLocal econimicsSectorService;
 
     @EJB
-    protected KZCityService cityService;
+    protected KZCityServiceLocal cityService;
 
     @EJB
     protected ConnectionPool pool;

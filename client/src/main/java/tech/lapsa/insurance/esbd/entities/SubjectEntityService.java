@@ -1,23 +1,22 @@
 package tech.lapsa.insurance.esbd.entities;
 
-import java.util.Optional;
-
 import javax.ejb.Local;
+import javax.ejb.Remote;
 
 import tech.lapsa.insurance.esbd.GeneralService;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
-@Local
 public interface SubjectEntityService extends GeneralService<SubjectEntity, Integer> {
+
+    @Local
+    public interface SubjectEntityServiceLocal extends SubjectEntityService {
+    }
+
+    @Remote
+    public interface SubjectEntityServiceRemote extends SubjectEntityService {
+    }
 
     SubjectEntity getByIdNumber(TaxpayerNumber taxpayerNumber) throws NotFound;
 
-    default Optional<SubjectEntity> optionalByIdNumber(TaxpayerNumber taxpayerNumber) {
-	try {
-	    return Optional.of(getByIdNumber(taxpayerNumber));
-	} catch (NotFound e) {
-	    return Optional.empty();
-	}
-    }
 }

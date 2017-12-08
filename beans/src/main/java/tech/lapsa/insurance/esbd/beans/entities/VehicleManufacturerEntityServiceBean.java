@@ -12,12 +12,14 @@ import tech.lapsa.esbd.jaxws.wsimport.ArrayOfVOITUREMARK;
 import tech.lapsa.esbd.jaxws.wsimport.VOITUREMARK;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntity;
-import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntityService;
+import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceLocal;
+import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceRemote;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyStrings;
 
 @Stateless
-public class VehicleManufacturerEntityServiceBean implements VehicleManufacturerEntityService {
+public class VehicleManufacturerEntityServiceBean
+	implements VehicleManufacturerEntityServiceLocal, VehicleManufacturerEntityServiceRemote {
 
     @EJB
     private ConnectionPool pool;
