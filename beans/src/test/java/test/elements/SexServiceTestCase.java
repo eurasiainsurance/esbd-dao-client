@@ -13,13 +13,13 @@ import com.lapsa.insurance.elements.Sex;
 
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.beans.elements.mapping.SexMapping;
-import tech.lapsa.insurance.esbd.elements.GenderService.GenderServiceLocal;
+import tech.lapsa.insurance.esbd.elements.GenderService;
 import test.ArquillianBaseTestCase;
 
 public class SexServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private GenderServiceLocal service;
+    private GenderService service;
 
     @Test
     public void testGetById() throws NamingException {

@@ -13,13 +13,13 @@ import com.lapsa.kz.country.KZCity;
 
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.beans.elements.mapping.KZCityMapping;
-import tech.lapsa.insurance.esbd.elements.KZCityService.KZCityServiceLocal;
+import tech.lapsa.insurance.esbd.elements.KZCityService;
 import test.ArquillianBaseTestCase;
 
 public class KZCityServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private KZCityServiceLocal service;
+    private KZCityService service;
 
     @Test
     public void testGetById() throws NamingException {

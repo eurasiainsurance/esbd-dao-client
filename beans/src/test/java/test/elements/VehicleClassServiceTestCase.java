@@ -13,13 +13,13 @@ import com.lapsa.insurance.elements.VehicleClass;
 
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.beans.elements.mapping.VehicleClassMapping;
-import tech.lapsa.insurance.esbd.elements.VehicleClassService.VehicleClassServiceLocal;
+import tech.lapsa.insurance.esbd.elements.VehicleClassService;
 import test.ArquillianBaseTestCase;
 
 public class VehicleClassServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private VehicleClassServiceLocal service;
+    private VehicleClassService service;
 
     @Test
     public void testGetById() throws NamingException {

@@ -13,13 +13,13 @@ import com.lapsa.insurance.elements.MaritalStatus;
 
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.beans.elements.mapping.MaritalStatusMapping;
-import tech.lapsa.insurance.esbd.elements.MaritalStatusService.MaritalStatusServiceLocal;
+import tech.lapsa.insurance.esbd.elements.MaritalStatusService;
 import test.ArquillianBaseTestCase;
 
 public class MaritalStatusServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private MaritalStatusServiceLocal service;
+    private MaritalStatusService service;
 
     @Test
     public void testGetById() throws NamingException {
