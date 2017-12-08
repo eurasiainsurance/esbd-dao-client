@@ -8,7 +8,7 @@ import com.lapsa.insurance.elements.CancelationReason;
 public interface CancelationReasonService extends ElementsService<CancelationReason, Integer> {
 
     @Local
-    public static interface CancelationReasonServiceLocal extends CancelationReasonService {
+    public interface CancelationReasonServiceLocal extends CancelationReasonService {
     }
 
     @Remote
