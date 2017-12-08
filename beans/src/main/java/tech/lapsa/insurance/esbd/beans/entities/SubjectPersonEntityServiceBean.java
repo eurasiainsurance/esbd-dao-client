@@ -10,12 +10,13 @@ import javax.ejb.TransactionAttributeType;
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.jaxws.wsimport.Client;
 import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.elements.GenderService;
-import tech.lapsa.insurance.esbd.elements.IdentityCardTypeService;
+import tech.lapsa.insurance.esbd.elements.GenderService.GenderServiceLocal;
+import tech.lapsa.insurance.esbd.elements.IdentityCardTypeService.IdentityCardTypeServiceLocal;
 import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntity;
 import tech.lapsa.insurance.esbd.entities.SubjectEntity;
 import tech.lapsa.insurance.esbd.entities.SubjectPersonEntity;
-import tech.lapsa.insurance.esbd.entities.SubjectPersonEntityService;
+import tech.lapsa.insurance.esbd.entities.SubjectPersonEntityService.SubjectPersonEntityServiceLocal;
+import tech.lapsa.insurance.esbd.entities.SubjectPersonEntityService.SubjectPersonEntityServiceRemote;
 import tech.lapsa.insurance.esbd.infos.IdentityCardInfo;
 import tech.lapsa.insurance.esbd.infos.PersonalInfo;
 import tech.lapsa.java.commons.function.MyNumbers;
@@ -24,13 +25,14 @@ import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 @Stateless
-public class SubjectPersonEntityServiceBean extends ASubjectEntityService implements SubjectPersonEntityService {
+public class SubjectPersonEntityServiceBean extends ASubjectEntityService
+	implements SubjectPersonEntityServiceLocal, SubjectPersonEntityServiceRemote {
 
     @EJB
-    private IdentityCardTypeService identityCardTypeService;
+    private IdentityCardTypeServiceLocal identityCardTypeService;
 
     @EJB
-    private GenderService sexService;
+    private GenderServiceLocal sexService;
 
     @Override
     public SubjectPersonEntity getById(Integer id) throws NotFound {

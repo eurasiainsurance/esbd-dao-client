@@ -2,19 +2,19 @@ package test.entities;
 
 import static test.entities.TestConstants.*;
 
-import javax.inject.Inject;
+import javax.ejb.EJB;
 import javax.naming.NamingException;
 
 import org.junit.Test;
 
 import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.entities.PolicyEntityService;
+import tech.lapsa.insurance.esbd.entities.PolicyEntityService.PolicyEntityServiceLocal;
 import test.ArquillianBaseTestCase;
 
 public class PolicyServiceTestCase extends ArquillianBaseTestCase {
 
-    @Inject
-    private PolicyEntityService service;
+    @EJB
+    private PolicyEntityServiceLocal service;
 
     @Test(expected = NotFound.class)
     public void testGetById_NotFound() throws NamingException, NotFound {

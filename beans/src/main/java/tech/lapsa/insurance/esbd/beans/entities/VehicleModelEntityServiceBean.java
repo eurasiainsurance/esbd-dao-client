@@ -12,9 +12,10 @@ import tech.lapsa.esbd.jaxws.wsimport.ArrayOfVOITUREMODEL;
 import tech.lapsa.esbd.jaxws.wsimport.VOITUREMODEL;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntity;
-import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntityService;
+import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceLocal;
 import tech.lapsa.insurance.esbd.entities.VehicleModelEntity;
-import tech.lapsa.insurance.esbd.entities.VehicleModelEntityService;
+import tech.lapsa.insurance.esbd.entities.VehicleModelEntityService.VehicleModelEntityServiceLocal;
+import tech.lapsa.insurance.esbd.entities.VehicleModelEntityService.VehicleModelEntityServiceRemote;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
@@ -22,10 +23,10 @@ import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.java.commons.function.MyStrings;
 
 @Stateless
-public class VehicleModelEntityServiceBean implements VehicleModelEntityService {
+public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceLocal, VehicleModelEntityServiceRemote {
 
     @EJB
-    private VehicleManufacturerEntityService vehicleManufacturerService;
+    private VehicleManufacturerEntityServiceLocal vehicleManufacturerService;
 
     @EJB
     private ConnectionPool pool;

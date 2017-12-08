@@ -17,6 +17,7 @@
 	<modules>
 		<module>client</module>
 		<module>beans</module>
+		<module>ear</module>
 	</modules>
 
 	<properties>
@@ -81,6 +82,12 @@
 				<artifactId>insurance-esbd</artifactId>
 				<version>${project.version}</version>
 				<type>ejb</type>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>insurance-esbd-ear</artifactId>
+				<version>${project.version}</version>
+				<type>ear</type>
 			</dependency>
 			<!-- oldies -->
 			<dependency>

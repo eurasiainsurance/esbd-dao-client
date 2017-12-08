@@ -13,13 +13,13 @@ import com.lapsa.kz.economic.KZEconomicSector;
 
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.beans.elements.mapping.KZEconomicSectorMapping;
-import tech.lapsa.insurance.esbd.elements.KZEconomicSectorService;
+import tech.lapsa.insurance.esbd.elements.KZEconomicSectorService.KZEconomicSectorServiceLocal;
 import test.ArquillianBaseTestCase;
 
 public class EconomicsSectorServiceTestCase extends ArquillianBaseTestCase {
 
     @Inject
-    private KZEconomicSectorService service;
+    private KZEconomicSectorServiceLocal service;
 
     @Test
     public void testGetById() throws NamingException {

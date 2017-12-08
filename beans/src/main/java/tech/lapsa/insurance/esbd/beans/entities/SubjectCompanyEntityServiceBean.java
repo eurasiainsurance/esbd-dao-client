@@ -6,9 +6,10 @@ import javax.ejb.Stateless;
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.jaxws.wsimport.Client;
 import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntityService;
+import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntityService.CompanyActivityKindEntityServiceLocal;
 import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntity;
-import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntityService;
+import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntityService.SubjectCompanyEntityServiceLocal;
+import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntityService.SubjectCompanyEntityServiceRemote;
 import tech.lapsa.insurance.esbd.entities.SubjectEntity;
 import tech.lapsa.insurance.esbd.entities.SubjectPersonEntity;
 import tech.lapsa.java.commons.function.MyNumbers;
@@ -17,10 +18,11 @@ import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 @Stateless
-public class SubjectCompanyEntityServiceBean extends ASubjectEntityService implements SubjectCompanyEntityService {
+public class SubjectCompanyEntityServiceBean extends ASubjectEntityService
+	implements SubjectCompanyEntityServiceLocal, SubjectCompanyEntityServiceRemote {
 
     @EJB
-    private CompanyActivityKindEntityService companyActivityKindService;
+    private CompanyActivityKindEntityServiceLocal companyActivityKindService;
 
     @Override
     public SubjectCompanyEntity getById(Integer id) throws NotFound {
