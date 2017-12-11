@@ -2,12 +2,12 @@ package tech.lapsa.insurance.esbd.infos;
 
 import java.time.LocalDate;
 
+import tech.lapsa.insurance.esbd.Domain;
 import tech.lapsa.insurance.esbd.entities.UserEntity;
-import tech.lapsa.patterns.domain.Pojo;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(83)
-public class RecordOperationInfo extends Pojo {
+public class RecordOperationInfo extends Domain {
 
     private static final long serialVersionUID = 1L;
 

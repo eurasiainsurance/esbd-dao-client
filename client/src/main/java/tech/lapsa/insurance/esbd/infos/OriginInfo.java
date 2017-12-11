@@ -3,7 +3,7 @@ package tech.lapsa.insurance.esbd.infos;
 import com.lapsa.international.country.Country;
 import com.lapsa.kz.country.KZCity;
 
-import tech.lapsa.patterns.domain.Pojo;
+import tech.lapsa.insurance.esbd.Domain;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 /**
@@ -13,7 +13,7 @@ import tech.lapsa.patterns.domain.HashCodePrime;
  *
  */
 @HashCodePrime(67)
-public class OriginInfo extends Pojo {
+public class OriginInfo extends Domain {
 
     private static final long serialVersionUID = 1L;
 

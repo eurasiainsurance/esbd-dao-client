@@ -4,11 +4,11 @@ import java.util.Calendar;
 
 import com.lapsa.kz.country.KZArea;
 
-import tech.lapsa.patterns.domain.Pojo;
+import tech.lapsa.insurance.esbd.Domain;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(89)
-public class VehicleCertificateInfo extends Pojo {
+public class VehicleCertificateInfo extends Domain {
 
     private static final long serialVersionUID = 1L;
 
