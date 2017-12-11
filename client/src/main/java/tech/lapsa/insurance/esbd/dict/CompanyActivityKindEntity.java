@@ -1,10 +1,10 @@
 package tech.lapsa.insurance.esbd.dict;
 
-import tech.lapsa.insurance.esbd.Pojo;
+import tech.lapsa.insurance.esbd.Domain;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(5)
-public class CompanyActivityKindEntity extends Pojo implements DictionaryEntity<Integer> {
+public class CompanyActivityKindEntity extends Domain implements DictionaryEntity<Integer> {
 
     private static final long serialVersionUID = 1L;
 

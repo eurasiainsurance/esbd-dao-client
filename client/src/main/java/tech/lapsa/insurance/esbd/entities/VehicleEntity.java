@@ -5,11 +5,11 @@ import java.time.LocalDate;
 import com.lapsa.insurance.elements.SteeringWheelLocation;
 import com.lapsa.insurance.elements.VehicleClass;
 
-import tech.lapsa.insurance.esbd.Pojo;
+import tech.lapsa.insurance.esbd.Domain;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(31)
-public class VehicleEntity extends Pojo {
+public class VehicleEntity extends Domain {
 
     private static final long serialVersionUID = 1L;
 

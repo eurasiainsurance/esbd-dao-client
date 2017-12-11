@@ -4,11 +4,11 @@ import java.util.Calendar;
 
 import com.lapsa.insurance.elements.IdentityCardType;
 
-import tech.lapsa.insurance.esbd.Pojo;
+import tech.lapsa.insurance.esbd.Domain;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(59)
-public class IdentityCardInfo extends Pojo {
+public class IdentityCardInfo extends Domain {
 
     private static final long serialVersionUID = 1L;
 

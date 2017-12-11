@@ -6,7 +6,7 @@ import com.lapsa.insurance.elements.InsuredAgeClass;
 import com.lapsa.insurance.elements.InsuredExpirienceClass;
 import com.lapsa.insurance.elements.MaritalStatus;
 
-import tech.lapsa.insurance.esbd.Pojo;
+import tech.lapsa.insurance.esbd.Domain;
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
 import tech.lapsa.insurance.esbd.infos.DriverLicenseInfo;
 import tech.lapsa.insurance.esbd.infos.GPWParticipantInfo;
@@ -17,7 +17,7 @@ import tech.lapsa.insurance.esbd.infos.RecordOperationInfo;
 import tech.lapsa.patterns.domain.HashCodeMultiplier;
 
 @HashCodeMultiplier(11)
-public class InsuredDriverEntity extends Pojo {
+public class InsuredDriverEntity extends Domain {
 
     private static final long serialVersionUID = 1L;
 

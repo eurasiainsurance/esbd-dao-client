@@ -1,10 +1,10 @@
 package tech.lapsa.insurance.esbd.entities;
 
-import tech.lapsa.insurance.esbd.Pojo;
+import tech.lapsa.insurance.esbd.Domain;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(37)
-public class VehicleManufacturerEntity extends Pojo {
+public class VehicleManufacturerEntity extends Domain {
 
     private static final long serialVersionUID = 1L;
 

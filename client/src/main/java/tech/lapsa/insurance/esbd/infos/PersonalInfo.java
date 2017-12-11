@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import com.lapsa.insurance.elements.Sex;
 
-import tech.lapsa.insurance.esbd.Pojo;
+import tech.lapsa.insurance.esbd.Domain;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 /**
@@ -15,7 +15,7 @@ import tech.lapsa.patterns.domain.HashCodePrime;
  *
  */
 @HashCodePrime(73)
-public class PersonalInfo extends Pojo {
+public class PersonalInfo extends Domain {
 
     private static final long serialVersionUID = 1L;
 

@@ -6,14 +6,14 @@ import java.util.List;
 
 import com.lapsa.insurance.elements.CancelationReason;
 
-import tech.lapsa.insurance.esbd.Pojo;
+import tech.lapsa.insurance.esbd.Domain;
 import tech.lapsa.insurance.esbd.dict.BranchEntity;
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
 import tech.lapsa.insurance.esbd.infos.RecordOperationInfo;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(17)
-public class PolicyEntity extends Pojo {
+public class PolicyEntity extends Domain {
 
     private static final long serialVersionUID = 1L;
 
