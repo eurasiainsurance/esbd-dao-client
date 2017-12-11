@@ -2,7 +2,7 @@ package tech.lapsa.insurance.esbd.infos;
 
 import com.lapsa.international.phone.PhoneNumber;
 
-import tech.lapsa.patterns.domain.Pojo;
+import tech.lapsa.insurance.esbd.Pojo;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 /**

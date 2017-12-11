@@ -6,6 +6,7 @@ import com.lapsa.insurance.elements.InsuredAgeClass;
 import com.lapsa.insurance.elements.InsuredExpirienceClass;
 import com.lapsa.insurance.elements.MaritalStatus;
 
+import tech.lapsa.insurance.esbd.Pojo;
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
 import tech.lapsa.insurance.esbd.infos.DriverLicenseInfo;
 import tech.lapsa.insurance.esbd.infos.GPWParticipantInfo;
@@ -14,7 +15,6 @@ import tech.lapsa.insurance.esbd.infos.PensionerInfo;
 import tech.lapsa.insurance.esbd.infos.PrivilegerInfo;
 import tech.lapsa.insurance.esbd.infos.RecordOperationInfo;
 import tech.lapsa.patterns.domain.HashCodeMultiplier;
-import tech.lapsa.patterns.domain.Pojo;
 
 @HashCodeMultiplier(11)
 public class InsuredDriverEntity extends Pojo {

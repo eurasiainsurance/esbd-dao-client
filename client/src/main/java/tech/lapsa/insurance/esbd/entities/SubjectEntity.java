@@ -3,9 +3,9 @@ package tech.lapsa.insurance.esbd.entities;
 import com.lapsa.insurance.elements.SubjectType;
 import com.lapsa.kz.economic.KZEconomicSector;
 
+import tech.lapsa.insurance.esbd.Pojo;
 import tech.lapsa.insurance.esbd.infos.ContactInfo;
 import tech.lapsa.insurance.esbd.infos.OriginInfo;
-import tech.lapsa.patterns.domain.Pojo;
 
 /**
  * Абстрактный класс для представления лица

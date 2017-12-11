@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 import com.lapsa.insurance.elements.IdentityCardType;
 
-import tech.lapsa.patterns.domain.Pojo;
+import tech.lapsa.insurance.esbd.Pojo;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(59)

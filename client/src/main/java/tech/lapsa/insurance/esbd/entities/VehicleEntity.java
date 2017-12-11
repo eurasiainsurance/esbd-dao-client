@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import com.lapsa.insurance.elements.SteeringWheelLocation;
 import com.lapsa.insurance.elements.VehicleClass;
 
-import tech.lapsa.patterns.domain.Pojo;
+import tech.lapsa.insurance.esbd.Pojo;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(31)

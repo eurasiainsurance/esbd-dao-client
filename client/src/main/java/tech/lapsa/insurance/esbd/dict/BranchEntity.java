@@ -1,7 +1,7 @@
 package tech.lapsa.insurance.esbd.dict;
 
+import tech.lapsa.insurance.esbd.Pojo;
 import tech.lapsa.patterns.domain.HashCodePrime;
-import tech.lapsa.patterns.domain.Pojo;
 
 @HashCodePrime(3)
 public class BranchEntity extends Pojo implements DictionaryEntity<Integer> {

@@ -3,10 +3,10 @@ package tech.lapsa.insurance.esbd.entities;
 import com.lapsa.insurance.elements.VehicleAgeClass;
 import com.lapsa.insurance.elements.VehicleClass;
 
+import tech.lapsa.insurance.esbd.Pojo;
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
 import tech.lapsa.insurance.esbd.infos.RecordOperationInfo;
 import tech.lapsa.insurance.esbd.infos.VehicleCertificateInfo;
-import tech.lapsa.patterns.domain.Pojo;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(13)

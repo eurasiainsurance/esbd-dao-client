@@ -3,7 +3,7 @@ package tech.lapsa.insurance.esbd.infos;
 import com.lapsa.international.country.Country;
 import com.lapsa.kz.country.KZCity;
 
-import tech.lapsa.patterns.domain.Pojo;
+import tech.lapsa.insurance.esbd.Pojo;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 /**

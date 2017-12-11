@@ -1,8 +1,8 @@
 package tech.lapsa.insurance.esbd.entities;
 
+import tech.lapsa.insurance.esbd.Pojo;
 import tech.lapsa.insurance.esbd.dict.BranchEntity;
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
-import tech.lapsa.patterns.domain.Pojo;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(29)

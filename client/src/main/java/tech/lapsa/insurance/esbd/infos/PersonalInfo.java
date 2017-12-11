@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import com.lapsa.insurance.elements.Sex;
 
-import tech.lapsa.patterns.domain.Pojo;
+import tech.lapsa.insurance.esbd.Pojo;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 /**

@@ -6,10 +6,10 @@ import java.util.List;
 
 import com.lapsa.insurance.elements.CancelationReason;
 
+import tech.lapsa.insurance.esbd.Pojo;
 import tech.lapsa.insurance.esbd.dict.BranchEntity;
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
 import tech.lapsa.insurance.esbd.infos.RecordOperationInfo;
-import tech.lapsa.patterns.domain.Pojo;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(17)
