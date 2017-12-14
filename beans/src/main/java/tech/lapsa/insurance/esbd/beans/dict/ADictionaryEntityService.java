@@ -13,6 +13,7 @@ import tech.lapsa.esbd.jaxws.wsimport.Item;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.dict.DictionaryEntity;
 import tech.lapsa.insurance.esbd.dict.DictionaryEntityService;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyOptionals;
@@ -23,7 +24,7 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity<I>, I 
     private final String dictionaryName;
     private final Function<Item, T> converter;
 
-    ADictionaryEntityService(String dictionaryName, Function<Item, T> converter) {
+    ADictionaryEntityService(final String dictionaryName, final Function<Item, T> converter) {
 	this.dictionaryName = dictionaryName;
 	this.converter = converter;
     }
@@ -40,8 +41,8 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity<I>, I 
     }
 
     @Override
-    public T getById(I id) throws NotFound {
-	MyNumbers.requireNonZero(id, "id");
+    public T getById(final I id) throws IllegalArgument, NotFound {
+	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
 	return getAll().stream() //
 		.filter(x -> MyNumbers.numbericEquals(id, x.getId())) //
 		.findFirst()
@@ -52,7 +53,7 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity<I>, I 
 
     private List<T> getAllFromESBD() {
 	try (Connection con = pool.getConnection()) {
-	    ArrayOfItem items = con.getItems(dictionaryName);
+	    final ArrayOfItem items = con.getItems(dictionaryName);
 	    if (items == null)
 		return Collections.unmodifiableList(Collections.emptyList());
 	    return items.getItem().stream() //

@@ -53,7 +53,7 @@ public class VehicleEntity extends Domain {
 	return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(final Integer id) {
 	this.id = id;
     }
 
@@ -61,7 +61,7 @@ public class VehicleEntity extends Domain {
 	return vehicleClass;
     }
 
-    public void setVehicleClass(VehicleClass vehicleClass) {
+    public void setVehicleClass(final VehicleClass vehicleClass) {
 	this.vehicleClass = vehicleClass;
     }
 
@@ -69,7 +69,7 @@ public class VehicleEntity extends Domain {
 	return vinCode;
     }
 
-    public void setVinCode(String vinCode) {
+    public void setVinCode(final String vinCode) {
 	this.vinCode = vinCode;
     }
 
@@ -77,7 +77,7 @@ public class VehicleEntity extends Domain {
 	return vehicleModel;
     }
 
-    public void setVehicleModel(VehicleModelEntity vehicleModel) {
+    public void setVehicleModel(final VehicleModelEntity vehicleModel) {
 	this.vehicleModel = vehicleModel;
     }
 
@@ -85,7 +85,7 @@ public class VehicleEntity extends Domain {
 	return steeringWheelLocation;
     }
 
-    public void setSteeringWheelLocation(SteeringWheelLocation steeringWheelLocation) {
+    public void setSteeringWheelLocation(final SteeringWheelLocation steeringWheelLocation) {
 	this.steeringWheelLocation = steeringWheelLocation;
     }
 
@@ -93,7 +93,7 @@ public class VehicleEntity extends Domain {
 	return engineVolume;
     }
 
-    public void setEngineVolume(int engineVolume) {
+    public void setEngineVolume(final int engineVolume) {
 	this.engineVolume = engineVolume;
     }
 
@@ -101,7 +101,7 @@ public class VehicleEntity extends Domain {
 	return enineNumber;
     }
 
-    public void setEnineNumber(String enineNumber) {
+    public void setEnineNumber(final String enineNumber) {
 	this.enineNumber = enineNumber;
     }
 
@@ -109,7 +109,7 @@ public class VehicleEntity extends Domain {
 	return enginePower;
     }
 
-    public void setEnginePower(int enginePower) {
+    public void setEnginePower(final int enginePower) {
 	this.enginePower = enginePower;
     }
 
@@ -117,7 +117,7 @@ public class VehicleEntity extends Domain {
 	return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(final String color) {
 	this.color = color;
     }
 
@@ -125,11 +125,11 @@ public class VehicleEntity extends Domain {
 	return realeaseDate;
     }
 
-    public void setRealeaseDate(LocalDate realeaseDate) {
+    public void setRealeaseDate(final LocalDate realeaseDate) {
 	this.realeaseDate = realeaseDate;
     }
 
-    public void setRegNum(String regNum) {
+    public void setRegNum(final String regNum) {
 	this.regNum = regNum;
     }
 

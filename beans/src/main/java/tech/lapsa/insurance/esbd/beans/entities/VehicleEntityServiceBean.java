@@ -20,6 +20,7 @@ import tech.lapsa.insurance.esbd.entities.VehicleEntity;
 import tech.lapsa.insurance.esbd.entities.VehicleEntityService.VehicleEntityServiceLocal;
 import tech.lapsa.insurance.esbd.entities.VehicleEntityService.VehicleEntityServiceRemote;
 import tech.lapsa.insurance.esbd.entities.VehicleModelEntityService.VehicleModelEntityServiceLocal;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
@@ -40,12 +41,12 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
     private ConnectionPool pool;
 
     @Override
-    public List<VehicleEntity> getByRegNumber(VehicleRegNumber regNumber) {
-	MyObjects.requireNonNull(regNumber, "regNumber"); //
-	VehicleRegNumber.requireValid(regNumber);
+    public List<VehicleEntity> getByRegNumber(final VehicleRegNumber regNumber) throws IllegalArgument {
+	MyObjects.requireNonNull(IllegalArgument::new, regNumber, "regNumber"); //
+	VehicleRegNumber.requireValid(IllegalArgument::new, regNumber);
 
 	try (Connection con = pool.getConnection()) {
-	    ArrayOfTF vehicles = con.getTFByNumber(regNumber.getNumber());
+	    final ArrayOfTF vehicles = con.getTFByNumber(regNumber.getNumber());
 	    return MyOptionals.of(vehicles) //
 		    .map(ArrayOfTF::getTF) //
 		    .map(Collection::stream) //
@@ -57,12 +58,12 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
     }
 
     @Override
-    public VehicleEntity getById(Integer id) throws NotFound {
-	MyNumbers.requireNonZero(id, "id");
+    public VehicleEntity getById(final Integer id) throws NotFound, IllegalArgument {
+	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
 	try (Connection con = pool.getConnection()) {
-	    TF tf = new TF();
+	    final TF tf = new TF();
 	    tf.setTFID(new Long(id).intValue());
-	    ArrayOfTF vehicles = con.getTFByKeyFields(tf);
+	    final ArrayOfTF vehicles = con.getTFByKeyFields(tf);
 	    if (vehicles == null || vehicles.getTF() == null || vehicles.getTF().isEmpty())
 		throw new NotFound(VehicleEntity.class.getSimpleName() + " not found with ID = '" + id + "'");
 	    if (vehicles.getTF().size() > 1)
@@ -73,10 +74,10 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
     }
 
     @Override
-    public List<VehicleEntity> getByVINCode(String vinCode) {
-	MyStrings.requireNonEmpty(vinCode, "vinCode");
+    public List<VehicleEntity> getByVINCode(final String vinCode) throws IllegalArgument {
+	MyStrings.requireNonEmpty(IllegalArgument::new, vinCode, "vinCode");
 	try (Connection con = pool.getConnection()) {
-	    ArrayOfTF vehicles = con.getTFByVIN(vinCode);
+	    final ArrayOfTF vehicles = con.getTFByVIN(vinCode);
 	    return MyOptionals.of(vehicles) //
 		    .map(ArrayOfTF::getTF) //
 		    .map(Collection::stream) //
@@ -86,13 +87,13 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
 	}
     }
 
-    VehicleEntity convert(TF source) {
-	VehicleEntity target = new VehicleEntity();
+    VehicleEntity convert(final TF source) {
+	final VehicleEntity target = new VehicleEntity();
 	fillValues(source, target);
 	return target;
     }
 
-    void fillValues(TF source, VehicleEntity target) {
+    void fillValues(final TF source, final VehicleEntity target) {
 
 	// TF_ID s:int Идентификатор ТС
 	target.setId(source.getTFID());
@@ -109,7 +110,7 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
 	// MODEL_ID s:int Марка\Модель (справочник VOITURE_MODELS) (обязательно)
 	try {
 	    target.setVehicleModel(vehicleModelService.getById(source.getMODELID()));
-	} catch (NotFound e) {
+	} catch (NotFound | IllegalArgument e) {
 	    // mandatory field
 	    throw new DataCoruptionException("Error while fetching Vehicle ID = '" + source.getTFID()
 		    + "' from ESBD. VehicleModel ID = '" + source.getMODELID() + "' not found", e);
@@ -135,20 +136,20 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
 	// BORN s:string Год выпуска (обязательно)
 	// BORN_MONTH s:int Месяц выпуска ТС
 	{
-	    LocalDate date = fromESBDYearMonth(source.getBORN(), source.getBORNMONTH());
+	    final LocalDate date = fromESBDYearMonth(source.getBORN(), source.getBORNMONTH());
 	    target.setRealeaseDate(date);
 	}
     }
 
-    private LocalDate fromESBDYearMonth(String yearS, int month) {
+    private LocalDate fromESBDYearMonth(final String yearS, final int month) {
 	try {
-	    int year = Integer.parseInt(yearS);
+	    final int year = Integer.parseInt(yearS);
 	    if (year < 1000 || year > 9999)
 		return null;
 	    if (month == 0)
 		return null;
 	    return LocalDate.of(year, month, 1);
-	} catch (NumberFormatException e) {
+	} catch (final NumberFormatException e) {
 	    return null;
 	}
     }

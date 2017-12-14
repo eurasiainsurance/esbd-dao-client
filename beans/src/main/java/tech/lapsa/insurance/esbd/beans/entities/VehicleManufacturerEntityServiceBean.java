@@ -14,6 +14,7 @@ import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntity;
 import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceLocal;
 import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceRemote;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyStrings;
 
@@ -25,12 +26,12 @@ public class VehicleManufacturerEntityServiceBean
     private ConnectionPool pool;
 
     @Override
-    public VehicleManufacturerEntity getById(Integer id) throws NotFound {
-	MyNumbers.requireNonZero(id, "id");
+    public VehicleManufacturerEntity getById(final Integer id) throws NotFound, IllegalArgument {
+	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
 	try (Connection con = pool.getConnection()) {
-	    VOITUREMARK m = new VOITUREMARK();
+	    final VOITUREMARK m = new VOITUREMARK();
 	    m.setID(new Long(id).intValue());
-	    ArrayOfVOITUREMARK manufacturers = con.getVoitureMarks(m);
+	    final ArrayOfVOITUREMARK manufacturers = con.getVoitureMarks(m);
 	    if (manufacturers == null || manufacturers.getVOITUREMARK() == null
 		    || manufacturers.getVOITUREMARK().isEmpty())
 		throw new NotFound(
@@ -44,18 +45,18 @@ public class VehicleManufacturerEntityServiceBean
     }
 
     @Override
-    public List<VehicleManufacturerEntity> getByName(String name) {
-	MyStrings.requireNonEmpty(name, "name");
+    public List<VehicleManufacturerEntity> getByName(final String name) throws IllegalArgument {
+	MyStrings.requireNonEmpty(IllegalArgument::new, name, "name");
 	try (Connection con = pool.getConnection()) {
-	    List<VehicleManufacturerEntity> res = new ArrayList<>();
-	    VOITUREMARK m = new VOITUREMARK();
+	    final List<VehicleManufacturerEntity> res = new ArrayList<>();
+	    final VOITUREMARK m = new VOITUREMARK();
 	    m.setNAME(name);
-	    ArrayOfVOITUREMARK manufacturers = con.getVoitureMarks(m);
+	    final ArrayOfVOITUREMARK manufacturers = con.getVoitureMarks(m);
 	    if (manufacturers == null || manufacturers.getVOITUREMARK() == null
 		    || manufacturers.getVOITUREMARK().isEmpty())
 		return res;
-	    for (VOITUREMARK source : manufacturers.getVOITUREMARK()) {
-		VehicleManufacturerEntity e = new VehicleManufacturerEntity();
+	    for (final VOITUREMARK source : manufacturers.getVOITUREMARK()) {
+		final VehicleManufacturerEntity e = new VehicleManufacturerEntity();
 		fillValues(source, e);
 		res.add(e);
 	    }
@@ -63,13 +64,13 @@ public class VehicleManufacturerEntityServiceBean
 	}
     }
 
-    VehicleManufacturerEntity convert(VOITUREMARK source) {
-	VehicleManufacturerEntity manufacturer = new VehicleManufacturerEntity();
+    VehicleManufacturerEntity convert(final VOITUREMARK source) {
+	final VehicleManufacturerEntity manufacturer = new VehicleManufacturerEntity();
 	fillValues(source, manufacturer);
 	return manufacturer;
     }
 
-    void fillValues(VOITUREMARK source, VehicleManufacturerEntity target) {
+    void fillValues(final VOITUREMARK source, final VehicleManufacturerEntity target) {
 	target.setId(source.getID());
 	target.setName(source.getNAME());
 	target.setForeign(source.getISFOREIGNBOOL() != 0);

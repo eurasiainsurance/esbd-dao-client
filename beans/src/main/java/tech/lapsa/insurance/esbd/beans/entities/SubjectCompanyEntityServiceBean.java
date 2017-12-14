@@ -10,8 +10,8 @@ import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntityService.CompanyAc
 import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntity;
 import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntityService.SubjectCompanyEntityServiceLocal;
 import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntityService.SubjectCompanyEntityServiceRemote;
-import tech.lapsa.insurance.esbd.entities.SubjectEntity;
 import tech.lapsa.insurance.esbd.entities.SubjectPersonEntity;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyOptionals;
@@ -25,13 +25,13 @@ public class SubjectCompanyEntityServiceBean extends ASubjectEntityService
     private CompanyActivityKindEntityServiceLocal companyActivityKindService;
 
     @Override
-    public SubjectCompanyEntity getById(Integer id) throws NotFound {
-	MyNumbers.requireNonZero(id, "id");
+    public SubjectCompanyEntity getById(final Integer id) throws NotFound, IllegalArgument {
+	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
 	try (Connection con = pool.getConnection()) {
-	    Client source = con.getClientByID(id.intValue());
+	    final Client source = con.getClientByID(id.intValue());
 	    if (source == null)
 		throw new NotFound(SubjectCompanyEntity.class.getSimpleName() + " not found with ID = '" + id + "'");
-	    boolean isNotPerson = source.getNaturalPersonBool() == 0;
+	    final boolean isNotPerson = source.getNaturalPersonBool() == 0;
 	    if (!isNotPerson)
 		throw new NotFound(SubjectCompanyEntity.class.getSimpleName() + " not found with ID = '" + id
 			+ "'. It was a " + SubjectPersonEntity.class.getName());
@@ -40,16 +40,16 @@ public class SubjectCompanyEntityServiceBean extends ASubjectEntityService
     }
 
     @Override
-    public SubjectCompanyEntity getByBIN(TaxpayerNumber taxpayerNumber) throws NotFound {
-	MyObjects.requireNonNull(taxpayerNumber, "taxpayerNumber"); //
-	TaxpayerNumber.requireValid(taxpayerNumber);
+    public SubjectCompanyEntity getByBIN(final TaxpayerNumber taxpayerNumber) throws NotFound, IllegalArgument {
+	MyObjects.requireNonNull(IllegalArgument::new, taxpayerNumber, "taxpayerNumber"); //
+	TaxpayerNumber.requireValid(IllegalArgument::new, taxpayerNumber);
 
-	Client source = fetchClientByIdNumber(taxpayerNumber, false, true);
+	final Client source = fetchClientByIdNumber(taxpayerNumber, false, true);
 	if (source == null)
 	    throw new NotFound(
 		    SubjectCompanyEntity.class.getSimpleName() + " not found with 'bin' = '"
 			    + taxpayerNumber.getNumber() + "'");
-	boolean isNotPerson = source.getNaturalPersonBool() == 0;
+	final boolean isNotPerson = source.getNaturalPersonBool() == 0;
 	if (!isNotPerson)
 	    throw new NotFound(SubjectCompanyEntity.class.getSimpleName() + " not found with 'bin' = '"
 		    + taxpayerNumber.getNumber()
@@ -57,14 +57,14 @@ public class SubjectCompanyEntityServiceBean extends ASubjectEntityService
 	return convert(source);
     }
 
-    protected SubjectCompanyEntity convert(Client source) {
-	SubjectCompanyEntity target = new SubjectCompanyEntity();
+    protected SubjectCompanyEntity convert(final Client source) {
+	final SubjectCompanyEntity target = new SubjectCompanyEntity();
 	fillValues(source, target);
 	return target;
     }
 
-    protected void fillValues(Client source, SubjectCompanyEntity target) {
-	super.fillValues(source, (SubjectEntity) target);
+    protected void fillValues(final Client source, final SubjectCompanyEntity target) {
+	super.fillValues(source, target);
 
 	// Juridical_Person_Name s:string Наименование (для юр. лица)
 	target.setCompanyName(source.getJuridicalPersonName());

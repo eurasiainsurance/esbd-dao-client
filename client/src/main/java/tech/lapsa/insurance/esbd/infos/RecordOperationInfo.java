@@ -20,7 +20,7 @@ public class RecordOperationInfo extends Domain {
 	return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(final LocalDate date) {
 	this.date = date;
     }
 
@@ -28,7 +28,7 @@ public class RecordOperationInfo extends Domain {
 	return author;
     }
 
-    public void setAuthor(UserEntity author) {
+    public void setAuthor(final UserEntity author) {
 	this.author = author;
     }
 

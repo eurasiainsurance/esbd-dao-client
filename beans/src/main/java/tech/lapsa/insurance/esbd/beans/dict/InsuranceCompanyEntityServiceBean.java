@@ -17,8 +17,8 @@ public class InsuranceCompanyEntityServiceBean extends ADictionaryEntityService<
 	super(DICT_NAME, InsuranceCompanyEntityServiceBean::convert);
     }
 
-    private static InsuranceCompanyEntity convert(Item source) {
-	InsuranceCompanyEntity target = new InsuranceCompanyEntity();
+    private static InsuranceCompanyEntity convert(final Item source) {
+	final InsuranceCompanyEntity target = new InsuranceCompanyEntity();
 	target.setId(source.getID());
 	target.setCode(source.getCode());
 	target.setName(source.getName());

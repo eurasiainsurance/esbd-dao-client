@@ -2,26 +2,21 @@ package tech.lapsa.insurance.esbd.beans.entities;
 
 public class DataCoruptionException extends RuntimeException {
 
-    private static final long serialVersionUID = -1449421927808662699L;
+    private static final long serialVersionUID = 1L;
 
     public DataCoruptionException() {
 	super();
     }
 
-    public DataCoruptionException(String message, Throwable cause, boolean enableSuppression,
-	    boolean writableStackTrace) {
-	super(message, cause, enableSuppression, writableStackTrace);
-    }
-
-    public DataCoruptionException(String message, Throwable cause) {
+    public DataCoruptionException(final String message, final Throwable cause) {
 	super(message, cause);
     }
 
-    public DataCoruptionException(String message) {
+    public DataCoruptionException(final String message) {
 	super(message);
     }
 
-    public DataCoruptionException(Throwable cause) {
+    public DataCoruptionException(final Throwable cause) {
 	super(cause);
     }
 

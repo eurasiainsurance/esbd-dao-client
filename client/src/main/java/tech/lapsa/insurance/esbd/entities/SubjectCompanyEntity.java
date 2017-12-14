@@ -7,7 +7,7 @@ import tech.lapsa.patterns.domain.HashCodePrime;
 
 /**
  * Класс для представления субъекта - юридического лица (компания)
- * 
+ *
  * @author vadim.isaev
  *
  */
@@ -40,7 +40,7 @@ public class SubjectCompanyEntity extends SubjectEntity {
 	return companyName;
     }
 
-    public void setCompanyName(String companyName) {
+    public void setCompanyName(final String companyName) {
 	this.companyName = companyName;
     }
 
@@ -48,7 +48,7 @@ public class SubjectCompanyEntity extends SubjectEntity {
 	return headName;
     }
 
-    public void setHeadName(String headName) {
+    public void setHeadName(final String headName) {
 	this.headName = headName;
     }
 
@@ -56,7 +56,7 @@ public class SubjectCompanyEntity extends SubjectEntity {
 	return accountantName;
     }
 
-    public void setAccountantName(String accountantName) {
+    public void setAccountantName(final String accountantName) {
 	this.accountantName = accountantName;
     }
 
@@ -64,7 +64,7 @@ public class SubjectCompanyEntity extends SubjectEntity {
 	return companyActivityKindId;
     }
 
-    public void setCompanyActivityKindId(long companyActivityKindId) {
+    public void setCompanyActivityKindId(final long companyActivityKindId) {
 	this.companyActivityKindId = companyActivityKindId;
     }
 
@@ -72,7 +72,7 @@ public class SubjectCompanyEntity extends SubjectEntity {
 	return companyActivityKind;
     }
 
-    public void setCompanyActivityKind(CompanyActivityKindEntity companyActivityKind) {
+    public void setCompanyActivityKind(final CompanyActivityKindEntity companyActivityKind) {
 	this.companyActivityKind = companyActivityKind;
     }
 }

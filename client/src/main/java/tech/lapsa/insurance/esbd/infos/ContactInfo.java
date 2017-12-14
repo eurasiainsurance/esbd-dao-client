@@ -7,7 +7,7 @@ import tech.lapsa.patterns.domain.HashCodePrime;
 
 /**
  * Класс для представления контактных данных
- * 
+ *
  * @author vadim.isaev
  *
  */
@@ -34,7 +34,7 @@ public class ContactInfo extends Domain {
 	return phone;
     }
 
-    public void setPhone(PhoneNumber phone) {
+    public void setPhone(final PhoneNumber phone) {
 	this.phone = phone;
     }
 
@@ -42,7 +42,7 @@ public class ContactInfo extends Domain {
 	return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
 	this.email = email;
     }
 
@@ -50,15 +50,15 @@ public class ContactInfo extends Domain {
 	return homeAdress;
     }
 
-    public void setHomeAdress(String postAdress) {
-	this.homeAdress = postAdress;
+    public void setHomeAdress(final String postAdress) {
+	homeAdress = postAdress;
     }
 
     public String getSiteUrl() {
 	return siteUrl;
     }
 
-    public void setSiteUrl(String siteUrl) {
+    public void setSiteUrl(final String siteUrl) {
 	this.siteUrl = siteUrl;
     }
 

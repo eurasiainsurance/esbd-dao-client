@@ -5,6 +5,7 @@ import javax.ejb.Remote;
 
 import tech.lapsa.insurance.esbd.GeneralService;
 import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 public interface SubjectCompanyEntityService extends GeneralService<SubjectCompanyEntity, Integer> {
@@ -17,6 +18,6 @@ public interface SubjectCompanyEntityService extends GeneralService<SubjectCompa
     public interface SubjectCompanyEntityServiceRemote extends SubjectCompanyEntityService {
     }
 
-    SubjectCompanyEntity getByBIN(TaxpayerNumber taxpayerNumber) throws NotFound;
+    SubjectCompanyEntity getByBIN(TaxpayerNumber taxpayerNumber) throws IllegalArgument, NotFound;
 
 }

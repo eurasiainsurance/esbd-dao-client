@@ -21,54 +21,54 @@ public final class ESBDDates {
     private static final DateTimeFormatter DITE_TIME_FORMATTER = new DateTimeFormatterBuilder()
 	    .appendPattern(ESBD_DATE_FORMAT_PATTERN).toFormatter();
 
-    public static Calendar convertESBDDateToCalendar(String esbdDate) {
+    public static Calendar convertESBDDateToCalendar(final String esbdDate) {
 	if (esbdDate == null || esbdDate.trim().equals(""))
 	    return null;
 	try {
-	    Calendar date = Calendar.getInstance();
+	    final Calendar date = Calendar.getInstance();
 	    date.setTime(DATE_FORMAT.parse(esbdDate));
 	    return date;
-	} catch (ParseException e) {
+	} catch (final ParseException e) {
 	    e.printStackTrace();
 	    return null;
 	}
     }
 
-    public static LocalDate convertESBDDateToLocalDate(String esbdDate) {
+    public static LocalDate convertESBDDateToLocalDate(final String esbdDate) {
 	if (esbdDate == null || esbdDate.trim().equals(""))
 	    return null;
 	try {
 	    return LocalDate.parse(esbdDate, DITE_TIME_FORMATTER);
-	} catch (DateTimeParseException e) {
+	} catch (final DateTimeParseException e) {
 	    e.printStackTrace();
 	    return null;
 	}
     }
 
-    public static Date convertESBDDateToDate(String esbdDate) {
+    public static Date convertESBDDateToDate(final String esbdDate) {
 	if (esbdDate == null || esbdDate.trim().equals(""))
 	    return null;
 	try {
 	    return DATE_FORMAT.parse(esbdDate);
-	} catch (ParseException e) {
+	} catch (final ParseException e) {
 	    e.printStackTrace();
 	    return null;
 	}
     }
 
-    public static String convertCalendarToESBDDate(Calendar calendar) {
+    public static String convertCalendarToESBDDate(final Calendar calendar) {
 	if (calendar == null)
 	    return null;
 	return convertDateToESBDDate(calendar.getTime());
     }
 
-    public static String convertLocalDateToESBDDate(LocalDate localDate) {
+    public static String convertLocalDateToESBDDate(final LocalDate localDate) {
 	if (localDate == null)
 	    return null;
 	return localDate.format(DITE_TIME_FORMATTER);
     }
 
-    public static String convertDateToESBDDate(Date date) {
+    public static String convertDateToESBDDate(final Date date) {
 	if (date == null)
 	    return null;
 	return DATE_FORMAT.format(date);

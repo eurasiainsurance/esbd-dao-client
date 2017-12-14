@@ -17,8 +17,8 @@ public class CompanyActivityKindEntityServiceBean extends ADictionaryEntityServi
 	super(DICT_NAME, CompanyActivityKindEntityServiceBean::convert);
     }
 
-    private static CompanyActivityKindEntity convert(Item source) {
-	CompanyActivityKindEntity target = new CompanyActivityKindEntity();
+    private static CompanyActivityKindEntity convert(final Item source) {
+	final CompanyActivityKindEntity target = new CompanyActivityKindEntity();
 	target.setId(source.getID());
 	target.setCode(source.getCode());
 	target.setName(source.getName());

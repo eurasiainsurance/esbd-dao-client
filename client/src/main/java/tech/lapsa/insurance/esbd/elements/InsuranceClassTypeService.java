@@ -9,6 +9,7 @@ import com.lapsa.insurance.elements.InsuranceClassType;
 
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.entities.SubjectPersonEntity;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 
 public interface InsuranceClassTypeService extends ElementsService<InsuranceClassType, Integer> {
 
@@ -22,10 +23,11 @@ public interface InsuranceClassTypeService extends ElementsService<InsuranceClas
 
     InsuranceClassType getDefault();
 
-    InsuranceClassType getByCode(String code) throws NotFound;
+    InsuranceClassType getByCode(String code) throws IllegalArgument, NotFound;
 
-    InsuranceClassType getForSubject(SubjectPersonEntity subjectPerson, LocalDate date) throws NotFound;
+    InsuranceClassType getForSubject(SubjectPersonEntity subjectPerson, LocalDate date)
+	    throws IllegalArgument, NotFound;
 
-    InsuranceClassType getForSubject(SubjectPersonEntity subjectPerson) throws NotFound;
+    InsuranceClassType getForSubject(SubjectPersonEntity subjectPerson) throws IllegalArgument, NotFound;
 
 }

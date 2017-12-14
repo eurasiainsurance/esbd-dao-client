@@ -6,6 +6,7 @@ import javax.ejb.Local;
 import javax.ejb.Remote;
 
 import tech.lapsa.insurance.esbd.GeneralService;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 
 public interface VehicleManufacturerEntityService extends GeneralService<VehicleManufacturerEntity, Integer> {
 
@@ -17,5 +18,5 @@ public interface VehicleManufacturerEntityService extends GeneralService<Vehicle
     public interface VehicleManufacturerEntityServiceRemote extends VehicleManufacturerEntityService {
     }
 
-    List<VehicleManufacturerEntity> getByName(String name);
+    List<VehicleManufacturerEntity> getByName(String name) throws IllegalArgument;
 }

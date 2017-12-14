@@ -6,6 +6,7 @@ import javax.ejb.Local;
 import javax.ejb.Remote;
 
 import tech.lapsa.insurance.esbd.GeneralService;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.kz.vehicle.VehicleRegNumber;
 
 public interface VehicleEntityService extends GeneralService<VehicleEntity, Integer> {
@@ -18,7 +19,7 @@ public interface VehicleEntityService extends GeneralService<VehicleEntity, Inte
     public interface VehicleEntityServiceRemote extends VehicleEntityService {
     }
 
-    List<VehicleEntity> getByVINCode(String vinCode);
+    List<VehicleEntity> getByVINCode(String vinCode) throws IllegalArgument;
 
-    List<VehicleEntity> getByRegNumber(VehicleRegNumber regNumber);
+    List<VehicleEntity> getByRegNumber(VehicleRegNumber regNumber) throws IllegalArgument;
 }

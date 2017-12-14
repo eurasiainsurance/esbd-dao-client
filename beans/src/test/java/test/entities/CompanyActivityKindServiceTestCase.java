@@ -7,13 +7,13 @@ import static test.entities.TestConstants.*;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.naming.NamingException;
 
 import org.junit.Test;
 
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntity;
 import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntityService.CompanyActivityKindEntityServiceLocal;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import test.ArquillianBaseTestCase;
 
 public class CompanyActivityKindServiceTestCase extends ArquillianBaseTestCase {
@@ -22,8 +22,8 @@ public class CompanyActivityKindServiceTestCase extends ArquillianBaseTestCase {
     private CompanyActivityKindEntityServiceLocal service;
 
     @Test
-    public void testGetAll() throws NamingException {
-	List<CompanyActivityKindEntity> all = service.getAll();
+    public void testGetAll() {
+	final List<CompanyActivityKindEntity> all = service.getAll();
 	assertThat(all,
 		allOf(
 			not(nullValue()),
@@ -31,20 +31,19 @@ public class CompanyActivityKindServiceTestCase extends ArquillianBaseTestCase {
     }
 
     @Test
-    public void testGetById() throws NamingException {
-	List<CompanyActivityKindEntity> list = service.getAll();
-	for (CompanyActivityKindEntity i : list) {
+    public void testGetById() throws IllegalArgument {
+	final List<CompanyActivityKindEntity> list = service.getAll();
+	for (final CompanyActivityKindEntity i : list)
 	    try {
-		CompanyActivityKindEntity res = service.getById(i.getId());
+		final CompanyActivityKindEntity res = service.getById(i.getId());
 		assertThat(res, allOf(not(nullValue()), is(i)));
-	    } catch (NotFound e) {
+	    } catch (final NotFound e) {
 		fail(e.getMessage());
 	    }
-	}
     }
 
     @Test(expected = NotFound.class)
-    public void testGetById_NotFound() throws NamingException, NotFound {
+    public void testGetById_NotFound() throws NotFound, IllegalArgument {
 	service.getById(INVALID_COMPANY_ACTIVITY_KIND_ID);
     }
 

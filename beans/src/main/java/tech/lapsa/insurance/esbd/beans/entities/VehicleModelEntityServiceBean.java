@@ -16,6 +16,7 @@ import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntityService.Vehic
 import tech.lapsa.insurance.esbd.entities.VehicleModelEntity;
 import tech.lapsa.insurance.esbd.entities.VehicleModelEntityService.VehicleModelEntityServiceLocal;
 import tech.lapsa.insurance.esbd.entities.VehicleModelEntityService.VehicleModelEntityServiceRemote;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
@@ -32,13 +33,13 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
     private ConnectionPool pool;
 
     @Override
-    public VehicleModelEntity getById(Integer id) throws NotFound {
-	MyNumbers.requireNonZero(id, "id");
+    public VehicleModelEntity getById(final Integer id) throws NotFound, IllegalArgument {
+	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
 	try (Connection con = pool.getConnection()) {
 	    // VOITURE_MODEL_ID, NAME, VOITURE_MARK_ID
-	    VOITUREMODEL m = new VOITUREMODEL();
+	    final VOITUREMODEL m = new VOITUREMODEL();
 	    m.setID(new Long(id).intValue());
-	    ArrayOfVOITUREMODEL models = con.getVoitureModels(m);
+	    final ArrayOfVOITUREMODEL models = con.getVoitureModels(m);
 	    if (models == null || models.getVOITUREMODEL() == null || models.getVOITUREMODEL().isEmpty())
 		throw new NotFound(VehicleModelEntity.class.getSimpleName() + " not found with ID = '" + id + "'");
 	    if (models.getVOITUREMODEL().size() > 1)
@@ -49,14 +50,14 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
     }
 
     @Override
-    public List<VehicleModelEntity> getByName(String name) {
-	MyStrings.requireNonEmpty(name, "name");
+    public List<VehicleModelEntity> getByName(final String name) throws IllegalArgument {
+	MyStrings.requireNonEmpty(IllegalArgument::new, name, "name");
 	try (Connection con = pool.getConnection()) {
 	    // VOITURE_MODEL_ID, NAME, VOITURE_MARK_ID
 	    // List<VehicleModelEntity> res = new ArrayList<>();
-	    VOITUREMODEL m = new VOITUREMODEL();
+	    final VOITUREMODEL m = new VOITUREMODEL();
 	    m.setNAME(name);
-	    ArrayOfVOITUREMODEL reslist = con.getVoitureModels(m);
+	    final ArrayOfVOITUREMODEL reslist = con.getVoitureModels(m);
 	    return MyOptionals.streamOf(reslist.getVOITUREMODEL()) //
 		    .orElseGet(Stream::empty) //
 		    .map(this::convert)
@@ -65,13 +66,14 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
     }
 
     @Override
-    public List<VehicleModelEntity> getByManufacturer(VehicleManufacturerEntity manufacturer) {
-	MyObjects.requireNonNull(manufacturer, "manufacturer");
+    public List<VehicleModelEntity> getByManufacturer(final VehicleManufacturerEntity manufacturer)
+	    throws IllegalArgument {
+	MyObjects.requireNonNull(IllegalArgument::new, manufacturer, "manufacturer");
 	try (Connection con = pool.getConnection()) {
 	    // VOITURE_MODEL_ID, NAME, VOITURE_MARK_ID
-	    VOITUREMODEL m = new VOITUREMODEL();
+	    final VOITUREMODEL m = new VOITUREMODEL();
 	    m.setVOITUREMARKID(new Long(manufacturer.getId()).intValue());
-	    ArrayOfVOITUREMODEL reslist = con.getVoitureModels(m);
+	    final ArrayOfVOITUREMODEL reslist = con.getVoitureModels(m);
 	    return MyOptionals.streamOf(reslist.getVOITUREMODEL()) //
 		    .orElseGet(Stream::empty) //
 		    .map(this::convert)
@@ -79,25 +81,25 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
 	}
     }
 
-    VehicleModelEntity convert(VOITUREMODEL source) {
-	VehicleModelEntity vehicle = new VehicleModelEntity();
+    VehicleModelEntity convert(final VOITUREMODEL source) {
+	final VehicleModelEntity vehicle = new VehicleModelEntity();
 	fillValues(source, vehicle);
 	return vehicle;
     }
 
-    void fillValues(VOITUREMODEL source, VehicleModelEntity target,
-	    VehicleManufacturerEntity defaultManufacturer) {
+    void fillValues(final VOITUREMODEL source, final VehicleModelEntity target,
+	    final VehicleManufacturerEntity defaultManufacturer) {
 	target.setId(source.getID());
 	target.setName(source.getNAME());
 	target.setManufacturer(defaultManufacturer);
     }
 
-    void fillValues(VOITUREMODEL source, VehicleModelEntity target) {
+    void fillValues(final VOITUREMODEL source, final VehicleModelEntity target) {
 	target.setId(source.getID());
 	target.setName(source.getNAME());
 	try {
 	    target.setManufacturer(vehicleManufacturerService.getById(source.getVOITUREMARKID()));
-	} catch (NotFound e) {
+	} catch (NotFound | IllegalArgument e) {
 	    // mandatory field
 	    throw new DataCoruptionException(
 		    "Error while fetching Vehicle Manufacturer ID = '" + source.getID()

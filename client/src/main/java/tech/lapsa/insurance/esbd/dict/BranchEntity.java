@@ -19,7 +19,7 @@ public class BranchEntity extends Domain implements DictionaryEntity<Integer> {
 	return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(final Integer id) {
 	this.id = id;
     }
 
@@ -27,7 +27,7 @@ public class BranchEntity extends Domain implements DictionaryEntity<Integer> {
 	return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(final String code) {
 	this.code = code;
     }
 
@@ -35,7 +35,7 @@ public class BranchEntity extends Domain implements DictionaryEntity<Integer> {
 	return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
 	this.name = name;
     }
 }

@@ -5,13 +5,13 @@ import static org.junit.Assert.*;
 import static test.entities.TestConstants.*;
 
 import javax.inject.Inject;
-import javax.naming.NamingException;
 
 import org.junit.Test;
 
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntity;
 import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntityService.SubjectCompanyEntityServiceLocal;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 import test.ArquillianBaseTestCase;
 
@@ -21,39 +21,38 @@ public class SubjectCompanyServiceTestCase extends ArquillianBaseTestCase {
     private SubjectCompanyEntityServiceLocal service;
 
     @Test
-    public void testGetById() throws NamingException {
+    public void testGetById() throws IllegalArgument {
 	try {
-	    for (int valid : VALID_SUBJECT_COMPANY_IDS) {
-		SubjectCompanyEntity res = service.getById(valid);
+	    for (final int valid : VALID_SUBJECT_COMPANY_IDS) {
+		final SubjectCompanyEntity res = service.getById(valid);
 		assertThat(res, not(nullValue()));
 	    }
-	} catch (NotFound e) {
+	} catch (final NotFound e) {
 	    fail(e.getMessage());
 	}
     }
 
     @Test
-    public void testGetById_NotFound() throws NamingException {
-	for (int invalid : INVALID_SUBJECT_COMPANY_IDS) {
+    public void testGetById_NotFound() throws IllegalArgument {
+	for (final int invalid : INVALID_SUBJECT_COMPANY_IDS)
 	    try {
 		service.getById(invalid);
 		fail("Not found exception Expected");
-	    } catch (NotFound e) {
+	    } catch (final NotFound e) {
 	    }
-	}
     }
 
     public static final TaxpayerNumber[] VALID_SUBJECT_COMPANY_BINS = new TaxpayerNumber[] {
 	    TaxpayerNumber.of("930840000071") };
 
     @Test
-    public void testGetByBIN() throws NamingException {
+    public void testGetByBIN() throws IllegalArgument {
 	try {
-	    for (TaxpayerNumber valid : VALID_SUBJECT_COMPANY_BINS) {
-		SubjectCompanyEntity res = service.getByBIN(valid);
+	    for (final TaxpayerNumber valid : VALID_SUBJECT_COMPANY_BINS) {
+		final SubjectCompanyEntity res = service.getByBIN(valid);
 		assertThat(res, not(nullValue()));
 	    }
-	} catch (NotFound e) {
+	} catch (final NotFound e) {
 	    fail(e.getMessage());
 	}
     }
@@ -62,13 +61,12 @@ public class SubjectCompanyServiceTestCase extends ArquillianBaseTestCase {
 	    TaxpayerNumber.of("581114350286") };
 
     @Test
-    public void testGetByBIN_NotFound() throws NamingException {
-	for (TaxpayerNumber invalid : INVALID_SUBJECT_COMPANY_BINS) {
+    public void testGetByBIN_NotFound() throws IllegalArgument {
+	for (final TaxpayerNumber invalid : INVALID_SUBJECT_COMPANY_BINS)
 	    try {
 		service.getByBIN(invalid);
 		fail("Not found exception Expected");
-	    } catch (NotFound e) {
+	    } catch (final NotFound e) {
 	    }
-	}
     }
 }

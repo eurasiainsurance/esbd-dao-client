@@ -17,8 +17,8 @@ public class BranchEntityServiceBean extends ADictionaryEntityService<BranchEnti
 	super(DICT_NAME, BranchEntityServiceBean::convert);
     }
 
-    private static BranchEntity convert(Item source) {
-	BranchEntity target = new BranchEntity();
+    private static BranchEntity convert(final Item source) {
+	final BranchEntity target = new BranchEntity();
 	target.setId(source.getID());
 	target.setCode(source.getCode());
 	target.setName(source.getName());

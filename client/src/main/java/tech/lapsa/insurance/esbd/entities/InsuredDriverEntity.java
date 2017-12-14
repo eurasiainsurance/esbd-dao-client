@@ -89,7 +89,7 @@ public class InsuredDriverEntity extends Domain {
 	return insuredAgeExpirienceClass.getAgeClass();
     }
 
-    public void setAgeClass(InsuredAgeClass ageClass) {
+    public void setAgeClass(final InsuredAgeClass ageClass) {
 	insuredAgeExpirienceClass = InsuredAgeAndExpirienceClass
 		.forPair(insuredAgeExpirienceClass.getExpirienceClass(), ageClass);
     }
@@ -98,7 +98,7 @@ public class InsuredDriverEntity extends Domain {
 	return insuredAgeExpirienceClass.getExpirienceClass();
     }
 
-    public void setExpirienceClass(InsuredExpirienceClass expirienceClass) {
+    public void setExpirienceClass(final InsuredExpirienceClass expirienceClass) {
 	insuredAgeExpirienceClass = InsuredAgeAndExpirienceClass
 		.forPair(expirienceClass, insuredAgeExpirienceClass.getAgeClass());
     }
@@ -109,7 +109,7 @@ public class InsuredDriverEntity extends Domain {
 	return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(final Integer id) {
 	this.id = id;
     }
 
@@ -117,7 +117,7 @@ public class InsuredDriverEntity extends Domain {
 	return policy;
     }
 
-    public void setPolicy(PolicyEntity policy) {
+    public void setPolicy(final PolicyEntity policy) {
 	this.policy = policy;
     }
 
@@ -125,7 +125,7 @@ public class InsuredDriverEntity extends Domain {
 	return insuredPerson;
     }
 
-    public void setInsuredPerson(SubjectPersonEntity insuredPerson) {
+    public void setInsuredPerson(final SubjectPersonEntity insuredPerson) {
 	this.insuredPerson = insuredPerson;
     }
 
@@ -133,7 +133,7 @@ public class InsuredDriverEntity extends Domain {
 	return maritalStatus;
     }
 
-    public void setMaritalStatus(MaritalStatus maritalStatus) {
+    public void setMaritalStatus(final MaritalStatus maritalStatus) {
 	this.maritalStatus = maritalStatus;
     }
 
@@ -141,7 +141,7 @@ public class InsuredDriverEntity extends Domain {
 	return insuredAgeExpirienceClass;
     }
 
-    public void setInsuredAgeExpirienceClass(InsuredAgeAndExpirienceClass insuredAgeExpirienceClass) {
+    public void setInsuredAgeExpirienceClass(final InsuredAgeAndExpirienceClass insuredAgeExpirienceClass) {
 	this.insuredAgeExpirienceClass = insuredAgeExpirienceClass;
     }
 
@@ -149,7 +149,7 @@ public class InsuredDriverEntity extends Domain {
 	return drivingExpirience;
     }
 
-    public void setDrivingExpirience(int drivingExpirience) {
+    public void setDrivingExpirience(final int drivingExpirience) {
 	this.drivingExpirience = drivingExpirience;
     }
 
@@ -157,7 +157,7 @@ public class InsuredDriverEntity extends Domain {
 	return driverLicense;
     }
 
-    public void setDriverLicense(DriverLicenseInfo driverLicense) {
+    public void setDriverLicense(final DriverLicenseInfo driverLicense) {
 	this.driverLicense = driverLicense;
     }
 
@@ -165,7 +165,7 @@ public class InsuredDriverEntity extends Domain {
 	return insuraceClassType;
     }
 
-    public void setInsuraceClassType(InsuranceClassType insuraceClassType) {
+    public void setInsuraceClassType(final InsuranceClassType insuraceClassType) {
 	this.insuraceClassType = insuraceClassType;
     }
 
@@ -173,7 +173,7 @@ public class InsuredDriverEntity extends Domain {
 	return privileger;
     }
 
-    public void setPrivileger(boolean privileger) {
+    public void setPrivileger(final boolean privileger) {
 	this.privileger = privileger;
     }
 
@@ -181,7 +181,7 @@ public class InsuredDriverEntity extends Domain {
 	return privilegerInfo;
     }
 
-    public void setPrivilegerInfo(PrivilegerInfo privilegerInfo) {
+    public void setPrivilegerInfo(final PrivilegerInfo privilegerInfo) {
 	this.privilegerInfo = privilegerInfo;
     }
 
@@ -189,7 +189,7 @@ public class InsuredDriverEntity extends Domain {
 	return gpwParticipant;
     }
 
-    public void setGpwParticipant(boolean gpwParticipant) {
+    public void setGpwParticipant(final boolean gpwParticipant) {
 	this.gpwParticipant = gpwParticipant;
     }
 
@@ -197,7 +197,7 @@ public class InsuredDriverEntity extends Domain {
 	return gpwParticipantInfo;
     }
 
-    public void setGpwParticipantInfo(GPWParticipantInfo gpwParticipantInfo) {
+    public void setGpwParticipantInfo(final GPWParticipantInfo gpwParticipantInfo) {
 	this.gpwParticipantInfo = gpwParticipantInfo;
     }
 
@@ -205,7 +205,7 @@ public class InsuredDriverEntity extends Domain {
 	return pensioner;
     }
 
-    public void setPensioner(boolean pensioner) {
+    public void setPensioner(final boolean pensioner) {
 	this.pensioner = pensioner;
     }
 
@@ -213,7 +213,7 @@ public class InsuredDriverEntity extends Domain {
 	return pensionerInfo;
     }
 
-    public void setPensionerInfo(PensionerInfo pensionerInfo) {
+    public void setPensionerInfo(final PensionerInfo pensionerInfo) {
 	this.pensionerInfo = pensionerInfo;
     }
 
@@ -221,7 +221,7 @@ public class InsuredDriverEntity extends Domain {
 	return invalid;
     }
 
-    public void setInvalid(boolean invalid) {
+    public void setInvalid(final boolean invalid) {
 	this.invalid = invalid;
     }
 
@@ -229,7 +229,7 @@ public class InsuredDriverEntity extends Domain {
 	return invalidInfo;
     }
 
-    public void setInvalidInfo(InvalidInfo invalidInfo) {
+    public void setInvalidInfo(final InvalidInfo invalidInfo) {
 	this.invalidInfo = invalidInfo;
     }
 
@@ -237,7 +237,7 @@ public class InsuredDriverEntity extends Domain {
 	return created;
     }
 
-    public void setCreated(RecordOperationInfo created) {
+    public void setCreated(final RecordOperationInfo created) {
 	this.created = created;
     }
 
@@ -245,7 +245,7 @@ public class InsuredDriverEntity extends Domain {
 	return modified;
     }
 
-    public void setModified(RecordOperationInfo modified) {
+    public void setModified(final RecordOperationInfo modified) {
 	this.modified = modified;
     }
 
@@ -253,7 +253,7 @@ public class InsuredDriverEntity extends Domain {
 	return insurer;
     }
 
-    public void setInsurer(InsuranceCompanyEntity insurer) {
+    public void setInsurer(final InsuranceCompanyEntity insurer) {
 	this.insurer = insurer;
     }
 
