@@ -69,7 +69,7 @@ public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceL
 			    + " and date = " + esbdDate);
 		try {
 		    return getById(aClassID);
-		} catch (IllegalArgument e) {
+		} catch (final IllegalArgument e) {
 		    // it should not happens
 		    throw new EJBException(e.getMessage());
 		}
