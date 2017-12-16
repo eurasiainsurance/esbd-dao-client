@@ -9,6 +9,8 @@ import tech.lapsa.java.commons.exceptions.IllegalArgument;
 
 public interface PolicyEntityService extends GeneralService<PolicyEntity, Integer> {
 
+    public static final String BEAN_NAME = "PolicyEntityServiceBean";
+
     @Local
     public interface PolicyEntityServiceLocal extends PolicyEntityService {
     }

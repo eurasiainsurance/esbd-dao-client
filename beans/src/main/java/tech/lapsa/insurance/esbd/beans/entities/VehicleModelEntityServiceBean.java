@@ -14,6 +14,7 @@ import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntity;
 import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceLocal;
 import tech.lapsa.insurance.esbd.entities.VehicleModelEntity;
+import tech.lapsa.insurance.esbd.entities.VehicleModelEntityService;
 import tech.lapsa.insurance.esbd.entities.VehicleModelEntityService.VehicleModelEntityServiceLocal;
 import tech.lapsa.insurance.esbd.entities.VehicleModelEntityService.VehicleModelEntityServiceRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
@@ -23,7 +24,7 @@ import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.java.commons.function.MyStrings;
 
-@Stateless
+@Stateless(name = VehicleModelEntityService.BEAN_NAME)
 public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceLocal, VehicleModelEntityServiceRemote {
 
     @EJB

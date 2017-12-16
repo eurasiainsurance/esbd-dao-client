@@ -7,6 +7,8 @@ import com.lapsa.international.country.Country;
 
 public interface CountryService extends ElementsService<Country, Integer> {
 
+    public static final String BEAN_NAME = "CountryServiceBean";
+
     @Local
     public interface CountryServiceLocal extends CountryService {
     }

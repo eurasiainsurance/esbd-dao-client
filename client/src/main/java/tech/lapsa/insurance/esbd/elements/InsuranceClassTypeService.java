@@ -13,6 +13,8 @@ import tech.lapsa.java.commons.exceptions.IllegalArgument;
 
 public interface InsuranceClassTypeService extends ElementsService<InsuranceClassType, Integer> {
 
+    public static final String BEAN_NAME = "InsuranceClassTypeServiceBean";
+
     @Local
     public interface InsuranceClassTypeServiceLocal extends InsuranceClassTypeService {
     }

@@ -6,12 +6,13 @@ import com.lapsa.insurance.elements.InsuredAgeAndExpirienceClass;
 
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.beans.elements.mapping.InsuredAgeAndExpirienceClassMapping;
+import tech.lapsa.insurance.esbd.elements.InsuredAgeAndExpirienceClassService;
 import tech.lapsa.insurance.esbd.elements.InsuredAgeAndExpirienceClassService.InsuredAgeAndExpirienceClassServiceLocal;
 import tech.lapsa.insurance.esbd.elements.InsuredAgeAndExpirienceClassService.InsuredAgeAndExpirienceClassServiceRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyNumbers;
 
-@Singleton
+@Singleton(name = InsuredAgeAndExpirienceClassService.BEAN_NAME)
 public class InsuredAgeAndExpirienceClassServiceBean
 	implements InsuredAgeAndExpirienceClassServiceLocal, InsuredAgeAndExpirienceClassServiceRemote {
 

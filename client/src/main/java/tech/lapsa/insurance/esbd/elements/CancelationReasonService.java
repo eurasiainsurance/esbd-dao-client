@@ -7,6 +7,8 @@ import com.lapsa.insurance.elements.CancelationReason;
 
 public interface CancelationReasonService extends ElementsService<CancelationReason, Integer> {
 
+    public static final String BEAN_NAME = "CancelationReasonServiceBean";
+
     @Local
     public interface CancelationReasonServiceLocal extends CancelationReasonService {
     }

@@ -10,6 +10,8 @@ import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 public interface SubjectEntityService extends GeneralService<SubjectEntity, Integer> {
 
+    public static final String BEAN_NAME = "SubjectEntityServiceBean";
+
     @Local
     public interface SubjectEntityServiceLocal extends SubjectEntityService {
     }

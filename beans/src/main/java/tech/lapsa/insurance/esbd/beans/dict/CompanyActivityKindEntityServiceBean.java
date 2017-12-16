@@ -4,10 +4,11 @@ import javax.ejb.Stateless;
 
 import tech.lapsa.esbd.jaxws.wsimport.Item;
 import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntity;
+import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntityService;
 import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntityService.CompanyActivityKindEntityServiceLocal;
 import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntityService.CompanyActivityKindEntityServiceRemote;
 
-@Stateless
+@Stateless(name = CompanyActivityKindEntityService.BEAN_NAME)
 public class CompanyActivityKindEntityServiceBean extends ADictionaryEntityService<CompanyActivityKindEntity, Integer>
 	implements CompanyActivityKindEntityServiceLocal, CompanyActivityKindEntityServiceRemote {
 

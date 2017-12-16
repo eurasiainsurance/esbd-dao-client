@@ -11,6 +11,8 @@ import tech.lapsa.kz.vehicle.VehicleRegNumber;
 
 public interface VehicleEntityService extends GeneralService<VehicleEntity, Integer> {
 
+    public static final String BEAN_NAME = "VehicleEntityServiceBean";
+
     @Local
     public interface VehicleEntityServiceLocal extends VehicleEntityService {
     }

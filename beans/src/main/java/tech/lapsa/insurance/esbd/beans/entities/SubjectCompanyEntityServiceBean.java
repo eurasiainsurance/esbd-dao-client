@@ -8,6 +8,7 @@ import tech.lapsa.esbd.jaxws.wsimport.Client;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntityService.CompanyActivityKindEntityServiceLocal;
 import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntity;
+import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntityService;
 import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntityService.SubjectCompanyEntityServiceLocal;
 import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntityService.SubjectCompanyEntityServiceRemote;
 import tech.lapsa.insurance.esbd.entities.SubjectPersonEntity;
@@ -17,7 +18,7 @@ import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
-@Stateless
+@Stateless(name = SubjectCompanyEntityService.BEAN_NAME)
 public class SubjectCompanyEntityServiceBean extends ASubjectEntityService
 	implements SubjectCompanyEntityServiceLocal, SubjectCompanyEntityServiceRemote {
 

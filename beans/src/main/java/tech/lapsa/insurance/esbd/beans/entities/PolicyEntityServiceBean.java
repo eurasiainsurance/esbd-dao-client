@@ -30,6 +30,7 @@ import tech.lapsa.insurance.esbd.elements.VehicleClassService.VehicleClassServic
 import tech.lapsa.insurance.esbd.entities.InsuredDriverEntity;
 import tech.lapsa.insurance.esbd.entities.InsuredVehicleEntity;
 import tech.lapsa.insurance.esbd.entities.PolicyEntity;
+import tech.lapsa.insurance.esbd.entities.PolicyEntityService;
 import tech.lapsa.insurance.esbd.entities.PolicyEntityService.PolicyEntityServiceLocal;
 import tech.lapsa.insurance.esbd.entities.PolicyEntityService.PolicyEntityServiceRemote;
 import tech.lapsa.insurance.esbd.entities.SubjectEntityService.SubjectEntityServiceLocal;
@@ -48,7 +49,7 @@ import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.java.commons.function.MyStrings;
 
-@Stateless
+@Stateless(name = PolicyEntityService.BEAN_NAME)
 public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, PolicyEntityServiceRemote {
 
     @EJB

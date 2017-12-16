@@ -10,6 +10,8 @@ import tech.lapsa.java.commons.exceptions.IllegalArgument;
 
 public interface VehicleModelEntityService extends GeneralService<VehicleModelEntity, Integer> {
 
+    public static final String BEAN_NAME = "VehicleModelEntityServiceBean";
+
     @Local
     public interface VehicleModelEntityServiceLocal extends VehicleModelEntityService {
     }

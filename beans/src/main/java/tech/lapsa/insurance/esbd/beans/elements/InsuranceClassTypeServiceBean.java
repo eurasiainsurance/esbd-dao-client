@@ -14,6 +14,7 @@ import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.beans.ESBDDates;
 import tech.lapsa.insurance.esbd.beans.elements.mapping.InsuranceClassTypeMapping;
+import tech.lapsa.insurance.esbd.elements.InsuranceClassTypeService;
 import tech.lapsa.insurance.esbd.elements.InsuranceClassTypeService.InsuranceClassTypeServiceLocal;
 import tech.lapsa.insurance.esbd.elements.InsuranceClassTypeService.InsuranceClassTypeServiceRemote;
 import tech.lapsa.insurance.esbd.entities.SubjectPersonEntity;
@@ -22,7 +23,7 @@ import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyStrings;
 
-@Stateless
+@Stateless(name = InsuranceClassTypeService.BEAN_NAME)
 public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceLocal, InsuranceClassTypeServiceRemote {
 
     @EJB

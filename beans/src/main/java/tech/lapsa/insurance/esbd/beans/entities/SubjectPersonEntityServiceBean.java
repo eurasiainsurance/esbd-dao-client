@@ -14,6 +14,7 @@ import tech.lapsa.insurance.esbd.elements.GenderService.GenderServiceLocal;
 import tech.lapsa.insurance.esbd.elements.IdentityCardTypeService.IdentityCardTypeServiceLocal;
 import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntity;
 import tech.lapsa.insurance.esbd.entities.SubjectPersonEntity;
+import tech.lapsa.insurance.esbd.entities.SubjectPersonEntityService;
 import tech.lapsa.insurance.esbd.entities.SubjectPersonEntityService.SubjectPersonEntityServiceLocal;
 import tech.lapsa.insurance.esbd.entities.SubjectPersonEntityService.SubjectPersonEntityServiceRemote;
 import tech.lapsa.insurance.esbd.infos.IdentityCardInfo;
@@ -24,7 +25,7 @@ import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
-@Stateless
+@Stateless(name = SubjectPersonEntityService.BEAN_NAME)
 public class SubjectPersonEntityServiceBean extends ASubjectEntityService
 	implements SubjectPersonEntityServiceLocal, SubjectPersonEntityServiceRemote {
 
