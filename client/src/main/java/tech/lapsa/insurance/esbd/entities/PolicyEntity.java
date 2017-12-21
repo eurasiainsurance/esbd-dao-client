@@ -93,7 +93,7 @@ public class PolicyEntity extends Domain {
 	return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(final Integer id) {
 	this.id = id;
     }
 
@@ -101,7 +101,7 @@ public class PolicyEntity extends Domain {
 	return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(final String number) {
 	this.number = number;
     }
 
@@ -109,7 +109,7 @@ public class PolicyEntity extends Domain {
 	return validFrom;
     }
 
-    public void setValidFrom(Calendar validFrom) {
+    public void setValidFrom(final Calendar validFrom) {
 	this.validFrom = validFrom;
     }
 
@@ -117,7 +117,7 @@ public class PolicyEntity extends Domain {
 	return validTill;
     }
 
-    public void setValidTill(Calendar validTill) {
+    public void setValidTill(final Calendar validTill) {
 	this.validTill = validTill;
     }
 
@@ -125,7 +125,7 @@ public class PolicyEntity extends Domain {
 	return actualPremiumCost;
     }
 
-    public void setActualPremiumCost(double actualPremiumCost) {
+    public void setActualPremiumCost(final double actualPremiumCost) {
 	this.actualPremiumCost = actualPremiumCost;
     }
 
@@ -133,7 +133,7 @@ public class PolicyEntity extends Domain {
 	return premiumCost;
     }
 
-    public void setPremiumCost(double premiumCost) {
+    public void setPremiumCost(final double premiumCost) {
 	this.premiumCost = premiumCost;
     }
 
@@ -141,7 +141,7 @@ public class PolicyEntity extends Domain {
 	return insurer;
     }
 
-    public void setInsurer(InsuranceCompanyEntity insurer) {
+    public void setInsurer(final InsuranceCompanyEntity insurer) {
 	this.insurer = insurer;
     }
 
@@ -149,7 +149,7 @@ public class PolicyEntity extends Domain {
 	return insurant;
     }
 
-    public void setInsurant(SubjectEntity insurant) {
+    public void setInsurant(final SubjectEntity insurant) {
 	this.insurant = insurant;
     }
 
@@ -157,7 +157,7 @@ public class PolicyEntity extends Domain {
 	return dateOfIssue;
     }
 
-    public void setDateOfIssue(Calendar dateOfIssue) {
+    public void setDateOfIssue(final Calendar dateOfIssue) {
 	this.dateOfIssue = dateOfIssue;
     }
 
@@ -165,7 +165,7 @@ public class PolicyEntity extends Domain {
 	return dateOfCancelation;
     }
 
-    public void setDateOfCancelation(Calendar dateOfCancelation) {
+    public void setDateOfCancelation(final Calendar dateOfCancelation) {
 	this.dateOfCancelation = dateOfCancelation;
     }
 
@@ -173,7 +173,7 @@ public class PolicyEntity extends Domain {
 	return cancelationReasonType;
     }
 
-    public void setCancelationReasonType(CancelationReason cancelationReasonType) {
+    public void setCancelationReasonType(final CancelationReason cancelationReasonType) {
 	this.cancelationReasonType = cancelationReasonType;
     }
 
@@ -181,7 +181,7 @@ public class PolicyEntity extends Domain {
 	return branch;
     }
 
-    public void setBranch(BranchEntity branch) {
+    public void setBranch(final BranchEntity branch) {
 	this.branch = branch;
     }
 
@@ -189,7 +189,7 @@ public class PolicyEntity extends Domain {
 	return reissued;
     }
 
-    public void setReissued(boolean reissued) {
+    public void setReissued(final boolean reissued) {
 	this.reissued = reissued;
     }
 
@@ -197,7 +197,7 @@ public class PolicyEntity extends Domain {
 	return reissuedPolicyId;
     }
 
-    public void setReissuedPolicyId(Integer reissuedPolicyId) {
+    public void setReissuedPolicyId(final Integer reissuedPolicyId) {
 	this.reissuedPolicyId = reissuedPolicyId;
     }
 
@@ -205,7 +205,7 @@ public class PolicyEntity extends Domain {
 	return comments;
     }
 
-    public void setComments(String comments) {
+    public void setComments(final String comments) {
 	this.comments = comments;
     }
 
@@ -213,7 +213,7 @@ public class PolicyEntity extends Domain {
 	return insuredDrivers;
     }
 
-    public void setInsuredDrivers(List<InsuredDriverEntity> insuredDrivers) {
+    public void setInsuredDrivers(final List<InsuredDriverEntity> insuredDrivers) {
 	this.insuredDrivers = insuredDrivers;
     }
 
@@ -221,7 +221,7 @@ public class PolicyEntity extends Domain {
 	return insuredVehicles;
     }
 
-    public void setInsuredVehicles(List<InsuredVehicleEntity> insuredVehicles) {
+    public void setInsuredVehicles(final List<InsuredVehicleEntity> insuredVehicles) {
 	this.insuredVehicles = insuredVehicles;
     }
 
@@ -229,7 +229,7 @@ public class PolicyEntity extends Domain {
 	return created;
     }
 
-    public void setCreated(RecordOperationInfo created) {
+    public void setCreated(final RecordOperationInfo created) {
 	this.created = created;
     }
 
@@ -237,7 +237,7 @@ public class PolicyEntity extends Domain {
 	return modified;
     }
 
-    public void setModified(RecordOperationInfo modified) {
+    public void setModified(final RecordOperationInfo modified) {
 	this.modified = modified;
     }
 

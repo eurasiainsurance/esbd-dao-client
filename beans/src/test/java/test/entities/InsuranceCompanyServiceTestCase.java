@@ -7,13 +7,13 @@ import static test.entities.TestConstants.*;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.naming.NamingException;
 
 import org.junit.Test;
 
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntityService.InsuranceCompanyEntityServiceLocal;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import test.ArquillianBaseTestCase;
 
 public class InsuranceCompanyServiceTestCase extends ArquillianBaseTestCase {
@@ -22,8 +22,8 @@ public class InsuranceCompanyServiceTestCase extends ArquillianBaseTestCase {
     private InsuranceCompanyEntityServiceLocal service;
 
     @Test
-    public void testGetAll() throws NamingException {
-	List<InsuranceCompanyEntity> all = service.getAll();
+    public void testGetAll() {
+	final List<InsuranceCompanyEntity> all = service.getAll();
 	assertThat(all,
 		allOf(
 			not(nullValue()),
@@ -31,20 +31,19 @@ public class InsuranceCompanyServiceTestCase extends ArquillianBaseTestCase {
     }
 
     @Test
-    public void testGetById() throws NamingException {
-	List<InsuranceCompanyEntity> list = service.getAll();
-	for (InsuranceCompanyEntity i : list) {
+    public void testGetById() throws IllegalArgument {
+	final List<InsuranceCompanyEntity> list = service.getAll();
+	for (final InsuranceCompanyEntity i : list)
 	    try {
-		InsuranceCompanyEntity res = service.getById(i.getId());
+		final InsuranceCompanyEntity res = service.getById(i.getId());
 		assertThat(res, allOf(not(nullValue()), is(i)));
-	    } catch (NotFound e) {
+	    } catch (final NotFound e) {
 		fail(e.getMessage());
 	    }
-	}
     }
 
     @Test(expected = NotFound.class)
-    public void testGetById_NotFound() throws NamingException, NotFound {
+    public void testGetById_NotFound() throws NotFound, IllegalArgument {
 	service.getById(INVALID_INSURANCE_COMPANY_ID);
     }
 

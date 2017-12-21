@@ -14,13 +14,15 @@ import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.dict.BranchEntityService.BranchEntityServiceLocal;
 import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntityService.InsuranceCompanyEntityServiceLocal;
 import tech.lapsa.insurance.esbd.entities.UserEntity;
+import tech.lapsa.insurance.esbd.entities.UserEntityService;
 import tech.lapsa.insurance.esbd.entities.UserEntityService.UserEntityServiceLocal;
 import tech.lapsa.insurance.esbd.entities.UserEntityService.UserEntityServiceRemote;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyOptionals;
 
-@Stateless
+@Stateless(name = UserEntityService.BEAN_NAME)
 public class UserEntityServiceBean implements UserEntityServiceLocal, UserEntityServiceRemote {
 
     @EJB
@@ -39,18 +41,18 @@ public class UserEntityServiceBean implements UserEntityServiceLocal, UserEntity
 	if (all != null)
 	    return all;
 	try (Connection con = pool.getConnection()) {
-	    ArrayOfUser users = con.getUsers();
+	    final ArrayOfUser users = con.getUsers();
 	    if (users == null)
-		return (all = Collections.unmodifiableList(Collections.emptyList()));
-	    return (all = users.getUser().stream() //
+		return all = Collections.unmodifiableList(Collections.emptyList());
+	    return all = users.getUser().stream() //
 		    .map(this::convert) //
-		    .collect(MyCollectors.unmodifiableList()));
+		    .collect(MyCollectors.unmodifiableList());
 	}
     }
 
     @Override
-    public UserEntity getById(final Integer id) throws NotFound {
-	MyNumbers.requireNonZero(id, "id");
+    public UserEntity getById(final Integer id) throws NotFound, IllegalArgument {
+	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
 	return getAll().stream() //
 		.filter(x -> MyNumbers.numbericEquals(id, x.getId())) //
 		.findAny() //
@@ -58,13 +60,13 @@ public class UserEntityServiceBean implements UserEntityServiceLocal, UserEntity
 			() -> new NotFound(UserEntity.class.getSimpleName() + " not found with ID = '" + id + "'"));
     }
 
-    UserEntity convert(User source) {
-	UserEntity traget = new UserEntity();
+    UserEntity convert(final User source) {
+	final UserEntity traget = new UserEntity();
 	fillValues(source, traget);
 	return traget;
     }
 
-    void fillValues(User source, UserEntity target) {
+    void fillValues(final User source, final UserEntity target) {
 	// ID s:int Идентификатор пользователя
 	target.setId(source.getID());
 

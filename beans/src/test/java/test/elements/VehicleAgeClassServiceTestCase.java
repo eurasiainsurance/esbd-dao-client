@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import static test.entities.TestConstants.*;
 
 import javax.inject.Inject;
-import javax.naming.NamingException;
 
 import org.junit.Test;
 
@@ -14,6 +13,7 @@ import com.lapsa.insurance.elements.VehicleAgeClass;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.beans.elements.mapping.VehicleAgeClassMapping;
 import tech.lapsa.insurance.esbd.elements.VehicleAgeClassService.VehicleAgeClassServiceLocal;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import test.ArquillianBaseTestCase;
 
 public class VehicleAgeClassServiceTestCase extends ArquillianBaseTestCase {
@@ -22,19 +22,18 @@ public class VehicleAgeClassServiceTestCase extends ArquillianBaseTestCase {
     private VehicleAgeClassServiceLocal service;
 
     @Test
-    public void testGetById() throws NamingException {
-	for (Integer id : VehicleAgeClassMapping.getInstance().getAllIds()) {
+    public void testGetById() throws IllegalArgument {
+	for (final Integer id : VehicleAgeClassMapping.getInstance().getAllIds())
 	    try {
-		VehicleAgeClass res = service.getById(id);
+		final VehicleAgeClass res = service.getById(id);
 		assertThat(res, allOf(not(nullValue()), equalTo(VehicleAgeClassMapping.getInstance().forId(id))));
-	    } catch (NotFound e) {
+	    } catch (final NotFound e) {
 		fail(e.getMessage());
 	    }
-	}
     }
 
     @Test(expected = NotFound.class)
-    public void testGetById_NotFound() throws NamingException, NotFound {
+    public void testGetById_NotFound() throws NotFound, IllegalArgument {
 	service.getById(INVALID_VEHICLE_AGE_CLASS_ID);
     }
 

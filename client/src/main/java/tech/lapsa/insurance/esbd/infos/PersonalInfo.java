@@ -10,7 +10,7 @@ import tech.lapsa.patterns.domain.HashCodePrime;
 /**
  * Класс для предсталвения основных персональных данных клиента - физического
  * лица
- * 
+ *
  * @author vadim.isaev
  *
  */
@@ -40,7 +40,7 @@ public class PersonalInfo extends Domain {
 	return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
 	this.name = name;
     }
 
@@ -48,7 +48,7 @@ public class PersonalInfo extends Domain {
 	return surename;
     }
 
-    public void setSurename(String surename) {
+    public void setSurename(final String surename) {
 	this.surename = surename;
     }
 
@@ -56,7 +56,7 @@ public class PersonalInfo extends Domain {
 	return patronymic;
     }
 
-    public void setPatronymic(String patronymic) {
+    public void setPatronymic(final String patronymic) {
 	this.patronymic = patronymic;
     }
 
@@ -64,7 +64,7 @@ public class PersonalInfo extends Domain {
 	return dayOfBirth;
     }
 
-    public void setDayOfBirth(LocalDate dayOfBirth) {
+    public void setDayOfBirth(final LocalDate dayOfBirth) {
 	this.dayOfBirth = dayOfBirth;
     }
 
@@ -72,7 +72,7 @@ public class PersonalInfo extends Domain {
 	return sex;
     }
 
-    public void setSex(Sex sex) {
+    public void setSex(final Sex sex) {
 	this.sex = sex;
     }
 

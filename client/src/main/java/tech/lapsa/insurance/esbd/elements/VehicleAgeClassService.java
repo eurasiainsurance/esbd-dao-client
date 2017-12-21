@@ -7,6 +7,8 @@ import com.lapsa.insurance.elements.VehicleAgeClass;
 
 public interface VehicleAgeClassService extends ElementsService<VehicleAgeClass, Integer> {
 
+    public static final String BEAN_NAME = "VehicleAgeClassServiceBean";
+
     @Local
     public interface VehicleAgeClassServiceLocal extends VehicleAgeClassService {
     }

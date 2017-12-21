@@ -28,7 +28,7 @@ public class VehicleCertificateInfo extends Domain {
 	return registrationNumber;
     }
 
-    public void setRegistrationNumber(String registrationNumber) {
+    public void setRegistrationNumber(final String registrationNumber) {
 	this.registrationNumber = registrationNumber;
     }
 
@@ -36,7 +36,7 @@ public class VehicleCertificateInfo extends Domain {
 	return certificateNumber;
     }
 
-    public void setCertificateNumber(String certificateNumber) {
+    public void setCertificateNumber(final String certificateNumber) {
 	this.certificateNumber = certificateNumber;
     }
 
@@ -44,7 +44,7 @@ public class VehicleCertificateInfo extends Domain {
 	return dateOfIssue;
     }
 
-    public void setDateOfIssue(Calendar dateOfIssue) {
+    public void setDateOfIssue(final Calendar dateOfIssue) {
 	this.dateOfIssue = dateOfIssue;
     }
 
@@ -52,7 +52,7 @@ public class VehicleCertificateInfo extends Domain {
 	return registrationRegion;
     }
 
-    public void setRegistrationRegion(KZArea registrationRegion) {
+    public void setRegistrationRegion(final KZArea registrationRegion) {
 	this.registrationRegion = registrationRegion;
     }
 
@@ -60,7 +60,7 @@ public class VehicleCertificateInfo extends Domain {
 	return majorCity;
     }
 
-    public void setMajorCity(boolean majorCity) {
+    public void setMajorCity(final boolean majorCity) {
 	this.majorCity = majorCity;
     }
 

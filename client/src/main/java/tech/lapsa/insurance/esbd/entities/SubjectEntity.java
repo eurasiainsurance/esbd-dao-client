@@ -9,7 +9,7 @@ import tech.lapsa.insurance.esbd.infos.OriginInfo;
 
 /**
  * Абстрактный класс для представления лица
- * 
+ *
  * @author vadim.isaev
  *
  */
@@ -58,7 +58,7 @@ public abstract class SubjectEntity extends Domain {
 	return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(final Integer id) {
 	this.id = id;
     }
 
@@ -66,7 +66,7 @@ public abstract class SubjectEntity extends Domain {
 	return origin;
     }
 
-    public void setOrigin(OriginInfo origin) {
+    public void setOrigin(final OriginInfo origin) {
 	this.origin = origin;
     }
 
@@ -74,7 +74,7 @@ public abstract class SubjectEntity extends Domain {
 	return contact;
     }
 
-    public void setContact(ContactInfo contact) {
+    public void setContact(final ContactInfo contact) {
 	this.contact = contact;
     }
 
@@ -82,7 +82,7 @@ public abstract class SubjectEntity extends Domain {
 	return taxPayerNumber;
     }
 
-    public void setTaxPayerNumber(String taxPayerNumber) {
+    public void setTaxPayerNumber(final String taxPayerNumber) {
 	this.taxPayerNumber = taxPayerNumber;
     }
 
@@ -90,7 +90,7 @@ public abstract class SubjectEntity extends Domain {
 	return comments;
     }
 
-    public void setComments(String comments) {
+    public void setComments(final String comments) {
 	this.comments = comments;
     }
 
@@ -98,7 +98,7 @@ public abstract class SubjectEntity extends Domain {
 	return resident;
     }
 
-    public void setResident(boolean resident) {
+    public void setResident(final boolean resident) {
 	this.resident = resident;
     }
 
@@ -106,7 +106,7 @@ public abstract class SubjectEntity extends Domain {
 	return idNumber;
     }
 
-    public void setIdNumber(String idNumber) {
+    public void setIdNumber(final String idNumber) {
 	this.idNumber = idNumber;
     }
 
@@ -114,7 +114,7 @@ public abstract class SubjectEntity extends Domain {
 	return economicsSector;
     }
 
-    public void setEconomicsSector(KZEconomicSector economicsSector) {
+    public void setEconomicsSector(final KZEconomicSector economicsSector) {
 	this.economicsSector = economicsSector;
     }
 

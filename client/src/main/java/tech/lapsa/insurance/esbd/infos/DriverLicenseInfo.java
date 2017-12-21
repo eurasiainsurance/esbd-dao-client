@@ -19,7 +19,7 @@ public class DriverLicenseInfo extends Domain {
 	return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(final String number) {
 	this.number = number;
     }
 
@@ -27,7 +27,7 @@ public class DriverLicenseInfo extends Domain {
 	return dateOfIssue;
     }
 
-    public void setDateOfIssue(LocalDate dateOfIssue) {
+    public void setDateOfIssue(final LocalDate dateOfIssue) {
 	this.dateOfIssue = dateOfIssue;
     }
 

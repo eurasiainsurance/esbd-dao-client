@@ -5,10 +5,11 @@ import javax.ejb.Singleton;
 import com.lapsa.international.country.Country;
 
 import tech.lapsa.insurance.esbd.beans.elements.mapping.CountryMapping;
+import tech.lapsa.insurance.esbd.elements.CountryService;
 import tech.lapsa.insurance.esbd.elements.CountryService.CountryServiceLocal;
 import tech.lapsa.insurance.esbd.elements.CountryService.CountryServiceRemote;
 
-@Singleton
+@Singleton(name = CountryService.BEAN_NAME)
 public class CountryServiceBean extends AElementsService<Country, Integer>
 	implements CountryServiceLocal, CountryServiceRemote {
 

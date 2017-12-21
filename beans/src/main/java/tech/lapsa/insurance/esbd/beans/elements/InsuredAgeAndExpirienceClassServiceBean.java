@@ -6,18 +6,20 @@ import com.lapsa.insurance.elements.InsuredAgeAndExpirienceClass;
 
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.beans.elements.mapping.InsuredAgeAndExpirienceClassMapping;
+import tech.lapsa.insurance.esbd.elements.InsuredAgeAndExpirienceClassService;
 import tech.lapsa.insurance.esbd.elements.InsuredAgeAndExpirienceClassService.InsuredAgeAndExpirienceClassServiceLocal;
 import tech.lapsa.insurance.esbd.elements.InsuredAgeAndExpirienceClassService.InsuredAgeAndExpirienceClassServiceRemote;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyNumbers;
 
-@Singleton
+@Singleton(name = InsuredAgeAndExpirienceClassService.BEAN_NAME)
 public class InsuredAgeAndExpirienceClassServiceBean
 	implements InsuredAgeAndExpirienceClassServiceLocal, InsuredAgeAndExpirienceClassServiceRemote {
 
     @Override
-    public InsuredAgeAndExpirienceClass getById(Integer id) throws NotFound {
-	MyNumbers.requireNonZero(id, "id");
-	InsuredAgeAndExpirienceClass result = InsuredAgeAndExpirienceClassMapping.getInstance().forId(id);
+    public InsuredAgeAndExpirienceClass getById(final Integer id) throws NotFound, IllegalArgument {
+	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
+	final InsuredAgeAndExpirienceClass result = InsuredAgeAndExpirienceClassMapping.getInstance().forId(id);
 	if (result == null)
 	    throw new NotFound(
 		    InsuredAgeAndExpirienceClass.class.getSimpleName() + " not found with ID = '" + id + "'");

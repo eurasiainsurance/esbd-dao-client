@@ -5,9 +5,12 @@ import javax.ejb.Remote;
 
 import tech.lapsa.insurance.esbd.GeneralService;
 import tech.lapsa.insurance.esbd.NotFound;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 public interface SubjectEntityService extends GeneralService<SubjectEntity, Integer> {
+
+    public static final String BEAN_NAME = "SubjectEntityServiceBean";
 
     @Local
     public interface SubjectEntityServiceLocal extends SubjectEntityService {
@@ -17,6 +20,5 @@ public interface SubjectEntityService extends GeneralService<SubjectEntity, Inte
     public interface SubjectEntityServiceRemote extends SubjectEntityService {
     }
 
-    SubjectEntity getByIdNumber(TaxpayerNumber taxpayerNumber) throws NotFound;
-
+    SubjectEntity getByIdNumber(TaxpayerNumber taxpayerNumber) throws IllegalArgument, NotFound;
 }

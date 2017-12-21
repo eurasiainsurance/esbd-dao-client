@@ -41,7 +41,7 @@ public class UserEntity extends Domain {
 	return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(final Integer id) {
 	this.id = id;
     }
 
@@ -49,7 +49,7 @@ public class UserEntity extends Domain {
 	return login;
     }
 
-    public void setLogin(String login) {
+    public void setLogin(final String login) {
 	this.login = login;
     }
 
@@ -57,7 +57,7 @@ public class UserEntity extends Domain {
 	return branch;
     }
 
-    public void setBranch(BranchEntity branch) {
+    public void setBranch(final BranchEntity branch) {
 	this.branch = branch;
     }
 
@@ -65,7 +65,7 @@ public class UserEntity extends Domain {
 	return subjectId;
     }
 
-    public void setSubjectId(long subjectId) {
+    public void setSubjectId(final long subjectId) {
 	this.subjectId = subjectId;
     }
 
@@ -73,7 +73,7 @@ public class UserEntity extends Domain {
 	return subject;
     }
 
-    public void setSubject(SubjectEntity subject) {
+    public void setSubject(final SubjectEntity subject) {
 	this.subject = subject;
     }
 
@@ -81,7 +81,7 @@ public class UserEntity extends Domain {
 	return organization;
     }
 
-    public void setOrganization(InsuranceCompanyEntity organization) {
+    public void setOrganization(final InsuranceCompanyEntity organization) {
 	this.organization = organization;
     }
 
@@ -89,7 +89,7 @@ public class UserEntity extends Domain {
 	return authentificated;
     }
 
-    public void setAuthentificated(boolean authentificated) {
+    public void setAuthentificated(final boolean authentificated) {
 	this.authentificated = authentificated;
     }
 
@@ -97,7 +97,7 @@ public class UserEntity extends Domain {
 	return lastSesionId;
     }
 
-    public void setLastSesionId(String lastSesionId) {
+    public void setLastSesionId(final String lastSesionId) {
 	this.lastSesionId = lastSesionId;
     }
 }

@@ -5,6 +5,8 @@ import javax.ejb.Remote;
 
 public interface BranchEntityService extends DictionaryEntityService<BranchEntity, Integer> {
 
+    public static final String BEAN_NAME = "BranchEntityServiceBean";
+
     @Local
     public interface BranchEntityServiceLocal extends BranchEntityService {
     }

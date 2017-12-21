@@ -19,7 +19,7 @@ public class PensionerInfo extends Domain {
 	return certificateNumber;
     }
 
-    public void setCertificateNumber(String certificateNumber) {
+    public void setCertificateNumber(final String certificateNumber) {
 	this.certificateNumber = certificateNumber;
     }
 
@@ -27,7 +27,7 @@ public class PensionerInfo extends Domain {
 	return certiticateDateOfIssue;
     }
 
-    public void setCertiticateDateOfIssue(LocalDate certiticateDateOfIssue) {
+    public void setCertiticateDateOfIssue(final LocalDate certiticateDateOfIssue) {
 	this.certiticateDateOfIssue = certiticateDateOfIssue;
     }
 

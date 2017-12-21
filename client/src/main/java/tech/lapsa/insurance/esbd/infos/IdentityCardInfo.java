@@ -30,7 +30,7 @@ public class IdentityCardInfo extends Domain {
 	return dateOfIssue;
     }
 
-    public void setDateOfIssue(Calendar dateOfIssue) {
+    public void setDateOfIssue(final Calendar dateOfIssue) {
 	this.dateOfIssue = dateOfIssue;
     }
 
@@ -38,7 +38,7 @@ public class IdentityCardInfo extends Domain {
 	return issuingAuthority;
     }
 
-    public void setIssuingAuthority(String issuingAuthority) {
+    public void setIssuingAuthority(final String issuingAuthority) {
 	this.issuingAuthority = issuingAuthority;
     }
 
@@ -46,7 +46,7 @@ public class IdentityCardInfo extends Domain {
 	return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(final String number) {
 	this.number = number;
     }
 
@@ -54,7 +54,7 @@ public class IdentityCardInfo extends Domain {
 	return identityCardType;
     }
 
-    public void setIdentityCardType(IdentityCardType identityCardType) {
+    public void setIdentityCardType(final IdentityCardType identityCardType) {
 	this.identityCardType = identityCardType;
     }
 

@@ -55,13 +55,13 @@ public final class TestConstants {
     public static final int INVALID_SUBJECT_PERSON_ID = 999999999;
     public static final int VALID_SUBJECT_PERSON_ID = 14132412; // Evsyukovs ID
     public static final InsuranceClassType VALID_CLASS_TYPE_FOR_CLIENT = InsuranceClassType.CLASS_13; // Evsyukovs
-													      // Class
+												      // Class
     public static final int INVALID_VEHICLE_AGE_CLASS_ID = 999999999;
     public static final int INVALID_VEHICLE_CLASS_ID = 999999999;
 
     // VehicleManufacturer
     public static final int VALID_VEHICLE_MANUFACTURER_ID = 45755; // INFINTI
-								     // FX35
+								   // FX35
     public static final String VALID_VEHICLE_MANUFACTURER_NAME = "INFINTI FX35";
     public static final int ININVALID_VEHICLE_MANUFACTURER_ID = 999999999;
     public static final String INVALID_VEHICLE_MANUFACTURER_NAME = "QQQ";

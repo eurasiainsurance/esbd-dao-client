@@ -23,7 +23,7 @@ public class VehicleManufacturerEntity extends Domain {
 	return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(final Integer id) {
 	this.id = id;
     }
 
@@ -31,7 +31,7 @@ public class VehicleManufacturerEntity extends Domain {
 	return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
 	this.name = name;
     }
 
@@ -39,7 +39,7 @@ public class VehicleManufacturerEntity extends Domain {
 	return foreign;
     }
 
-    public void setForeign(boolean foreign) {
+    public void setForeign(final boolean foreign) {
 	this.foreign = foreign;
     }
 

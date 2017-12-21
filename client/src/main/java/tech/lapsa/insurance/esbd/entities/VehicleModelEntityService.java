@@ -6,8 +6,11 @@ import javax.ejb.Local;
 import javax.ejb.Remote;
 
 import tech.lapsa.insurance.esbd.GeneralService;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 
 public interface VehicleModelEntityService extends GeneralService<VehicleModelEntity, Integer> {
+
+    public static final String BEAN_NAME = "VehicleModelEntityServiceBean";
 
     @Local
     public interface VehicleModelEntityServiceLocal extends VehicleModelEntityService {
@@ -17,7 +20,7 @@ public interface VehicleModelEntityService extends GeneralService<VehicleModelEn
     public interface VehicleModelEntityServiceRemote extends VehicleModelEntityService {
     }
 
-    List<VehicleModelEntity> getByName(String name);
+    List<VehicleModelEntity> getByName(String name) throws IllegalArgument;
 
-    List<VehicleModelEntity> getByManufacturer(VehicleManufacturerEntity manufacturer);
+    List<VehicleModelEntity> getByManufacturer(VehicleManufacturerEntity manufacturer) throws IllegalArgument;
 }

@@ -20,7 +20,7 @@ public class InvalidInfo extends Domain {
 	return certificateNumber;
     }
 
-    public void setCertificateNumber(String certificateNumber) {
+    public void setCertificateNumber(final String certificateNumber) {
 	this.certificateNumber = certificateNumber;
     }
 
@@ -28,7 +28,7 @@ public class InvalidInfo extends Domain {
 	return certificateValidFrom;
     }
 
-    public void setCertificateValidFrom(LocalDate certificateValidFrom) {
+    public void setCertificateValidFrom(final LocalDate certificateValidFrom) {
 	this.certificateValidFrom = certificateValidFrom;
     }
 
@@ -36,7 +36,7 @@ public class InvalidInfo extends Domain {
 	return certificateValidTill;
     }
 
-    public void setCertificateValidTill(LocalDate certificateValidTill) {
+    public void setCertificateValidTill(final LocalDate certificateValidTill) {
 	this.certificateValidTill = certificateValidTill;
     }
 

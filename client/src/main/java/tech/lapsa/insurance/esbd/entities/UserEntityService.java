@@ -9,6 +9,8 @@ import tech.lapsa.insurance.esbd.GeneralService;
 
 public interface UserEntityService extends GeneralService<UserEntity, Integer> {
 
+    public static final String BEAN_NAME = "UserEntityServiceBean";
+
     @Local
     public interface UserEntityServiceLocal extends UserEntityService {
     }

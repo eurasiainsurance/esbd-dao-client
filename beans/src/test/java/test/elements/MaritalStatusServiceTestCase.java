@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import static test.entities.TestConstants.*;
 
 import javax.inject.Inject;
-import javax.naming.NamingException;
 
 import org.junit.Test;
 
@@ -14,6 +13,7 @@ import com.lapsa.insurance.elements.MaritalStatus;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.beans.elements.mapping.MaritalStatusMapping;
 import tech.lapsa.insurance.esbd.elements.MaritalStatusService.MaritalStatusServiceLocal;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import test.ArquillianBaseTestCase;
 
 public class MaritalStatusServiceTestCase extends ArquillianBaseTestCase {
@@ -22,19 +22,18 @@ public class MaritalStatusServiceTestCase extends ArquillianBaseTestCase {
     private MaritalStatusServiceLocal service;
 
     @Test
-    public void testGetById() throws NamingException {
-	for (int id : MaritalStatusMapping.getInstance().getAllIds()) {
+    public void testGetById() throws IllegalArgument {
+	for (final int id : MaritalStatusMapping.getInstance().getAllIds())
 	    try {
-		MaritalStatus res = service.getById(id);
+		final MaritalStatus res = service.getById(id);
 		assertThat(res, allOf(not(nullValue()), equalTo(MaritalStatusMapping.getInstance().forId(id))));
-	    } catch (NotFound e) {
+	    } catch (final NotFound e) {
 		fail(e.getMessage());
 	    }
-	}
     }
 
     @Test(expected = NotFound.class)
-    public void testGetById_NotFound() throws NamingException, NotFound {
+    public void testGetById_NotFound() throws NotFound, IllegalArgument {
 	service.getById(INVALID_MARITAL_STATUS_ID);
     }
 

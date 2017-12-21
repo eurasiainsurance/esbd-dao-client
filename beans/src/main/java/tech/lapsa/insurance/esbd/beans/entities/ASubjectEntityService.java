@@ -18,6 +18,7 @@ import tech.lapsa.insurance.esbd.elements.KZEconomicSectorService.KZEconomicSect
 import tech.lapsa.insurance.esbd.entities.SubjectEntity;
 import tech.lapsa.insurance.esbd.infos.ContactInfo;
 import tech.lapsa.insurance.esbd.infos.OriginInfo;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
@@ -35,39 +36,38 @@ public abstract class ASubjectEntityService {
     @EJB
     protected ConnectionPool pool;
 
-    protected Client fetchClientByIdNumber(TaxpayerNumber taxpayerNumber, boolean fetchNaturals,
-	    boolean fetchCompanies) {
-	int[] residentBools = new int[] { 1, 0 };
-	List<Integer> naturalPersonBools = new ArrayList<>();
+    protected Client fetchClientByIdNumber(final TaxpayerNumber taxpayerNumber, final boolean fetchNaturals,
+	    final boolean fetchCompanies) {
+	final int[] residentBools = new int[] { 1, 0 };
+	final List<Integer> naturalPersonBools = new ArrayList<>();
 	if (fetchNaturals)
 	    naturalPersonBools.add(1);
 	if (fetchCompanies)
 	    naturalPersonBools.add(0);
 
 	try (Connection con = pool.getConnection()) {
-	    for (int residentBool : residentBools) {
-		for (int naturalPersonBool : naturalPersonBools) {
-		    Client requestClient = new Client();
+	    for (final int residentBool : residentBools)
+		for (final int naturalPersonBool : naturalPersonBools) {
+		    final Client requestClient = new Client();
 		    requestClient.setIIN(taxpayerNumber.getNumber());
 		    requestClient.setNaturalPersonBool(naturalPersonBool);
 		    requestClient.setRESIDENTBOOL(residentBool);
-		    ArrayOfClient clients = con.getClientsByKeyFields(requestClient);
+		    final ArrayOfClient clients = con.getClientsByKeyFields(requestClient);
 		    if (clients != null && clients.getClient() != null && clients.getClient().size() > 0)
 			return clients.getClient().iterator().next();
 		}
-	    }
 	}
 	return null;
     }
 
-    protected void fillValues(Client source, SubjectEntity target) {
+    protected void fillValues(final Client source, final SubjectEntity target) {
 	// ID s:int Идентификатор клиента (обязательно)
 	target.setId(source.getID());
 
 	// RESIDENT_BOOL s:int Признак резидентства (обязательно)
 	// COUNTRY_ID s:int Страна (справочник COUNTRIES)
 	// SETTLEMENT_ID s:int Населенный пункт (справочник SETTLEMENTS)
-	OriginInfo oi = new OriginInfo();
+	final OriginInfo oi = new OriginInfo();
 	target.setOrigin(oi);
 	oi.setResident(source.getRESIDENTBOOL() == 1);
 
@@ -85,7 +85,7 @@ public abstract class ASubjectEntityService {
 	// EMAIL s:string Адрес электронной почты
 	// Address s:string Адрес
 	// WWW s:string Сайт
-	ContactInfo cni = new ContactInfo();
+	final ContactInfo cni = new ContactInfo();
 	target.setContact(cni);
 	if (source.getPHONES() != null)
 	    cni.setPhone(PhoneNumber.assertValid(source.getPHONES()));
@@ -109,7 +109,7 @@ public abstract class ASubjectEntityService {
 	// ECONOMICS_SECTORS)
 	try {
 	    target.setEconomicsSector(econimicsSectorService.getById(source.getECONOMICSSECTORID()));
-	} catch (NotFound e) {
+	} catch (NotFound | IllegalArgument e) {
 	    // mandatory field
 	    throw new DataCoruptionException(
 		    "Error while fetching Company Client ID = '" + source.getID()

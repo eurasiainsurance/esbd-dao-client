@@ -49,12 +49,12 @@ public class MappingTestCase extends BaseTestCase {
 
     @Test
     public void testCancelationReasonMapping() {
-	ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_CANCELATION_REASON);
+	final ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_CANCELATION_REASON);
 	assertThat(items, not(nullValue()));
-	Iterator<Item> i = items.getItem().iterator();
+	final Iterator<Item> i = items.getItem().iterator();
 	while (i.hasNext()) {
-	    Item item = i.next();
-	    CancelationReason dict = CancelationReasonMapping.getInstance().forId(item.getID());
+	    final Item item = i.next();
+	    final CancelationReason dict = CancelationReasonMapping.getInstance().forId(item.getID());
 	    assertThat(String.format(
 		    "ESBD  dictionary '%1$s' name = '%2$s' with code = '%3$s' and id = '%4$s' present, but %5$s enum variable is missing",
 		    DICT_CANCELATION_REASON, // 1
@@ -68,12 +68,12 @@ public class MappingTestCase extends BaseTestCase {
 
     @Test
     public void testCountryMapping() {
-	ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_COUNTRY);
+	final ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_COUNTRY);
 	assertThat(items, not(nullValue()));
-	Iterator<Item> i = items.getItem().iterator();
+	final Iterator<Item> i = items.getItem().iterator();
 	while (i.hasNext()) {
-	    Item item = i.next();
-	    Country dict = CountryMapping.getInstance().forId(item.getID());
+	    final Item item = i.next();
+	    final Country dict = CountryMapping.getInstance().forId(item.getID());
 	    assertThat(String.format(
 		    "ESBD  dictionary '%1$s' name = '%2$s' with code = '%3$s' and id = '%4$s' present, but %5$s enum variable is missing",
 		    DICT_COUNTRY, // 1
@@ -87,12 +87,12 @@ public class MappingTestCase extends BaseTestCase {
 
     @Test
     public void testIdentityCardTypeMapping() {
-	ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_IDENTITY_CARD_TYPE);
+	final ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_IDENTITY_CARD_TYPE);
 	assertThat(items, not(nullValue()));
-	Iterator<Item> i = items.getItem().iterator();
+	final Iterator<Item> i = items.getItem().iterator();
 	while (i.hasNext()) {
-	    Item item = i.next();
-	    IdentityCardType dict = IdentityCardTypeMapping.getInstance().forId(item.getID());
+	    final Item item = i.next();
+	    final IdentityCardType dict = IdentityCardTypeMapping.getInstance().forId(item.getID());
 	    assertThat(String.format(
 		    "ESBD  dictionary '%1$s' name = '%2$s' with code = '%3$s' and id = '%4$s' present, but %5$s enum variable is missing",
 		    DICT_IDENTITY_CARD_TYPE, // 1
@@ -106,12 +106,13 @@ public class MappingTestCase extends BaseTestCase {
 
     @Test
     public void testInsuredAgeAndExpirienceClassMapping() {
-	ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_AGE_AND_EXPIRIENCE_CLASS);
+	final ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_AGE_AND_EXPIRIENCE_CLASS);
 	assertThat(items, not(nullValue()));
-	Iterator<Item> i = items.getItem().iterator();
+	final Iterator<Item> i = items.getItem().iterator();
 	while (i.hasNext()) {
-	    Item item = i.next();
-	    InsuredAgeAndExpirienceClass dict = InsuredAgeAndExpirienceClassMapping.getInstance().forId(item.getID());
+	    final Item item = i.next();
+	    final InsuredAgeAndExpirienceClass dict = InsuredAgeAndExpirienceClassMapping.getInstance()
+		    .forId(item.getID());
 	    assertThat(String.format(
 		    "ESBD  dictionary '%1$s' name = '%2$s' with code = '%3$s' and id = '%4$s' present, but %5$s enum variable is missing",
 		    DICT_AGE_AND_EXPIRIENCE_CLASS, // 1
@@ -125,12 +126,12 @@ public class MappingTestCase extends BaseTestCase {
 
     @Test
     public void testKZAreaMapping() {
-	ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_KZ_AREA);
+	final ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_KZ_AREA);
 	assertThat(items, not(nullValue()));
-	Iterator<Item> i = items.getItem().iterator();
+	final Iterator<Item> i = items.getItem().iterator();
 	while (i.hasNext()) {
-	    Item item = i.next();
-	    KZArea dict = KZAreaMapping.getInstance().forId(item.getID());
+	    final Item item = i.next();
+	    final KZArea dict = KZAreaMapping.getInstance().forId(item.getID());
 	    assertThat(String.format(
 		    "ESBD  dictionary '%1$s' name = '%2$s' with code = '%3$s' and id = '%4$s' present, but %5$s enum variable is missing",
 		    DICT_KZ_AREA, // 1
@@ -144,12 +145,12 @@ public class MappingTestCase extends BaseTestCase {
 
     @Test
     public void testKZCityMapping() {
-	ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_KZ_CITY);
+	final ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_KZ_CITY);
 	assertThat(items, not(nullValue()));
-	Iterator<Item> i = items.getItem().iterator();
+	final Iterator<Item> i = items.getItem().iterator();
 	while (i.hasNext()) {
-	    Item item = i.next();
-	    KZCity dict = KZCityMapping.getInstance().forId(item.getID());
+	    final Item item = i.next();
+	    final KZCity dict = KZCityMapping.getInstance().forId(item.getID());
 	    if (KZCityMapping.getInstance().isException(item.getID())) {
 		if (dict != null)
 		    fail(String.format(
@@ -174,12 +175,12 @@ public class MappingTestCase extends BaseTestCase {
 
     @Test
     public void testKZEconomicsSectorMapping() {
-	ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_KZ_ECONOMIC_SECTOR);
+	final ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_KZ_ECONOMIC_SECTOR);
 	assertThat(items, not(nullValue()));
-	Iterator<Item> i = items.getItem().iterator();
+	final Iterator<Item> i = items.getItem().iterator();
 	while (i.hasNext()) {
-	    Item item = i.next();
-	    KZEconomicSector dict = KZEconomicSectorMapping.getInstance().forId(item.getID());
+	    final Item item = i.next();
+	    final KZEconomicSector dict = KZEconomicSectorMapping.getInstance().forId(item.getID());
 	    assertThat(String.format(
 		    "ESBD  dictionary '%1$s' name = '%2$s' with code = '%3$s' and id = '%4$s' present, but %5$s enum variable is missing",
 		    DICT_KZ_ECONOMIC_SECTOR, // 1
@@ -193,12 +194,12 @@ public class MappingTestCase extends BaseTestCase {
 
     @Test
     public void testMaritalStatusMapping() {
-	ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_MARITAL_STATUS);
+	final ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_MARITAL_STATUS);
 	assertThat(items, not(nullValue()));
-	Iterator<Item> i = items.getItem().iterator();
+	final Iterator<Item> i = items.getItem().iterator();
 	while (i.hasNext()) {
-	    Item item = i.next();
-	    MaritalStatus dict = MaritalStatusMapping.getInstance().forId(item.getID());
+	    final Item item = i.next();
+	    final MaritalStatus dict = MaritalStatusMapping.getInstance().forId(item.getID());
 	    assertThat(String.format(
 		    "ESBD  dictionary '%1$s' name = '%2$s' with code = '%3$s' and id = '%4$s' present, but %5$s enum variable is missing",
 		    DICT_MARITAL_STATUS, // 1
@@ -212,12 +213,12 @@ public class MappingTestCase extends BaseTestCase {
 
     @Test
     public void testSexMapping() {
-	ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_SEX);
+	final ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_SEX);
 	assertThat(items, not(nullValue()));
-	Iterator<Item> i = items.getItem().iterator();
+	final Iterator<Item> i = items.getItem().iterator();
 	while (i.hasNext()) {
-	    Item item = i.next();
-	    Sex dict = SexMapping.getInstance().forId(item.getID());
+	    final Item item = i.next();
+	    final Sex dict = SexMapping.getInstance().forId(item.getID());
 	    assertThat(String.format(
 		    "ESBD  dictionary '%1$s' name = '%2$s' with code = '%3$s' and id = '%4$s' present, but %5$s enum variable is missing",
 		    DICT_SEX, // 1
@@ -231,12 +232,12 @@ public class MappingTestCase extends BaseTestCase {
 
     @Test
     public void testVehicleAgeClassMapping() {
-	ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_VEHICLE_AGE_CLASS);
+	final ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_VEHICLE_AGE_CLASS);
 	assertThat(items, not(nullValue()));
-	Iterator<Item> i = items.getItem().iterator();
+	final Iterator<Item> i = items.getItem().iterator();
 	while (i.hasNext()) {
-	    Item item = i.next();
-	    VehicleAgeClass dict = VehicleAgeClassMapping.getInstance().forId(item.getID());
+	    final Item item = i.next();
+	    final VehicleAgeClass dict = VehicleAgeClassMapping.getInstance().forId(item.getID());
 	    assertThat(String.format(
 		    "ESBD  dictionary '%1$s' name = '%2$s' with code = '%3$s' and id = '%4$s' present, but %5$s enum variable is missing",
 		    DICT_VEHICLE_AGE_CLASS, // 1
@@ -250,12 +251,12 @@ public class MappingTestCase extends BaseTestCase {
 
     @Test
     public void testVehicleClassMapping() {
-	ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_VEHICLE_CLASS);
+	final ArrayOfItem items = getSoap().getItems(getSessionId(), DICT_VEHICLE_CLASS);
 	assertThat(items, not(nullValue()));
-	Iterator<Item> i = items.getItem().iterator();
+	final Iterator<Item> i = items.getItem().iterator();
 	while (i.hasNext()) {
-	    Item item = i.next();
-	    VehicleClass dict = VehicleClassMapping.getInstance().forId(item.getID());
+	    final Item item = i.next();
+	    final VehicleClass dict = VehicleClassMapping.getInstance().forId(item.getID());
 	    assertThat(String.format(
 		    "ESBD  dictionary '%1$s' name = '%2$s' with code = '%3$s' and id = '%4$s' present, but %5$s enum variable is missing",
 		    DICT_VEHICLE_CLASS, // 1

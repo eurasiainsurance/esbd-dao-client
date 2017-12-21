@@ -19,7 +19,7 @@ public class GPWParticipantInfo extends Domain {
 	return certificateNumber;
     }
 
-    public void setCertificateNumber(String certificateNumber) {
+    public void setCertificateNumber(final String certificateNumber) {
 	this.certificateNumber = certificateNumber;
     }
 
@@ -27,7 +27,7 @@ public class GPWParticipantInfo extends Domain {
 	return certificateDateOfIssue;
     }
 
-    public void setCertificateDateOfIssue(LocalDate certificateDateOfIssue) {
+    public void setCertificateDateOfIssue(final LocalDate certificateDateOfIssue) {
 	this.certificateDateOfIssue = certificateDateOfIssue;
     }
 

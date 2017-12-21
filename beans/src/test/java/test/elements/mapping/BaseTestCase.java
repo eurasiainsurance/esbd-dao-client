@@ -16,9 +16,9 @@ public abstract class BaseTestCase {
 
     @BeforeClass
     public static void createSession() {
-	IICWebService service = new IICWebService();
+	final IICWebService service = new IICWebService();
 	soap = service.getIICWebServiceSoap();
-	User user = soap.authenticateUser(ESBD_WS_USER_NAME, ESBD_WS_USER_PASSWORD);
+	final User user = soap.authenticateUser(ESBD_WS_USER_NAME, ESBD_WS_USER_PASSWORD);
 	sessionId = user.getSessionID();
     }
 

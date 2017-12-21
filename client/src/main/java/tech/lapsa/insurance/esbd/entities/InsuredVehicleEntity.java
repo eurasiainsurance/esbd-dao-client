@@ -59,7 +59,7 @@ public class InsuredVehicleEntity extends Domain {
 	return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(final Integer id) {
 	this.id = id;
     }
 
@@ -67,7 +67,7 @@ public class InsuredVehicleEntity extends Domain {
 	return policy;
     }
 
-    public void setPolicy(PolicyEntity policy) {
+    public void setPolicy(final PolicyEntity policy) {
 	this.policy = policy;
     }
 
@@ -75,7 +75,7 @@ public class InsuredVehicleEntity extends Domain {
 	return vehicle;
     }
 
-    public void setVehicle(VehicleEntity vehicle) {
+    public void setVehicle(final VehicleEntity vehicle) {
 	this.vehicle = vehicle;
     }
 
@@ -83,7 +83,7 @@ public class InsuredVehicleEntity extends Domain {
 	return vehicleClass;
     }
 
-    public void setVehicleClass(VehicleClass vehicleClass) {
+    public void setVehicleClass(final VehicleClass vehicleClass) {
 	this.vehicleClass = vehicleClass;
     }
 
@@ -91,7 +91,7 @@ public class InsuredVehicleEntity extends Domain {
 	return vehicleAgeClass;
     }
 
-    public void setVehicleAgeClass(VehicleAgeClass vehicleAgeClass) {
+    public void setVehicleAgeClass(final VehicleAgeClass vehicleAgeClass) {
 	this.vehicleAgeClass = vehicleAgeClass;
     }
 
@@ -99,7 +99,7 @@ public class InsuredVehicleEntity extends Domain {
 	return certificate;
     }
 
-    public void setCertificate(VehicleCertificateInfo certificate) {
+    public void setCertificate(final VehicleCertificateInfo certificate) {
 	this.certificate = certificate;
     }
 
@@ -107,7 +107,7 @@ public class InsuredVehicleEntity extends Domain {
 	return vehiclePurpose;
     }
 
-    public void setVehiclePurpose(String vehiclePurpose) {
+    public void setVehiclePurpose(final String vehiclePurpose) {
 	this.vehiclePurpose = vehiclePurpose;
     }
 
@@ -115,7 +115,7 @@ public class InsuredVehicleEntity extends Domain {
 	return currentOdometerValue;
     }
 
-    public void setCurrentOdometerValue(long currentOdometerValue) {
+    public void setCurrentOdometerValue(final long currentOdometerValue) {
 	this.currentOdometerValue = currentOdometerValue;
     }
 
@@ -123,7 +123,7 @@ public class InsuredVehicleEntity extends Domain {
 	return created;
     }
 
-    public void setCreated(RecordOperationInfo created) {
+    public void setCreated(final RecordOperationInfo created) {
 	this.created = created;
     }
 
@@ -131,7 +131,7 @@ public class InsuredVehicleEntity extends Domain {
 	return modified;
     }
 
-    public void setModified(RecordOperationInfo modified) {
+    public void setModified(final RecordOperationInfo modified) {
 	this.modified = modified;
     }
 
@@ -139,7 +139,7 @@ public class InsuredVehicleEntity extends Domain {
 	return insurer;
     }
 
-    public void setInsurer(InsuranceCompanyEntity insurer) {
+    public void setInsurer(final InsuranceCompanyEntity insurer) {
 	this.insurer = insurer;
     }
 

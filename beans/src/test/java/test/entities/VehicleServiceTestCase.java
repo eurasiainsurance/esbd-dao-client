@@ -6,13 +6,13 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.naming.NamingException;
 
 import org.junit.Test;
 
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.entities.VehicleEntity;
 import tech.lapsa.insurance.esbd.entities.VehicleEntityService.VehicleEntityServiceLocal;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.kz.vehicle.VehicleRegNumber;
 import test.ArquillianBaseTestCase;
 
@@ -25,12 +25,12 @@ public class VehicleServiceTestCase extends ArquillianBaseTestCase {
 							 // Infiniti
 
     @Test
-    public void testGetById() throws NamingException {
+    public void testGetById() throws IllegalArgument {
 	try {
-	    VehicleEntity entity = service.getById(VALID_VEHICLE_ID);
+	    final VehicleEntity entity = service.getById(VALID_VEHICLE_ID);
 	    assertThat(entity, not(nullValue()));
 	    assertThat(entity.getId(), is(VALID_VEHICLE_ID));
-	} catch (NotFound e) {
+	} catch (final NotFound e) {
 	    fail(e.getMessage());
 	}
     }
@@ -38,7 +38,7 @@ public class VehicleServiceTestCase extends ArquillianBaseTestCase {
     private static final int INVALID_VEHICLE_ID = 999999999;
 
     @Test(expected = NotFound.class)
-    public void testGetById_NotFound() throws NamingException, NotFound {
+    public void testGetById_NotFound() throws NotFound, IllegalArgument {
 	service.getById(INVALID_VEHICLE_ID);
     }
 
@@ -49,8 +49,8 @@ public class VehicleServiceTestCase extends ArquillianBaseTestCase {
 									      // 35
 
     @Test
-    public void testGetByVIN() throws NamingException {
-	List<VehicleEntity> entities = service.getByVINCode(VALID_VEHICLE_VIN_CODE);
+    public void testGetByVIN() throws IllegalArgument {
+	final List<VehicleEntity> entities = service.getByVINCode(VALID_VEHICLE_VIN_CODE);
 	assertThat(entities, not(allOf(nullValue(), empty())));
 	entities.forEach(System.out::println);
     }
@@ -58,8 +58,8 @@ public class VehicleServiceTestCase extends ArquillianBaseTestCase {
     private static final VehicleRegNumber VALID_VEHICLE_REG_NUMBER1 = VehicleRegNumber.of("082KBA02");
 
     @Test
-    public void testGetByRegNumber1() throws NamingException {
-	List<VehicleEntity> entities = service.getByRegNumber(VALID_VEHICLE_REG_NUMBER1);
+    public void testGetByRegNumber1() throws IllegalArgument {
+	final List<VehicleEntity> entities = service.getByRegNumber(VALID_VEHICLE_REG_NUMBER1);
 	assertThat(entities, not(allOf(nullValue(), empty())));
 	entities.forEach(System.out::println);
     }
@@ -67,8 +67,8 @@ public class VehicleServiceTestCase extends ArquillianBaseTestCase {
     private static final VehicleRegNumber VALID_VEHICLE_REG_NUMBER2 = VehicleRegNumber.of("A105YRO");
 
     @Test
-    public void testGetByRegNumber2() throws NamingException {
-	List<VehicleEntity> entities = service.getByRegNumber(VALID_VEHICLE_REG_NUMBER2);
+    public void testGetByRegNumber2() throws IllegalArgument {
+	final List<VehicleEntity> entities = service.getByRegNumber(VALID_VEHICLE_REG_NUMBER2);
 	assertThat(entities, not(allOf(nullValue(), empty())));
 	entities.forEach(System.out::println);
     }
@@ -76,8 +76,8 @@ public class VehicleServiceTestCase extends ArquillianBaseTestCase {
     private static final VehicleRegNumber VALID_VEHICLE_REG_NUMBER3 = VehicleRegNumber.of("357ONA02");
 
     @Test
-    public void testGetByRegNumber3() throws NamingException {
-	List<VehicleEntity> entities = service.getByRegNumber(VALID_VEHICLE_REG_NUMBER3);
+    public void testGetByRegNumber3() throws IllegalArgument {
+	final List<VehicleEntity> entities = service.getByRegNumber(VALID_VEHICLE_REG_NUMBER3);
 	assertThat(entities, not(allOf(nullValue(), empty())));
 	entities.forEach(System.out::println);
     }

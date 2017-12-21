@@ -8,7 +8,7 @@ import tech.lapsa.patterns.domain.HashCodePrime;
 
 /**
  * Класс для представления данных о происхождении клиента
- * 
+ *
  * @author vadim.isaev
  *
  */
@@ -32,7 +32,7 @@ public class OriginInfo extends Domain {
 	return resident;
     }
 
-    public void setResident(boolean resident) {
+    public void setResident(final boolean resident) {
 	this.resident = resident;
     }
 
@@ -40,7 +40,7 @@ public class OriginInfo extends Domain {
 	return country;
     }
 
-    public void setCountry(Country country) {
+    public void setCountry(final Country country) {
 	this.country = country;
     }
 
@@ -48,7 +48,7 @@ public class OriginInfo extends Domain {
 	return city;
     }
 
-    public void setCity(KZCity city) {
+    public void setCity(final KZCity city) {
 	this.city = city;
     }
 }

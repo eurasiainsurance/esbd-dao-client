@@ -8,7 +8,7 @@ import tech.lapsa.patterns.domain.HashCodePrime;
 
 /**
  * Класс для представления данных о субъекте - физ.лице
- * 
+ *
  * @author vadim.isaev
  *
  */
@@ -41,7 +41,7 @@ public class SubjectPersonEntity extends SubjectEntity {
 	return personal;
     }
 
-    public void setPersonal(PersonalInfo personal) {
+    public void setPersonal(final PersonalInfo personal) {
 	this.personal = personal;
     }
 
@@ -49,7 +49,7 @@ public class SubjectPersonEntity extends SubjectEntity {
 	return identityCardInfo;
     }
 
-    public void setIdentityCardInfo(IdentityCardInfo identityCardInfo) {
+    public void setIdentityCardInfo(final IdentityCardInfo identityCardInfo) {
 	this.identityCardInfo = identityCardInfo;
     }
 

@@ -4,10 +4,11 @@ import javax.ejb.Singleton;
 
 import tech.lapsa.esbd.jaxws.wsimport.Item;
 import tech.lapsa.insurance.esbd.dict.BranchEntity;
+import tech.lapsa.insurance.esbd.dict.BranchEntityService;
 import tech.lapsa.insurance.esbd.dict.BranchEntityService.BranchEntityServiceLocal;
 import tech.lapsa.insurance.esbd.dict.BranchEntityService.BranchEntityServiceRemote;
 
-@Singleton
+@Singleton(name = BranchEntityService.BEAN_NAME)
 public class BranchEntityServiceBean extends ADictionaryEntityService<BranchEntity, Integer>
 	implements BranchEntityServiceLocal, BranchEntityServiceRemote {
 
@@ -17,8 +18,8 @@ public class BranchEntityServiceBean extends ADictionaryEntityService<BranchEnti
 	super(DICT_NAME, BranchEntityServiceBean::convert);
     }
 
-    private static BranchEntity convert(Item source) {
-	BranchEntity target = new BranchEntity();
+    private static BranchEntity convert(final Item source) {
+	final BranchEntity target = new BranchEntity();
 	target.setId(source.getID());
 	target.setCode(source.getCode());
 	target.setName(source.getName());

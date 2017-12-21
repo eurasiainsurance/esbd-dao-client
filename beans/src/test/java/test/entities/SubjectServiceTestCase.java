@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import static test.entities.TestConstants.*;
 
 import javax.inject.Inject;
-import javax.naming.NamingException;
 
 import org.junit.Test;
 
@@ -14,6 +13,7 @@ import com.lapsa.insurance.elements.SubjectType;
 import tech.lapsa.insurance.esbd.NotFound;
 import tech.lapsa.insurance.esbd.entities.SubjectEntity;
 import tech.lapsa.insurance.esbd.entities.SubjectEntityService.SubjectEntityServiceLocal;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 import test.ArquillianBaseTestCase;
 
@@ -23,23 +23,23 @@ public class SubjectServiceTestCase extends ArquillianBaseTestCase {
     private SubjectEntityServiceLocal service;
 
     @Test
-    public void testGetById() throws NamingException {
+    public void testGetById() throws IllegalArgument {
 	try {
 	    for (int i = 0; i < VALID_SUBJECT_IDS.length; i++) {
-		int validSubjectId = VALID_SUBJECT_IDS[i];
-		SubjectType validSubjectType = VALID_SUBJECT_TYPES[i];
-		Class<?> validSubjectClass = VALID_SUBJECT_CLASSES[i];
-		SubjectEntity res = service.getById(validSubjectId);
+		final int validSubjectId = VALID_SUBJECT_IDS[i];
+		final SubjectType validSubjectType = VALID_SUBJECT_TYPES[i];
+		final Class<?> validSubjectClass = VALID_SUBJECT_CLASSES[i];
+		final SubjectEntity res = service.getById(validSubjectId);
 		assertThat(res, allOf(not(nullValue()), instanceOf(validSubjectClass)));
 		assertThat(res.getSubjectType(), allOf(not(nullValue()), is(validSubjectType)));
 	    }
-	} catch (NotFound e) {
+	} catch (final NotFound e) {
 	    fail(e.getMessage());
 	}
     }
 
     @Test(expected = NotFound.class)
-    public void testGetById_NotFound() throws NamingException, NotFound {
+    public void testGetById_NotFound() throws NotFound, IllegalArgument {
 	service.getById(INVALID_SUBJECT_ID);
     }
 
@@ -48,19 +48,19 @@ public class SubjectServiceTestCase extends ArquillianBaseTestCase {
 	    TaxpayerNumber.of("581114350286") };
 
     @Test
-    public void testGetByIDNumber() throws NamingException {
+    public void testGetByIDNumber() throws IllegalArgument {
 	try {
 	    for (int i = 0; i < VALID_SUBJECT_ID_NUMBERS.length; i++) {
-		TaxpayerNumber subjecdIdNumber = VALID_SUBJECT_ID_NUMBERS[i];
-		SubjectType validSubjectType = VALID_SUBJECT_TYPES[i];
-		Class<?> validSubjectClass = VALID_SUBJECT_CLASSES[i];
-		SubjectEntity res = service.getByIdNumber(subjecdIdNumber);
+		final TaxpayerNumber subjecdIdNumber = VALID_SUBJECT_ID_NUMBERS[i];
+		final SubjectType validSubjectType = VALID_SUBJECT_TYPES[i];
+		final Class<?> validSubjectClass = VALID_SUBJECT_CLASSES[i];
+		final SubjectEntity res = service.getByIdNumber(subjecdIdNumber);
 		assertThat(res, allOf(not(nullValue()), instanceOf(validSubjectClass)));
 		assertThat(res.getSubjectType(), allOf(not(nullValue()),
 			is(validSubjectType)));
 		assertThat(res.getIdNumber(), allOf(not(nullValue()), is(subjecdIdNumber.getNumber())));
 	    }
-	} catch (NotFound e) {
+	} catch (final NotFound e) {
 	    fail(e.getMessage());
 	}
     }
@@ -68,7 +68,7 @@ public class SubjectServiceTestCase extends ArquillianBaseTestCase {
     public static final TaxpayerNumber INVALID_SUBJECT_ID_NUMBER = TaxpayerNumber.of("800225000001");
 
     @Test(expected = NotFound.class)
-    public void testGetByIDNumber_NotFound() throws NamingException, NotFound {
+    public void testGetByIDNumber_NotFound() throws NotFound, IllegalArgument {
 	service.getByIdNumber(INVALID_SUBJECT_ID_NUMBER);
     }
 

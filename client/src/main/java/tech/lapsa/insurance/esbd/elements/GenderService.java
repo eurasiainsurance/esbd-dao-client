@@ -7,6 +7,8 @@ import com.lapsa.insurance.elements.Sex;
 
 public interface GenderService extends ElementsService<Sex, Integer> {
 
+    public static final String BEAN_NAME = "GenderServiceBean";
+
     @Local
     public interface GenderServiceLocal extends GenderService {
     }
