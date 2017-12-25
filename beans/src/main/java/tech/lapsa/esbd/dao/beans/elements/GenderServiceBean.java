@@ -1,13 +1,13 @@
-package tech.lapsa.insurance.esbd.beans.elements;
+package tech.lapsa.esbd.dao.beans.elements;
 
 import javax.ejb.Singleton;
 
 import com.lapsa.insurance.elements.Sex;
 
-import tech.lapsa.insurance.esbd.beans.elements.mapping.SexMapping;
-import tech.lapsa.insurance.esbd.elements.GenderService;
-import tech.lapsa.insurance.esbd.elements.GenderService.GenderServiceLocal;
-import tech.lapsa.insurance.esbd.elements.GenderService.GenderServiceRemote;
+import tech.lapsa.esbd.dao.beans.elements.mapping.SexMapping;
+import tech.lapsa.esbd.dao.elements.GenderService;
+import tech.lapsa.esbd.dao.elements.GenderService.GenderServiceLocal;
+import tech.lapsa.esbd.dao.elements.GenderService.GenderServiceRemote;
 
 @Singleton(name = GenderService.BEAN_NAME)
 public class GenderServiceBean extends AElementsService<Sex, Integer>

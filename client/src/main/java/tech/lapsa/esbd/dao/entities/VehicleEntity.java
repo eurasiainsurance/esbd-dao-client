@@ -1,11 +1,11 @@
-package tech.lapsa.insurance.esbd.entities;
+package tech.lapsa.esbd.dao.entities;
 
 import java.time.LocalDate;
 
 import com.lapsa.insurance.elements.SteeringWheelLocation;
 import com.lapsa.insurance.elements.VehicleClass;
 
-import tech.lapsa.insurance.esbd.Domain;
+import tech.lapsa.esbd.dao.Domain;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(31)

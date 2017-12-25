@@ -1,12 +1,12 @@
-package tech.lapsa.insurance.esbd.beans.dict;
+package tech.lapsa.esbd.dao.beans.dict;
 
 import javax.ejb.Singleton;
 
+import tech.lapsa.esbd.dao.dict.BranchEntity;
+import tech.lapsa.esbd.dao.dict.BranchEntityService;
+import tech.lapsa.esbd.dao.dict.BranchEntityService.BranchEntityServiceLocal;
+import tech.lapsa.esbd.dao.dict.BranchEntityService.BranchEntityServiceRemote;
 import tech.lapsa.esbd.jaxws.wsimport.Item;
-import tech.lapsa.insurance.esbd.dict.BranchEntity;
-import tech.lapsa.insurance.esbd.dict.BranchEntityService;
-import tech.lapsa.insurance.esbd.dict.BranchEntityService.BranchEntityServiceLocal;
-import tech.lapsa.insurance.esbd.dict.BranchEntityService.BranchEntityServiceRemote;
 
 @Singleton(name = BranchEntityService.BEAN_NAME)
 public class BranchEntityServiceBean extends ADictionaryEntityService<BranchEntity, Integer>

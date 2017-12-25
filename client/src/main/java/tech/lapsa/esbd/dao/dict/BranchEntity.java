@@ -1,6 +1,6 @@
-package tech.lapsa.insurance.esbd.dict;
+package tech.lapsa.esbd.dao.dict;
 
-import tech.lapsa.insurance.esbd.Domain;
+import tech.lapsa.esbd.dao.Domain;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(3)

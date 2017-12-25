@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.esbd.elements;
+package tech.lapsa.esbd.dao.elements;
 
 import javax.ejb.Local;
 import javax.ejb.Remote;

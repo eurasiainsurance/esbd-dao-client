@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.esbd.beans;
+package tech.lapsa.esbd.dao.beans;
 
 import java.text.DateFormat;
 import java.text.ParseException;

@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.esbd.beans.entities;
+package tech.lapsa.esbd.dao.beans.entities;
 
 import java.util.Collections;
 import java.util.List;
@@ -8,15 +8,15 @@ import javax.ejb.Stateless;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
+import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.dict.BranchEntityService.BranchEntityServiceLocal;
+import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntityService.InsuranceCompanyEntityServiceLocal;
+import tech.lapsa.esbd.dao.entities.UserEntity;
+import tech.lapsa.esbd.dao.entities.UserEntityService;
+import tech.lapsa.esbd.dao.entities.UserEntityService.UserEntityServiceLocal;
+import tech.lapsa.esbd.dao.entities.UserEntityService.UserEntityServiceRemote;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfUser;
 import tech.lapsa.esbd.jaxws.wsimport.User;
-import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.dict.BranchEntityService.BranchEntityServiceLocal;
-import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntityService.InsuranceCompanyEntityServiceLocal;
-import tech.lapsa.insurance.esbd.entities.UserEntity;
-import tech.lapsa.insurance.esbd.entities.UserEntityService;
-import tech.lapsa.insurance.esbd.entities.UserEntityService.UserEntityServiceLocal;
-import tech.lapsa.insurance.esbd.entities.UserEntityService.UserEntityServiceRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyNumbers;

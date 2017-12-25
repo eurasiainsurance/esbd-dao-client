@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.esbd.elements;
+package tech.lapsa.esbd.dao.elements;
 
 import java.time.LocalDate;
 
@@ -7,8 +7,8 @@ import javax.ejb.Remote;
 
 import com.lapsa.insurance.elements.InsuranceClassType;
 
-import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.entities.SubjectPersonEntity;
+import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.entities.SubjectPersonEntity;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 
 public interface InsuranceClassTypeService extends ElementsService<InsuranceClassType, Integer> {

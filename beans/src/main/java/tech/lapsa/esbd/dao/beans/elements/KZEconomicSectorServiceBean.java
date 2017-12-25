@@ -1,13 +1,13 @@
-package tech.lapsa.insurance.esbd.beans.elements;
+package tech.lapsa.esbd.dao.beans.elements;
 
 import javax.ejb.Singleton;
 
 import com.lapsa.kz.economic.KZEconomicSector;
 
-import tech.lapsa.insurance.esbd.beans.elements.mapping.KZEconomicSectorMapping;
-import tech.lapsa.insurance.esbd.elements.KZEconomicSectorService;
-import tech.lapsa.insurance.esbd.elements.KZEconomicSectorService.KZEconomicSectorServiceLocal;
-import tech.lapsa.insurance.esbd.elements.KZEconomicSectorService.KZEconomicSectorServiceRemote;
+import tech.lapsa.esbd.dao.beans.elements.mapping.KZEconomicSectorMapping;
+import tech.lapsa.esbd.dao.elements.KZEconomicSectorService;
+import tech.lapsa.esbd.dao.elements.KZEconomicSectorService.KZEconomicSectorServiceLocal;
+import tech.lapsa.esbd.dao.elements.KZEconomicSectorService.KZEconomicSectorServiceRemote;
 
 @Singleton(name = KZEconomicSectorService.BEAN_NAME)
 public class KZEconomicSectorServiceBean extends AElementsService<KZEconomicSector, Integer>

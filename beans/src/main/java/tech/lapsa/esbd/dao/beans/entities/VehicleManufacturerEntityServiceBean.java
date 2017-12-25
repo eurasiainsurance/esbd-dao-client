@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.esbd.beans.entities;
+package tech.lapsa.esbd.dao.beans.entities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,13 +8,13 @@ import javax.ejb.Stateless;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
+import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntity;
+import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntityService;
+import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceLocal;
+import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceRemote;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfVOITUREMARK;
 import tech.lapsa.esbd.jaxws.wsimport.VOITUREMARK;
-import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntity;
-import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntityService;
-import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceLocal;
-import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyStrings;

@@ -1,9 +1,9 @@
-package tech.lapsa.insurance.esbd.infos;
+package tech.lapsa.esbd.dao.infos;
 
 import java.time.LocalDate;
 
-import tech.lapsa.insurance.esbd.Domain;
-import tech.lapsa.insurance.esbd.entities.UserEntity;
+import tech.lapsa.esbd.dao.Domain;
+import tech.lapsa.esbd.dao.entities.UserEntity;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(83)

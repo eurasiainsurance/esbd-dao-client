@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.esbd.beans.entities;
+package tech.lapsa.esbd.dao.beans.entities;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -12,15 +12,15 @@ import com.lapsa.insurance.elements.SteeringWheelLocation;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
+import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.elements.VehicleClassService.VehicleClassServiceLocal;
+import tech.lapsa.esbd.dao.entities.VehicleEntity;
+import tech.lapsa.esbd.dao.entities.VehicleEntityService;
+import tech.lapsa.esbd.dao.entities.VehicleEntityService.VehicleEntityServiceLocal;
+import tech.lapsa.esbd.dao.entities.VehicleEntityService.VehicleEntityServiceRemote;
+import tech.lapsa.esbd.dao.entities.VehicleModelEntityService.VehicleModelEntityServiceLocal;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfTF;
 import tech.lapsa.esbd.jaxws.wsimport.TF;
-import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.elements.VehicleClassService.VehicleClassServiceLocal;
-import tech.lapsa.insurance.esbd.entities.VehicleEntity;
-import tech.lapsa.insurance.esbd.entities.VehicleEntityService;
-import tech.lapsa.insurance.esbd.entities.VehicleEntityService.VehicleEntityServiceLocal;
-import tech.lapsa.insurance.esbd.entities.VehicleEntityService.VehicleEntityServiceRemote;
-import tech.lapsa.insurance.esbd.entities.VehicleModelEntityService.VehicleModelEntityServiceLocal;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyNumbers;

@@ -1,17 +1,17 @@
-package tech.lapsa.insurance.esbd.beans.entities;
+package tech.lapsa.esbd.dao.beans.entities;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import tech.lapsa.esbd.connection.Connection;
+import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.dict.CompanyActivityKindEntityService.CompanyActivityKindEntityServiceLocal;
+import tech.lapsa.esbd.dao.entities.SubjectCompanyEntity;
+import tech.lapsa.esbd.dao.entities.SubjectCompanyEntityService;
+import tech.lapsa.esbd.dao.entities.SubjectPersonEntity;
+import tech.lapsa.esbd.dao.entities.SubjectCompanyEntityService.SubjectCompanyEntityServiceLocal;
+import tech.lapsa.esbd.dao.entities.SubjectCompanyEntityService.SubjectCompanyEntityServiceRemote;
 import tech.lapsa.esbd.jaxws.wsimport.Client;
-import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntityService.CompanyActivityKindEntityServiceLocal;
-import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntity;
-import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntityService;
-import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntityService.SubjectCompanyEntityServiceLocal;
-import tech.lapsa.insurance.esbd.entities.SubjectCompanyEntityService.SubjectCompanyEntityServiceRemote;
-import tech.lapsa.insurance.esbd.entities.SubjectPersonEntity;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;

@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.esbd;
+package tech.lapsa.esbd.dao;
 
 public interface EJBConstants {
 

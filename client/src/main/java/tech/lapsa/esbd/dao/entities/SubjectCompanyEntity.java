@@ -1,8 +1,8 @@
-package tech.lapsa.insurance.esbd.entities;
+package tech.lapsa.esbd.dao.entities;
 
 import com.lapsa.insurance.elements.SubjectType;
 
-import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntity;
+import tech.lapsa.esbd.dao.dict.CompanyActivityKindEntity;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 /**

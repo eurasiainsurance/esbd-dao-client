@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.esbd.beans.entities;
+package tech.lapsa.esbd.dao.beans.entities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,15 +9,15 @@ import com.lapsa.international.phone.PhoneNumber;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
+import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.elements.CountryService.CountryServiceLocal;
+import tech.lapsa.esbd.dao.elements.KZCityService.KZCityServiceLocal;
+import tech.lapsa.esbd.dao.elements.KZEconomicSectorService.KZEconomicSectorServiceLocal;
+import tech.lapsa.esbd.dao.entities.SubjectEntity;
+import tech.lapsa.esbd.dao.infos.ContactInfo;
+import tech.lapsa.esbd.dao.infos.OriginInfo;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfClient;
 import tech.lapsa.esbd.jaxws.wsimport.Client;
-import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.elements.CountryService.CountryServiceLocal;
-import tech.lapsa.insurance.esbd.elements.KZCityService.KZCityServiceLocal;
-import tech.lapsa.insurance.esbd.elements.KZEconomicSectorService.KZEconomicSectorServiceLocal;
-import tech.lapsa.insurance.esbd.entities.SubjectEntity;
-import tech.lapsa.insurance.esbd.infos.ContactInfo;
-import tech.lapsa.insurance.esbd.infos.OriginInfo;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;

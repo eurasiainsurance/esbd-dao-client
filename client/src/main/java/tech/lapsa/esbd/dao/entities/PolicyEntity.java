@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.esbd.entities;
+package tech.lapsa.esbd.dao.entities;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -6,10 +6,10 @@ import java.util.List;
 
 import com.lapsa.insurance.elements.CancelationReason;
 
-import tech.lapsa.insurance.esbd.Domain;
-import tech.lapsa.insurance.esbd.dict.BranchEntity;
-import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
-import tech.lapsa.insurance.esbd.infos.RecordOperationInfo;
+import tech.lapsa.esbd.dao.Domain;
+import tech.lapsa.esbd.dao.dict.BranchEntity;
+import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
+import tech.lapsa.esbd.dao.infos.RecordOperationInfo;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(17)

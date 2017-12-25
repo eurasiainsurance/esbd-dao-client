@@ -1,13 +1,13 @@
-package tech.lapsa.insurance.esbd.beans.elements;
+package tech.lapsa.esbd.dao.beans.elements;
 
 import javax.ejb.Singleton;
 
 import com.lapsa.insurance.elements.IdentityCardType;
 
-import tech.lapsa.insurance.esbd.beans.elements.mapping.IdentityCardTypeMapping;
-import tech.lapsa.insurance.esbd.elements.IdentityCardTypeService;
-import tech.lapsa.insurance.esbd.elements.IdentityCardTypeService.IdentityCardTypeServiceLocal;
-import tech.lapsa.insurance.esbd.elements.IdentityCardTypeService.IdentityCardTypeServiceRemote;
+import tech.lapsa.esbd.dao.beans.elements.mapping.IdentityCardTypeMapping;
+import tech.lapsa.esbd.dao.elements.IdentityCardTypeService;
+import tech.lapsa.esbd.dao.elements.IdentityCardTypeService.IdentityCardTypeServiceLocal;
+import tech.lapsa.esbd.dao.elements.IdentityCardTypeService.IdentityCardTypeServiceRemote;
 
 @Singleton(name = IdentityCardTypeService.BEAN_NAME)
 public class IdentityCardTypeServiceBean extends AElementsService<IdentityCardType, Integer>

@@ -10,9 +10,9 @@ import org.junit.Test;
 
 import com.lapsa.kz.country.KZArea;
 
-import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.beans.elements.mapping.KZAreaMapping;
-import tech.lapsa.insurance.esbd.elements.KZAreaService.KZAreaServiceLocal;
+import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.beans.elements.mapping.KZAreaMapping;
+import tech.lapsa.esbd.dao.elements.KZAreaService.KZAreaServiceLocal;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import test.ArquillianBaseTestCase;
 

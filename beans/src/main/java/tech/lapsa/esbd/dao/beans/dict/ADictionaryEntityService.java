@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.esbd.beans.dict;
+package tech.lapsa.esbd.dao.beans.dict;
 
 import java.util.Collections;
 import java.util.List;
@@ -8,11 +8,11 @@ import javax.ejb.EJB;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
+import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.dict.DictionaryEntity;
+import tech.lapsa.esbd.dao.dict.DictionaryEntityService;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfItem;
 import tech.lapsa.esbd.jaxws.wsimport.Item;
-import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.dict.DictionaryEntity;
-import tech.lapsa.insurance.esbd.dict.DictionaryEntityService;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyNumbers;

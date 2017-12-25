@@ -1,9 +1,9 @@
-package tech.lapsa.insurance.esbd.entities;
+package tech.lapsa.esbd.dao.entities;
 
 import com.lapsa.insurance.elements.SubjectType;
 
-import tech.lapsa.insurance.esbd.infos.IdentityCardInfo;
-import tech.lapsa.insurance.esbd.infos.PersonalInfo;
+import tech.lapsa.esbd.dao.infos.IdentityCardInfo;
+import tech.lapsa.esbd.dao.infos.PersonalInfo;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 /**

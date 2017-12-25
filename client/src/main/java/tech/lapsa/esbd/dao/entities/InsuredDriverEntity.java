@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.esbd.entities;
+package tech.lapsa.esbd.dao.entities;
 
 import com.lapsa.insurance.elements.InsuranceClassType;
 import com.lapsa.insurance.elements.InsuredAgeAndExpirienceClass;
@@ -6,14 +6,14 @@ import com.lapsa.insurance.elements.InsuredAgeClass;
 import com.lapsa.insurance.elements.InsuredExpirienceClass;
 import com.lapsa.insurance.elements.MaritalStatus;
 
-import tech.lapsa.insurance.esbd.Domain;
-import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
-import tech.lapsa.insurance.esbd.infos.DriverLicenseInfo;
-import tech.lapsa.insurance.esbd.infos.GPWParticipantInfo;
-import tech.lapsa.insurance.esbd.infos.InvalidInfo;
-import tech.lapsa.insurance.esbd.infos.PensionerInfo;
-import tech.lapsa.insurance.esbd.infos.PrivilegerInfo;
-import tech.lapsa.insurance.esbd.infos.RecordOperationInfo;
+import tech.lapsa.esbd.dao.Domain;
+import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
+import tech.lapsa.esbd.dao.infos.DriverLicenseInfo;
+import tech.lapsa.esbd.dao.infos.GPWParticipantInfo;
+import tech.lapsa.esbd.dao.infos.InvalidInfo;
+import tech.lapsa.esbd.dao.infos.PensionerInfo;
+import tech.lapsa.esbd.dao.infos.PrivilegerInfo;
+import tech.lapsa.esbd.dao.infos.RecordOperationInfo;
 import tech.lapsa.patterns.domain.HashCodeMultiplier;
 
 @HashCodeMultiplier(11)

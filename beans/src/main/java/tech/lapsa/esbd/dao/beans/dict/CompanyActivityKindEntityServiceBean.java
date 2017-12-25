@@ -1,12 +1,12 @@
-package tech.lapsa.insurance.esbd.beans.dict;
+package tech.lapsa.esbd.dao.beans.dict;
 
 import javax.ejb.Stateless;
 
+import tech.lapsa.esbd.dao.dict.CompanyActivityKindEntity;
+import tech.lapsa.esbd.dao.dict.CompanyActivityKindEntityService;
+import tech.lapsa.esbd.dao.dict.CompanyActivityKindEntityService.CompanyActivityKindEntityServiceLocal;
+import tech.lapsa.esbd.dao.dict.CompanyActivityKindEntityService.CompanyActivityKindEntityServiceRemote;
 import tech.lapsa.esbd.jaxws.wsimport.Item;
-import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntity;
-import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntityService;
-import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntityService.CompanyActivityKindEntityServiceLocal;
-import tech.lapsa.insurance.esbd.dict.CompanyActivityKindEntityService.CompanyActivityKindEntityServiceRemote;
 
 @Stateless(name = CompanyActivityKindEntityService.BEAN_NAME)
 public class CompanyActivityKindEntityServiceBean extends ADictionaryEntityService<CompanyActivityKindEntity, Integer>

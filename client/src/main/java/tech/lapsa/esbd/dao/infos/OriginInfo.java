@@ -1,9 +1,9 @@
-package tech.lapsa.insurance.esbd.infos;
+package tech.lapsa.esbd.dao.infos;
 
 import com.lapsa.international.country.Country;
 import com.lapsa.kz.country.KZCity;
 
-import tech.lapsa.insurance.esbd.Domain;
+import tech.lapsa.esbd.dao.Domain;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 /**

@@ -1,12 +1,12 @@
-package tech.lapsa.insurance.esbd.entities;
+package tech.lapsa.esbd.dao.entities;
 
 import com.lapsa.insurance.elements.VehicleAgeClass;
 import com.lapsa.insurance.elements.VehicleClass;
 
-import tech.lapsa.insurance.esbd.Domain;
-import tech.lapsa.insurance.esbd.dict.InsuranceCompanyEntity;
-import tech.lapsa.insurance.esbd.infos.RecordOperationInfo;
-import tech.lapsa.insurance.esbd.infos.VehicleCertificateInfo;
+import tech.lapsa.esbd.dao.Domain;
+import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
+import tech.lapsa.esbd.dao.infos.RecordOperationInfo;
+import tech.lapsa.esbd.dao.infos.VehicleCertificateInfo;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(13)

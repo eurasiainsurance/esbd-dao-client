@@ -1,11 +1,11 @@
-package tech.lapsa.insurance.esbd.entities;
+package tech.lapsa.esbd.dao.entities;
 
 import com.lapsa.insurance.elements.SubjectType;
 import com.lapsa.kz.economic.KZEconomicSector;
 
-import tech.lapsa.insurance.esbd.Domain;
-import tech.lapsa.insurance.esbd.infos.ContactInfo;
-import tech.lapsa.insurance.esbd.infos.OriginInfo;
+import tech.lapsa.esbd.dao.Domain;
+import tech.lapsa.esbd.dao.infos.ContactInfo;
+import tech.lapsa.esbd.dao.infos.OriginInfo;
 
 /**
  * Абстрактный класс для представления лица

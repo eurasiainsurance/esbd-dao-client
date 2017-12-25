@@ -10,9 +10,9 @@ import org.junit.Test;
 
 import com.lapsa.insurance.elements.MaritalStatus;
 
-import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.beans.elements.mapping.MaritalStatusMapping;
-import tech.lapsa.insurance.esbd.elements.MaritalStatusService.MaritalStatusServiceLocal;
+import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.beans.elements.mapping.MaritalStatusMapping;
+import tech.lapsa.esbd.dao.elements.MaritalStatusService.MaritalStatusServiceLocal;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import test.ArquillianBaseTestCase;
 

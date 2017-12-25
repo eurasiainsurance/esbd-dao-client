@@ -1,9 +1,9 @@
-package tech.lapsa.insurance.esbd.beans.elements;
+package tech.lapsa.esbd.dao.beans.elements;
 
 import java.util.function.Function;
 
-import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.elements.ElementsService;
+import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.elements.ElementsService;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyOptionals;

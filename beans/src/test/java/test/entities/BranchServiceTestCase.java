@@ -10,9 +10,9 @@ import javax.inject.Inject;
 
 import org.junit.Test;
 
-import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.dict.BranchEntity;
-import tech.lapsa.insurance.esbd.dict.BranchEntityService.BranchEntityServiceLocal;
+import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.dict.BranchEntity;
+import tech.lapsa.esbd.dao.dict.BranchEntityService.BranchEntityServiceLocal;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import test.ArquillianBaseTestCase;
 

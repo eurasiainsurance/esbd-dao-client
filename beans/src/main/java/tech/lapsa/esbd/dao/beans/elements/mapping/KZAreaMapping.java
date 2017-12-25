@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.esbd.beans.elements.mapping;
+package tech.lapsa.esbd.dao.beans.elements.mapping;
 
 import static com.lapsa.kz.country.KZArea.*;
 
