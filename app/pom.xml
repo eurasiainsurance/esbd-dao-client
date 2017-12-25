@@ -10,7 +10,7 @@
 	<artifactId>insurance-esbd-app</artifactId>
 	<packaging>ear</packaging>
 
-	<name>Insurance Lib : ESBD : EE Application</name>
+	<name>Insurance Lib : ESBD : EAR</name>
 
 	<dependencies>
 		<dependency>
