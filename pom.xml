@@ -115,14 +115,14 @@
 	</dependencyManagement>
 
 	<scm>
-		<connection>scm:git:https://gitlab.lapsa.tech/lapsa/insurance/esbd.git</connection>
-		<developerConnection>scm:git:https://gitlab.lapsa.tech/lapsa/insurance/esbd.git</developerConnection>
+		<connection>scm:git:https://gitlab.lapsa.tech/lapsa/esbd/dao.git</connection>
+		<developerConnection>scm:git:https://gitlab.lapsa.tech/lapsa/esbd/dao.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
 	<issueManagement>
 		<system>gitlab</system>
-		<url>https://gitlab.lapsa.tech/lapsa/insurance/esbd/issues</url>
+		<url>https://gitlab.lapsa.tech/lapsa/esbd/dao/issues</url>
 	</issueManagement>
 
 </project>
