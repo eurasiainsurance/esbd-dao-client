@@ -10,9 +10,9 @@ import org.junit.Test;
 
 import com.lapsa.insurance.elements.Sex;
 
-import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.beans.elements.mapping.SexMapping;
-import tech.lapsa.insurance.esbd.elements.GenderService.GenderServiceLocal;
+import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.beans.elements.mapping.SexMapping;
+import tech.lapsa.esbd.dao.elements.GenderService.GenderServiceLocal;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import test.ArquillianBaseTestCase;
 

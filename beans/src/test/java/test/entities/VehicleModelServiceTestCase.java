@@ -10,10 +10,10 @@ import javax.inject.Inject;
 
 import org.junit.Test;
 
-import tech.lapsa.insurance.esbd.NotFound;
-import tech.lapsa.insurance.esbd.entities.VehicleManufacturerEntity;
-import tech.lapsa.insurance.esbd.entities.VehicleModelEntity;
-import tech.lapsa.insurance.esbd.entities.VehicleModelEntityService.VehicleModelEntityServiceLocal;
+import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntity;
+import tech.lapsa.esbd.dao.entities.VehicleModelEntity;
+import tech.lapsa.esbd.dao.entities.VehicleModelEntityService.VehicleModelEntityServiceLocal;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import test.ArquillianBaseTestCase;
 

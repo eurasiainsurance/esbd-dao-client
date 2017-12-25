@@ -19,19 +19,19 @@ import com.lapsa.kz.country.KZArea;
 import com.lapsa.kz.country.KZCity;
 import com.lapsa.kz.economic.KZEconomicSector;
 
+import tech.lapsa.esbd.dao.beans.elements.mapping.CancelationReasonMapping;
+import tech.lapsa.esbd.dao.beans.elements.mapping.CountryMapping;
+import tech.lapsa.esbd.dao.beans.elements.mapping.IdentityCardTypeMapping;
+import tech.lapsa.esbd.dao.beans.elements.mapping.InsuredAgeAndExpirienceClassMapping;
+import tech.lapsa.esbd.dao.beans.elements.mapping.KZAreaMapping;
+import tech.lapsa.esbd.dao.beans.elements.mapping.KZCityMapping;
+import tech.lapsa.esbd.dao.beans.elements.mapping.KZEconomicSectorMapping;
+import tech.lapsa.esbd.dao.beans.elements.mapping.MaritalStatusMapping;
+import tech.lapsa.esbd.dao.beans.elements.mapping.SexMapping;
+import tech.lapsa.esbd.dao.beans.elements.mapping.VehicleAgeClassMapping;
+import tech.lapsa.esbd.dao.beans.elements.mapping.VehicleClassMapping;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfItem;
 import tech.lapsa.esbd.jaxws.wsimport.Item;
-import tech.lapsa.insurance.esbd.beans.elements.mapping.CancelationReasonMapping;
-import tech.lapsa.insurance.esbd.beans.elements.mapping.CountryMapping;
-import tech.lapsa.insurance.esbd.beans.elements.mapping.IdentityCardTypeMapping;
-import tech.lapsa.insurance.esbd.beans.elements.mapping.InsuredAgeAndExpirienceClassMapping;
-import tech.lapsa.insurance.esbd.beans.elements.mapping.KZAreaMapping;
-import tech.lapsa.insurance.esbd.beans.elements.mapping.KZCityMapping;
-import tech.lapsa.insurance.esbd.beans.elements.mapping.KZEconomicSectorMapping;
-import tech.lapsa.insurance.esbd.beans.elements.mapping.MaritalStatusMapping;
-import tech.lapsa.insurance.esbd.beans.elements.mapping.SexMapping;
-import tech.lapsa.insurance.esbd.beans.elements.mapping.VehicleAgeClassMapping;
-import tech.lapsa.insurance.esbd.beans.elements.mapping.VehicleClassMapping;
 
 public class MappingTestCase extends BaseTestCase {
 

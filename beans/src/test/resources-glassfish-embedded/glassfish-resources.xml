@@ -12,9 +12,10 @@
 		<property name="esbd.timeout.request.milis" value="5000" />
 		<property name="esbd.timeout.re-check.milis" value="500" />
 
-		<property name="esbd.wsdl-location.1" value="https://web1.mkb.kz/IICWebservice.asmx?wsdl" />
-		<property name="esbd.wsdl-location.2" value="https://web2.mkb.kz/IICWebservice.asmx?wsdl" />
-		<property name="esbd.wsdl-location.3" value="https://web3.mkb.kz/IICWebservice.asmx?wsdl" />
+		<property name="esbd.wsdl-location.0" value="https://web.mkb.kz/IICWebservice.asmx?wsdl" />
+		<property name="disabled.esbd.wsdl-location.1" value="https://web1.mkb.kz/IICWebservice.asmx?wsdl" />
+		<property name="disabled.esbd.wsdl-location.2" value="https://web2.mkb.kz/IICWebservice.asmx?wsdl" />
+		<property name="disabled.esbd.wsdl-location.3" value="https://web3.mkb.kz/IICWebservice.asmx?wsdl" />
 	</custom-resource>
 
 </resources>
