@@ -2,20 +2,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>tech.lapsa.insurance</groupId>
-		<artifactId>insurance-esbd-root</artifactId>
+		<groupId>tech.lapsa.esbd</groupId>
+		<artifactId>esbd-dao-root</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>insurance-esbd-app</artifactId>
+	<artifactId>esbd-dao-app</artifactId>
 	<packaging>ear</packaging>
 
-	<name>Insurance Lib : ESBD : EAR</name>
+	<name>ESBD Lib : DAO : EAR</name>
 
 	<dependencies>
 		<dependency>
-			<groupId>tech.lapsa.insurance</groupId>
-			<artifactId>insurance-esbd</artifactId>
+			<groupId>tech.lapsa.esbd</groupId>
+			<artifactId>esbd-dao</artifactId>
 			<type>ejb</type>
 		</dependency>
 	</dependencies>

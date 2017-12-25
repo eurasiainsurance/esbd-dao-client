@@ -7,12 +7,12 @@
 		<version>3.1</version>
 	</parent>
 
-	<groupId>tech.lapsa.insurance</groupId>
-	<artifactId>insurance-esbd-root</artifactId>
+	<groupId>tech.lapsa.esbd</groupId>
+	<artifactId>esbd-dao-root</artifactId>
 	<version>1.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>Insurance Lib : ESBD</name>
+	<name>ESBD Lib : DAO</name>
 
 	<modules>
 		<module>client</module>
@@ -74,18 +74,18 @@
 			<!-- own -->
 			<dependency>
 				<groupId>${project.groupId}</groupId>
-				<artifactId>insurance-esbd-client</artifactId>
+				<artifactId>esbd-dao-client</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
-				<artifactId>insurance-esbd</artifactId>
+				<artifactId>esbd-dao</artifactId>
 				<version>${project.version}</version>
 				<type>ejb</type>
 			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
-				<artifactId>insurance-esbd-app</artifactId>
+				<artifactId>esbd-dao-app</artifactId>
 				<version>${project.version}</version>
 				<type>ear</type>
 			</dependency>
