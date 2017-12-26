@@ -22,16 +22,16 @@
 
 	<properties>
 		<!-- BOMS -->
-		<javax-javaee-bom.version>7.0a-SNAPSHOT</javax-javaee-bom.version>
-		<java-commons.version>1.1-SNAPSHOT</java-commons.version>
+		<javax-javaee-bom.version>7.0a</javax-javaee-bom.version>
+		<java-commons.version>1.1</java-commons.version>
 		<!-- tech -->
-		<lapsa-arquillian-test.version>1.1-SNAPSHOT</lapsa-arquillian-test.version>
-		<esbd-connection.version>1.1-SNAPSHOT</esbd-connection.version>
-		<patterns-domain.version>1.0-SNAPSHOT</patterns-domain.version>
+		<lapsa-arquillian-test.version>1.1</lapsa-arquillian-test.version>
+		<esbd-connection.version>1.1</esbd-connection.version>
+		<patterns-domain.version>1.0</patterns-domain.version>
 		<!-- oldies -->
-		<insurance-lib.version>2.4-SNAPSHOT</insurance-lib.version>
-		<kz-lib.version>3.2-SNAPSHOT</kz-lib.version>
-		<international-lib.version>3.3-SNAPSHOT</international-lib.version>
+		<insurance-lib.version>2.4</insurance-lib.version>
+		<kz-lib.version>3.2</kz-lib.version>
+		<international-lib.version>3.3</international-lib.version>
 		<!-- ASB -->
 		<asb.keystore.path>${env.ASB_PATH}</asb.keystore.path>
 	</properties>
