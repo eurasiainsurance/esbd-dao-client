@@ -40,11 +40,9 @@ public class VehicleManufacturerEntityServiceBean
 		    || manufacturers.getVOITUREMARK().isEmpty())
 		throw new NotFound(
 			VehicleManufacturerEntity.class.getSimpleName() + " not found with ID = '" + id + "'");
-	    if (manufacturers.getVOITUREMARK().size() > 1)
-		throw new DataCoruptionException("Too many " + VehicleManufacturerEntity.class.getSimpleName() + " ("
-			+ manufacturers.getVOITUREMARK().size() + ") with ID = '" + id + "'");
-
-	    return convert(manufacturers.getVOITUREMARK().iterator().next());
+	    final VOITUREMARK source = Util.requireSingle(manufacturers.getVOITUREMARK(),
+		    VehicleManufacturerEntity.class, "ID", id);
+	    return convert(source);
 	}
     }
 

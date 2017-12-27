@@ -20,6 +20,7 @@ import tech.lapsa.esbd.dao.entities.VehicleEntity;
 import tech.lapsa.esbd.dao.entities.VehicleEntityService;
 import tech.lapsa.esbd.dao.entities.VehicleEntityService.VehicleEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.VehicleEntityService.VehicleEntityServiceRemote;
+import tech.lapsa.esbd.dao.entities.VehicleModelEntity;
 import tech.lapsa.esbd.dao.entities.VehicleModelEntityService.VehicleModelEntityServiceLocal;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfTF;
 import tech.lapsa.esbd.jaxws.wsimport.TF;
@@ -71,10 +72,8 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
 	    final ArrayOfTF vehicles = con.getTFByKeyFields(tf);
 	    if (vehicles == null || vehicles.getTF() == null || vehicles.getTF().isEmpty())
 		throw new NotFound(VehicleEntity.class.getSimpleName() + " not found with ID = '" + id + "'");
-	    if (vehicles.getTF().size() > 1)
-		throw new DataCoruptionException("Too many " + VehicleEntity.class.getSimpleName() + " ("
-			+ vehicles.getTF().size() + ") with ID = '" + id + "'");
-	    return convert(vehicles.getTF().iterator().next());
+	    final TF source = Util.requireSingle(vehicles.getTF(), VehicleEntity.class, "ID", id);
+	    return convert(source);
 	}
     }
 
@@ -114,13 +113,8 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
 	target.setVinCode(source.getVIN());
 
 	// MODEL_ID s:int Марка\Модель (справочник VOITURE_MODELS) (обязательно)
-	try {
-	    target.setVehicleModel(vehicleModelService.getById(source.getMODELID()));
-	} catch (NotFound | IllegalArgument e) {
-	    // mandatory field
-	    throw new DataCoruptionException("Error while fetching Vehicle ID = '" + source.getTFID()
-		    + "' from ESBD. VehicleModel ID = '" + source.getMODELID() + "' not found", e);
-	}
+	Util.requireField(target, target.getId(), vehicleModelService::getById, target::setVehicleModel,
+		"VehicleModel", VehicleModelEntity.class, source.getMODELID());
 
 	// RIGHT_HAND_DRIVE_BOOL s:int Признак расположения руля (0 - слева; 1 -
 	// справа)

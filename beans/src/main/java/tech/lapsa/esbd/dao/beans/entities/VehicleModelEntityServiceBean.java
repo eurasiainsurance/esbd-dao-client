@@ -12,9 +12,9 @@ import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntity;
+import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.VehicleModelEntity;
 import tech.lapsa.esbd.dao.entities.VehicleModelEntityService;
-import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.VehicleModelEntityService.VehicleModelEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.VehicleModelEntityService.VehicleModelEntityServiceRemote;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfVOITUREMODEL;
@@ -46,9 +46,7 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
 	    final ArrayOfVOITUREMODEL models = con.getVoitureModels(m);
 	    if (models == null || models.getVOITUREMODEL() == null || models.getVOITUREMODEL().isEmpty())
 		throw new NotFound(VehicleModelEntity.class.getSimpleName() + " not found with ID = '" + id + "'");
-	    if (models.getVOITUREMODEL().size() > 1)
-		throw new DataCoruptionException("Too many " + VehicleModelEntity.class.getSimpleName() + " ("
-			+ models.getVOITUREMODEL().size() + ") with ID = '" + id + "'");
+	    Util.requireSingle(models.getVOITUREMODEL(), VehicleModelEntity.class, "ID", id);
 	    return convert(models.getVOITUREMODEL().iterator().next());
 	}
     }
@@ -103,15 +101,8 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
     void fillValues(final VOITUREMODEL source, final VehicleModelEntity target) {
 	target.setId(source.getID());
 	target.setName(source.getNAME());
-	try {
-	    target.setManufacturer(vehicleManufacturerService.getById(source.getVOITUREMARKID()));
-	} catch (NotFound | IllegalArgument e) {
-	    // mandatory field
-	    throw new DataCoruptionException(
-		    "Error while fetching Vehicle Manufacturer ID = '" + source.getID()
-			    + "' from ESBD. Vehicle Manufacturer ID = '" + source.getVOITUREMARKID() + "' not found",
-		    e);
-	}
+	Util.requireField(target, target.getId(), vehicleManufacturerService::getById,
+		target::setManufacturer, "Manufacturer", VehicleManufacturerEntity.class, source.getVOITUREMARKID());
     }
 
 }
