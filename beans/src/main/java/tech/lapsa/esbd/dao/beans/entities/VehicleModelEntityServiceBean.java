@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -25,9 +26,56 @@ import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.java.commons.function.MyStrings;
+import tech.lapsa.java.commons.logging.MyLogger;
 
 @Stateless(name = VehicleModelEntityService.BEAN_NAME)
 public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceLocal, VehicleModelEntityServiceRemote {
+
+    private final MyLogger logger = MyLogger.newBuilder() //
+	    .withNameOf(VehicleModelEntityService.class) //
+	    .build();
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public VehicleModelEntity getById(final Integer id) throws NotFound, IllegalArgument {
+	try {
+	    return _getById(id);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<VehicleModelEntity> getByName(final String name) throws IllegalArgument {
+	try {
+	    return _getByName(name);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<VehicleModelEntity> getByManufacturer(final VehicleManufacturerEntity manufacturer)
+	    throws IllegalArgument {
+	try {
+	    return _getByManufacturer(manufacturer);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    // PRIVATE
 
     @EJB
     private VehicleManufacturerEntityServiceLocal vehicleManufacturerService;
@@ -35,10 +83,8 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
     @EJB
     private ConnectionPool pool;
 
-    @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public VehicleModelEntity getById(final Integer id) throws NotFound, IllegalArgument {
-	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
+    private VehicleModelEntity _getById(final Integer id) throws IllegalArgumentException, NotFound {
+	MyNumbers.requireNonZero(id, "id");
 	try (Connection con = pool.getConnection()) {
 	    // VOITURE_MODEL_ID, NAME, VOITURE_MARK_ID
 	    final VOITUREMODEL m = new VOITUREMODEL();
@@ -51,10 +97,8 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
 	}
     }
 
-    @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public List<VehicleModelEntity> getByName(final String name) throws IllegalArgument {
-	MyStrings.requireNonEmpty(IllegalArgument::new, name, "name");
+    private List<VehicleModelEntity> _getByName(final String name) throws IllegalArgumentException {
+	MyStrings.requireNonEmpty(name, "name");
 	try (Connection con = pool.getConnection()) {
 	    // VOITURE_MODEL_ID, NAME, VOITURE_MARK_ID
 	    // List<VehicleModelEntity> res = new ArrayList<>();
@@ -68,11 +112,9 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
 	}
     }
 
-    @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public List<VehicleModelEntity> getByManufacturer(final VehicleManufacturerEntity manufacturer)
-	    throws IllegalArgument {
-	MyObjects.requireNonNull(IllegalArgument::new, manufacturer, "manufacturer");
+    private List<VehicleModelEntity> _getByManufacturer(final VehicleManufacturerEntity manufacturer)
+	    throws IllegalArgumentException {
+	MyObjects.requireNonNull(manufacturer, "manufacturer");
 	try (Connection con = pool.getConnection()) {
 	    // VOITURE_MODEL_ID, NAME, VOITURE_MARK_ID
 	    final VOITUREMODEL m = new VOITUREMODEL();

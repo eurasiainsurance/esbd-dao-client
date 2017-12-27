@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -30,10 +31,56 @@ import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.java.commons.function.MyStrings;
+import tech.lapsa.java.commons.logging.MyLogger;
 import tech.lapsa.kz.vehicle.VehicleRegNumber;
 
 @Stateless(name = VehicleEntityService.BEAN_NAME)
 public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, VehicleEntityServiceRemote {
+
+    private final MyLogger logger = MyLogger.newBuilder() //
+	    .withNameOf(VehicleEntityService.class) //
+	    .build();
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<VehicleEntity> getByRegNumber(final VehicleRegNumber regNumber) throws IllegalArgument {
+	try {
+	    return _getByRegNumber(regNumber);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public VehicleEntity getById(final Integer id) throws NotFound, IllegalArgument {
+	try {
+	    return _getById(id);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<VehicleEntity> getByVINCode(final String vinCode) throws IllegalArgument {
+	try {
+	    return _getByVINCode(vinCode);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    // PRIVATE
 
     @EJB
     private VehicleClassServiceLocal vehicleClassService;
@@ -44,12 +91,9 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
     @EJB
     private ConnectionPool pool;
 
-    @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public List<VehicleEntity> getByRegNumber(final VehicleRegNumber regNumber) throws IllegalArgument {
-	MyObjects.requireNonNull(IllegalArgument::new, regNumber, "regNumber"); //
-	VehicleRegNumber.requireValid(IllegalArgument::new, regNumber);
-
+    private List<VehicleEntity> _getByRegNumber(final VehicleRegNumber regNumber) throws IllegalArgumentException {
+	MyObjects.requireNonNull(regNumber, "regNumber"); //
+	VehicleRegNumber.requireValid(regNumber);
 	try (Connection con = pool.getConnection()) {
 	    final ArrayOfTF vehicles = con.getTFByNumber(regNumber.getNumber());
 	    return MyOptionals.of(vehicles) //
@@ -62,10 +106,8 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
 	}
     }
 
-    @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public VehicleEntity getById(final Integer id) throws NotFound, IllegalArgument {
-	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
+    private VehicleEntity _getById(final Integer id) throws IllegalArgumentException, NotFound {
+	MyNumbers.requireNonZero(id, "id");
 	try (Connection con = pool.getConnection()) {
 	    final TF tf = new TF();
 	    tf.setTFID(new Long(id).intValue());
@@ -77,10 +119,8 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
 	}
     }
 
-    @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public List<VehicleEntity> getByVINCode(final String vinCode) throws IllegalArgument {
-	MyStrings.requireNonEmpty(IllegalArgument::new, vinCode, "vinCode");
+    private List<VehicleEntity> _getByVINCode(final String vinCode) throws IllegalArgumentException {
+	MyStrings.requireNonEmpty(vinCode, "vinCode");
 	try (Connection con = pool.getConnection()) {
 	    final ArrayOfTF vehicles = con.getTFByVIN(vinCode);
 	    return MyOptionals.of(vehicles) //

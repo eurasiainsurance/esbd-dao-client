@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -20,18 +21,49 @@ import tech.lapsa.esbd.jaxws.wsimport.VOITUREMARK;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyStrings;
+import tech.lapsa.java.commons.logging.MyLogger;
 
 @Stateless(name = VehicleManufacturerEntityService.BEAN_NAME)
 public class VehicleManufacturerEntityServiceBean
 	implements VehicleManufacturerEntityServiceLocal, VehicleManufacturerEntityServiceRemote {
 
-    @EJB
-    private ConnectionPool pool;
+    private final MyLogger logger = MyLogger.newBuilder() //
+	    .withNameOf(VehicleManufacturerEntityService.class) //
+	    .build();
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public VehicleManufacturerEntity getById(final Integer id) throws NotFound, IllegalArgument {
-	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
+	try {
+	    return _getById(id);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<VehicleManufacturerEntity> getByName(final String name) throws IllegalArgument {
+	try {
+	    return _getByName(name);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    // PRIVATE
+
+    @EJB
+    private ConnectionPool pool;
+
+    private VehicleManufacturerEntity _getById(final Integer id) throws IllegalArgumentException, NotFound {
+	MyNumbers.requireNonZero(id, "id");
 	try (Connection con = pool.getConnection()) {
 	    final VOITUREMARK m = new VOITUREMARK();
 	    m.setID(new Long(id).intValue());
@@ -46,10 +78,8 @@ public class VehicleManufacturerEntityServiceBean
 	}
     }
 
-    @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public List<VehicleManufacturerEntity> getByName(final String name) throws IllegalArgument {
-	MyStrings.requireNonEmpty(IllegalArgument::new, name, "name");
+    private List<VehicleManufacturerEntity> _getByName(final String name) throws IllegalArgumentException {
+	MyStrings.requireNonEmpty(name, "name");
 	try (Connection con = pool.getConnection()) {
 	    final List<VehicleManufacturerEntity> res = new ArrayList<>();
 	    final VOITUREMARK m = new VOITUREMARK();

@@ -1,6 +1,7 @@
 package tech.lapsa.esbd.dao.beans.entities;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -10,27 +11,58 @@ import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.esbd.dao.dict.CompanyActivityKindEntityService.CompanyActivityKindEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.SubjectCompanyEntity;
 import tech.lapsa.esbd.dao.entities.SubjectCompanyEntityService;
-import tech.lapsa.esbd.dao.entities.SubjectPersonEntity;
 import tech.lapsa.esbd.dao.entities.SubjectCompanyEntityService.SubjectCompanyEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.SubjectCompanyEntityService.SubjectCompanyEntityServiceRemote;
+import tech.lapsa.esbd.dao.entities.SubjectPersonEntity;
 import tech.lapsa.esbd.jaxws.wsimport.Client;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyOptionals;
+import tech.lapsa.java.commons.logging.MyLogger;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 @Stateless(name = SubjectCompanyEntityService.BEAN_NAME)
 public class SubjectCompanyEntityServiceBean extends ASubjectEntityService
 	implements SubjectCompanyEntityServiceLocal, SubjectCompanyEntityServiceRemote {
 
-    @EJB
-    private CompanyActivityKindEntityServiceLocal companyActivityKindService;
+    private final MyLogger logger = MyLogger.newBuilder() //
+	    .withNameOf(SubjectCompanyEntityService.class) //
+	    .build();
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public SubjectCompanyEntity getById(final Integer id) throws NotFound, IllegalArgument {
-	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
+	try {
+	    return _getById(id);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public SubjectCompanyEntity getByBIN(final TaxpayerNumber taxpayerNumber) throws NotFound, IllegalArgument {
+	try {
+	    return _getByBIN(taxpayerNumber);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    // PRIVATE
+
+    @EJB
+    private CompanyActivityKindEntityServiceLocal companyActivityKindService;
+
+    private SubjectCompanyEntity _getById(final Integer id) throws IllegalArgumentException, NotFound {
+	MyNumbers.requireNonZero(id, "id");
 	try (Connection con = pool.getConnection()) {
 	    final Client source = con.getClientByID(id.intValue());
 	    if (source == null)
@@ -43,11 +75,10 @@ public class SubjectCompanyEntityServiceBean extends ASubjectEntityService
 	}
     }
 
-    @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public SubjectCompanyEntity getByBIN(final TaxpayerNumber taxpayerNumber) throws NotFound, IllegalArgument {
-	MyObjects.requireNonNull(IllegalArgument::new, taxpayerNumber, "taxpayerNumber"); //
-	TaxpayerNumber.requireValid(IllegalArgument::new, taxpayerNumber);
+    private SubjectCompanyEntity _getByBIN(final TaxpayerNumber taxpayerNumber)
+	    throws IllegalArgumentException, NotFound {
+	MyObjects.requireNonNull(taxpayerNumber, "taxpayerNumber"); //
+	TaxpayerNumber.requireValid(taxpayerNumber);
 
 	final Client source = fetchClientByIdNumber(taxpayerNumber, false, true);
 	if (source == null)

@@ -14,6 +14,6 @@ public class KZAreaServiceBean extends AElementsService<KZArea, Integer>
 	implements KZAreaServiceLocal, KZAreaServiceRemote {
 
     public KZAreaServiceBean() {
-	super(KZAreaMapping.getInstance()::forId);
+	super(KZAreaMapping.getInstance()::forId, KZArea.class);
     }
 }

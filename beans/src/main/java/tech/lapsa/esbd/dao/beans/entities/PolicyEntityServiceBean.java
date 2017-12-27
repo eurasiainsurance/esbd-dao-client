@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -63,9 +64,42 @@ import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.java.commons.function.MyStrings;
+import tech.lapsa.java.commons.logging.MyLogger;
 
 @Stateless(name = PolicyEntityService.BEAN_NAME)
 public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, PolicyEntityServiceRemote {
+
+    private final MyLogger logger = MyLogger.newBuilder() //
+	    .withNameOf(PolicyEntityService.class) //
+	    .build();
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public PolicyEntity getById(final Integer id) throws NotFound, IllegalArgument {
+	try {
+	    return _getById(id);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public PolicyEntity getByNumber(final String number) throws NotFound, IllegalArgument {
+	try {
+	    return _getByNumber(number);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    // PRIVATE
 
     @EJB
     private InsuranceCompanyEntityServiceLocal insuranceCompanyService;
@@ -109,10 +143,8 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
     @EJB
     private ConnectionPool pool;
 
-    @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public PolicyEntity getById(final Integer id) throws NotFound, IllegalArgument {
-	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
+    private PolicyEntity _getById(final Integer id) throws IllegalArgumentException, NotFound {
+	MyNumbers.requireNonZero(id, "id");
 	try (Connection con = pool.getConnection()) {
 	    Policy source = null;
 	    try {
@@ -128,10 +160,8 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	}
     }
 
-    @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public PolicyEntity getByNumber(final String number) throws NotFound, IllegalArgument {
-	MyStrings.requireNonEmpty(IllegalArgument::new, number, "number");
+    private PolicyEntity _getByNumber(final String number) throws IllegalArgumentException, NotFound {
+	MyStrings.requireNonEmpty(number, "number");
 
 	try (Connection con = pool.getConnection()) {
 	    final ArrayOfPolicy policies = con.getPoliciesByNumber(number);

@@ -3,6 +3,7 @@ package tech.lapsa.esbd.dao.beans.entities;
 import static tech.lapsa.esbd.dao.beans.ESBDDates.*;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -23,11 +24,44 @@ import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyOptionals;
+import tech.lapsa.java.commons.logging.MyLogger;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 @Stateless(name = SubjectPersonEntityService.BEAN_NAME)
 public class SubjectPersonEntityServiceBean extends ASubjectEntityService
 	implements SubjectPersonEntityServiceLocal, SubjectPersonEntityServiceRemote {
+
+    private final MyLogger logger = MyLogger.newBuilder() //
+	    .withNameOf(SubjectPersonEntityService.class) //
+	    .build();
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public SubjectPersonEntity getById(final Integer id) throws NotFound, IllegalArgument {
+	try {
+	    return _getById(id);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public SubjectPersonEntity getByIIN(final TaxpayerNumber taxpayerNumber) throws NotFound, IllegalArgument {
+	try {
+	    return _getByIIN(taxpayerNumber);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    // PRIVATE
 
     @EJB
     private IdentityCardTypeServiceLocal identityCardTypeService;
@@ -35,11 +69,8 @@ public class SubjectPersonEntityServiceBean extends ASubjectEntityService
     @EJB
     private GenderServiceLocal sexService;
 
-    @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public SubjectPersonEntity getById(final Integer id) throws NotFound, IllegalArgument {
-	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
-
+    private SubjectPersonEntity _getById(final Integer id) throws IllegalArgumentException, NotFound {
+	MyNumbers.requireNonZero(id, "id");
 	try (Connection con = pool.getConnection()) {
 	    final Client source = con.getClientByID(id.intValue());
 	    if (source == null)
@@ -52,11 +83,10 @@ public class SubjectPersonEntityServiceBean extends ASubjectEntityService
 	}
     }
 
-    @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public SubjectPersonEntity getByIIN(final TaxpayerNumber taxpayerNumber) throws NotFound, IllegalArgument {
-	MyObjects.requireNonNull(IllegalArgument::new, taxpayerNumber, "taxpayerNumber"); //
-	TaxpayerNumber.requireValid(IllegalArgument::new, taxpayerNumber);
+    private SubjectPersonEntity _getByIIN(final TaxpayerNumber taxpayerNumber)
+	    throws IllegalArgumentException, NotFound {
+	MyObjects.requireNonNull(taxpayerNumber, "taxpayerNumber"); //
+	TaxpayerNumber.requireValid(taxpayerNumber);
 
 	final Client source = fetchClientByIdNumber(taxpayerNumber, true, false);
 	if (source == null)
