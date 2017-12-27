@@ -18,7 +18,7 @@ public abstract class AElementsService<T extends Enum<T>, I extends Number> impl
     private final Function<I, T> converter;
     private final MyLogger logger;
 
-    AElementsService(final Function<I, T> converter, final Class<T> clazz) {
+    AElementsService(final Function<I, T> converter, final Class<?> clazz) {
 	this.converter = converter;
 	this.logger = MyLogger.newBuilder() //
 		.withNameOf(clazz) //

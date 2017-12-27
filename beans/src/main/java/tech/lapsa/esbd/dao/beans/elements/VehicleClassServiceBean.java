@@ -14,6 +14,6 @@ public class VehicleClassServiceBean extends AElementsService<VehicleClass, Inte
 	implements VehicleClassServiceLocal, VehicleClassServiceRemote {
 
     public VehicleClassServiceBean() {
-	super(VehicleClassMapping.getInstance()::forId, VehicleClass.class);
+	super(VehicleClassMapping.getInstance()::forId, VehicleClassService.class);
     }
 }

@@ -14,6 +14,6 @@ public class IdentityCardTypeServiceBean extends AElementsService<IdentityCardTy
 	implements IdentityCardTypeServiceLocal, IdentityCardTypeServiceRemote {
 
     public IdentityCardTypeServiceBean() {
-	super(IdentityCardTypeMapping.getInstance()::forId, IdentityCardType.class);
+	super(IdentityCardTypeMapping.getInstance()::forId, IdentityCardTypeService.class);
     }
 }

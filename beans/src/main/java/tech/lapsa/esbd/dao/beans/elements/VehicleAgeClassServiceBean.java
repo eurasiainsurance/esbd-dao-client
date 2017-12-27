@@ -14,6 +14,6 @@ public class VehicleAgeClassServiceBean extends AElementsService<VehicleAgeClass
 	implements VehicleAgeClassServiceLocal, VehicleAgeClassServiceRemote {
 
     public VehicleAgeClassServiceBean() {
-	super(VehicleAgeClassMapping.getInstance()::forId, VehicleAgeClass.class);
+	super(VehicleAgeClassMapping.getInstance()::forId, VehicleAgeClassService.class);
     }
 }

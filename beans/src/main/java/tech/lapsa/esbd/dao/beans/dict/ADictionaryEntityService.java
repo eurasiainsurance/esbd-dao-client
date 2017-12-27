@@ -29,7 +29,7 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity<I>, I 
     private final Function<Item, T> converter;
     private final MyLogger logger;
 
-    ADictionaryEntityService(final String dictionaryName, final Function<Item, T> converter, final Class<T> clazz) {
+    ADictionaryEntityService(final String dictionaryName, final Function<Item, T> converter, final Class<?> clazz) {
 	this.dictionaryName = dictionaryName;
 	this.converter = converter;
 	this.logger = MyLogger.newBuilder() //

@@ -15,7 +15,7 @@ public class BranchEntityServiceBean extends ADictionaryEntityService<BranchEnti
     private static final String DICT_NAME = "BRANCHES";
 
     public BranchEntityServiceBean() {
-	super(DICT_NAME, BranchEntityServiceBean::convert, BranchEntity.class);
+	super(DICT_NAME, BranchEntityServiceBean::convert, BranchEntityService.class);
     }
 
     private static BranchEntity convert(final Item source) {

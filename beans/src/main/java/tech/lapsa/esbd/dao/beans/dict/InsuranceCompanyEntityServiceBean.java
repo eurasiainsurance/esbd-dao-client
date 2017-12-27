@@ -15,7 +15,7 @@ public class InsuranceCompanyEntityServiceBean extends ADictionaryEntityService<
     private static final String DICT_NAME = "INSURANCE_COMPANIES";
 
     public InsuranceCompanyEntityServiceBean() {
-	super(DICT_NAME, InsuranceCompanyEntityServiceBean::convert, InsuranceCompanyEntity.class);
+	super(DICT_NAME, InsuranceCompanyEntityServiceBean::convert, InsuranceCompanyEntityService.class);
     }
 
     private static InsuranceCompanyEntity convert(final Item source) {

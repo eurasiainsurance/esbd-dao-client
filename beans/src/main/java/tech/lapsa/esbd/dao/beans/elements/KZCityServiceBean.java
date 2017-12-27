@@ -14,6 +14,6 @@ public class KZCityServiceBean extends AElementsService<KZCity, Integer>
 	implements KZCityServiceLocal, KZCityServiceRemote {
 
     public KZCityServiceBean() {
-	super(KZCityMapping.getInstance()::forId, KZCity.class);
+	super(KZCityMapping.getInstance()::forId, KZCityService.class);
     }
 }
