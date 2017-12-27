@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.function.Function;
 
 import javax.ejb.EJB;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
@@ -35,12 +37,14 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity<I>, I 
     private List<T> all;
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<T> getAll() {
 	return MyOptionals.of(all)
 		.orElseGet(() -> (all = getAllFromESBD()));
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public T getById(final I id) throws IllegalArgument, NotFound {
 	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
 	return getAll().stream() //

@@ -2,6 +2,8 @@ package tech.lapsa.esbd.dao.beans.entities;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.dao.NotFound;
@@ -28,6 +30,7 @@ public class SubjectEntityServiceBean extends ASubjectEntityService
     private SubjectCompanyEntityServiceLocal subjectCompanyService;
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public SubjectEntity getById(final Integer id) throws NotFound, IllegalArgument {
 	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
 
@@ -46,6 +49,7 @@ public class SubjectEntityServiceBean extends ASubjectEntityService
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public SubjectEntity getByIdNumber(final TaxpayerNumber taxpayerNumber) throws NotFound, IllegalArgument {
 	MyObjects.requireNonNull(IllegalArgument::new, taxpayerNumber, "taxpayerNumber"); //
 	TaxpayerNumber.requireValid(taxpayerNumber);

@@ -1,6 +1,8 @@
 package tech.lapsa.esbd.dao.beans.elements;
 
 import javax.ejb.Singleton;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 
 import com.lapsa.insurance.elements.InsuredAgeAndExpirienceClass;
 
@@ -17,6 +19,7 @@ public class InsuredAgeAndExpirienceClassServiceBean
 	implements InsuredAgeAndExpirienceClassServiceLocal, InsuredAgeAndExpirienceClassServiceRemote {
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public InsuredAgeAndExpirienceClass getById(final Integer id) throws NotFound, IllegalArgument {
 	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
 	final InsuredAgeAndExpirienceClass result = InsuredAgeAndExpirienceClassMapping.getInstance().forId(id);

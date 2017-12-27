@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
@@ -37,6 +39,7 @@ public class UserEntityServiceBean implements UserEntityServiceLocal, UserEntity
     private List<UserEntity> all;
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<UserEntity> getAll() {
 	if (all != null)
 	    return all;

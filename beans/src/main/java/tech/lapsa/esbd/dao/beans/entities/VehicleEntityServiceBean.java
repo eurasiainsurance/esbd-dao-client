@@ -7,6 +7,8 @@ import java.util.stream.Stream;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 
 import com.lapsa.insurance.elements.SteeringWheelLocation;
 
@@ -42,6 +44,7 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
     private ConnectionPool pool;
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<VehicleEntity> getByRegNumber(final VehicleRegNumber regNumber) throws IllegalArgument {
 	MyObjects.requireNonNull(IllegalArgument::new, regNumber, "regNumber"); //
 	VehicleRegNumber.requireValid(IllegalArgument::new, regNumber);
@@ -59,6 +62,7 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public VehicleEntity getById(final Integer id) throws NotFound, IllegalArgument {
 	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
 	try (Connection con = pool.getConnection()) {
@@ -75,6 +79,7 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<VehicleEntity> getByVINCode(final String vinCode) throws IllegalArgument {
 	MyStrings.requireNonEmpty(IllegalArgument::new, vinCode, "vinCode");
 	try (Connection con = pool.getConnection()) {

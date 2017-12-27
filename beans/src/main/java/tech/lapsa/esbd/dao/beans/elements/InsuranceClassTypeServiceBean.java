@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import com.lapsa.insurance.elements.InsuranceClassType;
@@ -30,6 +32,7 @@ public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceL
     private ConnectionPool pool;
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public InsuranceClassType getById(final Integer id) throws NotFound, IllegalArgument {
 	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
 	try (Connection con = pool.getConnection()) {
@@ -41,6 +44,7 @@ public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceL
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public InsuranceClassType getByCode(final String code) throws IllegalArgument, NotFound {
 	MyStrings.requireNonEmpty(IllegalArgument::new, code, "code");
 	final InsuranceClassType result = InsuranceClassTypeMapping.getInstance().forId(code);
@@ -50,6 +54,7 @@ public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceL
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public InsuranceClassType getForSubject(final SubjectPersonEntity individual) throws IllegalArgument, NotFound {
 	MyObjects.requireNonNull(IllegalArgument::new, individual, "individual");
 	final LocalDate today = LocalDate.now();
@@ -57,6 +62,7 @@ public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceL
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public InsuranceClassType getForSubject(final SubjectPersonEntity subjectPerson, final LocalDate date)
 	    throws NotFound, IllegalArgument {
 	MyObjects.requireNonNull(IllegalArgument::new, subjectPerson, "subjectPerson");
@@ -82,6 +88,7 @@ public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceL
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public InsuranceClassType getDefault() {
 	return InsuranceClassType.CLASS_3;
     }

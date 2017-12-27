@@ -2,6 +2,9 @@ package tech.lapsa.esbd.dao.beans.elements;
 
 import java.util.function.Function;
 
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+
 import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.esbd.dao.elements.ElementsService;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
@@ -17,6 +20,7 @@ public abstract class AElementsService<T extends Enum<T>, I extends Number> impl
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public T getById(final I id) throws NotFound, IllegalArgument {
 	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
 	return MyOptionals.of(converter.apply(id)) //

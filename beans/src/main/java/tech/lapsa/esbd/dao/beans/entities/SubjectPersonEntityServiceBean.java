@@ -36,6 +36,7 @@ public class SubjectPersonEntityServiceBean extends ASubjectEntityService
     private GenderServiceLocal sexService;
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public SubjectPersonEntity getById(final Integer id) throws NotFound, IllegalArgument {
 	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
 
@@ -52,7 +53,7 @@ public class SubjectPersonEntityServiceBean extends ASubjectEntityService
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public SubjectPersonEntity getByIIN(final TaxpayerNumber taxpayerNumber) throws NotFound, IllegalArgument {
 	MyObjects.requireNonNull(IllegalArgument::new, taxpayerNumber, "taxpayerNumber"); //
 	TaxpayerNumber.requireValid(IllegalArgument::new, taxpayerNumber);

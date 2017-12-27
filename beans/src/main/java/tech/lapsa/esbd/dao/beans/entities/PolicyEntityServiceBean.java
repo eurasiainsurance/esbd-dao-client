@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import tech.lapsa.esbd.connection.Connection;
@@ -95,6 +97,7 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
     private ConnectionPool pool;
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public PolicyEntity getById(final Integer id) throws NotFound, IllegalArgument {
 	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
 	try (Connection con = pool.getConnection()) {
@@ -113,6 +116,7 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public PolicyEntity getByNumber(final String number) throws NotFound, IllegalArgument {
 	MyStrings.requireNonEmpty(IllegalArgument::new, number, "number");
 

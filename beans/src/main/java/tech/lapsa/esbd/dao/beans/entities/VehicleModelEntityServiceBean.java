@@ -5,6 +5,8 @@ import java.util.stream.Stream;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
@@ -34,6 +36,7 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
     private ConnectionPool pool;
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public VehicleModelEntity getById(final Integer id) throws NotFound, IllegalArgument {
 	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
 	try (Connection con = pool.getConnection()) {
@@ -51,6 +54,7 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<VehicleModelEntity> getByName(final String name) throws IllegalArgument {
 	MyStrings.requireNonEmpty(IllegalArgument::new, name, "name");
 	try (Connection con = pool.getConnection()) {
@@ -67,6 +71,7 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<VehicleModelEntity> getByManufacturer(final VehicleManufacturerEntity manufacturer)
 	    throws IllegalArgument {
 	MyObjects.requireNonNull(IllegalArgument::new, manufacturer, "manufacturer");
