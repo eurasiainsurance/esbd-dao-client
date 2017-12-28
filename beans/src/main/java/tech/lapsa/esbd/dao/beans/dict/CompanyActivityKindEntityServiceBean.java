@@ -15,7 +15,7 @@ public class CompanyActivityKindEntityServiceBean extends ADictionaryEntityServi
     private static final String DICT_NAME = "ACTIVITY_KINDS";
 
     public CompanyActivityKindEntityServiceBean() {
-	super(DICT_NAME, CompanyActivityKindEntityServiceBean::convert);
+	super(DICT_NAME, CompanyActivityKindEntityServiceBean::convert, CompanyActivityKindEntityService.class);
     }
 
     private static CompanyActivityKindEntity convert(final Item source) {

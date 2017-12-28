@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.function.Function;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
@@ -17,39 +20,66 @@ import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyOptionals;
+import tech.lapsa.java.commons.logging.MyLogger;
 
 public abstract class ADictionaryEntityService<T extends DictionaryEntity<I>, I extends Number>
 	implements DictionaryEntityService<T, I> {
 
     private final String dictionaryName;
     private final Function<Item, T> converter;
+    private final MyLogger logger;
 
-    ADictionaryEntityService(final String dictionaryName, final Function<Item, T> converter) {
+    ADictionaryEntityService(final String dictionaryName, final Function<Item, T> converter, final Class<?> clazz) {
 	this.dictionaryName = dictionaryName;
 	this.converter = converter;
+	this.logger = MyLogger.newBuilder() //
+		.withNameOf(clazz) //
+		.build();
     }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<T> getAll() {
+	try {
+	    return _getAll();
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public T getById(final I id) throws IllegalArgument, NotFound {
+	try {
+	    return _getById(id);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    // PRIVATE
 
     @EJB
     private ConnectionPool pool;
 
     private List<T> all;
 
-    @Override
-    public List<T> getAll() {
+    private List<T> _getAll() {
 	return MyOptionals.of(all)
 		.orElseGet(() -> (all = getAllFromESBD()));
     }
 
-    @Override
-    public T getById(final I id) throws IllegalArgument, NotFound {
-	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
+    private T _getById(final I id) throws IllegalArgumentException, NotFound {
+	MyNumbers.requireNonZero(id, "id");
 	return getAll().stream() //
 		.filter(x -> MyNumbers.numbericEquals(id, x.getId())) //
 		.findFirst()
 		.orElseThrow(() -> new NotFound(String.format("Dictionary entity with id = '%1$s' is not found", id)));
     }
-
-    // PRIVATE
 
     private List<T> getAllFromESBD() {
 	try (Connection con = pool.getConnection()) {

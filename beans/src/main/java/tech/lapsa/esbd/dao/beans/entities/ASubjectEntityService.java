@@ -6,10 +6,10 @@ import java.util.List;
 import javax.ejb.EJB;
 
 import com.lapsa.international.phone.PhoneNumber;
+import com.lapsa.kz.economic.KZEconomicSector;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
-import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.esbd.dao.elements.CountryService.CountryServiceLocal;
 import tech.lapsa.esbd.dao.elements.KZCityService.KZCityServiceLocal;
 import tech.lapsa.esbd.dao.elements.KZEconomicSectorService.KZEconomicSectorServiceLocal;
@@ -18,7 +18,6 @@ import tech.lapsa.esbd.dao.infos.ContactInfo;
 import tech.lapsa.esbd.dao.infos.OriginInfo;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfClient;
 import tech.lapsa.esbd.jaxws.wsimport.Client;
-import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
@@ -107,14 +106,7 @@ public abstract class ASubjectEntityService {
 
 	// ECONOMICS_SECTOR_ID s:int Сектор экономики (справочник
 	// ECONOMICS_SECTORS)
-	try {
-	    target.setEconomicsSector(econimicsSectorService.getById(source.getECONOMICSSECTORID()));
-	} catch (NotFound | IllegalArgument e) {
-	    // mandatory field
-	    throw new DataCoruptionException(
-		    "Error while fetching Company Client ID = '" + source.getID()
-			    + "' from ESBD. Economics Sector ID = '" + source.getECONOMICSSECTORID() + "' not found",
-		    e);
-	}
+	Util.requireField(target, target.getId(), econimicsSectorService::getById,
+		target::setEconomicsSector, "EconomicsSector", KZEconomicSector.class, source.getECONOMICSSECTORID());
     }
 }

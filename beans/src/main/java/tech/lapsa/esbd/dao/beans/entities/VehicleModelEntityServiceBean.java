@@ -4,15 +4,18 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntity;
+import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.VehicleModelEntity;
 import tech.lapsa.esbd.dao.entities.VehicleModelEntityService;
-import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.VehicleModelEntityService.VehicleModelEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.VehicleModelEntityService.VehicleModelEntityServiceRemote;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfVOITUREMODEL;
@@ -23,9 +26,56 @@ import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.java.commons.function.MyStrings;
+import tech.lapsa.java.commons.logging.MyLogger;
 
 @Stateless(name = VehicleModelEntityService.BEAN_NAME)
 public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceLocal, VehicleModelEntityServiceRemote {
+
+    private final MyLogger logger = MyLogger.newBuilder() //
+	    .withNameOf(VehicleModelEntityService.class) //
+	    .build();
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public VehicleModelEntity getById(final Integer id) throws NotFound, IllegalArgument {
+	try {
+	    return _getById(id);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<VehicleModelEntity> getByName(final String name) throws IllegalArgument {
+	try {
+	    return _getByName(name);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<VehicleModelEntity> getByManufacturer(final VehicleManufacturerEntity manufacturer)
+	    throws IllegalArgument {
+	try {
+	    return _getByManufacturer(manufacturer);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    // PRIVATE
 
     @EJB
     private VehicleManufacturerEntityServiceLocal vehicleManufacturerService;
@@ -33,9 +83,8 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
     @EJB
     private ConnectionPool pool;
 
-    @Override
-    public VehicleModelEntity getById(final Integer id) throws NotFound, IllegalArgument {
-	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
+    private VehicleModelEntity _getById(final Integer id) throws IllegalArgumentException, NotFound {
+	MyNumbers.requireNonZero(id, "id");
 	try (Connection con = pool.getConnection()) {
 	    // VOITURE_MODEL_ID, NAME, VOITURE_MARK_ID
 	    final VOITUREMODEL m = new VOITUREMODEL();
@@ -43,16 +92,13 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
 	    final ArrayOfVOITUREMODEL models = con.getVoitureModels(m);
 	    if (models == null || models.getVOITUREMODEL() == null || models.getVOITUREMODEL().isEmpty())
 		throw new NotFound(VehicleModelEntity.class.getSimpleName() + " not found with ID = '" + id + "'");
-	    if (models.getVOITUREMODEL().size() > 1)
-		throw new DataCoruptionException("Too many " + VehicleModelEntity.class.getSimpleName() + " ("
-			+ models.getVOITUREMODEL().size() + ") with ID = '" + id + "'");
+	    Util.requireSingle(models.getVOITUREMODEL(), VehicleModelEntity.class, "ID", id);
 	    return convert(models.getVOITUREMODEL().iterator().next());
 	}
     }
 
-    @Override
-    public List<VehicleModelEntity> getByName(final String name) throws IllegalArgument {
-	MyStrings.requireNonEmpty(IllegalArgument::new, name, "name");
+    private List<VehicleModelEntity> _getByName(final String name) throws IllegalArgumentException {
+	MyStrings.requireNonEmpty(name, "name");
 	try (Connection con = pool.getConnection()) {
 	    // VOITURE_MODEL_ID, NAME, VOITURE_MARK_ID
 	    // List<VehicleModelEntity> res = new ArrayList<>();
@@ -66,10 +112,9 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
 	}
     }
 
-    @Override
-    public List<VehicleModelEntity> getByManufacturer(final VehicleManufacturerEntity manufacturer)
-	    throws IllegalArgument {
-	MyObjects.requireNonNull(IllegalArgument::new, manufacturer, "manufacturer");
+    private List<VehicleModelEntity> _getByManufacturer(final VehicleManufacturerEntity manufacturer)
+	    throws IllegalArgumentException {
+	MyObjects.requireNonNull(manufacturer, "manufacturer");
 	try (Connection con = pool.getConnection()) {
 	    // VOITURE_MODEL_ID, NAME, VOITURE_MARK_ID
 	    final VOITUREMODEL m = new VOITUREMODEL();
@@ -98,15 +143,8 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
     void fillValues(final VOITUREMODEL source, final VehicleModelEntity target) {
 	target.setId(source.getID());
 	target.setName(source.getNAME());
-	try {
-	    target.setManufacturer(vehicleManufacturerService.getById(source.getVOITUREMARKID()));
-	} catch (NotFound | IllegalArgument e) {
-	    // mandatory field
-	    throw new DataCoruptionException(
-		    "Error while fetching Vehicle Manufacturer ID = '" + source.getID()
-			    + "' from ESBD. Vehicle Manufacturer ID = '" + source.getVOITUREMARKID() + "' not found",
-		    e);
-	}
+	Util.requireField(target, target.getId(), vehicleManufacturerService::getById,
+		target::setManufacturer, "Manufacturer", VehicleManufacturerEntity.class, source.getVOITUREMARKID());
     }
 
 }

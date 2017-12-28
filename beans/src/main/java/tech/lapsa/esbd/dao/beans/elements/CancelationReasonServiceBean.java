@@ -14,6 +14,6 @@ public class CancelationReasonServiceBean extends AElementsService<CancelationRe
 	implements CancelationReasonServiceLocal, CancelationReasonServiceRemote {
 
     public CancelationReasonServiceBean() {
-	super(CancelationReasonMapping.getInstance()::forId);
+	super(CancelationReasonMapping.getInstance()::forId, CancelationReasonService.class);
     }
 }

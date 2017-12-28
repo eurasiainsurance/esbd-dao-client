@@ -14,6 +14,6 @@ public class KZEconomicSectorServiceBean extends AElementsService<KZEconomicSect
 	implements KZEconomicSectorServiceLocal, KZEconomicSectorServiceRemote {
 
     public KZEconomicSectorServiceBean() {
-	super(KZEconomicSectorMapping.getInstance()::forId);
+	super(KZEconomicSectorMapping.getInstance()::forId, KZEconomicSectorService.class);
     }
 }

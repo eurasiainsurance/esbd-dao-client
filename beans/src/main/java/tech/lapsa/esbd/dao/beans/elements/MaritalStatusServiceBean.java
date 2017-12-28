@@ -14,6 +14,6 @@ public class MaritalStatusServiceBean extends AElementsService<MaritalStatus, In
 	implements MaritalStatusServiceLocal, MaritalStatusServiceRemote {
 
     public MaritalStatusServiceBean() {
-	super(MaritalStatusMapping.getInstance()::forId);
+	super(MaritalStatusMapping.getInstance()::forId, MaritalStatusService.class);
     }
 }

@@ -14,6 +14,6 @@ public class GenderServiceBean extends AElementsService<Sex, Integer>
 	implements GenderServiceLocal, GenderServiceRemote {
 
     public GenderServiceBean() {
-	super(SexMapping.getInstance()::forId);
+	super(SexMapping.getInstance()::forId, GenderService.class);
     }
 }

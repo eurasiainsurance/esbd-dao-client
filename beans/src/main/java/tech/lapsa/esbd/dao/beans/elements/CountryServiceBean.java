@@ -14,6 +14,6 @@ public class CountryServiceBean extends AElementsService<Country, Integer>
 	implements CountryServiceLocal, CountryServiceRemote {
 
     public CountryServiceBean() {
-	super(CountryMapping.getInstance()::forId);
+	super(CountryMapping.getInstance()::forId, CountryService.class);
     }
 }

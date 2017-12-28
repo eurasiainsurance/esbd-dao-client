@@ -4,7 +4,10 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
@@ -21,9 +24,39 @@ import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyOptionals;
+import tech.lapsa.java.commons.logging.MyLogger;
 
 @Stateless(name = UserEntityService.BEAN_NAME)
 public class UserEntityServiceBean implements UserEntityServiceLocal, UserEntityServiceRemote {
+
+    private final MyLogger logger = MyLogger.newBuilder() //
+	    .withNameOf(UserEntityService.class) //
+	    .build();
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<UserEntity> getAll() {
+	try {
+	    return _getAll();
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    @Override
+    public UserEntity getById(final Integer id) throws NotFound, IllegalArgument {
+	try {
+	    return _getById(id);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    // PRIVATE
 
     @EJB
     private BranchEntityServiceLocal branchService;
@@ -36,8 +69,7 @@ public class UserEntityServiceBean implements UserEntityServiceLocal, UserEntity
 
     private List<UserEntity> all;
 
-    @Override
-    public List<UserEntity> getAll() {
+    private List<UserEntity> _getAll() {
 	if (all != null)
 	    return all;
 	try (Connection con = pool.getConnection()) {
@@ -50,9 +82,8 @@ public class UserEntityServiceBean implements UserEntityServiceLocal, UserEntity
 	}
     }
 
-    @Override
-    public UserEntity getById(final Integer id) throws NotFound, IllegalArgument {
-	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
+    private UserEntity _getById(final Integer id) throws IllegalArgumentException, NotFound {
+	MyNumbers.requireNonZero(id, "id");
 	return getAll().stream() //
 		.filter(x -> MyNumbers.numbericEquals(id, x.getId())) //
 		.findAny() //

@@ -6,13 +6,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.xml.ws.soap.SOAPFaultException;
+
+import com.lapsa.insurance.elements.InsuranceClassType;
+import com.lapsa.insurance.elements.InsuredAgeAndExpirienceClass;
+import com.lapsa.insurance.elements.MaritalStatus;
+import com.lapsa.insurance.elements.VehicleAgeClass;
+import com.lapsa.insurance.elements.VehicleClass;
+import com.lapsa.kz.country.KZArea;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.dict.BranchEntity;
 import tech.lapsa.esbd.dao.dict.BranchEntityService.BranchEntityServiceLocal;
+import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
 import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntityService.InsuranceCompanyEntityServiceLocal;
 import tech.lapsa.esbd.dao.elements.CancelationReasonService.CancelationReasonServiceLocal;
 import tech.lapsa.esbd.dao.elements.InsuranceClassTypeService.InsuranceClassTypeServiceLocal;
@@ -27,9 +39,13 @@ import tech.lapsa.esbd.dao.entities.PolicyEntity;
 import tech.lapsa.esbd.dao.entities.PolicyEntityService;
 import tech.lapsa.esbd.dao.entities.PolicyEntityService.PolicyEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.PolicyEntityService.PolicyEntityServiceRemote;
+import tech.lapsa.esbd.dao.entities.SubjectEntity;
 import tech.lapsa.esbd.dao.entities.SubjectEntityService.SubjectEntityServiceLocal;
+import tech.lapsa.esbd.dao.entities.SubjectPersonEntity;
 import tech.lapsa.esbd.dao.entities.SubjectPersonEntityService.SubjectPersonEntityServiceLocal;
+import tech.lapsa.esbd.dao.entities.UserEntity;
 import tech.lapsa.esbd.dao.entities.UserEntityService.UserEntityServiceLocal;
+import tech.lapsa.esbd.dao.entities.VehicleEntity;
 import tech.lapsa.esbd.dao.entities.VehicleEntityService.VehicleEntityServiceLocal;
 import tech.lapsa.esbd.dao.infos.DriverLicenseInfo;
 import tech.lapsa.esbd.dao.infos.GPWParticipantInfo;
@@ -48,9 +64,42 @@ import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.java.commons.function.MyStrings;
+import tech.lapsa.java.commons.logging.MyLogger;
 
 @Stateless(name = PolicyEntityService.BEAN_NAME)
 public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, PolicyEntityServiceRemote {
+
+    private final MyLogger logger = MyLogger.newBuilder() //
+	    .withNameOf(PolicyEntityService.class) //
+	    .build();
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public PolicyEntity getById(final Integer id) throws NotFound, IllegalArgument {
+	try {
+	    return _getById(id);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public PolicyEntity getByNumber(final String number) throws NotFound, IllegalArgument {
+	try {
+	    return _getByNumber(number);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    // PRIVATE
 
     @EJB
     private InsuranceCompanyEntityServiceLocal insuranceCompanyService;
@@ -94,9 +143,8 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
     @EJB
     private ConnectionPool pool;
 
-    @Override
-    public PolicyEntity getById(final Integer id) throws NotFound, IllegalArgument {
-	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
+    private PolicyEntity _getById(final Integer id) throws IllegalArgumentException, NotFound {
+	MyNumbers.requireNonZero(id, "id");
 	try (Connection con = pool.getConnection()) {
 	    Policy source = null;
 	    try {
@@ -112,21 +160,17 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	}
     }
 
-    @Override
-    public PolicyEntity getByNumber(final String number) throws NotFound, IllegalArgument {
-	MyStrings.requireNonEmpty(IllegalArgument::new, number, "number");
+    private PolicyEntity _getByNumber(final String number) throws IllegalArgumentException, NotFound {
+	MyStrings.requireNonEmpty(number, "number");
 
 	try (Connection con = pool.getConnection()) {
 	    final ArrayOfPolicy policies = con.getPoliciesByNumber(number);
 	    if (policies == null || policies.getPolicy() == null || policies.getPolicy().isEmpty())
 		throw new NotFound(PolicyEntity.class.getSimpleName() + " not found with NUMBER = '" + number + "'");
-	    if (policies.getPolicy().size() > 1)
-		throw new DataCoruptionException(
-			"Too many " + PolicyEntity.class.getSimpleName() + " ("
-				+ policies.getPolicy().size() + ") with NUMBER = '" + number + "'");
-
+	    final Policy source = Util.requireSingle(policies.getPolicy(), PolicyEntity.class, "NUMBER",
+		    number);
 	    final PolicyEntity policy = new PolicyEntity();
-	    fillValues(policies.getPolicy().iterator().next(), policy);
+	    fillValues(source, policy);
 	    return policy;
 	}
     }
@@ -151,27 +195,13 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	target.setPremiumCost(source.getCALCULATEDPREMIUM());
 
 	// SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
-	try {
-	    target.setInsurer(insuranceCompanyService.getById(source.getSYSTEMDELIMITERID()));
-	} catch (NotFound | IllegalArgument e) {
-	    // mandatory field
-	    throw new DataCoruptionException(
-		    "Error while fetching Policy ID = '" + source.getPOLICYID()
-			    + "' from ESBD. Insurance company ID = '" + source.getSYSTEMDELIMITERID()
-			    + "' not found",
-		    e);
-	}
+	Util.requireField(target, target.getId(), insuranceCompanyService::getById,
+		target::setInsurer, "Insurer", InsuranceCompanyEntity.class,
+		source.getSYSTEMDELIMITERID());
 
 	// CLIENT_ID s:int Идентификатор страхователя (обязательно)
-	try {
-	    target.setInsurant(subjectService.getById(source.getCLIENTID()));
-	} catch (NotFound | IllegalArgument e) {
-	    // mandatory field
-	    throw new DataCoruptionException(
-		    "Error while fetching Policy ID = '" + source.getPOLICYID() + "' from ESBD. Insurer ID = '"
-			    + source.getCLIENTID() + "' not found",
-		    e);
-	}
+	Util.requireField(target, target.getId(), subjectService::getById, target::setInsurant,
+		"Insurant", SubjectEntity.class, source.getCLIENTID());
 
 	// POLICY_DATE s:string Дата полиса
 	target.setDateOfIssue(convertESBDDateToCalendar(source.getPOLICYDATE()));
@@ -187,13 +217,8 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 		.orElse(null));
 
 	// BRANCH_ID s:int Филиал (обязательно)
-	try {
-	    target.setBranch(branchService.getById(source.getBRANCHID()));
-	} catch (NotFound | IllegalArgument e) {
-	    // mandatory field
-	    throw new DataCoruptionException(
-		    "Error while fetching Policy from ESBD. Branch ID = '" + source.getBRANCHID() + "' not found", e);
-	}
+	Util.requireField(target, target.getId(), branchService::getById, target::setBranch, "Branch",
+		BranchEntity.class, source.getBRANCHID());
 
 	// REWRITE_BOOL s:int Признак переоформления
 	target.setReissued(source.getREWRITEBOOL() == 1);
@@ -207,8 +232,7 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	// Drivers tns:ArrayOfDriver Водители (обязательно)
 	final ArrayOfDriver drivers = source.getDrivers();
 	if (drivers == null || drivers.getDriver() == null || drivers.getDriver().isEmpty())
-	    throw new DataCoruptionException(
-		    "Error while fetching Policy ID = '" + source.getPOLICYID() + "' from ESBD. Drivers list is empty");
+	    throw Util.requireNonEmtyList(target, target.getId(), "InsuredDrivers");
 	final List<InsuredDriverEntity> insuredDrivers = new ArrayList<>();
 	target.setInsuredDrivers(insuredDrivers);
 	for (final Driver s : drivers.getDriver()) {
@@ -221,9 +245,7 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	// (обязательно)
 	final ArrayOfPoliciesTF vehicles = source.getPoliciesTF();
 	if (vehicles == null || vehicles.getPoliciesTF() == null || vehicles.getPoliciesTF().isEmpty())
-	    throw new DataCoruptionException(
-		    "Error while fetching Policy ID = '" + source.getPOLICYID()
-			    + "' from ESBD. Insured vehicle list is empty");
+	    throw Util.requireNonEmtyList(target, target.getId(), "InsuredVehicles");
 	final List<InsuredVehicleEntity> insuredVehicles = new ArrayList<>();
 	target.setInsuredVehicles(insuredVehicles);
 	for (final PoliciesTF s : vehicles.getPoliciesTF()) {
@@ -237,15 +259,8 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	final RecordOperationInfo created = new RecordOperationInfo();
 	target.setCreated(created);
 	created.setDate(convertESBDDateToLocalDate(source.getINPUTDATE()));
-	try {
-	    created.setAuthor(userService.getById(source.getCREATEDBYUSERID()));
-	} catch (NotFound | IllegalArgument e) {
-	    throw new DataCoruptionException(
-		    "Error while fetching Policy ID = '" + source.getPOLICYID()
-			    + "' from ESBD. User created ID = '" + source.getCREATEDBYUSERID()
-			    + "' not found",
-		    e);
-	}
+	Util.requireField(target, target.getId(), userService::getById, created::setAuthor,
+		"Created.Author", UserEntity.class, source.getCREATEDBYUSERID());
 
 	// RECORD_CHANGED_AT s:string Дата\время изменения полиса
 	// RECORD_CHANGED_AT_DATETIME s:string Дата\время изменения полиса
@@ -255,15 +270,8 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	target.setModified(modified);
 	modified.setDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()));
 	if (modified.getDate() != null)
-	    try {
-		modified.setAuthor(userService.getById(source.getCHANGEDBYUSERID()));
-	    } catch (NotFound | IllegalArgument e) {
-		throw new DataCoruptionException(
-			"Error while fetching Policy ID = '" + source.getPOLICYID()
-				+ "' from ESBD. User modified ID = '" + source.getCHANGEDBYUSERID()
-				+ "' not found",
-			e);
-	    }
+	    Util.requireField(target, target.getId(), userService::getById, modified::setAuthor,
+		    "Modified.Author", UserEntity.class, source.getCHANGEDBYUSERID());
 
 	// GLOBAL_ID s:string Уникальный глобальный идентификатор полиса
 	// ScheduledPayments tns:ArrayOfSCHEDULED_PAYMENT Плановые платежи по
@@ -285,49 +293,23 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	if (policy.getId() == source.getPOLICYID())
 	    target.setPolicy(policy);
 	else
-	    try {
-		target.setPolicy(getById(source.getPOLICYID()));
-	    } catch (final NotFound | IllegalArgument e) {
-		throw new DataCoruptionException(
-			"Error while fetching Driver ID = '" + source.getDRIVERID()
-				+ "' at Policy ID = '" + source.getPOLICYID()
-				+ "' from ESBD. Policty with ID = '" + source.getPOLICYID() + "' not found");
-	    }
+	    Util.requireField(target, target.getId(), this::getById, target::setPolicy, "policy",
+		    PolicyEntity.class, source.getPOLICYID());
 
 	// CLIENT_ID s:int Идентификатор клиента (обязательно)
-	try {
-	    target.setInsuredPerson(subjectPersonService.getById(source.getCLIENTID()));
-	} catch (NotFound | IllegalArgument e) {
-	    throw new DataCoruptionException(
-		    "Error while fetching Driver ID = '" + source.getDRIVERID()
-			    + "' at Policy ID = '" + source.getPOLICYID()
-			    + "' from ESBD. CLIENT (individual) with ID = '" + source.getCLIENTID()
-			    + "' not found",
-		    e);
-	}
+	Util.requireField(target, target.getId(), subjectPersonService::getById,
+		target::setInsuredPerson, "InsuredPerson",
+		SubjectPersonEntity.class, source.getCLIENTID());
 
 	// HOUSEHOLD_POSITION_ID s:int Идентификатор семейного положения
-	try {
-	    target.setMaritalStatus(maritalStatusService.getById(source.getHOUSEHOLDPOSITIONID()));
-	} catch (NotFound | IllegalArgument e) {
-	    throw new DataCoruptionException(
-		    "Error while fetching Driver ID = '" + source.getDRIVERID()
-			    + "' at Policy ID = '" + source.getPOLICYID()
-			    + "' from ESBD. Marital Status ID = '" + source.getHOUSEHOLDPOSITIONID()
-			    + "' not found",
-		    e);
-	}
+	Util.requireField(target, target.getId(), maritalStatusService::getById,
+		target::setMaritalStatus, "MaritalStatus",
+		MaritalStatus.class, source.getHOUSEHOLDPOSITIONID());
 
 	// AGE_EXPERIENCE_ID s:int Идентификатор возраста\стажа вождения
-	try {
-	    target.setInsuredAgeExpirienceClass(
-		    driverExpirienceClassificationService.getById(source.getAGEEXPERIENCEID()));
-	} catch (NotFound | IllegalArgument e) {
-	    throw new DataCoruptionException(
-		    "Error while fetching Driver ID = '" + source.getDRIVERID()
-			    + "' at Policy ID = '" + source.getPOLICYID()
-			    + "' from ESBD. AGEEXPIRIENCE with ID = '" + source.getAGEEXPERIENCEID() + "' not found");
-	}
+	Util.requireField(target, target.getId(), driverExpirienceClassificationService::getById,
+		target::setInsuredAgeExpirienceClass, "InsuredAgeExpirienceClass", InsuredAgeAndExpirienceClass.class,
+		source.getAGEEXPERIENCEID());
 
 	// EXPERIENCE s:int Стаж вождения
 	target.setDrivingExpirience(source.getEXPERIENCE());
@@ -341,15 +323,8 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	ci.setDateOfIssue(convertESBDDateToLocalDate(source.getDRIVERCERTIFICATEDATE()));
 
 	// getClassId
-	try {
-	    target.setInsuraceClassType(insuranceClassTypeService.getById(source.getClassId()));
-	} catch (NotFound | IllegalArgument e) {
-	    // mandatory field
-	    throw new DataCoruptionException(
-		    "Error while fetching Driver ID = '" + source.getDRIVERID()
-			    + "' at Policy ID = '" + source.getPOLICYID()
-			    + "' from ESBD. Class Type with ID = '" + source.getClassId() + "' not found");
-	}
+	Util.requireField(target, target.getId(), insuranceClassTypeService::getById,
+		target::setInsuraceClassType, "InsuraceClassType", InsuranceClassType.class, source.getClassId());
 
 	// PRIVELEGER_BOOL s:int Признак приравненного лица
 	// PRIVELEDGER_TYPE s:string Тип приравненного лица
@@ -409,16 +384,8 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	final RecordOperationInfo created = new RecordOperationInfo();
 	target.setCreated(created);
 	created.setDate(convertESBDDateToLocalDate(source.getINPUTDATE()));
-	try {
-	    created.setAuthor(userService.getById(source.getCREATEDBYUSERID()));
-	} catch (NotFound | IllegalArgument e) {
-	    throw new DataCoruptionException(
-		    "Error while fetching Driver ID = '" + source.getDRIVERID()
-			    + "' at Policy ID = '" + source.getPOLICYID()
-			    + "' from ESBD. Created User ID = '" + source.getCREATEDBYUSERID()
-			    + "' not found",
-		    e);
-	}
+	Util.requireField(target, target.getId(), userService::getById, created::setAuthor,
+		"Created.Author", UserEntity.class, source.getCREATEDBYUSERID());
 
 	// RECORD_CHANGED_AT s:string Дата\время изменения записи
 	// CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего
@@ -427,29 +394,12 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	target.setModified(modified);
 	modified.setDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()));
 	if (modified.getDate() != null)
-	    try {
-		modified.setAuthor(userService.getById(source.getCHANGEDBYUSERID()));
-	    } catch (NotFound | IllegalArgument e) {
-		throw new DataCoruptionException(
-			"Error while fetching Driver ID = '" + source.getDRIVERID()
-				+ "' at Policy ID = '" + source.getPOLICYID()
-				+ "' from ESBD. Modified User ID = '" + source.getCHANGEDBYUSERID()
-				+ "' not found",
-			e);
-	    }
+	    Util.requireField(target, target.getId(), userService::getById, modified::setAuthor,
+		    "Modified.Author", UserEntity.class, source.getCHANGEDBYUSERID());
 
 	// SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
-	try {
-	    target.setInsurer(insuranceCompanyService.getById(source.getSYSTEMDELIMITERID()));
-	} catch (NotFound | IllegalArgument e) {
-	    throw new DataCoruptionException(
-		    "Error while fetching Driver ID = '" + source.getDRIVERID()
-			    + "' at Policy ID = '" + source.getPOLICYID()
-			    + "' from ESBD. Insurance company ID = '" + source.getSYSTEMDELIMITERID()
-			    + "' not found",
-		    e);
-	}
-
+	Util.requireField(target, target.getId(), insuranceCompanyService::getById, target::setInsurer,
+		"Insurer", InsuranceCompanyEntity.class, source.getSYSTEMDELIMITERID());
     }
 
     void fillValues(final PoliciesTF source, final InsuredVehicleEntity target, final PolicyEntity policy) {
@@ -460,48 +410,20 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	if (policy.getId() == source.getPOLICYID())
 	    target.setPolicy(policy);
 	else
-	    try {
-		target.setPolicy(getById(source.getPOLICYID()));
-	    } catch (final NotFound | IllegalArgument e) {
-		throw new DataCoruptionException(
-			"Error while fetching InsuredVehicle ID = '" + source.getPOLICYTFID()
-				+ "' at Policy ID = '" + source.getPOLICYID()
-				+ "' from ESBD. Policty with ID = '" + source.getPOLICYID() + "' not found",
-			e);
-	    }
+	    Util.requireField(target, target.getId(), this::getById, target::setPolicy, "Policy",
+		    PolicyEntity.class, source.getPOLICYID());
 
 	// TF_ID s:int Идентификатор ТС
-	try {
-	    target.setVehicle(vehicleService.getById(source.getTFID()));
-	} catch (NotFound | IllegalArgument e) {
-	    throw new DataCoruptionException(
-		    "Error while fetching InsuredVehicle ID = '" + source.getPOLICYTFID()
-			    + "' at Policy ID = '" + source.getPOLICYID()
-			    + "' from ESBD. Vehicle with ID = '" + source.getTFID() + "' not found",
-		    e);
-	}
+	Util.requireField(target, target.getId(), vehicleService::getById, target::setVehicle, "Vehicle",
+		VehicleEntity.class, source.getTFID());
 
 	// TF_TYPE_ID s:int Идентификатор типа ТС (обязательно)
-	try {
-	    target.setVehicleClass(vehicleClassService.getById(source.getTFTYPEID()));
-	} catch (NotFound | IllegalArgument e) {
-	    throw new DataCoruptionException(
-		    "Error while fetching InsuredVehicle ID = '" + source.getPOLICYTFID()
-			    + "' at Policy ID = '" + source.getPOLICYID()
-			    + "' from ESBD. VehicleType with ID = '" + source.getTFTYPEID() + "' not found",
-		    e);
-	}
+	Util.requireField(target, target.getId(), vehicleClassService::getById, target::setVehicleClass,
+		"VehicleClass", VehicleClass.class, source.getTFTYPEID());
 
 	// TF_AGE_ID s:int Идентификатор возраста ТС (обязательно)
-	try {
-	    target.setVehicleAgeClass(vehicleAgeClassService.getById(source.getTFAGEID()));
-	} catch (NotFound | IllegalArgument e) {
-	    throw new DataCoruptionException(
-		    "Error while fetching InsuredVehicle ID = '" + source.getPOLICYTFID()
-			    + "' at Policy ID = '" + source.getPOLICYID()
-			    + "' from ESBD. VehicleAgeType with ID = '" + source.getTFAGEID() + "' not found",
-		    e);
-	}
+	Util.requireField(target, target.getId(), vehicleAgeClassService::getById,
+		target::setVehicleAgeClass, "VehicleAgeClass", VehicleAgeClass.class, source.getTFAGEID());
 
 	// TF_NUMBER s:string Гос. номер ТС
 	// TF_REGISTRATION_CERTIFICATE s:string Номер тех. паспорта
@@ -515,16 +437,8 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	vci.setCertificateNumber(source.getTFREGISTRATIONCERTIFICATE());
 	vci.setDateOfIssue(convertESBDDateToCalendar(source.getGIVEDATE()));
 	vci.setMajorCity(source.getBIGCITYBOOL() == 1);
-	try {
-	    vci.setRegistrationRegion(countryRegionService.getById(source.getREGIONID()));
-	} catch (NotFound | IllegalArgument e) {
-	    throw new DataCoruptionException(
-		    "Error while fetching InsuredVehicle ID = '" + source.getPOLICYTFID()
-			    + "' at Policy ID = '" + source.getPOLICYID()
-			    + "' from ESBD. Vehicle Registration region with ID = '" + source.getREGIONID()
-			    + "' not found",
-		    e);
-	}
+	Util.requireField(target, target.getId(), countryRegionService::getById,
+		vci::setRegistrationRegion, "Certificate.RegistrationRegion", KZArea.class, source.getREGIONID());
 
 	// PURPOSE s:string Цель использования ТС
 	target.setVehiclePurpose(source.getPURPOSE());
@@ -538,16 +452,8 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	final RecordOperationInfo created = new RecordOperationInfo();
 	target.setCreated(created);
 	created.setDate(convertESBDDateToLocalDate(source.getINPUTDATE()));
-	try {
-	    created.setAuthor(userService.getById(source.getCREATEDBYUSERID()));
-	} catch (NotFound | IllegalArgument e) {
-	    throw new DataCoruptionException(
-		    "Error while fetching InsuredVehicle ID = '" + source.getPOLICYTFID()
-			    + "' at Policy ID = '" + source.getPOLICYID()
-			    + "' from ESBD. Created User ID = '" + source.getCREATEDBYUSERID()
-			    + "' not found",
-		    e);
-	}
+	Util.requireField(target, target.getId(), userService::getById,
+		created::setAuthor, "Created.Author", UserEntity.class, source.getCREATEDBYUSERID());
 
 	// RECORD_CHANGED_AT s:string Дата\время изменения записи
 	// CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего
@@ -556,27 +462,11 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	target.setModified(modified);
 	modified.setDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()));
 	if (modified.getDate() != null)
-	    try {
-		modified.setAuthor(userService.getById(source.getCHANGEDBYUSERID()));
-	    } catch (NotFound | IllegalArgument e) {
-		throw new DataCoruptionException(
-			"Error while fetching InsuredVehicle ID = '" + source.getPOLICYTFID()
-				+ "' at Policy ID = '" + source.getPOLICYID()
-				+ "' from ESBD. Modified User ID = '" + source.getCHANGEDBYUSERID()
-				+ "' not found",
-			e);
-	    }
+	    Util.requireField(target, target.getId(), userService::getById, modified::setAuthor,
+		    "Modified.Author", UserEntity.class, source.getCHANGEDBYUSERID());
 
 	// SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
-	try {
-	    target.setInsurer(insuranceCompanyService.getById(source.getSYSTEMDELIMITERID()));
-	} catch (NotFound | IllegalArgument e) {
-	    throw new DataCoruptionException(
-		    "Error while fetching InsuredVehicle ID = '" + source.getPOLICYTFID()
-			    + "' at Policy ID = '" + source.getPOLICYID()
-			    + "' from ESBD. Insurance company ID = '" + source.getSYSTEMDELIMITERID()
-			    + "' not found",
-		    e);
-	}
+	Util.requireField(target, target.getId(), insuranceCompanyService::getById, target::setInsurer,
+		"Insurer", InsuranceCompanyEntity.class, source.getSYSTEMDELIMITERID());
     }
 }

@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import com.lapsa.insurance.elements.InsuranceClassType;
@@ -22,45 +24,102 @@ import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyStrings;
+import tech.lapsa.java.commons.logging.MyLogger;
 
 @Stateless(name = InsuranceClassTypeService.BEAN_NAME)
 public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceLocal, InsuranceClassTypeServiceRemote {
 
-    @EJB
-    private ConnectionPool pool;
+    private final MyLogger logger = MyLogger.newBuilder() //
+	    .withNameOf(InsuranceClassTypeService.class) //
+	    .build();
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public InsuranceClassType getById(final Integer id) throws NotFound, IllegalArgument {
-	MyNumbers.requireNonZero(IllegalArgument::new, id, "id");
-	try (Connection con = pool.getConnection()) {
-	    final String classCode = con.getClassText(id);
-	    if (classCode == null || classCode.trim().equals(""))
-		throw new NotFound(InsuranceClassType.class.getSimpleName() + " not found with ID = '" + id + "'");
-	    return getByCode(classCode);
+	try {
+	    return _getById(id);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
 	}
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public InsuranceClassType getByCode(final String code) throws IllegalArgument, NotFound {
-	MyStrings.requireNonEmpty(IllegalArgument::new, code, "code");
+	try {
+	    return _getByCode(code);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public InsuranceClassType getForSubject(final SubjectPersonEntity individual) throws IllegalArgument, NotFound {
+	try {
+	    return _getForSubject(individual);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public InsuranceClassType getForSubject(final SubjectPersonEntity subjectPerson, final LocalDate date)
+	    throws NotFound, IllegalArgument {
+	try {
+	    return _getForSubject(subjectPerson, date);
+	} catch (IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    // PRIVATE
+
+    @EJB
+    private ConnectionPool pool;
+
+    private InsuranceClassType _getById(final Integer id) throws IllegalArgumentException, NotFound {
+	MyNumbers.requireNonZero(id, "id");
+	try (Connection con = pool.getConnection()) {
+	    final String classCode = con.getClassText(id);
+	    if (classCode == null || classCode.trim().equals(""))
+		throw new NotFound(InsuranceClassType.class.getSimpleName() + " not found with ID = '" + id + "'");
+	    return _getByCode(classCode);
+	}
+    }
+
+    private InsuranceClassType _getByCode(final String code) throws IllegalArgumentException, NotFound {
+	MyStrings.requireNonEmpty(code, "code");
 	final InsuranceClassType result = InsuranceClassTypeMapping.getInstance().forId(code);
 	if (result == null)
 	    throw new NotFound(InsuranceClassType.class.getSimpleName() + " not found with CODE = '" + code + "'");
 	return result;
     }
 
-    @Override
-    public InsuranceClassType getForSubject(final SubjectPersonEntity individual) throws IllegalArgument, NotFound {
-	MyObjects.requireNonNull(IllegalArgument::new, individual, "individual");
+    private InsuranceClassType _getForSubject(final SubjectPersonEntity individual)
+	    throws IllegalArgumentException, NotFound {
+	MyObjects.requireNonNull(individual, "individual");
 	final LocalDate today = LocalDate.now();
-	return getForSubject(individual, today);
+	return _getForSubject(individual, today);
     }
 
-    @Override
-    public InsuranceClassType getForSubject(final SubjectPersonEntity subjectPerson, final LocalDate date)
-	    throws NotFound, IllegalArgument {
-	MyObjects.requireNonNull(IllegalArgument::new, subjectPerson, "subjectPerson");
-	MyObjects.requireNonNull(IllegalArgument::new, date, "date");
+    private InsuranceClassType _getForSubject(final SubjectPersonEntity subjectPerson, final LocalDate date)
+	    throws IllegalArgumentException, NotFound {
+	MyObjects.requireNonNull(subjectPerson, "subjectPerson");
+	MyObjects.requireNonNull(date, "date");
 	try (Connection con = pool.getConnection()) {
 	    final String esbdDate = ESBDDates.convertLocalDateToESBDDate(date);
 	    try {
@@ -82,6 +141,7 @@ public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceL
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public InsuranceClassType getDefault() {
 	return InsuranceClassType.CLASS_3;
     }

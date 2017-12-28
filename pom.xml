@@ -26,7 +26,7 @@
 		<java-commons.version>1.1</java-commons.version>
 		<!-- tech -->
 		<lapsa-arquillian-test.version>1.1</lapsa-arquillian-test.version>
-		<esbd-connection.version>1.1.1</esbd-connection.version>
+		<esbd-connection.version>1.2-SNAPSHOT</esbd-connection.version>
 		<patterns-domain.version>1.0</patterns-domain.version>
 		<!-- oldies -->
 		<insurance-lib.version>2.4</insurance-lib.version>
