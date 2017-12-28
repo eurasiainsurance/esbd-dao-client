@@ -10,7 +10,6 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import javax.xml.ws.soap.SOAPFaultException;
 
 import com.lapsa.insurance.elements.InsuranceClassType;
 import com.lapsa.insurance.elements.InsuredAgeAndExpirienceClass;
@@ -146,12 +145,7 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
     private PolicyEntity _getById(final Integer id) throws IllegalArgumentException, NotFound {
 	MyNumbers.requireNonZero(id, "id");
 	try (Connection con = pool.getConnection()) {
-	    Policy source = null;
-	    try {
-		source = con.getPolicyByID(id);
-	    } catch (final SOAPFaultException e) {
-		source = null;
-	    }
+	    final Policy source = con.getPolicyByID(id);
 	    if (source == null)
 		throw new NotFound(PolicyEntity.class.getSimpleName() + " not found with ID = '" + id + "'");
 	    final PolicyEntity target = new PolicyEntity();
