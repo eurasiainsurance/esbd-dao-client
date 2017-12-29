@@ -30,9 +30,9 @@ public abstract class AElementsService<T extends Enum<T>, I extends Number> impl
     public T getById(final I id) throws NotFound, IllegalArgument {
 	try {
 	    return _getById(id);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}

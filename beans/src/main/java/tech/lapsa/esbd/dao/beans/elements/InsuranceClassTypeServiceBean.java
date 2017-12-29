@@ -37,9 +37,9 @@ public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceL
     public InsuranceClassType getById(final Integer id) throws NotFound, IllegalArgument {
 	try {
 	    return _getById(id);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}
@@ -50,9 +50,9 @@ public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceL
     public InsuranceClassType getByCode(final String code) throws IllegalArgument, NotFound {
 	try {
 	    return _getByCode(code);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}
@@ -63,9 +63,9 @@ public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceL
     public InsuranceClassType getForSubject(final SubjectPersonEntity individual) throws IllegalArgument, NotFound {
 	try {
 	    return _getForSubject(individual);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}
@@ -77,9 +77,9 @@ public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceL
 	    throws NotFound, IllegalArgument {
 	try {
 	    return _getForSubject(subjectPerson, date);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}

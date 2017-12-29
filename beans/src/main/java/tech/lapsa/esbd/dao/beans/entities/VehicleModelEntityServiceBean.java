@@ -40,9 +40,9 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
     public VehicleModelEntity getById(final Integer id) throws NotFound, IllegalArgument {
 	try {
 	    return _getById(id);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}
@@ -53,9 +53,9 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
     public List<VehicleModelEntity> getByName(final String name) throws IllegalArgument {
 	try {
 	    return _getByName(name);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}
@@ -67,9 +67,9 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
 	    throws IllegalArgument {
 	try {
 	    return _getByManufacturer(manufacturer);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}

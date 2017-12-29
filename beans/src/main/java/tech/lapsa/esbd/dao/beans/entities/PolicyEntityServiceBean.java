@@ -77,9 +77,9 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
     public PolicyEntity getById(final Integer id) throws NotFound, IllegalArgument {
 	try {
 	    return _getById(id);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}
@@ -90,9 +90,9 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
     public PolicyEntity getByNumber(final String number) throws NotFound, IllegalArgument {
 	try {
 	    return _getByNumber(number);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}

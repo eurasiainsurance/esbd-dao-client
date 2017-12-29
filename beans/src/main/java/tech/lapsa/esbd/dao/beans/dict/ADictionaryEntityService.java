@@ -42,7 +42,7 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity<I>, I 
     public List<T> getAll() {
 	try {
 	    return _getAll();
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}
@@ -53,9 +53,9 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity<I>, I 
     public T getById(final I id) throws IllegalArgument, NotFound {
 	try {
 	    return _getById(id);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}
