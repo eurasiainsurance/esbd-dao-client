@@ -42,7 +42,7 @@ final class Util {
 	final F fieldObject;
 	try {
 	    fieldObject = fieldGeter.apply(fieldId);
-	} catch (Exception e) {
+	} catch (final Exception e) {
 	    final String message = MyStrings.format(
 		    "Error while fetching %1$s ID = '%2$s' from ESBD. %3$s (%4$s ID=%5$s) not found",
 		    target.getClass(), // 1,

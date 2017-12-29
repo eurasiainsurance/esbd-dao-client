@@ -34,9 +34,9 @@ public class SubjectEntityServiceBean extends ASubjectEntityService
     public SubjectEntity getById(final Integer id) throws NotFound, IllegalArgument {
 	try {
 	    return _getById(id);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}
@@ -47,9 +47,9 @@ public class SubjectEntityServiceBean extends ASubjectEntityService
     public SubjectEntity getByIdNumber(final TaxpayerNumber taxpayerNumber) throws NotFound, IllegalArgument {
 	try {
 	    return _getByIdNumber(taxpayerNumber);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}
@@ -76,7 +76,7 @@ public class SubjectEntityServiceBean extends ASubjectEntityService
 		    return subjectPersonService.getById(id);
 		else
 		    return subjectCompanyService.getById(id);
-	    } catch (IllegalArgument e) {
+	    } catch (final IllegalArgument e) {
 		throw e.getRuntime();
 	    }
 	}
@@ -96,7 +96,7 @@ public class SubjectEntityServiceBean extends ASubjectEntityService
 		return subjectPersonService.getByIIN(taxpayerNumber);
 	    else
 		return subjectCompanyService.getByBIN(taxpayerNumber);
-	} catch (IllegalArgument e) {
+	} catch (final IllegalArgument e) {
 	    throw e.getRuntime();
 	}
     }

@@ -7,7 +7,6 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import javax.xml.ws.soap.SOAPFaultException;
 
 import com.lapsa.insurance.elements.InsuranceClassType;
 
@@ -38,9 +37,9 @@ public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceL
     public InsuranceClassType getById(final Integer id) throws NotFound, IllegalArgument {
 	try {
 	    return _getById(id);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}
@@ -51,9 +50,9 @@ public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceL
     public InsuranceClassType getByCode(final String code) throws IllegalArgument, NotFound {
 	try {
 	    return _getByCode(code);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}
@@ -64,9 +63,9 @@ public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceL
     public InsuranceClassType getForSubject(final SubjectPersonEntity individual) throws IllegalArgument, NotFound {
 	try {
 	    return _getForSubject(individual);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}
@@ -78,9 +77,9 @@ public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceL
 	    throws NotFound, IllegalArgument {
 	try {
 	    return _getForSubject(subjectPerson, date);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}
@@ -122,20 +121,15 @@ public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceL
 	MyObjects.requireNonNull(date, "date");
 	try (Connection con = pool.getConnection()) {
 	    final String esbdDate = ESBDDates.convertLocalDateToESBDDate(date);
+	    final int aClassID = con.getClassId(subjectPerson.getId(), esbdDate, 0);
+	    if (aClassID == 0)
+		throw new NotFound("WS-call getClassId returned zero value for CLIENT_ID = " + subjectPerson.getId()
+			+ " and date = " + esbdDate);
 	    try {
-		final int aClassID = con.getClassId(new Long(subjectPerson.getId()).intValue(), esbdDate, 0);
-		if (aClassID == 0)
-		    throw new NotFound("WS-call getClassId returned zero value for CLIENT_ID = " + subjectPerson.getId()
-			    + " and date = " + esbdDate);
-		try {
-		    return getById(aClassID);
-		} catch (final IllegalArgument e) {
-		    // it should not happens
-		    throw new EJBException(e.getMessage());
-		}
-	    } catch (final SOAPFaultException e) {
-		throw new NotFound("WS-call getClassId returned exception for CLIENT_ID = " + subjectPerson.getId()
-			+ " and date = " + esbdDate, e);
+		return getById(aClassID);
+	    } catch (final IllegalArgument e) {
+		// it should not happens
+		throw new EJBException(e.getMessage());
 	    }
 	}
     }

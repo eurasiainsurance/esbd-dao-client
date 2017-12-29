@@ -38,7 +38,7 @@ public class UserEntityServiceBean implements UserEntityServiceLocal, UserEntity
     public List<UserEntity> getAll() {
 	try {
 	    return _getAll();
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}
@@ -48,9 +48,9 @@ public class UserEntityServiceBean implements UserEntityServiceLocal, UserEntity
     public UserEntity getById(final Integer id) throws NotFound, IllegalArgument {
 	try {
 	    return _getById(id);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}

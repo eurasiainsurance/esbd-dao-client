@@ -46,9 +46,9 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
     public List<VehicleEntity> getByRegNumber(final VehicleRegNumber regNumber) throws IllegalArgument {
 	try {
 	    return _getByRegNumber(regNumber);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}
@@ -59,9 +59,9 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
     public VehicleEntity getById(final Integer id) throws NotFound, IllegalArgument {
 	try {
 	    return _getById(id);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}
@@ -72,9 +72,9 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
     public List<VehicleEntity> getByVINCode(final String vinCode) throws IllegalArgument {
 	try {
 	    return _getByVINCode(vinCode);
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
-	} catch (RuntimeException e) {
+	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
 	}
