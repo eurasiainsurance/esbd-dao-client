@@ -8,7 +8,6 @@ import javax.ejb.TransactionAttributeType;
 import com.lapsa.insurance.elements.InsuredAgeAndExpirienceClass;
 
 import tech.lapsa.esbd.dao.NotFound;
-import tech.lapsa.esbd.dao.elements.InsuredAgeAndExpirienceClassService;
 import tech.lapsa.esbd.dao.elements.InsuredAgeAndExpirienceClassService.InsuredAgeAndExpirienceClassServiceLocal;
 import tech.lapsa.esbd.dao.elements.InsuredAgeAndExpirienceClassService.InsuredAgeAndExpirienceClassServiceRemote;
 import tech.lapsa.esbd.dao.elements.mapping.InsuredAgeAndExpirienceClassMapping;

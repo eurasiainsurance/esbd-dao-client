@@ -7,7 +7,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
 import tech.lapsa.esbd.dao.NotFound;
-import tech.lapsa.esbd.dao.elements.ElementsService;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyOptionals;

@@ -4,7 +4,6 @@ import javax.ejb.Singleton;
 
 import com.lapsa.insurance.elements.Sex;
 
-import tech.lapsa.esbd.dao.elements.GenderService;
 import tech.lapsa.esbd.dao.elements.GenderService.GenderServiceLocal;
 import tech.lapsa.esbd.dao.elements.GenderService.GenderServiceRemote;
 import tech.lapsa.esbd.dao.elements.mapping.SexMapping;

@@ -4,7 +4,6 @@ import javax.ejb.Singleton;
 
 import com.lapsa.kz.country.KZCity;
 
-import tech.lapsa.esbd.dao.elements.KZCityService;
 import tech.lapsa.esbd.dao.elements.KZCityService.KZCityServiceLocal;
 import tech.lapsa.esbd.dao.elements.KZCityService.KZCityServiceRemote;
 import tech.lapsa.esbd.dao.elements.mapping.KZCityMapping;

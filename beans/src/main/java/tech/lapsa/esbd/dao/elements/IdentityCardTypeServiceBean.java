@@ -4,7 +4,6 @@ import javax.ejb.Singleton;
 
 import com.lapsa.insurance.elements.IdentityCardType;
 
-import tech.lapsa.esbd.dao.elements.IdentityCardTypeService;
 import tech.lapsa.esbd.dao.elements.IdentityCardTypeService.IdentityCardTypeServiceLocal;
 import tech.lapsa.esbd.dao.elements.IdentityCardTypeService.IdentityCardTypeServiceRemote;
 import tech.lapsa.esbd.dao.elements.mapping.IdentityCardTypeMapping;

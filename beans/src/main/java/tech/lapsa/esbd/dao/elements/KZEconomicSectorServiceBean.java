@@ -4,7 +4,6 @@ import javax.ejb.Singleton;
 
 import com.lapsa.kz.economic.KZEconomicSector;
 
-import tech.lapsa.esbd.dao.elements.KZEconomicSectorService;
 import tech.lapsa.esbd.dao.elements.KZEconomicSectorService.KZEconomicSectorServiceLocal;
 import tech.lapsa.esbd.dao.elements.KZEconomicSectorService.KZEconomicSectorServiceRemote;
 import tech.lapsa.esbd.dao.elements.mapping.KZEconomicSectorMapping;

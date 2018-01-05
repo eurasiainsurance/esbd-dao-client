@@ -4,7 +4,6 @@ import javax.ejb.Singleton;
 
 import com.lapsa.insurance.elements.VehicleAgeClass;
 
-import tech.lapsa.esbd.dao.elements.VehicleAgeClassService;
 import tech.lapsa.esbd.dao.elements.VehicleAgeClassService.VehicleAgeClassServiceLocal;
 import tech.lapsa.esbd.dao.elements.VehicleAgeClassService.VehicleAgeClassServiceRemote;
 import tech.lapsa.esbd.dao.elements.mapping.VehicleAgeClassMapping;

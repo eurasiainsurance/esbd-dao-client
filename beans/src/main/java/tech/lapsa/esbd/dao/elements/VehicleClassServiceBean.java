@@ -4,7 +4,6 @@ import javax.ejb.Singleton;
 
 import com.lapsa.insurance.elements.VehicleClass;
 
-import tech.lapsa.esbd.dao.elements.VehicleClassService;
 import tech.lapsa.esbd.dao.elements.VehicleClassService.VehicleClassServiceLocal;
 import tech.lapsa.esbd.dao.elements.VehicleClassService.VehicleClassServiceRemote;
 import tech.lapsa.esbd.dao.elements.mapping.VehicleClassMapping;
