@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.beans.dict;
+package tech.lapsa.esbd.dao.dict;
 
 import java.util.Collections;
 import java.util.List;

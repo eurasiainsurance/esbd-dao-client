@@ -1,12 +1,11 @@
-package tech.lapsa.esbd.dao.beans.dict;
+package tech.lapsa.esbd.dao.dict;
 
 import javax.ejb.Singleton;
 
-import tech.lapsa.esbd.dao.dict.BranchEntity;
-import tech.lapsa.esbd.dao.dict.BranchEntityService;
 import tech.lapsa.esbd.dao.dict.BranchEntityService.BranchEntityServiceLocal;
 import tech.lapsa.esbd.dao.dict.BranchEntityService.BranchEntityServiceRemote;
 import tech.lapsa.esbd.jaxws.wsimport.Item;
+import tech.lapsa.java.commons.function.MyOptionals;
 
 @Singleton(name = BranchEntityService.BEAN_NAME)
 public class BranchEntityServiceBean extends ADictionaryEntityService<BranchEntity, Integer>
@@ -18,11 +17,15 @@ public class BranchEntityServiceBean extends ADictionaryEntityService<BranchEnti
 	super(DICT_NAME, BranchEntityServiceBean::convert, BranchEntityService.class);
     }
 
-    private static BranchEntity convert(final Item source) {
+    static BranchEntity convert(final Item source) {
 	final BranchEntity target = new BranchEntity();
-	target.setId(source.getID());
-	target.setCode(source.getCode());
-	target.setName(source.getName());
+	fillValues(source, target);
 	return target;
+    }
+
+    static void fillValues(final Item source, final BranchEntity target) {
+	target.id = MyOptionals.of(source.getID()).orElse(null);
+	target.code = source.getCode();
+	target.name = source.getName();
     }
 }

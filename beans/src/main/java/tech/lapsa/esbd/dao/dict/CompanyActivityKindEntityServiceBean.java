@@ -1,12 +1,11 @@
-package tech.lapsa.esbd.dao.beans.dict;
+package tech.lapsa.esbd.dao.dict;
 
 import javax.ejb.Stateless;
 
-import tech.lapsa.esbd.dao.dict.CompanyActivityKindEntity;
-import tech.lapsa.esbd.dao.dict.CompanyActivityKindEntityService;
 import tech.lapsa.esbd.dao.dict.CompanyActivityKindEntityService.CompanyActivityKindEntityServiceLocal;
 import tech.lapsa.esbd.dao.dict.CompanyActivityKindEntityService.CompanyActivityKindEntityServiceRemote;
 import tech.lapsa.esbd.jaxws.wsimport.Item;
+import tech.lapsa.java.commons.function.MyOptionals;
 
 @Stateless(name = CompanyActivityKindEntityService.BEAN_NAME)
 public class CompanyActivityKindEntityServiceBean extends ADictionaryEntityService<CompanyActivityKindEntity, Integer>
@@ -18,11 +17,15 @@ public class CompanyActivityKindEntityServiceBean extends ADictionaryEntityServi
 	super(DICT_NAME, CompanyActivityKindEntityServiceBean::convert, CompanyActivityKindEntityService.class);
     }
 
-    private static CompanyActivityKindEntity convert(final Item source) {
+    static CompanyActivityKindEntity convert(final Item source) {
 	final CompanyActivityKindEntity target = new CompanyActivityKindEntity();
-	target.setId(source.getID());
-	target.setCode(source.getCode());
-	target.setName(source.getName());
+	fillValues(source, target);
 	return target;
+    }
+
+    static void fillValues(final Item source, final CompanyActivityKindEntity target) {
+	target.id = MyOptionals.of(source.getID()).orElse(null);
+	target.code = source.getCode();
+	target.name = source.getName();
     }
 }
