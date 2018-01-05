@@ -25,6 +25,7 @@ import tech.lapsa.esbd.dao.entities.VehicleModelEntityService.VehicleModelEntity
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfTF;
 import tech.lapsa.esbd.jaxws.wsimport.TF;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
+import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyExceptions;
 import tech.lapsa.java.commons.function.MyNumbers;
@@ -113,15 +114,16 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
 	MyNumbers.requireNonZero(id, "id");
 	final ArrayOfTF vehicles;
 	try (Connection con = pool.getConnection()) {
-	    final TF tf = new TF();
-	    tf.setTFID(id.intValue());
-	    vehicles = con.getTFByKeyFields(tf);
+	    final TF search = new TF();
+	    search.setTFID(id.intValue());
+	    vehicles = con.getTFByKeyFields(search);
 	}
-	final List<TF> ltf = MyOptionals.of(vehicles) //
+	final List<TF> list = MyOptionals.of(vehicles) //
 		.map(ArrayOfTF::getTF) //
+		.filter(MyCollections::nonEmpty)
 		.orElseThrow(MyExceptions.supplier(NotFound::new, "%1$s not found with ID = '%2$s'",
 			VehicleEntity.class.getSimpleName(), id));
-	final TF source = Util.requireSingle(ltf, VehicleEntity.class, "ID", id);
+	final TF source = Util.requireSingle(list, VehicleEntity.class, "ID", id);
 	return convert(source);
     }
 
