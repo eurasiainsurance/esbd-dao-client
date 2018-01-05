@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.infos;
+package tech.lapsa.esbd.dao.entities;
 
 import java.time.LocalDate;
 
@@ -10,34 +10,21 @@ public class InvalidInfo extends Domain {
 
     private static final long serialVersionUID = 1L;
 
-    private String certificateNumber;
-    private LocalDate certificateValidFrom;
-    private LocalDate certificateValidTill;
-
-    // GENERATED
+    String certificateNumber;
 
     public String getCertificateNumber() {
 	return certificateNumber;
     }
 
-    public void setCertificateNumber(final String certificateNumber) {
-	this.certificateNumber = certificateNumber;
-    }
+    LocalDate certificateValidFrom;
 
     public LocalDate getCertificateValidFrom() {
 	return certificateValidFrom;
     }
 
-    public void setCertificateValidFrom(final LocalDate certificateValidFrom) {
-	this.certificateValidFrom = certificateValidFrom;
-    }
+    LocalDate certificateValidTill;
 
     public LocalDate getCertificateValidTill() {
 	return certificateValidTill;
     }
-
-    public void setCertificateValidTill(final LocalDate certificateValidTill) {
-	this.certificateValidTill = certificateValidTill;
-    }
-
 }

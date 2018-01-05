@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.infos;
+package tech.lapsa.esbd.dao.entities;
 
 import java.time.LocalDate;
 
@@ -10,34 +10,21 @@ public class PrivilegerInfo extends Domain {
 
     private static final long serialVersionUID = 1L;
 
-    private String type;
-    private String certificateNumber;
-    private LocalDate certificateDateOfIssue;
-
-    // GENERATED
+    String type;
 
     public String getType() {
 	return type;
     }
 
-    public void setType(final String type) {
-	this.type = type;
-    }
+    String certificateNumber;
 
     public String getCertificateNumber() {
 	return certificateNumber;
     }
 
-    public void setCertificateNumber(final String certificateNumber) {
-	this.certificateNumber = certificateNumber;
-    }
+    LocalDate certificateDateOfIssue;
 
     public LocalDate getCertificateDateOfIssue() {
 	return certificateDateOfIssue;
     }
-
-    public void setCertificateDateOfIssue(final LocalDate certificateDateOfIssue) {
-	this.certificateDateOfIssue = certificateDateOfIssue;
-    }
-
 }

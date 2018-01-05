@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.infos;
+package tech.lapsa.esbd.dao.entities;
 
 import java.time.LocalDate;
 
@@ -10,25 +10,16 @@ public class PensionerInfo extends Domain {
 
     private static final long serialVersionUID = 1L;
 
-    private String certificateNumber;
-    private LocalDate certiticateDateOfIssue;
-
-    // GENERATED
+    String certificateNumber;
 
     public String getCertificateNumber() {
 	return certificateNumber;
     }
 
-    public void setCertificateNumber(final String certificateNumber) {
-	this.certificateNumber = certificateNumber;
-    }
+    LocalDate certiticateDateOfIssue;
 
     public LocalDate getCertiticateDateOfIssue() {
 	return certiticateDateOfIssue;
-    }
-
-    public void setCertiticateDateOfIssue(final LocalDate certiticateDateOfIssue) {
-	this.certiticateDateOfIssue = certiticateDateOfIssue;
     }
 
 }

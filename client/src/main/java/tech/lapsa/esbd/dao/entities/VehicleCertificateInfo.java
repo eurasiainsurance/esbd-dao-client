@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.infos;
+package tech.lapsa.esbd.dao.entities;
 
 import java.time.LocalDate;
 
@@ -12,56 +12,38 @@ public class VehicleCertificateInfo extends Domain {
 
     private static final long serialVersionUID = 1L;
 
-    private String registrationNumber;
-
-    private String certificateNumber;
-
-    private LocalDate dateOfIssue;
-
-    private KZArea registrationRegion;
-
-    private boolean majorCity = false;
-
-    // GENERATED
+    String registrationNumber;
 
     public String getRegistrationNumber() {
 	return registrationNumber;
     }
 
-    public void setRegistrationNumber(final String registrationNumber) {
-	this.registrationNumber = registrationNumber;
-    }
+    String certificateNumber;
 
     public String getCertificateNumber() {
 	return certificateNumber;
     }
 
-    public void setCertificateNumber(final String certificateNumber) {
-	this.certificateNumber = certificateNumber;
-    }
+    LocalDate dateOfIssue;
 
     public LocalDate getDateOfIssue() {
 	return dateOfIssue;
     }
 
-    public void setDateOfIssue(final LocalDate dateOfIssue) {
-	this.dateOfIssue = dateOfIssue;
-    }
+    int registrationRegionId;
+    KZArea registrationRegion;
 
     public KZArea getRegistrationRegion() {
 	return registrationRegion;
     }
 
-    public void setRegistrationRegion(final KZArea registrationRegion) {
+    void setRegistrationRegion(KZArea registrationRegion) {
 	this.registrationRegion = registrationRegion;
     }
 
-    public boolean isMajorCity() {
-	return majorCity;
-    }
+    boolean registrationMajorCity;
 
-    public void setMajorCity(final boolean majorCity) {
-	this.majorCity = majorCity;
+    boolean isRegistrationMajorCity() {
+        return registrationMajorCity;
     }
-
 }

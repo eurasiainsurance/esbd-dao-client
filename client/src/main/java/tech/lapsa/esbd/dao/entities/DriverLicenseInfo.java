@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.infos;
+package tech.lapsa.esbd.dao.entities;
 
 import java.time.LocalDate;
 
@@ -10,25 +10,15 @@ public class DriverLicenseInfo extends Domain {
 
     private static final long serialVersionUID = 1L;
 
-    private String number;
-    private LocalDate dateOfIssue;
-
-    // GENERATED
+    String number;
 
     public String getNumber() {
 	return number;
     }
 
-    public void setNumber(final String number) {
-	this.number = number;
-    }
+    LocalDate dateOfIssue;
 
     public LocalDate getDateOfIssue() {
 	return dateOfIssue;
     }
-
-    public void setDateOfIssue(final LocalDate dateOfIssue) {
-	this.dateOfIssue = dateOfIssue;
-    }
-
 }
