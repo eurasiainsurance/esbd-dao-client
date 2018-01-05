@@ -12,7 +12,6 @@ import javax.ejb.TransactionAttributeType;
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.esbd.dao.NotFound;
-import tech.lapsa.esbd.dao.beans.entities.Util;
 import tech.lapsa.esbd.dao.dict.BranchEntity;
 import tech.lapsa.esbd.dao.dict.BranchEntityService.BranchEntityServiceLocal;
 import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;

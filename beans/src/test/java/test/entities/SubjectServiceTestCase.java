@@ -54,7 +54,7 @@ public class SubjectServiceTestCase extends ArquillianBaseTestCase {
 		final TaxpayerNumber subjecdIdNumber = VALID_SUBJECT_ID_NUMBERS[i];
 		final SubjectType validSubjectType = VALID_SUBJECT_TYPES[i];
 		final Class<?> validSubjectClass = VALID_SUBJECT_CLASSES[i];
-		final SubjectEntity res = service.getByIdNumber(subjecdIdNumber);
+		final SubjectEntity res = service.getFirstByIdNumber(subjecdIdNumber);
 		assertThat(res, allOf(not(nullValue()), instanceOf(validSubjectClass)));
 		assertThat(res.getSubjectType(), allOf(not(nullValue()),
 			is(validSubjectType)));

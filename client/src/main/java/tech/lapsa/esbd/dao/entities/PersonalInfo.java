@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.infos;
+package tech.lapsa.esbd.dao.entities;
 
 import java.time.LocalDate;
 
@@ -20,60 +20,42 @@ public class PersonalInfo extends Domain {
     private static final long serialVersionUID = 1L;
 
     // First_Name s:string Имя (для физ. лица)
-    private String name;
-
-    // Last_Name s:string Фамилия (для физ. лица)
-    private String surename;
-
-    // Middle_Name s:string Отчество (для физ. лица)
-    private String patronymic;
-
-    // Born s:string Дата рождения
-    private LocalDate dayOfBirth;
-
-    // Sex_ID s:int Пол (справочник SEX)
-    private Sex sex;
-
-    // GENERATED
+    String name;
 
     public String getName() {
 	return name;
     }
 
-    public void setName(final String name) {
-	this.name = name;
-    }
+    // Last_Name s:string Фамилия (для физ. лица)
+    String surename;
 
     public String getSurename() {
 	return surename;
     }
 
-    public void setSurename(final String surename) {
-	this.surename = surename;
-    }
+    // Middle_Name s:string Отчество (для физ. лица)
+    String patronymic;
 
     public String getPatronymic() {
 	return patronymic;
     }
 
-    public void setPatronymic(final String patronymic) {
-	this.patronymic = patronymic;
-    }
+    // Born s:string Дата рождения
+    LocalDate dayOfBirth;
 
     public LocalDate getDayOfBirth() {
 	return dayOfBirth;
     }
 
-    public void setDayOfBirth(final LocalDate dayOfBirth) {
-	this.dayOfBirth = dayOfBirth;
+    // Sex_ID s:int Пол (справочник SEX)
+    int genderId;
+    Sex gender;
+
+    public Sex getGender() {
+	return gender;
     }
 
-    public Sex getSex() {
-	return sex;
+    void setGender(Sex gender) {
+	this.gender = gender;
     }
-
-    public void setSex(final Sex sex) {
-	this.sex = sex;
-    }
-
 }

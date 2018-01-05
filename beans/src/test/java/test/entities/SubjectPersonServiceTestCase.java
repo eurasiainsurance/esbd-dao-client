@@ -49,7 +49,7 @@ public class SubjectPersonServiceTestCase extends ArquillianBaseTestCase {
     public void testGetByIIN() throws IllegalArgument {
 	try {
 	    for (final TaxpayerNumber valid : VALID_SUBJECT_PERSON_IINS) {
-		final SubjectPersonEntity res = service.getByIIN(valid);
+		final SubjectPersonEntity res = service.getFirstByIdNumber(valid);
 		assertThat(res, not(nullValue()));
 	    }
 	} catch (final NotFound e) {
@@ -64,7 +64,7 @@ public class SubjectPersonServiceTestCase extends ArquillianBaseTestCase {
     public void testGetByIIN_NotFound() throws IllegalArgument {
 	for (final TaxpayerNumber invalid : INVALID_SUBJECT_PERSON_IINS)
 	    try {
-		service.getByIIN(invalid);
+		service.getFirstByIdNumber(invalid);
 		fail("Not found exception Expected");
 	    } catch (final NotFound e) {
 	    }

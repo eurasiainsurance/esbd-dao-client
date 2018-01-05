@@ -17,7 +17,6 @@ import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.esbd.dao.beans.ESBDDates;
-import tech.lapsa.esbd.dao.beans.entities.Util;
 import tech.lapsa.esbd.dao.elements.VehicleClassService.VehicleClassServiceLocal;
 import tech.lapsa.esbd.dao.entities.VehicleEntityService.VehicleEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.VehicleEntityService.VehicleEntityServiceRemote;

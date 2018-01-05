@@ -49,7 +49,7 @@ public class SubjectCompanyServiceTestCase extends ArquillianBaseTestCase {
     public void testGetByBIN() throws IllegalArgument {
 	try {
 	    for (final TaxpayerNumber valid : VALID_SUBJECT_COMPANY_BINS) {
-		final SubjectCompanyEntity res = service.getByBIN(valid);
+		final SubjectCompanyEntity res = service.getFirstByIdNumber(valid);
 		assertThat(res, not(nullValue()));
 	    }
 	} catch (final NotFound e) {
@@ -64,7 +64,7 @@ public class SubjectCompanyServiceTestCase extends ArquillianBaseTestCase {
     public void testGetByBIN_NotFound() throws IllegalArgument {
 	for (final TaxpayerNumber invalid : INVALID_SUBJECT_COMPANY_BINS)
 	    try {
-		service.getByBIN(invalid);
+		service.getFirstByIdNumber(invalid);
 		fail("Not found exception Expected");
 	    } catch (final NotFound e) {
 	    }

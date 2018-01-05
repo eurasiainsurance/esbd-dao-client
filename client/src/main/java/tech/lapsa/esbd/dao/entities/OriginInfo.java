@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.infos;
+package tech.lapsa.esbd.dao.entities;
 
 import com.lapsa.international.country.Country;
 import com.lapsa.kz.country.KZCity;
@@ -18,37 +18,34 @@ public class OriginInfo extends Domain {
     private static final long serialVersionUID = 1L;
 
     // RESIDENT_BOOL s:int Признак резидентства (обязательно)
-    private boolean resident;
-
-    // COUNTRY_ID s:int Страна (справочник COUNTRIES)
-    private Country country;
-
-    // SETTLEMENT_ID s:int Населенный пункт (справочник SETTLEMENTS)
-    private KZCity city;
-
-    // GENERATED
+    boolean resident;
 
     public boolean isResident() {
 	return resident;
     }
 
-    public void setResident(final boolean resident) {
-	this.resident = resident;
-    }
+    // COUNTRY_ID s:int Страна (справочник COUNTRIES)
+    int countryId;
+    Country country;
 
     public Country getCountry() {
 	return country;
     }
 
-    public void setCountry(final Country country) {
+    void setCountry(Country country) {
 	this.country = country;
     }
+
+    // SETTLEMENT_ID s:int Населенный пункт (справочник SETTLEMENTS)
+    int cityId;
+    KZCity city;
 
     public KZCity getCity() {
 	return city;
     }
 
-    public void setCity(final KZCity city) {
+    void setCity(KZCity city) {
 	this.city = city;
     }
+
 }

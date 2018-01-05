@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.infos;
+package tech.lapsa.esbd.dao.entities;
 
 import java.time.LocalDate;
 
@@ -13,49 +13,35 @@ public class IdentityCardInfo extends Domain {
     private static final long serialVersionUID = 1L;
 
     // DOCUMENT_GIVED_DATE s:string Дата выдачи документа
-    private LocalDate dateOfIssue;
-
-    // DOCUMENT_GIVED_BY s:string Документ выдан
-    private String issuingAuthority;
-
-    // DOCUMENT_NUMBER s:string Номер документа
-    private String number;
-
-    // DOCUMENT_TYPE_ID s:int Тип документа (справочник DOCUMENTS_TYPES)
-    private IdentityCardType identityCardType;
-
-    // GENERATED
+    LocalDate dateOfIssue;
 
     public LocalDate getDateOfIssue() {
 	return dateOfIssue;
     }
 
-    public void setDateOfIssue(final LocalDate dateOfIssue) {
-	this.dateOfIssue = dateOfIssue;
-    }
+    // DOCUMENT_GIVED_BY s:string Документ выдан
+    String issuingAuthority;
 
     public String getIssuingAuthority() {
 	return issuingAuthority;
     }
 
-    public void setIssuingAuthority(final String issuingAuthority) {
-	this.issuingAuthority = issuingAuthority;
-    }
+    // DOCUMENT_NUMBER s:string Номер документа
+    String number;
 
     public String getNumber() {
 	return number;
     }
 
-    public void setNumber(final String number) {
-	this.number = number;
-    }
+    // DOCUMENT_TYPE_ID s:int Тип документа (справочник DOCUMENTS_TYPES)
+    int identityCardTypeId;
+    IdentityCardType identityCardType;
 
     public IdentityCardType getIdentityCardType() {
 	return identityCardType;
     }
 
-    public void setIdentityCardType(final IdentityCardType identityCardType) {
+    void setIdentityCardType(IdentityCardType identityCardType) {
 	this.identityCardType = identityCardType;
     }
-
 }

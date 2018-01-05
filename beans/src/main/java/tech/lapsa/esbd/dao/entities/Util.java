@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.beans.entities;
+package tech.lapsa.esbd.dao.entities;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,12 +9,12 @@ import javax.ejb.EJBException;
 import tech.lapsa.java.commons.function.MyExceptions;
 import tech.lapsa.java.commons.function.MyStrings;
 
-public final class Util {
+final class Util {
 
     private Util() {
     }
 
-    public static <T> T requireSingle(final List<T> list,
+    static <T> T requireSingle(final List<T> list,
 	    final Class<?> clazz,
 	    final String keyName,
 	    final Object key) throws EJBException {
@@ -29,11 +29,11 @@ public final class Util {
     }
 
     @FunctionalInterface
-    public interface ThrowingFunction<T, R> {
+    interface ThrowingFunction<T, R> {
 	R apply(T value) throws Exception;
     }
 
-    public static <T, F, FI> void requireField(final T target,
+    static <T, F, FI> void requireField(final T target,
 	    final Object targetId,
 	    final ThrowingFunction<FI, F> fieldGeter,
 	    final Consumer<F> fieldSeter,
@@ -57,7 +57,7 @@ public final class Util {
 	fieldSeter.accept(fieldObject);
     }
 
-    public static <T, F, FI> void optionalField(final T target,
+    static <T, F, FI> void optionalField(final T target,
 	    final Object targetId,
 	    final ThrowingFunction<FI, F> fieldGeter,
 	    final Consumer<F> fieldSeter,
@@ -83,7 +83,7 @@ public final class Util {
 	}
     }
 
-    public static <T> EJBException requireNonEmtyList(final T target,
+    static <T> EJBException requireNonEmtyList(final T target,
 	    final Object targetId,
 	    final String fieldName) {
 	final String message = MyStrings.format(
