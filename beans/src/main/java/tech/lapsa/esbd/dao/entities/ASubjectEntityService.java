@@ -144,7 +144,7 @@ public abstract class ASubjectEntityService<T extends SubjectEntity>
 
 	// ACTIVITY_KIND_ID s:int Вид деятельности (справочник ACTIVITY_KINDS)
 	target._companyActivityKind = source.getACTIVITYKINDID();
-	Util.optionalField(target, target.getId(), companyActivityKinds::getById, target::setCompanyActivityKind,
+	Util.optionalFieldIgnoreFieldNotFound(target, target.getId(), companyActivityKinds::getById, target::setCompanyActivityKind,
 		"CompanyActivityKind", CompanyActivityKindEntity.class, MyOptionals.of(target._companyActivityKind));
     }
 
