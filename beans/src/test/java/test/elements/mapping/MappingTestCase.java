@@ -19,17 +19,17 @@ import com.lapsa.kz.country.KZArea;
 import com.lapsa.kz.country.KZCity;
 import com.lapsa.kz.economic.KZEconomicSector;
 
-import tech.lapsa.esbd.dao.beans.elements.mapping.CancelationReasonMapping;
-import tech.lapsa.esbd.dao.beans.elements.mapping.CountryMapping;
-import tech.lapsa.esbd.dao.beans.elements.mapping.IdentityCardTypeMapping;
-import tech.lapsa.esbd.dao.beans.elements.mapping.InsuredAgeAndExpirienceClassMapping;
-import tech.lapsa.esbd.dao.beans.elements.mapping.KZAreaMapping;
-import tech.lapsa.esbd.dao.beans.elements.mapping.KZCityMapping;
-import tech.lapsa.esbd.dao.beans.elements.mapping.KZEconomicSectorMapping;
-import tech.lapsa.esbd.dao.beans.elements.mapping.MaritalStatusMapping;
-import tech.lapsa.esbd.dao.beans.elements.mapping.SexMapping;
-import tech.lapsa.esbd.dao.beans.elements.mapping.VehicleAgeClassMapping;
-import tech.lapsa.esbd.dao.beans.elements.mapping.VehicleClassMapping;
+import tech.lapsa.esbd.dao.elements.mapping.CancelationReasonMapping;
+import tech.lapsa.esbd.dao.elements.mapping.CountryMapping;
+import tech.lapsa.esbd.dao.elements.mapping.IdentityCardTypeMapping;
+import tech.lapsa.esbd.dao.elements.mapping.InsuredAgeAndExpirienceClassMapping;
+import tech.lapsa.esbd.dao.elements.mapping.KZAreaMapping;
+import tech.lapsa.esbd.dao.elements.mapping.KZCityMapping;
+import tech.lapsa.esbd.dao.elements.mapping.KZEconomicSectorMapping;
+import tech.lapsa.esbd.dao.elements.mapping.MaritalStatusMapping;
+import tech.lapsa.esbd.dao.elements.mapping.SexMapping;
+import tech.lapsa.esbd.dao.elements.mapping.VehicleAgeClassMapping;
+import tech.lapsa.esbd.dao.elements.mapping.VehicleClassMapping;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfItem;
 import tech.lapsa.esbd.jaxws.wsimport.Item;
 

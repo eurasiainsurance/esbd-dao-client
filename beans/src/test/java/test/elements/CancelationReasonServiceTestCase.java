@@ -11,8 +11,8 @@ import org.junit.Test;
 import com.lapsa.insurance.elements.CancelationReason;
 
 import tech.lapsa.esbd.dao.NotFound;
-import tech.lapsa.esbd.dao.beans.elements.mapping.CancelationReasonMapping;
 import tech.lapsa.esbd.dao.elements.CancelationReasonService.CancelationReasonServiceLocal;
+import tech.lapsa.esbd.dao.elements.mapping.CancelationReasonMapping;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import test.ArquillianBaseTestCase;
 

@@ -1,6 +1,6 @@
 package tech.lapsa.esbd.dao.entities;
 
-import static tech.lapsa.esbd.dao.beans.ESBDDates.*;
+import static tech.lapsa.esbd.dao.ESBDDates.*;
 
 import java.util.List;
 import java.util.stream.Stream;

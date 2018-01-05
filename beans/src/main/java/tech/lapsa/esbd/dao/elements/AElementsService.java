@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.beans.elements;
+package tech.lapsa.esbd.dao.elements;
 
 import java.util.function.Function;
 

@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.beans.elements.mapping;
+package tech.lapsa.esbd.dao.elements.mapping;
 
 import com.lapsa.international.country.Country;
 
