@@ -1,5 +1,6 @@
-package tech.lapsa.esbd.dao.beans.entities;
+package tech.lapsa.esbd.dao.entities;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -12,6 +13,7 @@ import javax.ejb.TransactionAttributeType;
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.beans.entities.Util;
 import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntity;
 import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.VehicleModelEntity;
@@ -21,7 +23,9 @@ import tech.lapsa.esbd.dao.entities.VehicleModelEntityService.VehicleModelEntity
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfVOITUREMODEL;
 import tech.lapsa.esbd.jaxws.wsimport.VOITUREMODEL;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
+import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyCollectors;
+import tech.lapsa.java.commons.function.MyExceptions;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyOptionals;
@@ -85,46 +89,53 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
 
     private VehicleModelEntity _getById(final Integer id) throws IllegalArgumentException, NotFound {
 	MyNumbers.requireNonZero(id, "id");
+	final ArrayOfVOITUREMODEL models;
 	try (Connection con = pool.getConnection()) {
-	    // VOITURE_MODEL_ID, NAME, VOITURE_MARK_ID
-	    final VOITUREMODEL m = new VOITUREMODEL();
-	    m.setID(new Long(id).intValue());
-	    final ArrayOfVOITUREMODEL models = con.getVoitureModels(m);
-	    if (models == null || models.getVOITUREMODEL() == null || models.getVOITUREMODEL().isEmpty())
-		throw new NotFound(VehicleModelEntity.class.getSimpleName() + " not found with ID = '" + id + "'");
-	    Util.requireSingle(models.getVOITUREMODEL(), VehicleModelEntity.class, "ID", id);
-	    return convert(models.getVOITUREMODEL().iterator().next());
+	    final VOITUREMODEL search = new VOITUREMODEL();
+	    search.setID(id.intValue());
+	    models = con.getVoitureModels(search);
 	}
+
+	final List<VOITUREMODEL> list = MyOptionals.of(models) //
+		.map(ArrayOfVOITUREMODEL::getVOITUREMODEL) //
+		.filter(MyCollections::nonEmpty)
+		.orElseThrow(MyExceptions.supplier(NotFound::new, "%1$s not found with ID = '%2$s'",
+			VehicleManufacturerEntity.class.getSimpleName(), id));
+	final VOITUREMODEL source = Util.requireSingle(list, VehicleModelEntity.class, "ID", id);
+	return convert(source);
     }
 
     private List<VehicleModelEntity> _getByName(final String name) throws IllegalArgumentException {
 	MyStrings.requireNonEmpty(name, "name");
+	final ArrayOfVOITUREMODEL models;
 	try (Connection con = pool.getConnection()) {
-	    // VOITURE_MODEL_ID, NAME, VOITURE_MARK_ID
-	    // List<VehicleModelEntity> res = new ArrayList<>();
-	    final VOITUREMODEL m = new VOITUREMODEL();
-	    m.setNAME(name);
-	    final ArrayOfVOITUREMODEL reslist = con.getVoitureModels(m);
-	    return MyOptionals.streamOf(reslist.getVOITUREMODEL()) //
-		    .orElseGet(Stream::empty) //
-		    .map(this::convert)
-		    .collect(MyCollectors.unmodifiableList());
+	    final VOITUREMODEL search = new VOITUREMODEL();
+	    search.setNAME(name);
+	    models = con.getVoitureModels(search);
 	}
+	return MyOptionals.of(models) //
+		.map(ArrayOfVOITUREMODEL::getVOITUREMODEL) //
+		.map(Collection::stream) //
+		.orElseGet(Stream::empty) //
+		.map(this::convert) //
+		.collect(MyCollectors.unmodifiableList());
     }
 
     private List<VehicleModelEntity> _getByManufacturer(final VehicleManufacturerEntity manufacturer)
 	    throws IllegalArgumentException {
 	MyObjects.requireNonNull(manufacturer, "manufacturer");
+	final ArrayOfVOITUREMODEL models;
 	try (Connection con = pool.getConnection()) {
-	    // VOITURE_MODEL_ID, NAME, VOITURE_MARK_ID
-	    final VOITUREMODEL m = new VOITUREMODEL();
-	    m.setVOITUREMARKID(new Long(manufacturer.getId()).intValue());
-	    final ArrayOfVOITUREMODEL reslist = con.getVoitureModels(m);
-	    return MyOptionals.streamOf(reslist.getVOITUREMODEL()) //
-		    .orElseGet(Stream::empty) //
-		    .map(this::convert)
-		    .collect(MyCollectors.unmodifiableList());
+	    final VOITUREMODEL search = new VOITUREMODEL();
+	    search.setVOITUREMARKID(manufacturer.getId().intValue());
+	    models = con.getVoitureModels(search);
 	}
+	return MyOptionals.of(models) //
+		.map(ArrayOfVOITUREMODEL::getVOITUREMODEL) //
+		.map(Collection::stream) //
+		.orElseGet(Stream::empty) //
+		.map(this::convert) //
+		.collect(MyCollectors.unmodifiableList());
     }
 
     VehicleModelEntity convert(final VOITUREMODEL source) {
@@ -133,18 +144,12 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
 	return vehicle;
     }
 
-    void fillValues(final VOITUREMODEL source, final VehicleModelEntity target,
-	    final VehicleManufacturerEntity defaultManufacturer) {
-	target.setId(source.getID());
-	target.setName(source.getNAME());
-	target.setManufacturer(defaultManufacturer);
-    }
-
     void fillValues(final VOITUREMODEL source, final VehicleModelEntity target) {
-	target.setId(source.getID());
-	target.setName(source.getNAME());
-	Util.requireField(target, target.getId(), vehicleManufacturerService::getById,
-		target::setManufacturer, "Manufacturer", VehicleManufacturerEntity.class, source.getVOITUREMARKID());
+	target.id = MyOptionals.of(source.getID()).orElse(null);
+	target.name = source.getNAME();
+	target.manufacturerId = source.getVOITUREMARKID();
+	Util.requireField(target, target.getId(), vehicleManufacturerService::getById, target::setManufacturer,
+		"Manufacturer", VehicleManufacturerEntity.class, target.manufacturerId);
     }
 
 }

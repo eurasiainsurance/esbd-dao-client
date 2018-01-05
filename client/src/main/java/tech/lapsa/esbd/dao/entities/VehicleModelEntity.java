@@ -9,37 +9,28 @@ public class VehicleModelEntity extends Domain {
     private static final long serialVersionUID = 1L;
 
     // ID s:int Идентификатор модели
-    private Integer id;
-
-    // NAME s:string Наименование модели
-    private String name;
-
-    // VOITURE_MARK_ID s:int Идентификатор марки ТС
-    private VehicleManufacturerEntity manufacturer;
-
-    // GENERATED
+    Integer id;
 
     public Integer getId() {
 	return id;
     }
 
-    public void setId(final Integer id) {
-	this.id = id;
-    }
+    // NAME s:string Наименование модели
+    String name;
 
     public String getName() {
 	return name;
     }
 
-    public void setName(final String name) {
-	this.name = name;
-    }
+    // VOITURE_MARK_ID s:int Идентификатор марки ТС
+    int manufacturerId;
+    VehicleManufacturerEntity manufacturer;
 
     public VehicleManufacturerEntity getManufacturer() {
 	return manufacturer;
     }
 
-    public void setManufacturer(final VehicleManufacturerEntity manufacturer) {
-	this.manufacturer = manufacturer;
+    void setManufacturer(VehicleManufacturerEntity manufacturer) {
+        this.manufacturer = manufacturer;
     }
 }
