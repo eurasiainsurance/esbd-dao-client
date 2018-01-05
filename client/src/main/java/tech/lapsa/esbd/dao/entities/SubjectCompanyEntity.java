@@ -50,7 +50,7 @@ public class SubjectCompanyEntity extends SubjectEntity {
 	return companyActivityKind;
     }
 
-    void setCompanyActivityKind(CompanyActivityKindEntity companyActivityKind) {
+    void setCompanyActivityKind(final CompanyActivityKindEntity companyActivityKind) {
 	this.companyActivityKind = companyActivityKind;
     }
 }

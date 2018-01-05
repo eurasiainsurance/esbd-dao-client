@@ -7,8 +7,9 @@ import tech.lapsa.patterns.domain.MyHcEqToStr;
 public abstract class Domain implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
-    protected Domain() {}
+
+    protected Domain() {
+    }
 
     @Override
     public String toString() {

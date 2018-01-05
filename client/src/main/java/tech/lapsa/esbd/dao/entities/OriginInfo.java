@@ -32,7 +32,7 @@ public class OriginInfo extends Domain {
 	return country;
     }
 
-    void setCountry(Country country) {
+    void setCountry(final Country country) {
 	this.country = country;
     }
 
@@ -44,7 +44,7 @@ public class OriginInfo extends Domain {
 	return city;
     }
 
-    void setCity(KZCity city) {
+    void setCity(final KZCity city) {
 	this.city = city;
     }
 }

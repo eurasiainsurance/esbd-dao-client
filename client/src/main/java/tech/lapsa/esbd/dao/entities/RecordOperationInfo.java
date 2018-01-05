@@ -23,7 +23,7 @@ public class RecordOperationInfo extends Domain {
 	return author;
     }
 
-    void setAuthor(UserEntity author) {
-        this.author = author;
+    void setAuthor(final UserEntity author) {
+	this.author = author;
     }
 }

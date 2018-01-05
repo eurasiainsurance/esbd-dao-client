@@ -30,7 +30,7 @@ public class VehicleModelEntity extends Domain {
 	return manufacturer;
     }
 
-    void setManufacturer(VehicleManufacturerEntity manufacturer) {
+    void setManufacturer(final VehicleManufacturerEntity manufacturer) {
 	this.manufacturer = manufacturer;
     }
 }

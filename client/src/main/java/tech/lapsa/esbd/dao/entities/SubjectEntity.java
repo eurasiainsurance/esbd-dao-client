@@ -83,7 +83,7 @@ public abstract class SubjectEntity extends Domain {
 	return economicsSector;
     }
 
-    void setEconomicsSector(KZEconomicSector economicsSector) {
+    void setEconomicsSector(final KZEconomicSector economicsSector) {
 	this.economicsSector = economicsSector;
     }
 

@@ -41,7 +41,7 @@ public class IdentityCardInfo extends Domain {
 	return identityCardType;
     }
 
-    void setIdentityCardType(IdentityCardType identityCardType) {
+    void setIdentityCardType(final IdentityCardType identityCardType) {
 	this.identityCardType = identityCardType;
     }
 }

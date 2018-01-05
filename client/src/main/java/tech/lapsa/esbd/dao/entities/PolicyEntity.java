@@ -75,7 +75,7 @@ public class PolicyEntity extends Domain {
 	return insurer;
     }
 
-    void setInsurer(InsuranceCompanyEntity insurer) {
+    void setInsurer(final InsuranceCompanyEntity insurer) {
 	this.insurer = insurer;
     }
 
@@ -87,7 +87,7 @@ public class PolicyEntity extends Domain {
 	return insurant;
     }
 
-    void setInsurant(SubjectEntity insurant) {
+    void setInsurant(final SubjectEntity insurant) {
 	this.insurant = insurant;
     }
 
@@ -121,7 +121,7 @@ public class PolicyEntity extends Domain {
 	return branch;
     }
 
-    void setBranch(BranchEntity branch) {
+    void setBranch(final BranchEntity branch) {
 	this.branch = branch;
     }
 
@@ -140,7 +140,7 @@ public class PolicyEntity extends Domain {
 	return reissuedPolicy;
     }
 
-    void setReissuedPolicy(PolicyEntity reissuedPolicy) {
+    void setReissuedPolicy(final PolicyEntity reissuedPolicy) {
 	this.reissuedPolicy = reissuedPolicy;
     }
 
@@ -158,7 +158,7 @@ public class PolicyEntity extends Domain {
 	return MyStreams.orEmptyOf(insuredDrivers).collect(MyCollectors.unmodifiableList());
     }
 
-    synchronized void addDriver(InsuredDriverEntity driver) {
+    synchronized void addDriver(final InsuredDriverEntity driver) {
 	if (insuredDrivers == null)
 	    insuredDrivers = new ArrayList<>();
 	insuredDrivers.add(driver);
@@ -172,7 +172,7 @@ public class PolicyEntity extends Domain {
 	return MyStreams.orEmptyOf(insuredVehicles).collect(MyCollectors.unmodifiableList());
     }
 
-    synchronized void addVehicle(InsuredVehicleEntity vehicle) {
+    synchronized void addVehicle(final InsuredVehicleEntity vehicle) {
 	if (insuredVehicles == null)
 	    insuredVehicles = new ArrayList<>();
 	insuredVehicles.add(vehicle);

@@ -103,9 +103,8 @@ public class SubjectCompanyEntityServiceBean extends ASubjectEntityService<Subje
 
     @Override
     SubjectCompanyEntity convert(final Client source) {
-	if (source.getNaturalPersonBool() != 0) {
+	if (source.getNaturalPersonBool() != 0)
 	    throw MyExceptions.format(EJBException::new, "Client is not a legal person");
-	}
 	final SubjectCompanyEntity target = new SubjectCompanyEntity();
 	fillValues(source, target);
 	return target;

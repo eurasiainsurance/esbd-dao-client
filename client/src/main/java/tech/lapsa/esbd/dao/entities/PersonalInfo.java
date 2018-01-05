@@ -55,7 +55,7 @@ public class PersonalInfo extends Domain {
 	return gender;
     }
 
-    void setGender(Sex gender) {
+    void setGender(final Sex gender) {
 	this.gender = gender;
     }
 }

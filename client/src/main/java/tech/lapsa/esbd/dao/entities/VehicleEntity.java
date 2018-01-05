@@ -29,7 +29,7 @@ public class VehicleEntity extends Domain {
 	return vehicleClass;
     }
 
-    void setVehicleClass(VehicleClass vehicleClass) {
+    void setVehicleClass(final VehicleClass vehicleClass) {
 	this.vehicleClass = vehicleClass;
     }
 
@@ -48,7 +48,7 @@ public class VehicleEntity extends Domain {
 	return vehicleModel;
     }
 
-    void setVehicleModel(VehicleModelEntity vehicleModel) {
+    void setVehicleModel(final VehicleModelEntity vehicleModel) {
 	this.vehicleModel = vehicleModel;
     }
 
@@ -102,7 +102,7 @@ public class VehicleEntity extends Domain {
 	return regNum;
     }
 
-    void setRegNum(VehicleRegNumber regNum) {
+    void setRegNum(final VehicleRegNumber regNum) {
 	this.regNum = regNum;
     }
 }

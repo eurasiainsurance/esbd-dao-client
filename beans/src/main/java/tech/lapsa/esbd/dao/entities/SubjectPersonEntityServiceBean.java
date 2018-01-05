@@ -56,7 +56,8 @@ public class SubjectPersonEntityServiceBean extends ASubjectEntityService<Subjec
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public SubjectPersonEntity getFirstByIdNumber(TaxpayerNumber taxpayerNumber) throws IllegalArgument, NotFound {
+    public SubjectPersonEntity getFirstByIdNumber(final TaxpayerNumber taxpayerNumber)
+	    throws IllegalArgument, NotFound {
 	try {
 	    return _getFirstByIdNumber(taxpayerNumber);
 	} catch (final IllegalArgumentException e) {
@@ -99,9 +100,8 @@ public class SubjectPersonEntityServiceBean extends ASubjectEntityService<Subjec
 
     @Override
     SubjectPersonEntity convert(final Client source) {
-	if (source.getNaturalPersonBool() != 1) {
+	if (source.getNaturalPersonBool() != 1)
 	    throw MyExceptions.format(EJBException::new, "Client is not a natural person");
-	}
 	final SubjectPersonEntity target = new SubjectPersonEntity();
 	fillValues(source, target);
 	return target;

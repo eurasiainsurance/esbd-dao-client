@@ -31,7 +31,7 @@ public class InsuredDriverEntity extends Domain {
 	return policy;
     }
 
-    void setPolicy(PolicyEntity policy) {
+    void setPolicy(final PolicyEntity policy) {
 	this.policy = policy;
     }
 
@@ -43,7 +43,7 @@ public class InsuredDriverEntity extends Domain {
 	return insuredPerson;
     }
 
-    void setInsuredPerson(SubjectPersonEntity insuredPerson) {
+    void setInsuredPerson(final SubjectPersonEntity insuredPerson) {
 	this.insuredPerson = insuredPerson;
     }
 
@@ -55,7 +55,7 @@ public class InsuredDriverEntity extends Domain {
 	return maritalStatus;
     }
 
-    void setMaritalStatus(MaritalStatus maritalStatus) {
+    void setMaritalStatus(final MaritalStatus maritalStatus) {
 	this.maritalStatus = maritalStatus;
     }
 
@@ -67,7 +67,7 @@ public class InsuredDriverEntity extends Domain {
 	return insuredAgeExpirienceClass;
     }
 
-    void setInsuredAgeExpirienceClass(InsuredAgeAndExpirienceClass insuredAgeExpirienceClass) {
+    void setInsuredAgeExpirienceClass(final InsuredAgeAndExpirienceClass insuredAgeExpirienceClass) {
 	this.insuredAgeExpirienceClass = insuredAgeExpirienceClass;
     }
 
@@ -94,7 +94,7 @@ public class InsuredDriverEntity extends Domain {
 	return insuraceClassType;
     }
 
-    void setInsuraceClassType(InsuranceClassType insuraceClassType) {
+    void setInsuraceClassType(final InsuranceClassType insuraceClassType) {
 	this.insuraceClassType = insuraceClassType;
     }
 
@@ -187,7 +187,7 @@ public class InsuredDriverEntity extends Domain {
 	return insurer;
     }
 
-    void setInsurer(InsuranceCompanyEntity insurer) {
+    void setInsurer(final InsuranceCompanyEntity insurer) {
 	this.insurer = insurer;
     }
 

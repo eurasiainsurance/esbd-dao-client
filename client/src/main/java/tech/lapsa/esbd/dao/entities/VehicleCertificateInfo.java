@@ -37,7 +37,7 @@ public class VehicleCertificateInfo extends Domain {
 	return registrationRegion;
     }
 
-    void setRegistrationRegion(KZArea registrationRegion) {
+    void setRegistrationRegion(final KZArea registrationRegion) {
 	this.registrationRegion = registrationRegion;
     }
 
