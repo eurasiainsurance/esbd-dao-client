@@ -57,7 +57,8 @@ public class SubjectCompanyEntityServiceBean extends ASubjectEntityService<Subje
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public SubjectCompanyEntity getFirstByIdNumber(final TaxpayerNumber taxpayerNumber) throws IllegalArgument, NotFound {
+    public SubjectCompanyEntity getFirstByIdNumber(final TaxpayerNumber taxpayerNumber)
+	    throws IllegalArgument, NotFound {
 	try {
 	    return _getFirstByIdNumber(taxpayerNumber);
 	} catch (final IllegalArgumentException e) {
@@ -93,7 +94,8 @@ public class SubjectCompanyEntityServiceBean extends ASubjectEntityService<Subje
 			SubjectCompanyEntity.class.getSimpleName(), taxpayerNumber));
     }
 
-    private List<SubjectCompanyEntity> _getByIdNumber(final TaxpayerNumber taxpayerNumber) throws IllegalArgumentException {
+    private List<SubjectCompanyEntity> _getByIdNumber(final TaxpayerNumber taxpayerNumber)
+	    throws IllegalArgumentException {
 	MyObjects.requireNonNull(taxpayerNumber, "taxpayerNumber"); //
 	TaxpayerNumber.requireValid(taxpayerNumber);
 	return _getByIdNumber(taxpayerNumber, false, true);

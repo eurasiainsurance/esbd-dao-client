@@ -92,7 +92,8 @@ public class SubjectEntityServiceBean extends ASubjectEntityService<SubjectEntit
 	return _getByIdNumber(taxpayerNumber, true, true);
     }
 
-    private SubjectEntity _getFirstByIdNumber(final TaxpayerNumber taxpayerNumber) throws IllegalArgumentException, NotFound {
+    private SubjectEntity _getFirstByIdNumber(final TaxpayerNumber taxpayerNumber)
+	    throws IllegalArgumentException, NotFound {
 	return MyOptionals.of(_getByIdNumber(taxpayerNumber))
 		.map(List::stream)
 		.flatMap(Stream::findFirst)
