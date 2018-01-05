@@ -1,9 +1,11 @@
 package tech.lapsa.esbd.dao.dict;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.TransactionAttribute;
@@ -36,11 +38,31 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity<I>, I 
 		.build();
     }
 
+    private Map<I, T> allMap;
+
+    @PostConstruct
+    public void loadDictionary() {
+	final ArrayOfItem items;
+	try (Connection con = pool.getConnection()) {
+	    items = con.getItems(dictionaryName);
+	}
+	this.allMap = MyOptionals.of(items) //
+		.map(ArrayOfItem::getItem) //
+		.map(List::stream) //
+		.orElseGet(Stream::empty) //
+		.map(converter) //
+		.collect(MyCollectors.unmodifiableMap(DictionaryEntity::getId, Function.identity()));
+
+    }
+
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<T> getAll() {
 	try {
-	    return _getAll();
+	    return allMap.entrySet() //
+		    .stream() //
+		    .map(Map.Entry::getValue) //
+		    .collect(MyCollectors.unmodifiableList());
 	} catch (final RuntimeException e) {
 	    logger.WARN.log(e);
 	    throw new EJBException(e.getMessage());
@@ -65,29 +87,11 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity<I>, I 
     @EJB
     private ConnectionPool pool;
 
-    private List<T> all;
-
-    private List<T> _getAll() {
-	return MyOptionals.of(all)
-		.orElseGet(() -> (all = getAllFromESBD()));
-    }
-
     private T _getById(final I id) throws IllegalArgumentException, NotFound {
 	MyNumbers.requireNonZero(id, "id");
-	return getAll().stream() //
-		.filter(x -> MyNumbers.numbericEquals(id, x.getId())) //
-		.findFirst()
-		.orElseThrow(() -> new NotFound(String.format("Dictionary entity with id = '%1$s' is not found", id)));
-    }
-
-    private List<T> getAllFromESBD() {
-	try (Connection con = pool.getConnection()) {
-	    final ArrayOfItem items = con.getItems(dictionaryName);
-	    if (items == null)
-		return Collections.unmodifiableList(Collections.emptyList());
-	    return items.getItem().stream() //
-		    .map(converter) //
-		    .collect(MyCollectors.unmodifiableList());
-	}
+	final T res = allMap.get(id);
+	if (res == null)
+	    throw new NotFound(String.format("Dictionary entity with id = '%1$s' is not found", id));
+	return res;
     }
 }
