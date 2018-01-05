@@ -1,6 +1,6 @@
 package tech.lapsa.esbd.dao.infos;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 import com.lapsa.insurance.elements.IdentityCardType;
 
@@ -13,7 +13,7 @@ public class IdentityCardInfo extends Domain {
     private static final long serialVersionUID = 1L;
 
     // DOCUMENT_GIVED_DATE s:string Дата выдачи документа
-    private Calendar dateOfIssue;
+    private LocalDate dateOfIssue;
 
     // DOCUMENT_GIVED_BY s:string Документ выдан
     private String issuingAuthority;
@@ -26,11 +26,11 @@ public class IdentityCardInfo extends Domain {
 
     // GENERATED
 
-    public Calendar getDateOfIssue() {
+    public LocalDate getDateOfIssue() {
 	return dateOfIssue;
     }
 
-    public void setDateOfIssue(final Calendar dateOfIssue) {
+    public void setDateOfIssue(final LocalDate dateOfIssue) {
 	this.dateOfIssue = dateOfIssue;
     }
 

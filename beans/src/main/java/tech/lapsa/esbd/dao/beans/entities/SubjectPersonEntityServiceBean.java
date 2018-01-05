@@ -133,7 +133,7 @@ public class SubjectPersonEntityServiceBean extends ASubjectEntityService
 	// DOCUMENT_GIVED_DATE s:string Дата выдачи документа
 	final IdentityCardInfo di = new IdentityCardInfo();
 	target.setIdentityCardInfo(di);
-	di.setDateOfIssue(convertESBDDateToCalendar(source.getDOCUMENTGIVEDDATE()));
+	di.setDateOfIssue(convertESBDDateToLocalDate(source.getDOCUMENTGIVEDDATE()));
 	di.setIssuingAuthority(source.getDOCUMENTGIVEDBY());
 	di.setNumber(source.getDOCUMENTNUMBER());
 
