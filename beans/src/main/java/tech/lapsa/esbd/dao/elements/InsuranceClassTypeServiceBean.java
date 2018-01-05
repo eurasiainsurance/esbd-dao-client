@@ -117,6 +117,7 @@ public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceL
     private InsuranceClassType _getForSubject(final SubjectPersonEntity subjectPerson, final LocalDate date)
 	    throws IllegalArgumentException, NotFound {
 	MyObjects.requireNonNull(subjectPerson, "subjectPerson");
+	MyObjects.requireNonNull(subjectPerson.getId(), "subjectPerson.id");
 	MyObjects.requireNonNull(date, "date");
 	try (Connection con = pool.getConnection()) {
 	    final String esbdDate = ESBDDates.convertLocalDateToESBDDate(date);
