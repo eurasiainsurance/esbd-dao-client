@@ -11,26 +11,28 @@ public class UserEntity extends Domain {
     private static final long serialVersionUID = 1L;
 
     // ID s:int Идентификатор пользователя
-     Integer id;
+    Integer id;
 
     // Name s:string Имя пользователя
-     String login;
+    String login;
 
     // Branch_ID s:int Филиал пользователя (справочник BRANCHES)
-     BranchEntity branch;
+    int branchId;
+    BranchEntity branch;
 
     // CLIENT_ID s:int Клиент пользователя (справочник CLIENTS)
-     int subjectId;
-     SubjectEntity subject;
+    int subjectId;
+    SubjectEntity subject;
 
     // SYSTEM_DELIMITER_ID s:int Разделитель учета (справочник SYSTEM_DELIMITER)
-     InsuranceCompanyEntity organization;
+    int organizationId;
+    InsuranceCompanyEntity organization;
 
     // IsAuthenticated s:int Пользователь аутентифицирован
-     boolean authentificated;
+    boolean authentificated;
 
     // SessionID s:string Идентификатор текущей сессии пользователя
-     String lastSesionId;
+    String lastSesionId;
 
     // ErrorMessage s:string Описание ошибки аутентификации
     // LastRequestTime s:string Время последнего действия пользователя
@@ -49,10 +51,6 @@ public class UserEntity extends Domain {
 	return branch;
     }
 
-    public long getSubjectId() {
-	return subjectId;
-    }
-
     public SubjectEntity getSubject() {
 	return subject;
     }
@@ -67,5 +65,19 @@ public class UserEntity extends Domain {
 
     public String getLastSesionId() {
 	return lastSesionId;
+    }
+
+    // just for lambda method references
+
+    void setSubject(final SubjectEntity subject) {
+	this.subject = subject;
+    }
+
+    void setBranch(final BranchEntity branch) {
+	this.branch = branch;
+    }
+
+    void setOrganization(final InsuranceCompanyEntity organization) {
+	this.organization = organization;
     }
 }

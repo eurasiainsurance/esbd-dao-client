@@ -12,10 +12,12 @@ import javax.ejb.TransactionAttributeType;
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.beans.entities.Util;
+import tech.lapsa.esbd.dao.dict.BranchEntity;
 import tech.lapsa.esbd.dao.dict.BranchEntityService.BranchEntityServiceLocal;
+import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
 import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntityService.InsuranceCompanyEntityServiceLocal;
-import tech.lapsa.esbd.dao.entities.UserEntity;
-import tech.lapsa.esbd.dao.entities.UserEntityService;
+import tech.lapsa.esbd.dao.entities.SubjectEntityService.SubjectEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.UserEntityService.UserEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.UserEntityService.UserEntityServiceRemote;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfUser;
@@ -97,30 +99,37 @@ public class UserEntityServiceBean implements UserEntityServiceLocal, UserEntity
 	return traget;
     }
 
+    @EJB
+    private SubjectEntityServiceLocal subjects;
+
     void fillValues(final User source, final UserEntity target) {
 	// ID s:int Идентификатор пользователя
-	target.id = source.getID();
+	target.id = MyOptionals.of(source.getID()).orElse(null);
 
 	// Name s:string Имя пользователя
 	target.login = source.getName();
 
 	// Branch_ID s:int Филиал пользователя (справочник BRANCHES)
-
 	// non mandatory field
-	target.branch = MyOptionals.of(source.getBranchID()) //
-		.flatMap(id -> MyOptionals.ifAnyException(() -> branchService.getById(id))) //
-		.orElse(null);
+	target.branchId = source.getBranchID();
+	Util.optionalField(target, target.id, branchService::getById,
+		target::setBranch, "Branch", BranchEntity.class,
+		MyOptionals.of(target.branchId));
 
 	// CLIENT_ID s:int Клиент пользователя (справочник CLIENTS)
+	// non mandatory field
 	target.subjectId = source.getCLIENTID();
+	Util.optionalField(target, target.id, subjects::getById,
+		target::setSubject, "Subject", SubjectEntity.class,
+		MyOptionals.of(target.subjectId));
 
 	// SYSTEM_DELIMITER_ID s:int Разделитель учета (справочник
 	// SYSTEM_DELIMITER)
-
 	// non mandatory field
-	target.organization = MyOptionals.of(source.getSYSTEMDELIMITERID()) //
-		.flatMap(id -> MyOptionals.ifAnyException(() -> insuranceCompanyService.getById(id))) //
-		.orElse(null);
+	target.organizationId = source.getSYSTEMDELIMITERID();
+	Util.optionalField(target, target.id, insuranceCompanyService::getById,
+		target::setOrganization, "Organization", InsuranceCompanyEntity.class,
+		MyOptionals.of(target.organizationId));
 
 	// IsAuthenticated s:int Пользователь аутентифицирован
 	target.authentificated = source.getIsAuthenticated() == 1;
