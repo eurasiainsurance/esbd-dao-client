@@ -6,6 +6,7 @@ import com.lapsa.insurance.elements.SteeringWheelLocation;
 import com.lapsa.insurance.elements.VehicleClass;
 
 import tech.lapsa.esbd.dao.Domain;
+import tech.lapsa.kz.vehicle.VehicleRegNumber;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(31)
@@ -14,126 +15,94 @@ public class VehicleEntity extends Domain {
     private static final long serialVersionUID = 1L;
 
     // TF_ID s:int Идентификатор ТС
-    private Integer id;
-
-    // TF_TYPE_ID s:int Тип ТС (справочник TF_TYPES)
-    private VehicleClass vehicleClass;
-
-    // VIN s:string VIN код (номер кузова) (обязательно)
-    private String vinCode;
-
-    // MODEL_ID s:int Марка\Модель (справочник VOITURE_MODELS) (обязательно)
-    private VehicleModelEntity vehicleModel;
-
-    // RIGHT_HAND_DRIVE_BOOL s:int Признак расположения руля (0 - слева; 1 -
-    // справа)
-    private SteeringWheelLocation steeringWheelLocation;
-
-    // ENGINE_VOLUME s:int Объем двигателя (куб.см.)
-    private int engineVolume;
-
-    // ENGINE_NUMBER s:string Номер двигателя
-    private String enineNumber;
-
-    // ENGINE_POWER s:int Мощность двигателя (квт.)
-    private int enginePower;
-
-    // COLOR s:string Цвет ТС
-    private String color;
-
-    // BORN s:string Год выпуска (обязательно)
-    // BORN_MONTH s:int Месяц выпуска ТС
-    private LocalDate realeaseDate;
-
-    private String regNum;
-
-    // GENERATED
+    Integer id;
 
     public Integer getId() {
 	return id;
     }
 
-    public void setId(final Integer id) {
-	this.id = id;
-    }
+    // TF_TYPE_ID s:int Тип ТС (справочник TF_TYPES)
+    public int vehicleClassId;
+    VehicleClass vehicleClass;
 
     public VehicleClass getVehicleClass() {
 	return vehicleClass;
     }
-
-    public void setVehicleClass(final VehicleClass vehicleClass) {
-	this.vehicleClass = vehicleClass;
+    
+    void setVehicleClass(VehicleClass vehicleClass) {
+        this.vehicleClass = vehicleClass;
     }
+
+    // VIN s:string VIN код (номер кузова) (обязательно)
+    String vinCode;
 
     public String getVinCode() {
 	return vinCode;
     }
 
-    public void setVinCode(final String vinCode) {
-	this.vinCode = vinCode;
-    }
+    // MODEL_ID s:int Марка\Модель (справочник VOITURE_MODELS) (обязательно)
+    int vehicleModelId;
+    VehicleModelEntity vehicleModel;
 
     public VehicleModelEntity getVehicleModel() {
 	return vehicleModel;
     }
-
-    public void setVehicleModel(final VehicleModelEntity vehicleModel) {
-	this.vehicleModel = vehicleModel;
+    
+    void setVehicleModel(VehicleModelEntity vehicleModel) {
+        this.vehicleModel = vehicleModel;
     }
+
+    // RIGHT_HAND_DRIVE_BOOL s:int Признак расположения руля (0 - слева; 1 -
+    // справа)
+    SteeringWheelLocation steeringWheelLocation;
 
     public SteeringWheelLocation getSteeringWheelLocation() {
 	return steeringWheelLocation;
     }
 
-    public void setSteeringWheelLocation(final SteeringWheelLocation steeringWheelLocation) {
-	this.steeringWheelLocation = steeringWheelLocation;
-    }
+    // ENGINE_VOLUME s:int Объем двигателя (куб.см.)
+    int engineVolume;
 
     public int getEngineVolume() {
 	return engineVolume;
     }
 
-    public void setEngineVolume(final int engineVolume) {
-	this.engineVolume = engineVolume;
-    }
+    // ENGINE_NUMBER s:string Номер двигателя
+    String enineNumber;
 
     public String getEnineNumber() {
 	return enineNumber;
     }
 
-    public void setEnineNumber(final String enineNumber) {
-	this.enineNumber = enineNumber;
-    }
+    // ENGINE_POWER s:int Мощность двигателя (квт.)
+    int enginePower;
 
     public int getEnginePower() {
 	return enginePower;
     }
 
-    public void setEnginePower(final int enginePower) {
-	this.enginePower = enginePower;
-    }
+    // COLOR s:string Цвет ТС
+    String color;
 
     public String getColor() {
 	return color;
     }
 
-    public void setColor(final String color) {
-	this.color = color;
-    }
+    // BORN s:string Год выпуска (обязательно)
+    // BORN_MONTH s:int Месяц выпуска ТС
+    LocalDate realeaseDate;
 
     public LocalDate getRealeaseDate() {
 	return realeaseDate;
     }
 
-    public void setRealeaseDate(final LocalDate realeaseDate) {
-	this.realeaseDate = realeaseDate;
-    }
+    VehicleRegNumber regNum;
 
-    public void setRegNum(final String regNum) {
-	this.regNum = regNum;
-    }
-
-    public String getRegNum() {
+    public VehicleRegNumber getRegNum() {
 	return regNum;
+    }
+
+    void setRegNum(VehicleRegNumber regNum) {
+        this.regNum = regNum;
     }
 }

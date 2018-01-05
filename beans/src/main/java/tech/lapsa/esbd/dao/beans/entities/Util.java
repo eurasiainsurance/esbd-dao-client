@@ -14,7 +14,7 @@ public final class Util {
     private Util() {
     }
 
-    static <T> T requireSingle(final List<T> list,
+    public static <T> T requireSingle(final List<T> list,
 	    final Class<?> clazz,
 	    final String keyName,
 	    final Object key) throws EJBException {
@@ -83,7 +83,7 @@ public final class Util {
 	}
     }
 
-    static <T> EJBException requireNonEmtyList(final T target,
+    public static <T> EJBException requireNonEmtyList(final T target,
 	    final Object targetId,
 	    final String fieldName) {
 	final String message = MyStrings.format(

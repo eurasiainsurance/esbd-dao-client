@@ -5,8 +5,6 @@ import com.lapsa.insurance.elements.VehicleClass;
 
 import tech.lapsa.esbd.dao.Domain;
 import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
-import tech.lapsa.esbd.dao.infos.RecordOperationInfo;
-import tech.lapsa.esbd.dao.infos.VehicleCertificateInfo;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(13)
@@ -15,132 +13,115 @@ public class InsuredVehicleEntity extends Domain {
     private static final long serialVersionUID = 1L;
 
     // POLICY_TF_ID s:int Идентификатор ТС полиса
-    private Integer id;
+    Integer id;
+
+    public Integer getId() {
+	return id;
+    }
 
     // POLICY_ID s:int Идентификатор полиса
-    private PolicyEntity policy;
+    int policyId;
+    PolicyEntity policy;
+
+    public PolicyEntity getPolicy() {
+	return policy;
+    }
+
+    void setPolicy(PolicyEntity policy) {
+	this.policy = policy;
+    }
 
     // TF_ID s:int Идентификатор ТС
-    private VehicleEntity vehicle;
+    int vehicleId;
+    VehicleEntity vehicle;
+
+    public VehicleEntity getVehicle() {
+	return vehicle;
+    }
+
+    void setVehicle(VehicleEntity vehicle) {
+	this.vehicle = vehicle;
+    }
 
     // TF_TYPE_ID s:int Идентификатор типа ТС (обязательно)
-    private VehicleClass vehicleClass;
+    int vehicleClassId;
+    VehicleClass vehicleClass;
+
+    public VehicleClass getVehicleClass() {
+	return vehicleClass;
+    }
+
+    void setVehicleClass(VehicleClass vehicleClass) {
+	this.vehicleClass = vehicleClass;
+    }
 
     // TF_AGE_ID s:int Идентификатор возраста ТС (обязательно)
-    private VehicleAgeClass vehicleAgeClass;
+    int vehicleAgeClassId;
+    VehicleAgeClass vehicleAgeClass;
+
+    public VehicleAgeClass getVehicleAgeClass() {
+	return vehicleAgeClass;
+    }
+
+    void setVehicleAgeClass(VehicleAgeClass vehicleAgeClass) {
+	this.vehicleAgeClass = vehicleAgeClass;
+    }
 
     // TF_NUMBER s:string Гос. номер ТС
     // TF_REGISTRATION_CERTIFICATE s:string Номер тех. паспорта
     // GIVE_DATE s:string Дата выдачи тех. паспорта
     // REGION_ID s:int Идентификатор региона регистрации ТС (обязательно)
     // BIG_CITY_BOOL s:int Признак города областного значения (обязательно)
-    private VehicleCertificateInfo certificate = new VehicleCertificateInfo();
-
-    // PURPOSE s:string Цель использования ТС
-    private String vehiclePurpose;
-
-    // ODOMETER s:int Показания одометра
-    private long currentOdometerValue;
-
-    // CREATED_BY_USER_ID s:int Идентификатор пользователя, создавшего запись
-    // INPUT_DATE s:string Дата\время ввода записи в систему
-    private RecordOperationInfo created = new RecordOperationInfo();
-
-    // RECORD_CHANGED_AT s:string Дата\время изменения записи
-    // CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего запись
-    private RecordOperationInfo modified = new RecordOperationInfo();
-
-    // SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
-    private InsuranceCompanyEntity insurer;
-
-    // GENERATED
-
-    public Integer getId() {
-	return id;
-    }
-
-    public void setId(final Integer id) {
-	this.id = id;
-    }
-
-    public PolicyEntity getPolicy() {
-	return policy;
-    }
-
-    public void setPolicy(final PolicyEntity policy) {
-	this.policy = policy;
-    }
-
-    public VehicleEntity getVehicle() {
-	return vehicle;
-    }
-
-    public void setVehicle(final VehicleEntity vehicle) {
-	this.vehicle = vehicle;
-    }
-
-    public VehicleClass getVehicleClass() {
-	return vehicleClass;
-    }
-
-    public void setVehicleClass(final VehicleClass vehicleClass) {
-	this.vehicleClass = vehicleClass;
-    }
-
-    public VehicleAgeClass getVehicleAgeClass() {
-	return vehicleAgeClass;
-    }
-
-    public void setVehicleAgeClass(final VehicleAgeClass vehicleAgeClass) {
-	this.vehicleAgeClass = vehicleAgeClass;
-    }
+    int certificateId;
+    VehicleCertificateInfo certificate;
 
     public VehicleCertificateInfo getCertificate() {
 	return certificate;
     }
 
-    public void setCertificate(final VehicleCertificateInfo certificate) {
+    void setCertificate(VehicleCertificateInfo certificate) {
 	this.certificate = certificate;
     }
+
+    // PURPOSE s:string Цель использования ТС
+    String vehiclePurpose;
 
     public String getVehiclePurpose() {
 	return vehiclePurpose;
     }
 
-    public void setVehiclePurpose(final String vehiclePurpose) {
-	this.vehiclePurpose = vehiclePurpose;
-    }
+    // ODOMETER s:int Показания одометра
+    int currentOdometerValue;
 
-    public long getCurrentOdometerValue() {
+    public int getCurrentOdometerValue() {
 	return currentOdometerValue;
     }
 
-    public void setCurrentOdometerValue(final long currentOdometerValue) {
-	this.currentOdometerValue = currentOdometerValue;
-    }
+    // CREATED_BY_USER_ID s:int Идентификатор пользователя, создавшего запись
+    // INPUT_DATE s:string Дата\время ввода записи в систему
+    RecordOperationInfo created;
 
     public RecordOperationInfo getCreated() {
 	return created;
     }
 
-    public void setCreated(final RecordOperationInfo created) {
-	this.created = created;
-    }
+    // RECORD_CHANGED_AT s:string Дата\время изменения записи
+    // CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего запись
+    RecordOperationInfo modified;
 
     public RecordOperationInfo getModified() {
 	return modified;
     }
 
-    public void setModified(final RecordOperationInfo modified) {
-	this.modified = modified;
-    }
+    // SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
+    int insurerId;
+    InsuranceCompanyEntity insurer;
 
     public InsuranceCompanyEntity getInsurer() {
 	return insurer;
     }
 
-    public void setInsurer(final InsuranceCompanyEntity insurer) {
+    void setInsurer(InsuranceCompanyEntity insurer) {
 	this.insurer = insurer;
     }
-
 }

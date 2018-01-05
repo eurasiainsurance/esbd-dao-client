@@ -27,4 +27,10 @@ public final class ESBDDates {
 	    return null;
 	return localDate.format(DITE_TIME_FORMATTER);
     }
+
+    public static LocalDate fromESBDYearMonth(final String yearS, final int month) {
+	final int year = Integer.parseInt(yearS);
+	return LocalDate.of(year, month, 1);
+    }
+
 }

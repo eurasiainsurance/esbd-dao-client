@@ -1,8 +1,7 @@
-package tech.lapsa.esbd.dao.beans.entities;
+package tech.lapsa.esbd.dao.entities;
 
 import static tech.lapsa.esbd.dao.beans.ESBDDates.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -22,6 +21,7 @@ import com.lapsa.kz.country.KZArea;
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.beans.entities.Util;
 import tech.lapsa.esbd.dao.dict.BranchEntity;
 import tech.lapsa.esbd.dao.dict.BranchEntityService.BranchEntityServiceLocal;
 import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
@@ -33,27 +33,12 @@ import tech.lapsa.esbd.dao.elements.KZAreaService.KZAreaServiceLocal;
 import tech.lapsa.esbd.dao.elements.MaritalStatusService.MaritalStatusServiceLocal;
 import tech.lapsa.esbd.dao.elements.VehicleAgeClassService.VehicleAgeClassServiceLocal;
 import tech.lapsa.esbd.dao.elements.VehicleClassService.VehicleClassServiceLocal;
-import tech.lapsa.esbd.dao.entities.InsuredDriverEntity;
-import tech.lapsa.esbd.dao.entities.InsuredVehicleEntity;
-import tech.lapsa.esbd.dao.entities.PolicyEntity;
-import tech.lapsa.esbd.dao.entities.PolicyEntityService;
 import tech.lapsa.esbd.dao.entities.PolicyEntityService.PolicyEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.PolicyEntityService.PolicyEntityServiceRemote;
-import tech.lapsa.esbd.dao.entities.SubjectEntity;
 import tech.lapsa.esbd.dao.entities.SubjectEntityService.SubjectEntityServiceLocal;
-import tech.lapsa.esbd.dao.entities.SubjectPersonEntity;
 import tech.lapsa.esbd.dao.entities.SubjectPersonEntityService.SubjectPersonEntityServiceLocal;
-import tech.lapsa.esbd.dao.entities.UserEntity;
 import tech.lapsa.esbd.dao.entities.UserEntityService.UserEntityServiceLocal;
-import tech.lapsa.esbd.dao.entities.VehicleEntity;
 import tech.lapsa.esbd.dao.entities.VehicleEntityService.VehicleEntityServiceLocal;
-import tech.lapsa.esbd.dao.infos.DriverLicenseInfo;
-import tech.lapsa.esbd.dao.infos.GPWParticipantInfo;
-import tech.lapsa.esbd.dao.infos.InvalidInfo;
-import tech.lapsa.esbd.dao.infos.PensionerInfo;
-import tech.lapsa.esbd.dao.infos.PrivilegerInfo;
-import tech.lapsa.esbd.dao.infos.RecordOperationInfo;
-import tech.lapsa.esbd.dao.infos.VehicleCertificateInfo;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfDriver;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfPoliciesTF;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfPolicy;
@@ -205,104 +190,102 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 
     void fillValues(final Policy source, final PolicyEntity target) {
 	// POLICY_ID s:int Идентификатор полиса (обязательно)
-	target.setId(source.getPOLICYID());
+	target.id = MyOptionals.of(source.getPOLICYID()).orElse(null);
 
 	// GLOBAL_ID s:string Уникальный глобальный идентификатор полиса
-	target.setNumber(source.getGLOBALID());
+	target.number = source.getGLOBALID();
 
 	// POLICY_NUMBER s:string Номер полиса (обязательно)
-	target.setInternalNumber(source.getPOLICYNUMBER());
+	target.internalNumber = source.getPOLICYNUMBER();
 
 	// DATE_BEG s:string Дата начала действия полиса (обязательно)
-	target.setValidFrom(convertESBDDateToLocalDate(source.getDATEBEG()));
+	target.validFrom = convertESBDDateToLocalDate(source.getDATEBEG());
 
 	// DATE_END s:string Дата окончания действия полиса (обязательно)
-	target.setValidTill(convertESBDDateToLocalDate(source.getDATEEND()));
+	target.validTill = convertESBDDateToLocalDate(source.getDATEEND());
 
 	// PREMIUM s:double Страховая премия (обязательно)
-	target.setActualPremiumCost(source.getPREMIUM());
+	target.actualPremium = MyOptionals.of(source.getPREMIUM()).orElse(null);
 
 	// CALCULATED_PREMIUM s:double Страховая премия рассчитанная системой
-	target.setPremiumCost(source.getCALCULATEDPREMIUM());
+	target.calculatedPremium = MyOptionals.of(source.getCALCULATEDPREMIUM()).orElse(null);
 
 	// SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
+	target.insurerId = source.getSYSTEMDELIMITERID();
 	Util.requireField(target, target.getId(), insuranceCompanyService::getById,
-		target::setInsurer, "Insurer", InsuranceCompanyEntity.class,
-		source.getSYSTEMDELIMITERID());
+		target::setInsurer, "Insurer", InsuranceCompanyEntity.class, target.insurerId);
 
 	// CLIENT_ID s:int Идентификатор страхователя (обязательно)
+	target.insurantId = source.getCLIENTID();
 	Util.requireField(target, target.getId(), subjectService::getById, target::setInsurant,
-		"Insurant", SubjectEntity.class, source.getCLIENTID());
+		"Insurant", SubjectEntity.class, target.insurantId);
 
 	// POLICY_DATE s:string Дата полиса
-	target.setDateOfIssue(convertESBDDateToLocalDate(source.getPOLICYDATE()));
+	target.dateOfIssue = convertESBDDateToLocalDate(source.getPOLICYDATE());
 
 	// RESCINDING_DATE s:string Дата расторжения полиса
-	target.setDateOfCancelation(convertESBDDateToLocalDate(source.getRESCINDINGDATE()));
+	target.dateOfCancelation = convertESBDDateToLocalDate(source.getRESCINDINGDATE());
 
 	// RESCINDING_REASON_ID s:int Идентификатор причины расторжения
-
 	// non mandatory field
-	target.setCancelationReasonType(MyOptionals.of(source.getRESCINDINGREASONID()) //
+	target.cancelationReasonTypeId = source.getRESCINDINGREASONID();
+	target.cancelationReasonType = MyOptionals.of(target.cancelationReasonTypeId) //
 		.flatMap(id -> MyOptionals.ifAnyException(() -> cancelationReasonTypeService.getById(id))) //
-		.orElse(null));
+		.orElse(null);
 
 	// BRANCH_ID s:int Филиал (обязательно)
+	target.branchId = source.getBRANCHID();
 	Util.requireField(target, target.getId(), branchService::getById, target::setBranch, "Branch",
-		BranchEntity.class, source.getBRANCHID());
+		BranchEntity.class, target.branchId);
 
 	// REWRITE_BOOL s:int Признак переоформления
-	target.setReissued(source.getREWRITEBOOL() == 1);
+	target.reissued = source.getREWRITEBOOL() == 1;
 
 	// REWRITE_POLICY_ID s:int Ссылка на переоформляемый полис
-	target.setReissuedPolicyId(source.getREWRITEPOLICYID());
+	target.reissuedPolicyId = source.getREWRITEPOLICYID();
+	if (target.reissued)
+	    Util.requireField(target, target.getId(), this::getById, target::setReissuedPolicy,
+		    "ReissuedPolicy", PolicyEntity.class, target.reissuedPolicyId);
 
 	// DESCRIPTION s:string Комментарии к полису
-	target.setComments(source.getDESCRIPTION());
+	target.comments = source.getDESCRIPTION();
 
 	// Drivers tns:ArrayOfDriver Водители (обязательно)
-	final ArrayOfDriver drivers = source.getDrivers();
-	if (drivers == null || drivers.getDriver() == null || drivers.getDriver().isEmpty())
-	    throw Util.requireNonEmtyList(target, target.getId(), "InsuredDrivers");
-	final List<InsuredDriverEntity> insuredDrivers = new ArrayList<>();
-	target.setInsuredDrivers(insuredDrivers);
-	for (final Driver s : drivers.getDriver()) {
-	    final InsuredDriverEntity t = new InsuredDriverEntity();
-	    fillValues(s, t, target);
-	    insuredDrivers.add(t);
-	}
+	MyOptionals.of(source) //
+		.map(Policy::getDrivers) //
+		.map(ArrayOfDriver::getDriver) //
+		.map(List::stream) //
+		.orElseThrow(() -> Util.requireNonEmtyList(target, target.getId(), "InsuredDrivers")) //
+		.map(x -> this.convert(x, target)) //
+		.forEach(target::addDriver);
 
 	// PoliciesTF tns:ArrayOfPolicies_TF Транспортные средства полиса
 	// (обязательно)
-	final ArrayOfPoliciesTF vehicles = source.getPoliciesTF();
-	if (vehicles == null || vehicles.getPoliciesTF() == null || vehicles.getPoliciesTF().isEmpty())
-	    throw Util.requireNonEmtyList(target, target.getId(), "InsuredVehicles");
-	final List<InsuredVehicleEntity> insuredVehicles = new ArrayList<>();
-	target.setInsuredVehicles(insuredVehicles);
-	for (final PoliciesTF s : vehicles.getPoliciesTF()) {
-	    final InsuredVehicleEntity t = new InsuredVehicleEntity();
-	    fillValues(s, t, target);
-	    insuredVehicles.add(t);
-	}
+	MyOptionals.of(source) //
+		.map(Policy::getPoliciesTF) //
+		.map(ArrayOfPoliciesTF::getPoliciesTF) //
+		.map(List::stream) //
+		.orElseThrow(() -> Util.requireNonEmtyList(target, target.getId(), "InsuredVehicles")) //
+		.map(x -> this.convert(x, target)) //
+		.forEach(target::addVehicle);
 
 	// CREATED_BY_USER_ID s:int Идентификатор пользователя, создавшего полис
 	// INPUT_DATE s:string Дата\время ввода полиса в систему
-	final RecordOperationInfo created = new RecordOperationInfo();
-	target.setCreated(created);
-	created.setDate(convertESBDDateToLocalDate(source.getINPUTDATE()));
-	Util.requireField(target, target.getId(), userService::getById, created::setAuthor,
-		"Created.Author", UserEntity.class, source.getCREATEDBYUSERID());
+	target.created = new RecordOperationInfo();
+	target.created.date = convertESBDDateToLocalDate(source.getINPUTDATE());
+	target.created.authorId = source.getCREATEDBYUSERID();
+	Util.requireField(target, target.getId(), userService::getById, target.created::setAuthor,
+		"Created.Author", UserEntity.class, target.created.authorId);
 
 	// RECORD_CHANGED_AT s:string Дата\время изменения полиса
 	// RECORD_CHANGED_AT_DATETIME s:string Дата\время изменения полиса
 	// CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего
 	// полис
-	final RecordOperationInfo modified = new RecordOperationInfo();
-	target.setModified(modified);
-	modified.setDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()));
-	if (modified.getDate() != null)
-	    Util.requireField(target, target.getId(), userService::getById, modified::setAuthor,
-		    "Modified.Author", UserEntity.class, source.getCHANGEDBYUSERID());
+	target.modified = new RecordOperationInfo();
+	target.modified.date = convertESBDDateToLocalDate(source.getRECORDCHANGEDAT());
+	target.modified.authorId = source.getCHANGEDBYUSERID();
+	Util.optionalField(target, target.getId(), userService::getById, target.modified::setAuthor,
+		"Modified.Author", UserEntity.class, MyOptionals.of(target.modified.authorId));
 
 	// ScheduledPayments tns:ArrayOfSCHEDULED_PAYMENT Плановые платежи по
 	// полису
@@ -314,82 +297,92 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	// CLIENT_FORM_ID s:int Форма клиента (справочник CLIENT_FORMS)
     }
 
+    InsuredDriverEntity convert(final Driver source, final PolicyEntity policy) {
+	final InsuredDriverEntity target = new InsuredDriverEntity();
+	fillValues(source, target, policy);
+	return target;
+    }
+
     void fillValues(final Driver source, final InsuredDriverEntity target, final PolicyEntity policy) {
 	// DRIVER_ID s:int Идентификатор водителя
-	target.setId(source.getDRIVERID());
+	target.id = MyOptionals.of(source.getPOLICYID()).orElse(null);
 
+	target.policyId = source.getPOLICYID();
 	// POLICY_ID s:int Идентификатор полиса
-	if (policy.getId() == source.getPOLICYID())
-	    target.setPolicy(policy);
+	if (Integer.valueOf(target.policyId).equals(policy.getId()))
+	    target.policy = policy;
 	else
-	    Util.requireField(target, target.getId(), this::getById, target::setPolicy, "policy",
-		    PolicyEntity.class, source.getPOLICYID());
+	    Util.requireField(target, target.getId(), this::getById, target::setPolicy, "Policy",
+		    PolicyEntity.class, target.policyId);
 
 	// CLIENT_ID s:int Идентификатор клиента (обязательно)
-	Util.requireField(target, target.getId(), subjectPersonService::getById,
+	target.insuredPersonId = source.getCLIENTID();
+	Util.requireField(target, target.id, subjectPersonService::getById,
 		target::setInsuredPerson, "InsuredPerson",
-		SubjectPersonEntity.class, source.getCLIENTID());
+		SubjectPersonEntity.class, target.insuredPersonId);
 
 	// HOUSEHOLD_POSITION_ID s:int Идентификатор семейного положения
-	Util.requireField(target, target.getId(), maritalStatusService::getById,
+	target.maritalStatusId = source.getHOUSEHOLDPOSITIONID();
+	Util.requireField(target, target.id, maritalStatusService::getById,
 		target::setMaritalStatus, "MaritalStatus",
-		MaritalStatus.class, source.getHOUSEHOLDPOSITIONID());
+		MaritalStatus.class, target.maritalStatusId);
 
 	// AGE_EXPERIENCE_ID s:int Идентификатор возраста\стажа вождения
-	Util.requireField(target, target.getId(), driverExpirienceClassificationService::getById,
+	target.insuredAgeExpirienceClassId = source.getAGEEXPERIENCEID();
+	Util.requireField(target, target.id, driverExpirienceClassificationService::getById,
 		target::setInsuredAgeExpirienceClass, "InsuredAgeExpirienceClass", InsuredAgeAndExpirienceClass.class,
-		source.getAGEEXPERIENCEID());
+		target.insuredAgeExpirienceClassId);
 
 	// EXPERIENCE s:int Стаж вождения
-	target.setDrivingExpirience(source.getEXPERIENCE());
+	target.drivingExpirience = source.getEXPERIENCE();
 
 	// DRIVER_CERTIFICATE s:string Номер водительского удостоверения
 	// DRIVER_CERTIFICATE_DATE s:string Дата выдачи водительского
 	// удостоверения
-	final DriverLicenseInfo ci = new DriverLicenseInfo();
-	target.setDriverLicense(ci);
-	ci.setNumber(source.getDRIVERCERTIFICATE());
-	ci.setDateOfIssue(convertESBDDateToLocalDate(source.getDRIVERCERTIFICATEDATE()));
+	target.driverLicense = new DriverLicenseInfo();
+	target.driverLicense.number = source.getDRIVERCERTIFICATE();
+	target.driverLicense.dateOfIssue = convertESBDDateToLocalDate(source.getDRIVERCERTIFICATEDATE());
 
 	// getClassId
-	Util.requireField(target, target.getId(), insuranceClassTypeService::getById,
-		target::setInsuraceClassType, "InsuraceClassType", InsuranceClassType.class, source.getClassId());
+	target.insuraceClassTypeId = source.getClassId();
+	Util.requireField(target, target.id, insuranceClassTypeService::getById, target::setInsuraceClassType,
+		"InsuraceClassType", InsuranceClassType.class, target.insuraceClassTypeId);
 
 	// PRIVELEGER_BOOL s:int Признак приравненного лица
 	// PRIVELEDGER_TYPE s:string Тип приравненного лица
 	// PRIVELEDGER_CERTIFICATE s:string Удостоверение приравненного лица
 	// PRIVELEDGER_CERTIFICATE_DATE s:string Дата выдачи удостоверения
 	// приравненного лица
-	final PrivilegerInfo pi = new PrivilegerInfo();
-	target.setPrivilegerInfo(pi);
-	target.setPrivileger(source.getPRIVELEGERBOOL() == 1);
-	if (target.isPrivileger()) {
-	    pi.setType(source.getPRIVELEDGERTYPE());
-	    pi.setCertificateNumber(source.getPRIVELEDGERCERTIFICATE());
-	    pi.setCertificateDateOfIssue(convertESBDDateToLocalDate(source.getPRIVELEDGERCERTIFICATEDATE()));
+	target.privilegerInfo = new PrivilegerInfo();
+	target.privileger = source.getPRIVELEGERBOOL() == 1;
+	if (target.privileger) {
+	    target.privilegerInfo.type = source.getPRIVELEDGERTYPE();
+	    target.privilegerInfo.certificateNumber = source.getPRIVELEDGERCERTIFICATE();
+	    target.privilegerInfo.certificateDateOfIssue = convertESBDDateToLocalDate(
+		    source.getPRIVELEDGERCERTIFICATEDATE());
 	}
 
 	// WOW_BOOL s:int Признак участника ВОВ
 	// WOW_CERTIFICATE s:string Удостоверение участника ВОВ
 	// WOW_CERTIFICATE_DATE s:string Дата выдачи удостоверения участника ВОВ
-	final GPWParticipantInfo gpwi = new GPWParticipantInfo();
-	target.setGpwParticipantInfo(gpwi);
-	target.setGpwParticipant(source.getWOWBOOL() == 1);
-	if (target.isGpwParticipant()) {
-	    gpwi.setCertificateNumber(source.getWOWCERTIFICATE());
-	    gpwi.setCertificateDateOfIssue(convertESBDDateToLocalDate(source.getWOWCERTIFICATEDATE()));
+	target.gpwParticipantInfo = new GPWParticipantInfo();
+	target.gpwParticipant = source.getWOWBOOL() == 1;
+	if (target.gpwParticipant) {
+	    target.gpwParticipantInfo.certificateNumber = source.getWOWCERTIFICATE();
+	    target.gpwParticipantInfo.certificateDateOfIssue = convertESBDDateToLocalDate(
+		    source.getWOWCERTIFICATEDATE());
 	}
 
 	// PENSIONER_BOOL s:int Признак пенсионера
 	// PENSIONER_CERTIFICATE s:string Удостоверение пенсионера
 	// PENSIONER_CERTIFICATE_DATE s:string Дата выдачи удостоверения
 	// пенсионера
-	final PensionerInfo pei = new PensionerInfo();
-	target.setPensionerInfo(pei);
-	target.setPensioner(source.getPENSIONERBOOL() == 1);
-	if (target.isPensioner()) {
-	    pei.setCertificateNumber(source.getPENSIONERCERTIFICATE());
-	    pei.setCertiticateDateOfIssue(convertESBDDateToLocalDate(source.getPENSIONERCERTIFICATEDATE()));
+	target.pensionerInfo = new PensionerInfo();
+	target.pensioner = source.getPENSIONERBOOL() == 1;
+	if (target.pensioner) {
+	    target.pensionerInfo.certificateNumber = source.getPENSIONERCERTIFICATE();
+	    target.pensionerInfo.certiticateDateOfIssue = convertESBDDateToLocalDate(
+		    source.getPENSIONERCERTIFICATEDATE());
 	}
 
 	// INVALID_BOOL s:int Признак инвалида
@@ -398,104 +391,113 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	// инвалида
 	// INVALID_CERTIFICATE_END_DATE s:string Дата завершения удостоверения
 	// инвалида
-	final InvalidInfo ii = new InvalidInfo();
-	target.setInvalidInfo(ii);
-	target.setInvalid(source.getINVALIDBOOL() == 1);
-	if (target.isInvalid()) {
-	    ii.setCertificateNumber(source.getINVALIDCERTIFICATE());
-	    ii.setCertificateValidFrom(convertESBDDateToLocalDate(source.getINVALIDCERTIFICATEBEGDATE()));
-	    ii.setCertificateValidTill(convertESBDDateToLocalDate(source.getINVALIDCERTIFICATEENDDATE()));
+	target.invalidInfo = new InvalidInfo();
+	target.invalid = source.getINVALIDBOOL() == 1;
+	if (target.invalid) {
+	    target.invalidInfo.certificateNumber = source.getINVALIDCERTIFICATE();
+	    target.invalidInfo.certificateValidFrom = convertESBDDateToLocalDate(source.getINVALIDCERTIFICATEBEGDATE());
+	    target.invalidInfo.certificateValidTill = convertESBDDateToLocalDate(source.getINVALIDCERTIFICATEENDDATE());
 	}
 
 	// CREATED_BY_USER_ID s:int Идентификатор пользователя, создавшего
 	// запись
 	// INPUT_DATE s:string Дата\время ввода записи в систему
-	final RecordOperationInfo created = new RecordOperationInfo();
-	target.setCreated(created);
-	created.setDate(convertESBDDateToLocalDate(source.getINPUTDATE()));
-	Util.requireField(target, target.getId(), userService::getById, created::setAuthor,
-		"Created.Author", UserEntity.class, source.getCREATEDBYUSERID());
+	target.created = new RecordOperationInfo();
+	target.created.date = convertESBDDateToLocalDate(source.getINPUTDATE());
+	target.created.authorId = source.getCREATEDBYUSERID();
+	Util.requireField(target, target.id, userService::getById, target.created::setAuthor,
+		"Created.Author", UserEntity.class, target.created.authorId);
 
 	// RECORD_CHANGED_AT s:string Дата\время изменения записи
 	// CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего
 	// запись
-	final RecordOperationInfo modified = new RecordOperationInfo();
-	target.setModified(modified);
-	modified.setDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()));
-	if (modified.getDate() != null)
-	    Util.requireField(target, target.getId(), userService::getById, modified::setAuthor,
-		    "Modified.Author", UserEntity.class, source.getCHANGEDBYUSERID());
+	target.modified = new RecordOperationInfo();
+	target.modified.date = convertESBDDateToLocalDate(source.getRECORDCHANGEDAT());
+	target.modified.authorId = source.getCHANGEDBYUSERID();
+	Util.optionalField(target, target.getId(), userService::getById, target.modified::setAuthor,
+		"Modified.Author", UserEntity.class, MyOptionals.of(target.modified.authorId));
 
 	// SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
-	Util.requireField(target, target.getId(), insuranceCompanyService::getById, target::setInsurer,
-		"Insurer", InsuranceCompanyEntity.class, source.getSYSTEMDELIMITERID());
+	target.insurerId = source.getSYSTEMDELIMITERID();
+	Util.requireField(target, target.id, insuranceCompanyService::getById, target::setInsurer,
+		"Insurer", InsuranceCompanyEntity.class, target.insurerId);
+    }
+
+    InsuredVehicleEntity convert(final PoliciesTF source, final PolicyEntity policy) {
+	final InsuredVehicleEntity target = new InsuredVehicleEntity();
+	fillValues(source, target, policy);
+	return target;
     }
 
     void fillValues(final PoliciesTF source, final InsuredVehicleEntity target, final PolicyEntity policy) {
 	// POLICY_TF_ID s:int Идентификатор ТС полиса
-	target.setId(source.getPOLICYTFID());
+	target.id = MyOptionals.of(source.getPOLICYTFID()).orElse(null);
 
+	target.policyId = source.getPOLICYID();
 	// POLICY_ID s:int Идентификатор полиса
-	if (policy.getId() == source.getPOLICYID())
-	    target.setPolicy(policy);
+	if (Integer.valueOf(target.policyId).equals(policy.getId()))
+	    target.policy = policy;
 	else
 	    Util.requireField(target, target.getId(), this::getById, target::setPolicy, "Policy",
-		    PolicyEntity.class, source.getPOLICYID());
+		    PolicyEntity.class, target.policyId);
 
 	// TF_ID s:int Идентификатор ТС
+	target.vehicleId = source.getTFID();
 	Util.requireField(target, target.getId(), vehicleService::getById, target::setVehicle, "Vehicle",
-		VehicleEntity.class, source.getTFID());
+		VehicleEntity.class, target.vehicleId);
 
 	// TF_TYPE_ID s:int Идентификатор типа ТС (обязательно)
+	target.vehicleClassId = source.getTFTYPEID();
 	Util.requireField(target, target.getId(), vehicleClassService::getById, target::setVehicleClass,
-		"VehicleClass", VehicleClass.class, source.getTFTYPEID());
+		"VehicleClass", VehicleClass.class, target.vehicleClassId);
 
 	// TF_AGE_ID s:int Идентификатор возраста ТС (обязательно)
+	target.vehicleAgeClassId = source.getTFAGEID();
 	Util.requireField(target, target.getId(), vehicleAgeClassService::getById,
-		target::setVehicleAgeClass, "VehicleAgeClass", VehicleAgeClass.class, source.getTFAGEID());
+		target::setVehicleAgeClass, "VehicleAgeClass", VehicleAgeClass.class, target.vehicleAgeClassId);
 
 	// TF_NUMBER s:string Гос. номер ТС
 	// TF_REGISTRATION_CERTIFICATE s:string Номер тех. паспорта
 	// GIVE_DATE s:string Дата выдачи тех. паспорта
 	// REGION_ID s:int Идентификатор региона регистрации ТС (обязательно)
 	// BIG_CITY_BOOL s:int Признак города областного значения (обязательно)
-	final VehicleCertificateInfo vci = new VehicleCertificateInfo();
-	target.setCertificate(vci);
-
-	vci.setRegistrationNumber(source.getTFNUMBER());
-	vci.setCertificateNumber(source.getTFREGISTRATIONCERTIFICATE());
-	vci.setDateOfIssue(convertESBDDateToLocalDate(source.getGIVEDATE()));
-	vci.setMajorCity(source.getBIGCITYBOOL() == 1);
+	target.certificate = new VehicleCertificateInfo();
+	target.certificate.registrationNumber = source.getTFNUMBER();
+	target.certificate.certificateNumber = source.getTFREGISTRATIONCERTIFICATE();
+	target.certificate.dateOfIssue = convertESBDDateToLocalDate(source.getGIVEDATE());
+	target.certificate.registrationMajorCity = source.getBIGCITYBOOL() == 1;
+	target.certificate.registrationRegionId = source.getREGIONID();
 	Util.requireField(target, target.getId(), countryRegionService::getById,
-		vci::setRegistrationRegion, "Certificate.RegistrationRegion", KZArea.class, source.getREGIONID());
+		target.certificate::setRegistrationRegion, "Certificate.RegistrationRegion", KZArea.class,
+		target.certificate.registrationRegionId);
 
 	// PURPOSE s:string Цель использования ТС
-	target.setVehiclePurpose(source.getPURPOSE());
+	target.vehiclePurpose = source.getPURPOSE();
 
 	// ODOMETER s:int Показания одометра
-	target.setCurrentOdometerValue(source.getODOMETER());
+	target.currentOdometerValue = source.getODOMETER();
 
 	// CREATED_BY_USER_ID s:int Идентификатор пользователя, создавшего
 	// запись
 	// INPUT_DATE s:string Дата\время ввода записи в систему
-	final RecordOperationInfo created = new RecordOperationInfo();
-	target.setCreated(created);
-	created.setDate(convertESBDDateToLocalDate(source.getINPUTDATE()));
-	Util.requireField(target, target.getId(), userService::getById,
-		created::setAuthor, "Created.Author", UserEntity.class, source.getCREATEDBYUSERID());
+	target.created = new RecordOperationInfo();
+	target.created.date = convertESBDDateToLocalDate(source.getINPUTDATE());
+	target.created.authorId = source.getCREATEDBYUSERID();
+	Util.requireField(target, target.getId(), userService::getById, target.created::setAuthor,
+		"Created.Author", UserEntity.class, target.created.authorId);
 
 	// RECORD_CHANGED_AT s:string Дата\время изменения записи
 	// CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего
 	// запись
-	final RecordOperationInfo modified = new RecordOperationInfo();
-	target.setModified(modified);
-	modified.setDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()));
-	if (modified.getDate() != null)
-	    Util.requireField(target, target.getId(), userService::getById, modified::setAuthor,
-		    "Modified.Author", UserEntity.class, source.getCHANGEDBYUSERID());
+	target.modified = new RecordOperationInfo();
+	target.modified.date = convertESBDDateToLocalDate(source.getRECORDCHANGEDAT());
+	target.modified.authorId = source.getCHANGEDBYUSERID();
+	Util.optionalField(target, target.getId(), userService::getById, target.modified::setAuthor,
+		"Modified.Author", UserEntity.class, MyOptionals.of(target.modified.authorId));
 
 	// SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
-	Util.requireField(target, target.getId(), insuranceCompanyService::getById, target::setInsurer,
-		"Insurer", InsuranceCompanyEntity.class, source.getSYSTEMDELIMITERID());
+	target.insurerId = source.getSYSTEMDELIMITERID();
+	Util.requireField(target, target.getId(), insuranceCompanyService::getById, target::setInsurer, "Insurer",
+		InsuranceCompanyEntity.class, target.insurerId);
     }
 }

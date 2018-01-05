@@ -1,6 +1,5 @@
-package tech.lapsa.esbd.dao.beans.entities;
+package tech.lapsa.esbd.dao.entities;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
@@ -12,21 +11,22 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
 import com.lapsa.insurance.elements.SteeringWheelLocation;
+import com.lapsa.insurance.elements.VehicleClass;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.beans.ESBDDates;
+import tech.lapsa.esbd.dao.beans.entities.Util;
 import tech.lapsa.esbd.dao.elements.VehicleClassService.VehicleClassServiceLocal;
-import tech.lapsa.esbd.dao.entities.VehicleEntity;
-import tech.lapsa.esbd.dao.entities.VehicleEntityService;
 import tech.lapsa.esbd.dao.entities.VehicleEntityService.VehicleEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.VehicleEntityService.VehicleEntityServiceRemote;
-import tech.lapsa.esbd.dao.entities.VehicleModelEntity;
 import tech.lapsa.esbd.dao.entities.VehicleModelEntityService.VehicleModelEntityServiceLocal;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfTF;
 import tech.lapsa.esbd.jaxws.wsimport.TF;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyCollectors;
+import tech.lapsa.java.commons.function.MyExceptions;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyOptionals;
@@ -94,42 +94,49 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
     private List<VehicleEntity> _getByRegNumber(final VehicleRegNumber regNumber) throws IllegalArgumentException {
 	MyObjects.requireNonNull(regNumber, "regNumber"); //
 	VehicleRegNumber.requireValid(regNumber);
+
+	final ArrayOfTF vehicles;
 	try (Connection con = pool.getConnection()) {
-	    final ArrayOfTF vehicles = con.getTFByNumber(regNumber.getNumber());
-	    return MyOptionals.of(vehicles) //
-		    .map(ArrayOfTF::getTF) //
-		    .map(Collection::stream) //
-		    .orElseGet(Stream::empty) //
-		    .map(this::convert) //
-		    .peek(x -> x.setRegNum(regNumber.getNumber()))
-		    .collect(MyCollectors.unmodifiableList());
+	    vehicles = con.getTFByNumber(regNumber.getNumber());
+
 	}
+	return MyOptionals.of(vehicles) //
+		.map(ArrayOfTF::getTF) //
+		.map(Collection::stream) //
+		.orElseGet(Stream::empty) //
+		.map(this::convert) //
+		.peek(x -> x.setRegNum(regNumber))
+		.collect(MyCollectors.unmodifiableList());
     }
 
     private VehicleEntity _getById(final Integer id) throws IllegalArgumentException, NotFound {
 	MyNumbers.requireNonZero(id, "id");
+	final ArrayOfTF vehicles;
 	try (Connection con = pool.getConnection()) {
 	    final TF tf = new TF();
-	    tf.setTFID(new Long(id).intValue());
-	    final ArrayOfTF vehicles = con.getTFByKeyFields(tf);
-	    if (vehicles == null || vehicles.getTF() == null || vehicles.getTF().isEmpty())
-		throw new NotFound(VehicleEntity.class.getSimpleName() + " not found with ID = '" + id + "'");
-	    final TF source = Util.requireSingle(vehicles.getTF(), VehicleEntity.class, "ID", id);
-	    return convert(source);
+	    tf.setTFID(id.intValue());
+	    vehicles = con.getTFByKeyFields(tf);
 	}
+	final List<TF> ltf = MyOptionals.of(vehicles) //
+		.map(ArrayOfTF::getTF) //
+		.orElseThrow(MyExceptions.supplier(NotFound::new, "%1$s not found with ID = '%2$s'",
+			VehicleEntity.class.getSimpleName(), id));
+	final TF source = Util.requireSingle(ltf, VehicleEntity.class, "ID", id);
+	return convert(source);
     }
 
     private List<VehicleEntity> _getByVINCode(final String vinCode) throws IllegalArgumentException {
 	MyStrings.requireNonEmpty(vinCode, "vinCode");
+	final ArrayOfTF vehicles;
 	try (Connection con = pool.getConnection()) {
-	    final ArrayOfTF vehicles = con.getTFByVIN(vinCode);
-	    return MyOptionals.of(vehicles) //
-		    .map(ArrayOfTF::getTF) //
-		    .map(Collection::stream) //
-		    .orElseGet(Stream::empty) //
-		    .map(this::convert) //
-		    .collect(MyCollectors.unmodifiableList());
+	    vehicles = con.getTFByVIN(vinCode);
 	}
+	return MyOptionals.of(vehicles) //
+		.map(ArrayOfTF::getTF) //
+		.map(Collection::stream) //
+		.orElseGet(Stream::empty) //
+		.map(this::convert) //
+		.collect(MyCollectors.unmodifiableList());
     }
 
     VehicleEntity convert(final TF source) {
@@ -141,56 +148,43 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
     void fillValues(final TF source, final VehicleEntity target) {
 
 	// TF_ID s:int Идентификатор ТС
-	target.setId(source.getTFID());
+	target.id = MyOptionals.of(source.getTFID()).orElse(null);
 
 	// TF_TYPE_ID s:int Тип ТС (справочник TF_TYPES)
 	// non mandatory field
-	target.setVehicleClass(MyOptionals.of(source.getTFTYPEID()) //
-		.flatMap(id -> MyOptionals.ifAnyException(() -> vehicleClassService.getById(id))) //
-		.orElse(null));
+	target.vehicleClassId = source.getTFTYPEID();
+	Util.requireField(target, target.id, vehicleClassService::getById, target::setVehicleClass, "VehicleClass",
+		VehicleClass.class, target.vehicleClassId);
 
 	// VIN s:string VIN код (номер кузова) (обязательно)
-	target.setVinCode(source.getVIN());
+	target.vinCode = source.getVIN();
 
 	// MODEL_ID s:int Марка\Модель (справочник VOITURE_MODELS) (обязательно)
+	target.vehicleModelId = source.getMODELID();
 	Util.requireField(target, target.getId(), vehicleModelService::getById, target::setVehicleModel,
-		"VehicleModel", VehicleModelEntity.class, source.getMODELID());
+		"VehicleModel", VehicleModelEntity.class, target.vehicleModelId);
 
 	// RIGHT_HAND_DRIVE_BOOL s:int Признак расположения руля (0 - слева; 1 -
 	// справа)
-	target.setSteeringWheelLocation(source.getRIGHTHANDDRIVEBOOL() == 0 ? SteeringWheelLocation.LEFT_SIDE
-		: SteeringWheelLocation.RIGHT_SIDE);
+	target.steeringWheelLocation = source.getRIGHTHANDDRIVEBOOL() == 0
+		? SteeringWheelLocation.LEFT_SIDE
+		: SteeringWheelLocation.RIGHT_SIDE;
 
 	// ENGINE_VOLUME s:int Объем двигателя (куб.см.)
-	target.setEngineVolume(source.getENGINEVOLUME());
+	target.enginePower = source.getENGINEVOLUME();
 
 	// ENGINE_NUMBER s:string Номер двигателя
-	target.setEnineNumber(source.getENGINENUMBER());
+	target.enineNumber = source.getENGINENUMBER();
 
 	// ENGINE_POWER s:int Мощность двигателя (квт.)
-	target.setEnginePower(source.getENGINEPOWER());
+	target.enginePower = source.getENGINEPOWER();
 
 	// COLOR s:string Цвет ТС
-	target.setColor(source.getCOLOR());
+	target.color = source.getCOLOR();
 
 	// BORN s:string Год выпуска (обязательно)
 	// BORN_MONTH s:int Месяц выпуска ТС
-	{
-	    final LocalDate date = fromESBDYearMonth(source.getBORN(), source.getBORNMONTH());
-	    target.setRealeaseDate(date);
-	}
+	target.realeaseDate = ESBDDates.fromESBDYearMonth(source.getBORN(), source.getBORNMONTH());
     }
 
-    private LocalDate fromESBDYearMonth(final String yearS, final int month) {
-	try {
-	    final int year = Integer.parseInt(yearS);
-	    if (year < 1000 || year > 9999)
-		return null;
-	    if (month == 0)
-		return null;
-	    return LocalDate.of(year, month, 1);
-	} catch (final NumberFormatException e) {
-	    return null;
-	}
-    }
 }
