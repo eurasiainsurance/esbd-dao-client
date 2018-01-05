@@ -68,17 +68,15 @@ public abstract class SubjectEntity extends Domain {
     }
 
     // IIN s:string ИИН/БИН
-    String idNumberRaw;
+    String _idNumber;
     TaxpayerNumber idNumber;
 
     public TaxpayerNumber getIdNumber() {
 	return idNumber;
     }
 
-    // BANKS tns:ArrayOfCLIENTBANK Содержит реквизиты банка клиента.
-
     // ECONOMICS_SECTOR_ID s:int Сектор экономики (справочник ECONOMICS_SECTORS)
-    int economicsSectorId;
+    int _economicsSector;
     KZEconomicSector economicsSector;
 
     public KZEconomicSector getEconomicsSector() {
@@ -88,4 +86,6 @@ public abstract class SubjectEntity extends Domain {
     void setEconomicsSector(KZEconomicSector economicsSector) {
 	this.economicsSector = economicsSector;
     }
+
+    // BANKS tns:ArrayOfCLIENTBANK Содержит реквизиты банка клиента.
 }

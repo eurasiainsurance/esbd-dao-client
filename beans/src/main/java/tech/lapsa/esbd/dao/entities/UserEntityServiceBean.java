@@ -110,25 +110,25 @@ public class UserEntityServiceBean implements UserEntityServiceLocal, UserEntity
 
 	// Branch_ID s:int Филиал пользователя (справочник BRANCHES)
 	// non mandatory field
-	target.branchId = source.getBranchID();
+	target._branch = source.getBranchID();
 	Util.optionalField(target, target.id, branchService::getById,
 		target::setBranch, "Branch", BranchEntity.class,
-		MyOptionals.of(target.branchId));
+		MyOptionals.of(target._branch));
 
 	// CLIENT_ID s:int Клиент пользователя (справочник CLIENTS)
 	// non mandatory field
-	target.subjectId = source.getCLIENTID();
+	target._subject = source.getCLIENTID();
 	Util.optionalField(target, target.id, subjects::getById,
 		target::setSubject, "Subject", SubjectEntity.class,
-		MyOptionals.of(target.subjectId));
+		MyOptionals.of(target._subject));
 
 	// SYSTEM_DELIMITER_ID s:int Разделитель учета (справочник
 	// SYSTEM_DELIMITER)
 	// non mandatory field
-	target.organizationId = source.getSYSTEMDELIMITERID();
+	target._organization = source.getSYSTEMDELIMITERID();
 	Util.optionalField(target, target.id, insuranceCompanyService::getById,
 		target::setOrganization, "Organization", InsuranceCompanyEntity.class,
-		MyOptionals.of(target.organizationId));
+		MyOptionals.of(target._organization));
 
 	// IsAuthenticated s:int Пользователь аутентифицирован
 	target.authentificated = source.getIsAuthenticated() == 1;

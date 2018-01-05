@@ -25,7 +25,7 @@ public class OriginInfo extends Domain {
     }
 
     // COUNTRY_ID s:int Страна (справочник COUNTRIES)
-    int countryId;
+    int _country;
     Country country;
 
     public Country getCountry() {
@@ -37,7 +37,7 @@ public class OriginInfo extends Domain {
     }
 
     // SETTLEMENT_ID s:int Населенный пункт (справочник SETTLEMENTS)
-    int cityId;
+    int _city;
     KZCity city;
 
     public KZCity getCity() {
@@ -47,5 +47,4 @@ public class OriginInfo extends Domain {
     void setCity(KZCity city) {
 	this.city = city;
     }
-
 }

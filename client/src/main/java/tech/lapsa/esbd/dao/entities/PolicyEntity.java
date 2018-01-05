@@ -68,7 +68,7 @@ public class PolicyEntity extends Domain {
     }
 
     // SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
-    int insurerId;
+    int _insurer;
     InsuranceCompanyEntity insurer;
 
     public InsuranceCompanyEntity getInsurer() {
@@ -80,7 +80,7 @@ public class PolicyEntity extends Domain {
     }
 
     // CLIENT_ID s:int Идентификатор страхователя (обязательно)
-    int insurantId;
+    int _insurant;
     SubjectEntity insurant;
 
     public SubjectEntity getInsurant() {
@@ -106,7 +106,7 @@ public class PolicyEntity extends Domain {
     }
 
     // RESCINDING_REASON_ID s:int Идентификатор причины расторжения
-    int cancelationReasonTypeId;
+    int _cancelationReasonType;
     CancelationReason cancelationReasonType;
 
     public CancelationReason getCancelationReasonType() {
@@ -114,7 +114,7 @@ public class PolicyEntity extends Domain {
     }
 
     // BRANCH_ID s:int Филиал (обязательно)
-    int branchId;
+    int _branch;
     BranchEntity branch;
 
     public BranchEntity getBranch() {
@@ -133,7 +133,7 @@ public class PolicyEntity extends Domain {
     }
 
     // REWRITE_POLICY_ID s:int Ссылка на переоформляемый полис
-    int reissuedPolicyId;
+    int _reissuedPolicy;
     PolicyEntity reissuedPolicy;
 
     public PolicyEntity getReissuedPolicy() {

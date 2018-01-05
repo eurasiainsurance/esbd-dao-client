@@ -43,7 +43,7 @@ public class SubjectCompanyEntity extends SubjectEntity {
     }
 
     // ACTIVITY_KIND_ID s:int Вид деятельности (справочник ACTIVITY_KINDS)
-    int companyActivityKindId;
+    int _companyActivityKind;
     CompanyActivityKindEntity companyActivityKind;
 
     public CompanyActivityKindEntity getCompanyActivityKind() {

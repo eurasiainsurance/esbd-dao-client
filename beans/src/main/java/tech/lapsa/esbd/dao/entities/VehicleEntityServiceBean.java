@@ -153,17 +153,17 @@ public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, Vehi
 
 	// TF_TYPE_ID s:int Тип ТС (справочник TF_TYPES)
 	// non mandatory field
-	target.vehicleClassId = source.getTFTYPEID();
+	target._vehicleClass = source.getTFTYPEID();
 	Util.requireField(target, target.id, vehicleClassService::getById, target::setVehicleClass, "VehicleClass",
-		VehicleClass.class, target.vehicleClassId);
+		VehicleClass.class, target._vehicleClass);
 
 	// VIN s:string VIN код (номер кузова) (обязательно)
 	target.vinCode = source.getVIN();
 
 	// MODEL_ID s:int Марка\Модель (справочник VOITURE_MODELS) (обязательно)
-	target.vehicleModelId = source.getMODELID();
+	target._vehicleModel = source.getMODELID();
 	Util.requireField(target, target.getId(), vehicleModelService::getById, target::setVehicleModel,
-		"VehicleModel", VehicleModelEntity.class, target.vehicleModelId);
+		"VehicleModel", VehicleModelEntity.class, target._vehicleModel);
 
 	// RIGHT_HAND_DRIVE_BOOL s:int Признак расположения руля (0 - слева; 1 -
 	// справа)

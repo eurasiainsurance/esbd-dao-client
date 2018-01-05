@@ -34,7 +34,7 @@ public class IdentityCardInfo extends Domain {
     }
 
     // DOCUMENT_TYPE_ID s:int Тип документа (справочник DOCUMENTS_TYPES)
-    int identityCardTypeId;
+    int _identityCardType;
     IdentityCardType identityCardType;
 
     public IdentityCardType getIdentityCardType() {

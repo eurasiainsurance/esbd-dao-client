@@ -30,7 +30,7 @@ public class VehicleCertificateInfo extends Domain {
 	return dateOfIssue;
     }
 
-    int registrationRegionId;
+    int _registrationRegion;
     KZArea registrationRegion;
 
     public KZArea getRegistrationRegion() {
@@ -44,6 +44,6 @@ public class VehicleCertificateInfo extends Domain {
     boolean registrationMajorCity;
 
     boolean isRegistrationMajorCity() {
-        return registrationMajorCity;
+	return registrationMajorCity;
     }
 }

@@ -20,7 +20,7 @@ public class InsuredVehicleEntity extends Domain {
     }
 
     // POLICY_ID s:int Идентификатор полиса
-    int policyId;
+    int _policy;
     PolicyEntity policy;
 
     public PolicyEntity getPolicy() {
@@ -32,7 +32,7 @@ public class InsuredVehicleEntity extends Domain {
     }
 
     // TF_ID s:int Идентификатор ТС
-    int vehicleId;
+    int _vehicle;
     VehicleEntity vehicle;
 
     public VehicleEntity getVehicle() {
@@ -44,7 +44,7 @@ public class InsuredVehicleEntity extends Domain {
     }
 
     // TF_TYPE_ID s:int Идентификатор типа ТС (обязательно)
-    int vehicleClassId;
+    int _vehicleClass;
     VehicleClass vehicleClass;
 
     public VehicleClass getVehicleClass() {
@@ -56,7 +56,7 @@ public class InsuredVehicleEntity extends Domain {
     }
 
     // TF_AGE_ID s:int Идентификатор возраста ТС (обязательно)
-    int vehicleAgeClassId;
+    int _vehicleAgeClass;
     VehicleAgeClass vehicleAgeClass;
 
     public VehicleAgeClass getVehicleAgeClass() {
@@ -72,7 +72,7 @@ public class InsuredVehicleEntity extends Domain {
     // GIVE_DATE s:string Дата выдачи тех. паспорта
     // REGION_ID s:int Идентификатор региона регистрации ТС (обязательно)
     // BIG_CITY_BOOL s:int Признак города областного значения (обязательно)
-    int certificateId;
+    int _certificate;
     VehicleCertificateInfo certificate;
 
     public VehicleCertificateInfo getCertificate() {
@@ -114,7 +114,7 @@ public class InsuredVehicleEntity extends Domain {
     }
 
     // SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
-    int insurerId;
+    int _insurer;
     InsuranceCompanyEntity insurer;
 
     public InsuranceCompanyEntity getInsurer() {

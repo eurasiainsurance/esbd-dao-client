@@ -16,7 +16,7 @@ public class RecordOperationInfo extends Domain {
 	return date;
     }
 
-    int authorId;
+    int _author;
     UserEntity author;
 
     public UserEntity getAuthor() {
@@ -24,6 +24,6 @@ public class RecordOperationInfo extends Domain {
     }
 
     void setAuthor(UserEntity author) {
-	this.author = author;
+        this.author = author;
     }
 }

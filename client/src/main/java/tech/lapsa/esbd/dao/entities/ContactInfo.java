@@ -17,7 +17,6 @@ public class ContactInfo extends Domain {
     private static final long serialVersionUID = 1L;
 
     // PHONES s:string Номера телефонов
-    String phoneRaw;
     PhoneNumber phone;
 
     public PhoneNumber getPhone() {

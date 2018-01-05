@@ -48,7 +48,7 @@ public class PersonalInfo extends Domain {
     }
 
     // Sex_ID s:int Пол (справочник SEX)
-    int genderId;
+    int _gender;
     Sex gender;
 
     public Sex getGender() {

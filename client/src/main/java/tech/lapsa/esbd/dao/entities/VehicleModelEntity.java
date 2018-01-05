@@ -23,7 +23,7 @@ public class VehicleModelEntity extends Domain {
     }
 
     // VOITURE_MARK_ID s:int Идентификатор марки ТС
-    int manufacturerId;
+    int _manufacturer;
     VehicleManufacturerEntity manufacturer;
 
     public VehicleManufacturerEntity getManufacturer() {
@@ -31,6 +31,6 @@ public class VehicleModelEntity extends Domain {
     }
 
     void setManufacturer(VehicleManufacturerEntity manufacturer) {
-        this.manufacturer = manufacturer;
+	this.manufacturer = manufacturer;
     }
 }

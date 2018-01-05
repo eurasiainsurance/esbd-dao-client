@@ -22,15 +22,15 @@ public class VehicleEntity extends Domain {
     }
 
     // TF_TYPE_ID s:int Тип ТС (справочник TF_TYPES)
-    public int vehicleClassId;
+    int _vehicleClass;
     VehicleClass vehicleClass;
 
     public VehicleClass getVehicleClass() {
 	return vehicleClass;
     }
-    
+
     void setVehicleClass(VehicleClass vehicleClass) {
-        this.vehicleClass = vehicleClass;
+	this.vehicleClass = vehicleClass;
     }
 
     // VIN s:string VIN код (номер кузова) (обязательно)
@@ -41,15 +41,15 @@ public class VehicleEntity extends Domain {
     }
 
     // MODEL_ID s:int Марка\Модель (справочник VOITURE_MODELS) (обязательно)
-    int vehicleModelId;
+    int _vehicleModel;
     VehicleModelEntity vehicleModel;
 
     public VehicleModelEntity getVehicleModel() {
 	return vehicleModel;
     }
-    
+
     void setVehicleModel(VehicleModelEntity vehicleModel) {
-        this.vehicleModel = vehicleModel;
+	this.vehicleModel = vehicleModel;
     }
 
     // RIGHT_HAND_DRIVE_BOOL s:int Признак расположения руля (0 - слева; 1 -
@@ -103,6 +103,6 @@ public class VehicleEntity extends Domain {
     }
 
     void setRegNum(VehicleRegNumber regNum) {
-        this.regNum = regNum;
+	this.regNum = regNum;
     }
 }

@@ -146,9 +146,9 @@ public class VehicleModelEntityServiceBean implements VehicleModelEntityServiceL
     void fillValues(final VOITUREMODEL source, final VehicleModelEntity target) {
 	target.id = MyOptionals.of(source.getID()).orElse(null);
 	target.name = source.getNAME();
-	target.manufacturerId = source.getVOITUREMARKID();
+	target._manufacturer = source.getVOITUREMARKID();
 	Util.requireField(target, target.getId(), vehicleManufacturerService::getById, target::setManufacturer,
-		"Manufacturer", VehicleManufacturerEntity.class, target.manufacturerId);
+		"Manufacturer", VehicleManufacturerEntity.class, target._manufacturer);
     }
 
 }

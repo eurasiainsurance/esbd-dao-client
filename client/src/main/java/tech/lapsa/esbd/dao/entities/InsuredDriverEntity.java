@@ -24,7 +24,7 @@ public class InsuredDriverEntity extends Domain {
     }
 
     // POLICY_ID s:int Идентификатор полиса
-    int policyId;
+    int _policy;
     PolicyEntity policy;
 
     public PolicyEntity getPolicy() {
@@ -36,7 +36,7 @@ public class InsuredDriverEntity extends Domain {
     }
 
     // CLIENT_ID s:int Идентификатор клиента (обязательно)
-    int insuredPersonId;
+    int _insuredPerson;
     SubjectPersonEntity insuredPerson;
 
     public SubjectPersonEntity getInsuredPerson() {
@@ -48,7 +48,7 @@ public class InsuredDriverEntity extends Domain {
     }
 
     // HOUSEHOLD_POSITION_ID s:int Идентификатор семейного положения
-    int maritalStatusId;
+    int _maritalStatus;
     MaritalStatus maritalStatus;
 
     public MaritalStatus getMaritalStatus() {
@@ -60,7 +60,7 @@ public class InsuredDriverEntity extends Domain {
     }
 
     // AGE_EXPERIENCE_ID s:int Идентификатор возраста\стажа вождения
-    int insuredAgeExpirienceClassId;
+    int _insuredAgeExpirienceClass;
     InsuredAgeAndExpirienceClass insuredAgeExpirienceClass;
 
     public InsuredAgeAndExpirienceClass getInsuredAgeExpirienceClass() {
@@ -87,7 +87,7 @@ public class InsuredDriverEntity extends Domain {
     }
 
     // getClassId
-    int insuraceClassTypeId;
+    int _insuraceClassType;
     InsuranceClassType insuraceClassType;
 
     public InsuranceClassType getInsuraceClassType() {
@@ -180,7 +180,7 @@ public class InsuredDriverEntity extends Domain {
     }
 
     // SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
-    int insurerId;
+    int _insurer;
     InsuranceCompanyEntity insurer;
 
     public InsuranceCompanyEntity getInsurer() {

@@ -112,9 +112,9 @@ public abstract class ASubjectEntityService<T extends SubjectEntity>
 	target.personal.surename = source.getLastName();
 	target.personal.patronymic = source.getMiddleName();
 	target.personal.dayOfBirth = convertESBDDateToLocalDate(source.getBorn());
-	target.personal.genderId = source.getSexID();
+	target.personal._gender = source.getSexID();
 	Util.optionalField(target, target.id, genders::getById, target.personal::setGender, "Personal.Gender",
-		Sex.class, MyOptionals.of(target.personal.genderId));
+		Sex.class, MyOptionals.of(target.personal._gender));
 
 	// DOCUMENT_TYPE_ID s:int Тип документа (справочник DOCUMENTS_TYPES)
 	// DOCUMENT_NUMBER s:string Номер документа
@@ -124,10 +124,10 @@ public abstract class ASubjectEntityService<T extends SubjectEntity>
 	target.identityCard.dateOfIssue = convertESBDDateToLocalDate(source.getDOCUMENTGIVEDDATE());
 	target.identityCard.issuingAuthority = source.getDOCUMENTGIVEDBY();
 	target.identityCard.number = source.getDOCUMENTNUMBER();
-	target.identityCard.identityCardTypeId = source.getDOCUMENTTYPEID();
+	target.identityCard._identityCardType = source.getDOCUMENTTYPEID();
 	Util.optionalField(target, target.getId(), identityCardTypes::getById,
 		target.identityCard::setIdentityCardType, "IdentityCard.IdentityCardType", IdentityCardType.class,
-		MyOptionals.of(target.identityCard.identityCardTypeId));
+		MyOptionals.of(target.identityCard._identityCardType));
     }
 
     void fillValues(final Client source, final SubjectCompanyEntity target) {
@@ -143,9 +143,9 @@ public abstract class ASubjectEntityService<T extends SubjectEntity>
 	target.accountantName = source.getMAINACCOUNTANT();
 
 	// ACTIVITY_KIND_ID s:int Вид деятельности (справочник ACTIVITY_KINDS)
-	target.companyActivityKindId = source.getACTIVITYKINDID();
+	target._companyActivityKind = source.getACTIVITYKINDID();
 	Util.optionalField(target, target.getId(), companyActivityKinds::getById, target::setCompanyActivityKind,
-		"CompanyActivityKind", CompanyActivityKindEntity.class, MyOptionals.of(target.companyActivityKindId));
+		"CompanyActivityKind", CompanyActivityKindEntity.class, MyOptionals.of(target._companyActivityKind));
     }
 
     void fillValues(final Client source, final SubjectEntity target) {
@@ -158,20 +158,19 @@ public abstract class ASubjectEntityService<T extends SubjectEntity>
 	// SETTLEMENT_ID s:int Населенный пункт (справочник SETTLEMENTS)
 	target.origin = new OriginInfo();
 	target.origin.resident = source.getRESIDENTBOOL() == 1;
-	target.origin.countryId = source.getCOUNTRYID();
+	target.origin._country = source.getCOUNTRYID();
 	Util.optionalField(target, target.id, countries::getById, target.origin::setCountry, "Origin.Country",
-		Country.class, MyOptionals.of(target.origin.countryId));
-	target.origin.cityId = source.getSETTLEMENTID();
+		Country.class, MyOptionals.of(target.origin._country));
+	target.origin._city = source.getSETTLEMENTID();
 	Util.optionalField(target, target.id, cityies::getById, target.origin::setCity, "Origin.City", KZCity.class,
-		MyOptionals.of(target.origin.cityId));
+		MyOptionals.of(target.origin._city));
 
 	// PHONES s:string Номера телефонов
 	// EMAIL s:string Адрес электронной почты
 	// Address s:string Адрес
 	// WWW s:string Сайт
 	target.contact = new ContactInfo();
-	target.contact.phoneRaw = source.getPHONES();
-	target.contact.phone = MyOptionals.of(target.contact.phoneRaw)
+	target.contact.phone = MyOptionals.of(source.getPHONES())
 		.map(PhoneNumber::assertValid)
 		.orElse(null);
 	target.contact.email = source.getEMAIL();
@@ -188,16 +187,16 @@ public abstract class ASubjectEntityService<T extends SubjectEntity>
 	target.resident = source.getRESIDENTBOOL() == 1;
 
 	// IIN s:string ИИН/БИН
-	target.idNumberRaw = source.getIIN();
-	target.idNumber = MyOptionals.of(target.idNumberRaw)
+	target._idNumber = source.getIIN();
+	target.idNumber = MyOptionals.of(target._idNumber)
 		.map(TaxpayerNumber::assertValid)
 		.orElse(null);
 
 	// ECONOMICS_SECTOR_ID s:int Сектор экономики (справочник
 	// ECONOMICS_SECTORS)
-	target.economicsSectorId = source.getECONOMICSSECTORID();
+	target._economicsSector = source.getECONOMICSSECTORID();
 	Util.optionalField(target, target.getId(), economicsSectors::getById, target::setEconomicsSector,
-		"EconomicsSector", KZEconomicSector.class, MyOptionals.of(target.economicsSectorId));
+		"EconomicsSector", KZEconomicSector.class, MyOptionals.of(target._economicsSector));
     }
 
 }

@@ -21,5 +21,4 @@ public class PensionerInfo extends Domain {
     public LocalDate getCertiticateDateOfIssue() {
 	return certiticateDateOfIssue;
     }
-
 }
