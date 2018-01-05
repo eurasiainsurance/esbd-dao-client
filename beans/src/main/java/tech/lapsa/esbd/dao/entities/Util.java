@@ -3,6 +3,7 @@ package tech.lapsa.esbd.dao.entities;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import javax.ejb.EJBException;
 
@@ -34,6 +35,20 @@ final class Util {
 	R apply(T value) throws Exception;
     }
 
+    static <T> EJBException requireNonEmtyList(final T target,
+	    final Object targetId,
+	    final String fieldName) {
+	final String message = MyStrings.format(
+		"Error while fetching %1$s ID = '%2$s' from ESBD. %3$s list is empty",
+		target.getClass(), // 1,
+		targetId, // 2
+		fieldName // 3
+	);
+	return new EJBException(message);
+    }
+
+    // requireField
+
     static <T, F, FI> void requireField(final T target,
 	    final Object targetId,
 	    final ThrowingFunction<FI, F> fieldGeter,
@@ -58,19 +73,22 @@ final class Util {
 	fieldSeter.accept(fieldObject);
     }
 
-    static <T, F, FI> void optionalFieldIgnoreFieldNotFound(final T target,
+    // optionalField
+
+    static <T, F, FI> void optionalField(final T target,
 	    final Object targetId,
 	    final ThrowingFunction<FI, F> fieldGeter,
 	    final Consumer<F> fieldSeter,
 	    final String fieldName,
 	    final Class<F> fieldClazz,
-	    final Optional<FI> optFieldId) {
+	    final Optional<FI> optFieldId,
+	    final Predicate<Throwable> ignoreException) {
 	if (optFieldId.isPresent()) {
 	    F fieldObject = null;
 	    try {
 		fieldObject = fieldGeter.apply(optFieldId.get());
 	    } catch (final Exception e) {
-		if (!(e instanceof NotFound)) {
+		if (ignoreException == null || !ignoreException.test(e)) {
 		    final String message = MyStrings.format(
 			    "Error while fetching %1$s ID = '%2$s' from ESBD. %3$s (%4$s ID=%5$s) not found",
 			    target.getClass(), // 1,
@@ -86,6 +104,17 @@ final class Util {
 	}
     }
 
+    static <T, F, FI> void optionalFieldIgnoreFieldNotFound(final T target,
+	    final Object targetId,
+	    final ThrowingFunction<FI, F> fieldGeter,
+	    final Consumer<F> fieldSeter,
+	    final String fieldName,
+	    final Class<F> fieldClazz,
+	    final Optional<FI> optFieldId) {
+	optionalField(target, targetId, fieldGeter, fieldSeter, fieldName, fieldClazz, optFieldId,
+		e -> (e instanceof NotFound));
+    }
+
     static <T, F, FI> void optionalField(final T target,
 	    final Object targetId,
 	    final ThrowingFunction<FI, F> fieldGeter,
@@ -93,35 +122,7 @@ final class Util {
 	    final String fieldName,
 	    final Class<F> fieldClazz,
 	    final Optional<FI> optFieldId) {
-	if (optFieldId.isPresent()) {
-	    final F fieldObject;
-	    try {
-		fieldObject = fieldGeter.apply(optFieldId.get());
-	    } catch (final Exception e) {
-		final String message = MyStrings.format(
-			"Error while fetching %1$s ID = '%2$s' from ESBD. %3$s (%4$s ID=%5$s) not found",
-			target.getClass(), // 1,
-			targetId, // 2
-			fieldName, // 3
-			fieldClazz.getSimpleName(), // 4
-			optFieldId.get() // 5
-		);
-		throw new EJBException(message, e);
-	    }
-	    fieldSeter.accept(fieldObject);
-	}
-    }
-
-    static <T> EJBException requireNonEmtyList(final T target,
-	    final Object targetId,
-	    final String fieldName) {
-	final String message = MyStrings.format(
-		"Error while fetching %1$s ID = '%2$s' from ESBD. %3$s list is empty",
-		target.getClass(), // 1,
-		targetId, // 2
-		fieldName // 3
-	);
-	return new EJBException(message);
+	optionalField(target, targetId, fieldGeter, fieldSeter, fieldName, fieldClazz, optFieldId, null);
     }
 
 }
