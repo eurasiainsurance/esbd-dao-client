@@ -1,5 +1,7 @@
 package tech.lapsa.esbd.dao.entities;
 
+import java.util.List;
+
 import javax.ejb.Local;
 import javax.ejb.Remote;
 
@@ -20,4 +22,6 @@ public interface PolicyEntityService extends GeneralService<PolicyEntity, Intege
     }
 
     PolicyEntity getByNumber(String number) throws IllegalArgument, NotFound;
+
+    List<PolicyEntity> getByInternalNumber(String internalNumber) throws IllegalArgument;
 }

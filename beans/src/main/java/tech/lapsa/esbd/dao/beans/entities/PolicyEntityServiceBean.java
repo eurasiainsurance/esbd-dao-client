@@ -4,6 +4,7 @@ import static tech.lapsa.esbd.dao.beans.ESBDDates.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -60,7 +61,9 @@ import tech.lapsa.esbd.jaxws.wsimport.Driver;
 import tech.lapsa.esbd.jaxws.wsimport.PoliciesTF;
 import tech.lapsa.esbd.jaxws.wsimport.Policy;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
+import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.java.commons.logging.MyLogger;
@@ -90,6 +93,19 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
     public PolicyEntity getByNumber(final String number) throws NotFound, IllegalArgument {
 	try {
 	    return _getByNumber(number);
+	} catch (final IllegalArgumentException e) {
+	    throw new IllegalArgument(e);
+	} catch (final RuntimeException e) {
+	    logger.WARN.log(e);
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<PolicyEntity> getByInternalNumber(final String internalNumber) throws IllegalArgument {
+	try {
+	    return _getByInternalNumber(internalNumber);
 	} catch (final IllegalArgumentException e) {
 	    throw new IllegalArgument(e);
 	} catch (final RuntimeException e) {
@@ -144,37 +160,58 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 
     private PolicyEntity _getById(final Integer id) throws IllegalArgumentException, NotFound {
 	MyNumbers.requireNonZero(id, "id");
+	final Policy source;
 	try (Connection con = pool.getConnection()) {
-	    final Policy source = con.getPolicyByID(id);
-	    if (source == null)
-		throw new NotFound(PolicyEntity.class.getSimpleName() + " not found with ID = '" + id + "'");
-	    final PolicyEntity target = new PolicyEntity();
-	    fillValues(source, target);
-	    return target;
+	    source = con.getPolicyByID(id);
 	}
+	if (source == null)
+	    throw new NotFound(PolicyEntity.class.getSimpleName() + " not found with ID = '" + id + "'");
+	return convert(source);
     }
 
     private PolicyEntity _getByNumber(final String number) throws IllegalArgumentException, NotFound {
 	MyStrings.requireNonEmpty(number, "number");
 
+	final Policy source;
 	try (Connection con = pool.getConnection()) {
-	    final ArrayOfPolicy policies = con.getPoliciesByNumber(number);
-	    if (policies == null || policies.getPolicy() == null || policies.getPolicy().isEmpty())
-		throw new NotFound(PolicyEntity.class.getSimpleName() + " not found with NUMBER = '" + number + "'");
-	    final Policy source = Util.requireSingle(policies.getPolicy(), PolicyEntity.class, "NUMBER",
-		    number);
-	    final PolicyEntity policy = new PolicyEntity();
-	    fillValues(source, policy);
-	    return policy;
+	    source = con.getPolicyByGlobalID(number);
 	}
+	if (MyObjects.isNull(source))
+	    throw new NotFound(PolicyEntity.class.getSimpleName() + " not found with NUMBER = '" + number + "'");
+	return convert(source);
+    }
+
+    private List<PolicyEntity> _getByInternalNumber(final String internalNumber) throws IllegalArgumentException {
+	MyStrings.requireNonEmpty(internalNumber, "internalNumber");
+
+	final ArrayOfPolicy policies;
+	try (Connection con = pool.getConnection()) {
+	    policies = con.getPoliciesByNumber(internalNumber);
+	}
+
+	return MyOptionals.of(policies) //
+		.map(ArrayOfPolicy::getPolicy) //
+		.map(List::stream) //
+		.orElseGet(Stream::empty) //
+		.map(this::convert) //
+		.collect(MyCollectors.unmodifiableList());
+    }
+
+    PolicyEntity convert(final Policy source) {
+	final PolicyEntity policy = new PolicyEntity();
+	fillValues(source, policy);
+	return policy;
     }
 
     void fillValues(final Policy source, final PolicyEntity target) {
 	// POLICY_ID s:int Идентификатор полиса (обязательно)
 	target.setId(source.getPOLICYID());
 
+	// GLOBAL_ID s:string Уникальный глобальный идентификатор полиса
+	target.setNumber(source.getGLOBALID());
+
 	// POLICY_NUMBER s:string Номер полиса (обязательно)
-	target.setNumber(source.getPOLICYNUMBER());
+	target.setInternalNumber(source.getPOLICYNUMBER());
 
 	// DATE_BEG s:string Дата начала действия полиса (обязательно)
 	target.setValidFrom(convertESBDDateToCalendar(source.getDATEBEG()));
@@ -267,7 +304,6 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	    Util.requireField(target, target.getId(), userService::getById, modified::setAuthor,
 		    "Modified.Author", UserEntity.class, source.getCHANGEDBYUSERID());
 
-	// GLOBAL_ID s:string Уникальный глобальный идентификатор полиса
 	// ScheduledPayments tns:ArrayOfSCHEDULED_PAYMENT Плановые платежи по
 	// полису
 	// PAYMENT_ORDER_TYPE_ID s:int Порядок оплаты (Идентификатор)
