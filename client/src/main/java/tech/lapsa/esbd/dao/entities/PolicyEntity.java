@@ -1,7 +1,7 @@
 package tech.lapsa.esbd.dao.entities;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import com.lapsa.insurance.elements.CancelationReason;
@@ -24,10 +24,10 @@ public class PolicyEntity extends Domain {
     private String number;
 
     // DATE_BEG s:string Дата начала действия полиса (обязательно)
-    private Calendar validFrom;
+    private LocalDate validFrom;
 
     // DATE_END s:string Дата окончания действия полиса (обязательно)
-    private Calendar validTill;
+    private LocalDate validTill;
 
     // PREMIUM s:double Страховая премия (обязательно)
     private double actualPremiumCost;
@@ -42,10 +42,10 @@ public class PolicyEntity extends Domain {
     private SubjectEntity insurant;
 
     // POLICY_DATE s:string Дата полиса
-    private Calendar dateOfIssue;
+    private LocalDate dateOfIssue;
 
     // RESCINDING_DATE s:string Дата расторжения полиса
-    private Calendar dateOfCancelation;
+    private LocalDate dateOfCancelation;
 
     // RESCINDING_REASON_ID s:int Идентификатор причины расторжения
     private CancelationReason cancelationReasonType;
@@ -105,19 +105,19 @@ public class PolicyEntity extends Domain {
 	this.number = number;
     }
 
-    public Calendar getValidFrom() {
+    public LocalDate getValidFrom() {
 	return validFrom;
     }
 
-    public void setValidFrom(final Calendar validFrom) {
+    public void setValidFrom(final LocalDate validFrom) {
 	this.validFrom = validFrom;
     }
 
-    public Calendar getValidTill() {
+    public LocalDate getValidTill() {
 	return validTill;
     }
 
-    public void setValidTill(final Calendar validTill) {
+    public void setValidTill(final LocalDate validTill) {
 	this.validTill = validTill;
     }
 
@@ -153,19 +153,19 @@ public class PolicyEntity extends Domain {
 	this.insurant = insurant;
     }
 
-    public Calendar getDateOfIssue() {
+    public LocalDate getDateOfIssue() {
 	return dateOfIssue;
     }
 
-    public void setDateOfIssue(final Calendar dateOfIssue) {
+    public void setDateOfIssue(final LocalDate dateOfIssue) {
 	this.dateOfIssue = dateOfIssue;
     }
 
-    public Calendar getDateOfCancelation() {
+    public LocalDate getDateOfCancelation() {
 	return dateOfCancelation;
     }
 
-    public void setDateOfCancelation(final Calendar dateOfCancelation) {
+    public void setDateOfCancelation(final LocalDate dateOfCancelation) {
 	this.dateOfCancelation = dateOfCancelation;
     }
 

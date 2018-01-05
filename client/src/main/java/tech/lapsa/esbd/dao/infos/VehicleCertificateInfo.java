@@ -1,6 +1,6 @@
 package tech.lapsa.esbd.dao.infos;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 import com.lapsa.kz.country.KZArea;
 
@@ -16,7 +16,7 @@ public class VehicleCertificateInfo extends Domain {
 
     private String certificateNumber;
 
-    private Calendar dateOfIssue;
+    private LocalDate dateOfIssue;
 
     private KZArea registrationRegion;
 
@@ -40,11 +40,11 @@ public class VehicleCertificateInfo extends Domain {
 	this.certificateNumber = certificateNumber;
     }
 
-    public Calendar getDateOfIssue() {
+    public LocalDate getDateOfIssue() {
 	return dateOfIssue;
     }
 
-    public void setDateOfIssue(final Calendar dateOfIssue) {
+    public void setDateOfIssue(final LocalDate dateOfIssue) {
 	this.dateOfIssue = dateOfIssue;
     }
 

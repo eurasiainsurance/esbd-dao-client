@@ -177,10 +177,10 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	target.setNumber(source.getPOLICYNUMBER());
 
 	// DATE_BEG s:string Дата начала действия полиса (обязательно)
-	target.setValidFrom(convertESBDDateToCalendar(source.getDATEBEG()));
+	target.setValidFrom(convertESBDDateToLocalDate(source.getDATEBEG()));
 
 	// DATE_END s:string Дата окончания действия полиса (обязательно)
-	target.setValidTill(convertESBDDateToCalendar(source.getDATEEND()));
+	target.setValidTill(convertESBDDateToLocalDate(source.getDATEEND()));
 
 	// PREMIUM s:double Страховая премия (обязательно)
 	target.setActualPremiumCost(source.getPREMIUM());
@@ -198,10 +198,10 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 		"Insurant", SubjectEntity.class, source.getCLIENTID());
 
 	// POLICY_DATE s:string Дата полиса
-	target.setDateOfIssue(convertESBDDateToCalendar(source.getPOLICYDATE()));
+	target.setDateOfIssue(convertESBDDateToLocalDate(source.getPOLICYDATE()));
 
 	// RESCINDING_DATE s:string Дата расторжения полиса
-	target.setDateOfCancelation(convertESBDDateToCalendar(source.getRESCINDINGDATE()));
+	target.setDateOfCancelation(convertESBDDateToLocalDate(source.getRESCINDINGDATE()));
 
 	// RESCINDING_REASON_ID s:int Идентификатор причины расторжения
 
@@ -276,7 +276,6 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 	// MIDDLEMAN_ID s:int Посредник (Идентификатор)
 	// MIDDLEMAN_CONTRACT_NUMBER s:string Номер договора посредника
 	// CLIENT_FORM_ID s:int Форма клиента (справочник CLIENT_FORMS)
-
     }
 
     void fillValues(final Driver source, final InsuredDriverEntity target, final PolicyEntity policy) {
@@ -429,7 +428,7 @@ public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, Policy
 
 	vci.setRegistrationNumber(source.getTFNUMBER());
 	vci.setCertificateNumber(source.getTFREGISTRATIONCERTIFICATE());
-	vci.setDateOfIssue(convertESBDDateToCalendar(source.getGIVEDATE()));
+	vci.setDateOfIssue(convertESBDDateToLocalDate(source.getGIVEDATE()));
 	vci.setMajorCity(source.getBIGCITYBOOL() == 1);
 	Util.requireField(target, target.getId(), countryRegionService::getById,
 		vci::setRegistrationRegion, "Certificate.RegistrationRegion", KZArea.class, source.getREGIONID());
