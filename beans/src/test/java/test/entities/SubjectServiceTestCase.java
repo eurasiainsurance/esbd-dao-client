@@ -58,7 +58,7 @@ public class SubjectServiceTestCase extends ArquillianBaseTestCase {
 		assertThat(res, allOf(not(nullValue()), instanceOf(validSubjectClass)));
 		assertThat(res.getSubjectType(), allOf(not(nullValue()),
 			is(validSubjectType)));
-		assertThat(res.getIdNumber(), allOf(not(nullValue()), is(subjecdIdNumber.getNumber())));
+		assertThat(res.getIdNumber(), allOf(not(nullValue()), is(subjecdIdNumber)));
 	    }
 	} catch (final NotFound e) {
 	    fail(e.getMessage());
@@ -69,7 +69,7 @@ public class SubjectServiceTestCase extends ArquillianBaseTestCase {
 
     @Test(expected = NotFound.class)
     public void testGetByIDNumber_NotFound() throws NotFound, IllegalArgument {
-	service.getByIdNumber(INVALID_SUBJECT_ID_NUMBER);
+	service.getFirstByIdNumber(INVALID_SUBJECT_ID_NUMBER);
     }
 
 }
