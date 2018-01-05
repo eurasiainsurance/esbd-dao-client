@@ -71,11 +71,4 @@ public class InsuranceClassTypeTestCase extends ArquillianBaseTestCase {
 	    fail(e.getMessage());
 	}
     }
-
-    @Test(expected = NotFound.class)
-    public void testGetForSubject_NotFound() throws NotFound, IllegalArgument {
-	final SubjectPersonEntity e = new SubjectPersonEntity();
-	service.getForSubject(e);
-    }
-
 }
