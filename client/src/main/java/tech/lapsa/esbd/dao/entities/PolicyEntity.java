@@ -20,8 +20,11 @@ public class PolicyEntity extends Domain {
     // POLICY_ID s:int Идентификатор полиса (обязательно)
     private Integer id;
 
-    // POLICY_NUMBER s:string Номер полиса (обязательно)
+    // GLOBAL_ID s:string Уникальный глобальный идентификатор полиса
     private String number;
+
+    // POLICY_NUMBER s:string Номер полиса (обязательно)
+    private String internalNumber;
 
     // DATE_BEG s:string Дата начала действия полиса (обязательно)
     private Calendar validFrom;
@@ -78,7 +81,6 @@ public class PolicyEntity extends Domain {
     // CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего полис
     private RecordOperationInfo modified = new RecordOperationInfo();
 
-    // GLOBAL_ID s:string Уникальный глобальный идентификатор полиса
     // ScheduledPayments tns:ArrayOfSCHEDULED_PAYMENT Плановые платежи по полису
     // PAYMENT_ORDER_TYPE_ID s:int Порядок оплаты (Идентификатор)
     // PAYMENT_ORDER_TYPE s:string Порядок оплаты
@@ -103,6 +105,14 @@ public class PolicyEntity extends Domain {
 
     public void setNumber(final String number) {
 	this.number = number;
+    }
+
+    public String getInternalNumber() {
+	return internalNumber;
+    }
+
+    public void setInternalNumber(final String internalNumber) {
+	this.internalNumber = internalNumber;
     }
 
     public Calendar getValidFrom() {
