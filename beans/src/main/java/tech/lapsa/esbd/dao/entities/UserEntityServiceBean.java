@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.beans.entities;
+package tech.lapsa.esbd.dao.entities;
 
 import java.util.Collections;
 import java.util.List;
@@ -99,34 +99,34 @@ public class UserEntityServiceBean implements UserEntityServiceLocal, UserEntity
 
     void fillValues(final User source, final UserEntity target) {
 	// ID s:int Идентификатор пользователя
-	target.setId(source.getID());
+	target.id = source.getID();
 
 	// Name s:string Имя пользователя
-	target.setLogin(source.getName());
+	target.login = source.getName();
 
 	// Branch_ID s:int Филиал пользователя (справочник BRANCHES)
 
 	// non mandatory field
-	target.setBranch(MyOptionals.of(source.getBranchID()) //
+	target.branch = MyOptionals.of(source.getBranchID()) //
 		.flatMap(id -> MyOptionals.ifAnyException(() -> branchService.getById(id))) //
-		.orElse(null));
+		.orElse(null);
 
 	// CLIENT_ID s:int Клиент пользователя (справочник CLIENTS)
-	target.setSubjectId(new Long(source.getCLIENTID()));
+	target.subjectId = source.getCLIENTID();
 
 	// SYSTEM_DELIMITER_ID s:int Разделитель учета (справочник
 	// SYSTEM_DELIMITER)
 
 	// non mandatory field
-	target.setOrganization(MyOptionals.of(source.getSYSTEMDELIMITERID()) //
+	target.organization = MyOptionals.of(source.getSYSTEMDELIMITERID()) //
 		.flatMap(id -> MyOptionals.ifAnyException(() -> insuranceCompanyService.getById(id))) //
-		.orElse(null));
+		.orElse(null);
 
 	// IsAuthenticated s:int Пользователь аутентифицирован
-	target.setAuthentificated(source.getIsAuthenticated() == 1);
+	target.authentificated = source.getIsAuthenticated() == 1;
 
 	// SessionID s:string Идентификатор текущей сессии пользователя
-	target.setLastSesionId(source.getSessionID());
+	target.lastSesionId = source.getSessionID();
 
 	// ErrorMessage s:string Описание ошибки аутентификации
 	// LastRequestTime s:string Время последнего действия пользователя
