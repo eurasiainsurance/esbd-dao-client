@@ -8,10 +8,12 @@ public interface SubjectCompanyEntityService extends GeneralSubjectEntityService
     public static final String BEAN_NAME = "SubjectCompanyEntityServiceBean";
 
     @Local
-    public interface SubjectCompanyEntityServiceLocal extends GeneralSubjectEntityServiceLocal<SubjectCompanyEntity> {
+    public interface SubjectCompanyEntityServiceLocal
+	    extends GeneralSubjectEntityServiceLocal<SubjectCompanyEntity>, SubjectCompanyEntityService {
     }
 
     @Remote
-    public interface SubjectCompanyEntityServiceRemote extends GeneralSubjectEntityServiceRemote<SubjectCompanyEntity> {
+    public interface SubjectCompanyEntityServiceRemote
+	    extends GeneralSubjectEntityServiceRemote<SubjectCompanyEntity>, SubjectCompanyEntityService {
     }
 }

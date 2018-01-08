@@ -9,10 +9,12 @@ import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 public interface GeneralSubjectEntityService<T extends SubjectEntity> extends GeneralService<T, Integer> {
 
-    public interface GeneralSubjectEntityServiceLocal<T extends SubjectEntity> extends GeneralSubjectEntityService<T> {
+    public interface GeneralSubjectEntityServiceLocal<T extends SubjectEntity>
+	    extends GeneralServiceLocal<T, Integer>, GeneralSubjectEntityService<T> {
     }
 
-    public interface GeneralSubjectEntityServiceRemote<T extends SubjectEntity> extends GeneralSubjectEntityService<T> {
+    public interface GeneralSubjectEntityServiceRemote<T extends SubjectEntity>
+	    extends GeneralServiceRemote<T, Integer>, GeneralSubjectEntityService<T> {
     }
 
     List<T> getByIdNumber(TaxpayerNumber taxpayerNumber) throws IllegalArgument;
