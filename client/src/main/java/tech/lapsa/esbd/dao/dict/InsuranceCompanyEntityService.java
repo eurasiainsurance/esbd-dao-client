@@ -9,10 +9,12 @@ public interface InsuranceCompanyEntityService
     public static final String BEAN_NAME = "InsuranceCompanyEntityServiceBean";
 
     @Local
-    public interface InsuranceCompanyEntityServiceLocal extends InsuranceCompanyEntityService {
+    public interface InsuranceCompanyEntityServiceLocal
+	    extends DictionaryEntityServiceLocal<InsuranceCompanyEntity, Integer>, InsuranceCompanyEntityService {
     }
 
     @Remote
-    public interface InsuranceCompanyEntityServiceRemote extends InsuranceCompanyEntityService {
+    public interface InsuranceCompanyEntityServiceRemote
+	    extends DictionaryEntityServiceRemote<InsuranceCompanyEntity, Integer>, InsuranceCompanyEntityService {
     }
 }

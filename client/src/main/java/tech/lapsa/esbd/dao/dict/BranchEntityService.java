@@ -8,10 +8,12 @@ public interface BranchEntityService extends DictionaryEntityService<BranchEntit
     public static final String BEAN_NAME = "BranchEntityServiceBean";
 
     @Local
-    public interface BranchEntityServiceLocal extends BranchEntityService {
+    public interface BranchEntityServiceLocal
+	    extends DictionaryEntityServiceLocal<BranchEntity, Integer>, BranchEntityService {
     }
 
     @Remote
-    public interface BranchEntityServiceRemote extends BranchEntityService {
+    public interface BranchEntityServiceRemote
+	    extends DictionaryEntityServiceRemote<BranchEntity, Integer>, BranchEntityService {
     }
 }

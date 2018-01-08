@@ -9,10 +9,12 @@ public interface CompanyActivityKindEntityService
     public static final String BEAN_NAME = "CompanyActivityKindEntityServiceBean";
 
     @Local
-    public interface CompanyActivityKindEntityServiceLocal extends CompanyActivityKindEntityService {
+    public interface CompanyActivityKindEntityServiceLocal
+	    extends DictionaryEntityServiceLocal<CompanyActivityKindEntity, Integer>, CompanyActivityKindEntityService {
     }
 
     @Remote
-    public interface CompanyActivityKindEntityServiceRemote extends CompanyActivityKindEntityService {
+    public interface CompanyActivityKindEntityServiceRemote extends
+	    DictionaryEntityServiceRemote<CompanyActivityKindEntity, Integer>, CompanyActivityKindEntityService {
     }
 }
