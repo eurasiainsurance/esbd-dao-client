@@ -12,11 +12,13 @@ public interface UserEntityService extends GeneralService<UserEntity, Integer> {
     public static final String BEAN_NAME = "UserEntityServiceBean";
 
     @Local
-    public interface UserEntityServiceLocal extends UserEntityService {
+    public interface UserEntityServiceLocal
+	    extends GeneralServiceLocal<UserEntity, Integer>, UserEntityService {
     }
 
     @Remote
-    public interface UserEntityServiceRemote extends UserEntityService {
+    public interface UserEntityServiceRemote
+	    extends GeneralServiceRemote<UserEntity, Integer>, UserEntityService {
     }
 
     List<UserEntity> getAll();

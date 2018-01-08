@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntity;
+import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.VehicleModelEntity;
 import tech.lapsa.esbd.dao.entities.VehicleModelEntityService.VehicleModelEntityServiceLocal;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
@@ -45,10 +46,12 @@ public class VehicleModelServiceTestCase extends ArquillianBaseTestCase {
 	    assertThat(e, not(nullValue()));
     }
 
+    @Inject
+    private VehicleManufacturerEntityServiceLocal manufacturers;
+
     @Test
     public void testGetByManufacturer() throws NotFound, IllegalArgument {
-	final VehicleManufacturerEntity validManufacturer = new VehicleManufacturerEntity();
-	validManufacturer.setId(VALID_VEHICLE_MANUFACTURER_ID);
+	final VehicleManufacturerEntity validManufacturer = manufacturers.getById(VALID_VEHICLE_MANUFACTURER_ID);
 	final List<VehicleModelEntity> list = service.getByManufacturer(validManufacturer);
 	assertThat(list, allOf(not(nullValue()), not(empty())));
 	for (final VehicleModelEntity e : list)

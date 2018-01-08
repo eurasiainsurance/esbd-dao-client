@@ -11,8 +11,8 @@ import org.junit.Test;
 import com.lapsa.kz.country.KZArea;
 
 import tech.lapsa.esbd.dao.NotFound;
-import tech.lapsa.esbd.dao.beans.elements.mapping.KZAreaMapping;
 import tech.lapsa.esbd.dao.elements.KZAreaService.KZAreaServiceLocal;
+import tech.lapsa.esbd.dao.elements.mapping.KZAreaMapping;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import test.ArquillianBaseTestCase;
 

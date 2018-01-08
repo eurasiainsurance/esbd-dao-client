@@ -13,11 +13,13 @@ public interface VehicleModelEntityService extends GeneralService<VehicleModelEn
     public static final String BEAN_NAME = "VehicleModelEntityServiceBean";
 
     @Local
-    public interface VehicleModelEntityServiceLocal extends VehicleModelEntityService {
+    public interface VehicleModelEntityServiceLocal
+	    extends GeneralServiceLocal<VehicleModelEntity, Integer>, VehicleModelEntityService {
     }
 
     @Remote
-    public interface VehicleModelEntityServiceRemote extends VehicleModelEntityService {
+    public interface VehicleModelEntityServiceRemote
+	    extends GeneralServiceRemote<VehicleModelEntity, Integer>, VehicleModelEntityService {
     }
 
     List<VehicleModelEntity> getByName(String name) throws IllegalArgument;

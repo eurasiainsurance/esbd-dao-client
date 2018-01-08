@@ -8,12 +8,7 @@ import com.lapsa.insurance.elements.MaritalStatus;
 
 import tech.lapsa.esbd.dao.Domain;
 import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
-import tech.lapsa.esbd.dao.infos.DriverLicenseInfo;
-import tech.lapsa.esbd.dao.infos.GPWParticipantInfo;
-import tech.lapsa.esbd.dao.infos.InvalidInfo;
-import tech.lapsa.esbd.dao.infos.PensionerInfo;
-import tech.lapsa.esbd.dao.infos.PrivilegerInfo;
-import tech.lapsa.esbd.dao.infos.RecordOperationInfo;
+import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.patterns.domain.HashCodeMultiplier;
 
 @HashCodeMultiplier(11)
@@ -22,239 +17,189 @@ public class InsuredDriverEntity extends Domain {
     private static final long serialVersionUID = 1L;
 
     // DRIVER_ID s:int Идентификатор водителя
-    private Integer id;
-
-    // POLICY_ID s:int Идентификатор полиса
-    private PolicyEntity policy;
-
-    // CLIENT_ID s:int Идентификатор клиента (обязательно)
-    private SubjectPersonEntity insuredPerson;
-
-    // HOUSEHOLD_POSITION_ID s:int Идентификатор семейного положения
-    private MaritalStatus maritalStatus;
-
-    // AGE_EXPERIENCE_ID s:int Идентификатор возраста\стажа вождения
-    private InsuredAgeAndExpirienceClass insuredAgeExpirienceClass;
-
-    // EXPERIENCE s:int Стаж вождения
-    private int drivingExpirience;
-
-    // DRIVER_CERTIFICATE s:string Номер водительского удостоверения
-    // DRIVER_CERTIFICATE_DATE s:string Дата выдачи водительского удостоверения
-    private DriverLicenseInfo driverLicense = new DriverLicenseInfo();
-
-    // getClassId
-    private InsuranceClassType insuraceClassType;
-
-    // PRIVELEGER_BOOL s:int Признак приравненного лица
-    // PRIVELEDGER_TYPE s:string Тип приравненного лица
-    // PRIVELEDGER_CERTIFICATE s:string Удостоверение приравненного лица
-    // PRIVELEDGER_CERTIFICATE_DATE s:string Дата выдачи удостоверения
-    // приравненного лица
-    private boolean privileger = false;
-    private PrivilegerInfo privilegerInfo = new PrivilegerInfo();
-
-    // WOW_BOOL s:int Признак участника ВОВ
-    // WOW_CERTIFICATE s:string Удостоверение участника ВОВ
-    // WOW_CERTIFICATE_DATE s:string Дата выдачи удостоверения участника ВОВ
-    private boolean gpwParticipant = false;
-    private GPWParticipantInfo gpwParticipantInfo = new GPWParticipantInfo();
-
-    // PENSIONER_BOOL s:int Признак пенсионера
-    // PENSIONER_CERTIFICATE s:string Удостоверение пенсионера
-    // PENSIONER_CERTIFICATE_DATE s:string Дата выдачи удостоверения пенсионера
-    private boolean pensioner = false;
-    private PensionerInfo pensionerInfo = new PensionerInfo();
-
-    // INVALID_BOOL s:int Признак инвалида
-    // INVALID_CERTIFICATE s:string Удостоверение инвалида
-    // INVALID_CERTIFICATE_BEG_DATE s:string Дата выдачи удостоверения инвалида
-    // INVALID_CERTIFICATE_END_DATE s:string Дата завершения удостоверения
-    // инвалида
-    private boolean invalid = false;
-    private InvalidInfo invalidInfo = new InvalidInfo();
-
-    // CREATED_BY_USER_ID s:int Идентификатор пользователя, создавшего запись
-    // INPUT_DATE s:string Дата\время ввода записи в систему
-    private RecordOperationInfo created = new RecordOperationInfo();
-
-    // RECORD_CHANGED_AT s:string Дата\время изменения записи
-    // CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего запись
-    private RecordOperationInfo modified = new RecordOperationInfo();
-
-    // SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
-    private InsuranceCompanyEntity insurer;
-
-    public InsuredAgeClass getAgeClass() {
-	return insuredAgeExpirienceClass.getAgeClass();
-    }
-
-    public void setAgeClass(final InsuredAgeClass ageClass) {
-	insuredAgeExpirienceClass = InsuredAgeAndExpirienceClass
-		.forPair(insuredAgeExpirienceClass.getExpirienceClass(), ageClass);
-    }
-
-    public InsuredExpirienceClass getExpirienceClass() {
-	return insuredAgeExpirienceClass.getExpirienceClass();
-    }
-
-    public void setExpirienceClass(final InsuredExpirienceClass expirienceClass) {
-	insuredAgeExpirienceClass = InsuredAgeAndExpirienceClass
-		.forPair(expirienceClass, insuredAgeExpirienceClass.getAgeClass());
-    }
-
-    // GENERATED
+    Integer id;
 
     public Integer getId() {
 	return id;
     }
 
-    public void setId(final Integer id) {
-	this.id = id;
-    }
+    // POLICY_ID s:int Идентификатор полиса
+    int _policy;
+    PolicyEntity policy;
 
     public PolicyEntity getPolicy() {
 	return policy;
     }
 
-    public void setPolicy(final PolicyEntity policy) {
+    void setPolicy(final PolicyEntity policy) {
 	this.policy = policy;
     }
+
+    // CLIENT_ID s:int Идентификатор клиента (обязательно)
+    int _insuredPerson;
+    SubjectPersonEntity insuredPerson;
 
     public SubjectPersonEntity getInsuredPerson() {
 	return insuredPerson;
     }
 
-    public void setInsuredPerson(final SubjectPersonEntity insuredPerson) {
+    void setInsuredPerson(final SubjectPersonEntity insuredPerson) {
 	this.insuredPerson = insuredPerson;
     }
+
+    // HOUSEHOLD_POSITION_ID s:int Идентификатор семейного положения
+    int _maritalStatus;
+    MaritalStatus maritalStatus;
 
     public MaritalStatus getMaritalStatus() {
 	return maritalStatus;
     }
 
-    public void setMaritalStatus(final MaritalStatus maritalStatus) {
+    void setMaritalStatus(final MaritalStatus maritalStatus) {
 	this.maritalStatus = maritalStatus;
     }
+
+    // AGE_EXPERIENCE_ID s:int Идентификатор возраста\стажа вождения
+    int _insuredAgeExpirienceClass;
+    InsuredAgeAndExpirienceClass insuredAgeExpirienceClass;
 
     public InsuredAgeAndExpirienceClass getInsuredAgeExpirienceClass() {
 	return insuredAgeExpirienceClass;
     }
 
-    public void setInsuredAgeExpirienceClass(final InsuredAgeAndExpirienceClass insuredAgeExpirienceClass) {
+    void setInsuredAgeExpirienceClass(final InsuredAgeAndExpirienceClass insuredAgeExpirienceClass) {
 	this.insuredAgeExpirienceClass = insuredAgeExpirienceClass;
     }
+
+    // EXPERIENCE s:int Стаж вождения
+    int drivingExpirience;
 
     public int getDrivingExpirience() {
 	return drivingExpirience;
     }
 
-    public void setDrivingExpirience(final int drivingExpirience) {
-	this.drivingExpirience = drivingExpirience;
-    }
+    // DRIVER_CERTIFICATE s:string Номер водительского удостоверения
+    // DRIVER_CERTIFICATE_DATE s:string Дата выдачи водительского удостоверения
+    DriverLicenseInfo driverLicense;
 
     public DriverLicenseInfo getDriverLicense() {
 	return driverLicense;
     }
 
-    public void setDriverLicense(final DriverLicenseInfo driverLicense) {
-	this.driverLicense = driverLicense;
-    }
+    // getClassId
+    int _insuraceClassType;
+    InsuranceClassType insuraceClassType;
 
     public InsuranceClassType getInsuraceClassType() {
 	return insuraceClassType;
     }
 
-    public void setInsuraceClassType(final InsuranceClassType insuraceClassType) {
+    void setInsuraceClassType(final InsuranceClassType insuraceClassType) {
 	this.insuraceClassType = insuraceClassType;
     }
+
+    // PRIVELEGER_BOOL s:int Признак приравненного лица
+    boolean privileger;
 
     public boolean isPrivileger() {
 	return privileger;
     }
 
-    public void setPrivileger(final boolean privileger) {
-	this.privileger = privileger;
-    }
+    // PRIVELEDGER_TYPE s:string Тип приравненного лица
+    // PRIVELEDGER_CERTIFICATE s:string Удостоверение приравненного лица
+    // PRIVELEDGER_CERTIFICATE_DATE s:string Дата выдачи удостоверения
+    // приравненного лица
+    PrivilegerInfo privilegerInfo;
 
-    public PrivilegerInfo getPrivilegerInfo() {
+    PrivilegerInfo getPrivilegerInfo() {
 	return privilegerInfo;
     }
 
-    public void setPrivilegerInfo(final PrivilegerInfo privilegerInfo) {
-	this.privilegerInfo = privilegerInfo;
-    }
+    // WOW_BOOL s:int Признак участника ВОВ
+    boolean gpwParticipant;
 
     public boolean isGpwParticipant() {
 	return gpwParticipant;
     }
 
-    public void setGpwParticipant(final boolean gpwParticipant) {
-	this.gpwParticipant = gpwParticipant;
-    }
+    // WOW_CERTIFICATE s:string Удостоверение участника ВОВ
+    // WOW_CERTIFICATE_DATE s:string Дата выдачи удостоверения участника ВОВ
+    GPWParticipantInfo gpwParticipantInfo;
 
     public GPWParticipantInfo getGpwParticipantInfo() {
 	return gpwParticipantInfo;
     }
 
-    public void setGpwParticipantInfo(final GPWParticipantInfo gpwParticipantInfo) {
-	this.gpwParticipantInfo = gpwParticipantInfo;
-    }
+    // PENSIONER_BOOL s:int Признак пенсионера
+    boolean pensioner;
 
     public boolean isPensioner() {
 	return pensioner;
     }
 
-    public void setPensioner(final boolean pensioner) {
-	this.pensioner = pensioner;
-    }
+    // PENSIONER_CERTIFICATE s:string Удостоверение пенсионера
+    // PENSIONER_CERTIFICATE_DATE s:string Дата выдачи удостоверения пенсионера
+    PensionerInfo pensionerInfo;
 
     public PensionerInfo getPensionerInfo() {
 	return pensionerInfo;
     }
 
-    public void setPensionerInfo(final PensionerInfo pensionerInfo) {
-	this.pensionerInfo = pensionerInfo;
-    }
+    // INVALID_BOOL s:int Признак инвалида
+    boolean invalid;
 
     public boolean isInvalid() {
 	return invalid;
     }
 
-    public void setInvalid(final boolean invalid) {
-	this.invalid = invalid;
-    }
+    // INVALID_CERTIFICATE s:string Удостоверение инвалида
+    // INVALID_CERTIFICATE_BEG_DATE s:string Дата выдачи удостоверения инвалида
+    // INVALID_CERTIFICATE_END_DATE s:string Дата завершения удостоверения
+    // инвалида
+
+    InvalidInfo invalidInfo;
 
     public InvalidInfo getInvalidInfo() {
 	return invalidInfo;
     }
 
-    public void setInvalidInfo(final InvalidInfo invalidInfo) {
-	this.invalidInfo = invalidInfo;
-    }
+    // CREATED_BY_USER_ID s:int Идентификатор пользователя, создавшего запись
+    // INPUT_DATE s:string Дата\время ввода записи в систему
+    RecordOperationInfo created;
 
     public RecordOperationInfo getCreated() {
 	return created;
     }
 
-    public void setCreated(final RecordOperationInfo created) {
-	this.created = created;
-    }
+    // RECORD_CHANGED_AT s:string Дата\время изменения записи
+    // CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего запись
+    RecordOperationInfo modified;
 
     public RecordOperationInfo getModified() {
 	return modified;
     }
 
-    public void setModified(final RecordOperationInfo modified) {
-	this.modified = modified;
-    }
+    // SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
+    int _insurer;
+    InsuranceCompanyEntity insurer;
 
     public InsuranceCompanyEntity getInsurer() {
 	return insurer;
     }
 
-    public void setInsurer(final InsuranceCompanyEntity insurer) {
+    void setInsurer(final InsuranceCompanyEntity insurer) {
 	this.insurer = insurer;
     }
 
+    public InsuredAgeClass getAgeClass() {
+	return MyObjects.isNull(insuredAgeExpirienceClass)
+		? null
+		: insuredAgeExpirienceClass.getAgeClass();
+    }
+
+    public InsuredExpirienceClass getExpirienceClass() {
+	return MyObjects.isNull(insuredAgeExpirienceClass)
+		? null
+		: insuredAgeExpirienceClass.getExpirienceClass();
+    }
 }

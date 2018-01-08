@@ -14,11 +14,13 @@ public interface VehicleEntityService extends GeneralService<VehicleEntity, Inte
     public static final String BEAN_NAME = "VehicleEntityServiceBean";
 
     @Local
-    public interface VehicleEntityServiceLocal extends VehicleEntityService {
+    public interface VehicleEntityServiceLocal
+	    extends GeneralServiceLocal<VehicleEntity, Integer>, VehicleEntityService {
     }
 
     @Remote
-    public interface VehicleEntityServiceRemote extends VehicleEntityService {
+    public interface VehicleEntityServiceRemote
+	    extends GeneralServiceRemote<VehicleEntity, Integer>, VehicleEntityService {
     }
 
     List<VehicleEntity> getByVINCode(String vinCode) throws IllegalArgument;

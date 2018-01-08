@@ -10,10 +10,12 @@ public interface KZEconomicSectorService extends ElementsService<KZEconomicSecto
     public static final String BEAN_NAME = "KZEconomicSectorServiceBean";
 
     @Local
-    public interface KZEconomicSectorServiceLocal extends KZEconomicSectorService {
+    public interface KZEconomicSectorServiceLocal
+	    extends ElementsServiceLocal<KZEconomicSector, Integer>, KZEconomicSectorService {
     }
 
     @Remote
-    public interface KZEconomicSectorServiceRemote extends KZEconomicSectorService {
+    public interface KZEconomicSectorServiceRemote
+	    extends ElementsServiceRemote<KZEconomicSector, Integer>, KZEconomicSectorService {
     }
 }

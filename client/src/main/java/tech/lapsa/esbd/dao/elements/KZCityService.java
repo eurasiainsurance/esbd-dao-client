@@ -10,10 +10,10 @@ public interface KZCityService extends ElementsService<KZCity, Integer> {
     public static final String BEAN_NAME = "KZCityServiceBean";
 
     @Local
-    public interface KZCityServiceLocal extends KZCityService {
+    public interface KZCityServiceLocal extends ElementsServiceLocal<KZCity, Integer>,KZCityService {
     }
 
     @Remote
-    public interface KZCityServiceRemote extends KZCityService {
+    public interface KZCityServiceRemote extends ElementsServiceRemote<KZCity, Integer>,KZCityService {
     }
 }

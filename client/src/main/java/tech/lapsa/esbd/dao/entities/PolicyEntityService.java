@@ -14,11 +14,13 @@ public interface PolicyEntityService extends GeneralService<PolicyEntity, Intege
     public static final String BEAN_NAME = "PolicyEntityServiceBean";
 
     @Local
-    public interface PolicyEntityServiceLocal extends PolicyEntityService {
+    public interface PolicyEntityServiceLocal
+	    extends GeneralServiceLocal<PolicyEntity, Integer>, PolicyEntityService {
     }
 
     @Remote
-    public interface PolicyEntityServiceRemote extends PolicyEntityService {
+    public interface PolicyEntityServiceRemote
+	    extends GeneralServiceRemote<PolicyEntity, Integer>, PolicyEntityService {
     }
 
     PolicyEntity getByNumber(String number) throws IllegalArgument, NotFound;

@@ -8,9 +8,9 @@ public class InsuranceCompanyEntity extends Domain implements DictionaryEntity<I
 
     private static final long serialVersionUID = 1L;
 
-    private Integer id;
-    private String code;
-    private String name;
+    Integer id;
+    String code;
+    String name;
 
     // GENERATED
 
@@ -19,24 +19,11 @@ public class InsuranceCompanyEntity extends Domain implements DictionaryEntity<I
 	return id;
     }
 
-    public void setId(final Integer id) {
-	this.id = id;
-    }
-
     public String getCode() {
 	return code;
-    }
-
-    public void setCode(final String code) {
-	this.code = code;
     }
 
     public String getName() {
 	return name;
     }
-
-    public void setName(final String name) {
-	this.name = name;
-    }
-
 }
