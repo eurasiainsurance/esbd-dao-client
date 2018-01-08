@@ -28,7 +28,8 @@ import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.java.commons.logging.MyLogger;
 
 @Stateless(name = UserEntityService.BEAN_NAME)
-public class UserEntityServiceBean implements UserEntityServiceLocal, UserEntityServiceRemote {
+public class UserEntityServiceBean
+	implements UserEntityServiceLocal, UserEntityServiceRemote {
 
     private final MyLogger logger = MyLogger.newBuilder() //
 	    .withNameOf(UserEntityService.class) //

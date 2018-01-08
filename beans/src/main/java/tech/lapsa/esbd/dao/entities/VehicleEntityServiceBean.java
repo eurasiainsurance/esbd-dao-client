@@ -35,7 +35,8 @@ import tech.lapsa.java.commons.logging.MyLogger;
 import tech.lapsa.kz.vehicle.VehicleRegNumber;
 
 @Stateless(name = VehicleEntityService.BEAN_NAME)
-public class VehicleEntityServiceBean implements VehicleEntityServiceLocal, VehicleEntityServiceRemote {
+public class VehicleEntityServiceBean
+	implements VehicleEntityServiceLocal, VehicleEntityServiceRemote {
 
     private final MyLogger logger = MyLogger.newBuilder() //
 	    .withNameOf(VehicleEntityService.class) //

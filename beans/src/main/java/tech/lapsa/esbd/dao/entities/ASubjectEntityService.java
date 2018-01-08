@@ -35,28 +35,28 @@ import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 public abstract class ASubjectEntityService<T extends SubjectEntity>
-	implements GeneralSubjectEntityServiceRemote<T>, GeneralSubjectEntityServiceLocal<T> {
+	implements GeneralSubjectEntityServiceLocal<T>, GeneralSubjectEntityServiceRemote<T> {
 
     @EJB
-    protected CountryServiceLocal countries;
+    CountryServiceLocal countries;
 
     @EJB
-    protected KZEconomicSectorServiceLocal economicsSectors;
+    KZEconomicSectorServiceLocal economicsSectors;
 
     @EJB
-    protected KZCityServiceLocal cityies;
+    KZCityServiceLocal cityies;
 
     @EJB
-    private GenderServiceLocal genders;
+    GenderServiceLocal genders;
 
     @EJB
-    private IdentityCardTypeServiceLocal identityCardTypes;
+    IdentityCardTypeServiceLocal identityCardTypes;
 
     @EJB
-    private CompanyActivityKindEntityServiceLocal companyActivityKinds;
+    CompanyActivityKindEntityServiceLocal companyActivityKinds;
 
     @EJB
-    protected ConnectionPool pool;
+    ConnectionPool pool;
 
     List<T> _getByIdNumber(final TaxpayerNumber taxpayerNumber,
 	    final boolean fetchNaturals,
@@ -144,7 +144,8 @@ public abstract class ASubjectEntityService<T extends SubjectEntity>
 
 	// ACTIVITY_KIND_ID s:int Вид деятельности (справочник ACTIVITY_KINDS)
 	target._companyActivityKind = source.getACTIVITYKINDID();
-	Util.optionalFieldIgnoreFieldNotFound(target, target.getId(), companyActivityKinds::getById, target::setCompanyActivityKind,
+	Util.optionalFieldIgnoreFieldNotFound(target, target.getId(), companyActivityKinds::getById,
+		target::setCompanyActivityKind,
 		"CompanyActivityKind", CompanyActivityKindEntity.class, MyOptionals.of(target._companyActivityKind));
     }
 
@@ -198,5 +199,4 @@ public abstract class ASubjectEntityService<T extends SubjectEntity>
 	Util.optionalField(target, target.getId(), economicsSectors::getById, target::setEconomicsSector,
 		"EconomicsSector", KZEconomicSector.class, MyOptionals.of(target._economicsSector));
     }
-
 }

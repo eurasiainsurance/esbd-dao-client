@@ -53,7 +53,8 @@ import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.java.commons.logging.MyLogger;
 
 @Stateless(name = PolicyEntityService.BEAN_NAME)
-public class PolicyEntityServiceBean implements PolicyEntityServiceLocal, PolicyEntityServiceRemote {
+public class PolicyEntityServiceBean
+	implements PolicyEntityServiceLocal, PolicyEntityServiceRemote {
 
     private final MyLogger logger = MyLogger.newBuilder() //
 	    .withNameOf(PolicyEntityService.class) //

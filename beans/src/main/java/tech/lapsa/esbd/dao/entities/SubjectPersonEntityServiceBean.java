@@ -21,7 +21,8 @@ import tech.lapsa.java.commons.logging.MyLogger;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 @Stateless(name = SubjectPersonEntityService.BEAN_NAME)
-public class SubjectPersonEntityServiceBean extends ASubjectEntityService<SubjectPersonEntity>
+public class SubjectPersonEntityServiceBean
+	extends ASubjectEntityService<SubjectPersonEntity>
 	implements SubjectPersonEntityServiceLocal, SubjectPersonEntityServiceRemote {
 
     private final MyLogger logger = MyLogger.newBuilder() //
