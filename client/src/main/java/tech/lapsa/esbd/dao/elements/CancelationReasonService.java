@@ -10,10 +10,12 @@ public interface CancelationReasonService extends ElementsService<CancelationRea
     public static final String BEAN_NAME = "CancelationReasonServiceBean";
 
     @Local
-    public interface CancelationReasonServiceLocal extends CancelationReasonService {
+    public interface CancelationReasonServiceLocal
+	    extends ElementsServiceLocal<CancelationReason, Integer>, CancelationReasonService {
     }
 
     @Remote
-    public interface CancelationReasonServiceRemote extends CancelationReasonService {
+    public interface CancelationReasonServiceRemote
+	    extends ElementsServiceRemote<CancelationReason, Integer>, CancelationReasonService {
     }
 }

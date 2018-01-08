@@ -10,10 +10,12 @@ public interface IdentityCardTypeService extends ElementsService<IdentityCardTyp
     public static final String BEAN_NAME = "IdentityCardTypeServiceBean";
 
     @Local
-    public interface IdentityCardTypeServiceLocal extends IdentityCardTypeService {
+    public interface IdentityCardTypeServiceLocal
+	    extends ElementsServiceLocal<IdentityCardType, Integer>, IdentityCardTypeService {
     }
 
     @Remote
-    public interface IdentityCardTypeServiceRemote extends IdentityCardTypeService {
+    public interface IdentityCardTypeServiceRemote
+	    extends ElementsServiceRemote<IdentityCardType, Integer>, IdentityCardTypeService {
     }
 }

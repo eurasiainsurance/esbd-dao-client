@@ -10,10 +10,11 @@ public interface VehicleClassService extends ElementsService<VehicleClass, Integ
     public static final String BEAN_NAME = "VehicleClassServiceBean";
 
     @Local
-    public interface VehicleClassServiceLocal extends VehicleClassService {
+    public interface VehicleClassServiceLocal extends ElementsServiceLocal<VehicleClass, Integer>, VehicleClassService {
     }
 
     @Remote
-    public interface VehicleClassServiceRemote extends VehicleClassService {
+    public interface VehicleClassServiceRemote
+	    extends ElementsServiceRemote<VehicleClass, Integer>, VehicleClassService {
     }
 }

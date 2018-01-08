@@ -10,10 +10,10 @@ public interface GenderService extends ElementsService<Sex, Integer> {
     public static final String BEAN_NAME = "GenderServiceBean";
 
     @Local
-    public interface GenderServiceLocal extends GenderService {
+    public interface GenderServiceLocal extends ElementsServiceLocal<Sex, Integer>, GenderService {
     }
 
     @Remote
-    public interface GenderServiceRemote extends GenderService {
+    public interface GenderServiceRemote extends ElementsServiceRemote<Sex, Integer>, GenderService {
     }
 }

@@ -10,10 +10,10 @@ public interface KZAreaService extends ElementsService<KZArea, Integer> {
     public static final String BEAN_NAME = "KZAreaServiceBean";
 
     @Local
-    public interface KZAreaServiceLocal extends KZAreaService {
+    public interface KZAreaServiceLocal extends ElementsServiceLocal<KZArea, Integer>, KZAreaService {
     }
 
     @Remote
-    public interface KZAreaServiceRemote extends KZAreaService {
+    public interface KZAreaServiceRemote extends ElementsServiceRemote<KZArea, Integer>, KZAreaService {
     }
 }

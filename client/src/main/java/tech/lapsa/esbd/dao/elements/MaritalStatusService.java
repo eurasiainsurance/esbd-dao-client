@@ -10,11 +10,13 @@ public interface MaritalStatusService extends ElementsService<MaritalStatus, Int
     public static final String BEAN_NAME = "MaritalStatusServiceBean";
 
     @Local
-    public interface MaritalStatusServiceLocal extends MaritalStatusService {
+    public interface MaritalStatusServiceLocal
+	    extends ElementsServiceLocal<MaritalStatus, Integer>, MaritalStatusService {
     }
 
     @Remote
-    public interface MaritalStatusServiceRemote extends MaritalStatusService {
+    public interface MaritalStatusServiceRemote
+	    extends ElementsServiceRemote<MaritalStatus, Integer>, MaritalStatusService {
     }
 
 }

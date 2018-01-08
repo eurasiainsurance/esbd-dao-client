@@ -16,11 +16,13 @@ public interface InsuranceClassTypeService extends ElementsService<InsuranceClas
     public static final String BEAN_NAME = "InsuranceClassTypeServiceBean";
 
     @Local
-    public interface InsuranceClassTypeServiceLocal extends InsuranceClassTypeService {
+    public interface InsuranceClassTypeServiceLocal
+	    extends ElementsServiceLocal<InsuranceClassType, Integer>, InsuranceClassTypeService {
     }
 
     @Remote
-    public interface InsuranceClassTypeServiceRemote extends InsuranceClassTypeService {
+    public interface InsuranceClassTypeServiceRemote
+	    extends ElementsServiceRemote<InsuranceClassType, Integer>, InsuranceClassTypeService {
     }
 
     InsuranceClassType getDefault();
