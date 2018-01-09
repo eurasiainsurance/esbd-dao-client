@@ -5,17 +5,17 @@ import javax.ejb.Remote;
 
 import com.lapsa.insurance.elements.CancelationReason;
 
-public interface CancelationReasonService extends ElementsService<CancelationReason, Integer> {
+public interface CancelationReasonService extends ElementsService<CancelationReason> {
 
     public static final String BEAN_NAME = "CancelationReasonServiceBean";
 
     @Local
     public interface CancelationReasonServiceLocal
-	    extends ElementsServiceLocal<CancelationReason, Integer>, CancelationReasonService {
+	    extends ElementsServiceLocal<CancelationReason>, CancelationReasonService {
     }
 
     @Remote
     public interface CancelationReasonServiceRemote
-	    extends ElementsServiceRemote<CancelationReason, Integer>, CancelationReasonService {
+	    extends ElementsServiceRemote<CancelationReason>, CancelationReasonService {
     }
 }

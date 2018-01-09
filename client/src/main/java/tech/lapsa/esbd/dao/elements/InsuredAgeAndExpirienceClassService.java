@@ -6,17 +6,17 @@ import javax.ejb.Remote;
 import com.lapsa.insurance.elements.InsuredAgeAndExpirienceClass;
 
 public interface InsuredAgeAndExpirienceClassService
-	extends ElementsService<InsuredAgeAndExpirienceClass, Integer> {
+	extends ElementsService<InsuredAgeAndExpirienceClass> {
 
     public static final String BEAN_NAME = "InsuredAgeAndExpirienceClassServiceBean";
 
     @Local
     public interface InsuredAgeAndExpirienceClassServiceLocal
-	    extends ElementsServiceLocal<InsuredAgeAndExpirienceClass, Integer>, InsuredAgeAndExpirienceClassService {
+	    extends ElementsServiceLocal<InsuredAgeAndExpirienceClass>, InsuredAgeAndExpirienceClassService {
     }
 
     @Remote
     public interface InsuredAgeAndExpirienceClassServiceRemote
-	    extends ElementsServiceRemote<InsuredAgeAndExpirienceClass, Integer>, InsuredAgeAndExpirienceClassService {
+	    extends ElementsServiceRemote<InsuredAgeAndExpirienceClass>, InsuredAgeAndExpirienceClassService {
     }
 }
