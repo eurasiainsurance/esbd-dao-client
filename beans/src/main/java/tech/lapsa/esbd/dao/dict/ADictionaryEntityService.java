@@ -41,6 +41,9 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity>
 	this.newEntitySupplier = MyObjects.requireNonNull(newEntitySupplier, "newEntitySupplier");
     }
 
+    @EJB
+    private ConnectionPool pool;
+
     private Map<Integer, T> allMap;
 
     @PostConstruct
@@ -85,9 +88,6 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity>
     }
 
     // PRIVATE
-
-    @EJB
-    private ConnectionPool pool;
 
     private T _getById(final Integer id) throws IllegalArgumentException, NotFound {
 	MyNumbers.requireNonZero(id, "id");
