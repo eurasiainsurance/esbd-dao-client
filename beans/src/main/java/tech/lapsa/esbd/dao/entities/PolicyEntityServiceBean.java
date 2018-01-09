@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
+import com.lapsa.insurance.elements.CancelationReason;
 import com.lapsa.insurance.elements.InsuranceClassType;
 import com.lapsa.insurance.elements.InsuredAgeAndExpirienceClass;
 import com.lapsa.insurance.elements.MaritalStatus;
@@ -229,9 +230,9 @@ public class PolicyEntityServiceBean
 	// RESCINDING_REASON_ID s:int Идентификатор причины расторжения
 	// non mandatory field
 	target._cancelationReasonType = source.getRESCINDINGREASONID();
-	target.cancelationReasonType = MyOptionals.of(target._cancelationReasonType) //
-		.flatMap(id -> MyOptionals.ifAnyException(() -> cancelationReasonTypeService.getById(id))) //
-		.orElse(null);
+	Util.optionalField(target, target.getId(), cancelationReasonTypeService::getById,
+		target::setCancelationReasonType,
+		"CancelationReasonType", CancelationReason.class, MyOptionals.of(target._cancelationReasonType));
 
 	// BRANCH_ID s:int Филиал (обязательно)
 	target._branch = source.getBRANCHID();

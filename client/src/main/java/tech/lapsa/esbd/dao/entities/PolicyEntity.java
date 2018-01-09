@@ -113,6 +113,10 @@ public class PolicyEntity extends Domain {
 	return cancelationReasonType;
     }
 
+    void setCancelationReasonType(CancelationReason cancelationReasonType) {
+	this.cancelationReasonType = cancelationReasonType;
+    }
+
     // BRANCH_ID s:int Филиал (обязательно)
     int _branch;
     BranchEntity branch;
