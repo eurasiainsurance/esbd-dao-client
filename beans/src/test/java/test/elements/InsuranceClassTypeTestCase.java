@@ -13,9 +13,10 @@ import org.junit.Test;
 import com.lapsa.insurance.elements.InsuranceClassType;
 
 import tech.lapsa.esbd.dao.NotFound;
-import tech.lapsa.esbd.dao.beans.elements.mapping.InsuranceClassTypeMapping;
 import tech.lapsa.esbd.dao.elements.InsuranceClassTypeService.InsuranceClassTypeServiceLocal;
+import tech.lapsa.esbd.dao.elements.mapping.InsuranceClassTypeMapping;
 import tech.lapsa.esbd.dao.entities.SubjectPersonEntity;
+import tech.lapsa.esbd.dao.entities.SubjectPersonEntityService.SubjectPersonEntityServiceLocal;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import test.ArquillianBaseTestCase;
 
@@ -57,23 +58,17 @@ public class InsuranceClassTypeTestCase extends ArquillianBaseTestCase {
 	service.getByCode(INVALID_INSURANCE_CLASS_TYPE_CODE);
     }
 
+    @Inject
+    private SubjectPersonEntityServiceLocal persons;
+
     @Test
     public void testGetForSubject() throws IllegalArgument {
 	try {
-	    final SubjectPersonEntity e = new SubjectPersonEntity();
-	    e.setId(VALID_SUBJECT_PERSON_ID);
+	    final SubjectPersonEntity e = persons.getById(VALID_SUBJECT_PERSON_ID);
 	    final InsuranceClassType res = service.getForSubject(e);
 	    assertThat(res, allOf(not(nullValue()), equalTo(VALID_CLASS_TYPE_FOR_CLIENT)));
 	} catch (final NotFound e) {
 	    fail(e.getMessage());
 	}
     }
-
-    @Test(expected = NotFound.class)
-    public void testGetForSubject_NotFound() throws NotFound, IllegalArgument {
-	final SubjectPersonEntity e = new SubjectPersonEntity();
-	e.setId(INVALID_SUBJECT_PERSON_ID);
-	service.getForSubject(e);
-    }
-
 }

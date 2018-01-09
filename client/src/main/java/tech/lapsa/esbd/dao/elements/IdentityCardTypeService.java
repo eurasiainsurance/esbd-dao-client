@@ -5,15 +5,17 @@ import javax.ejb.Remote;
 
 import com.lapsa.insurance.elements.IdentityCardType;
 
-public interface IdentityCardTypeService extends ElementsService<IdentityCardType, Integer> {
+public interface IdentityCardTypeService extends ElementsService<IdentityCardType> {
 
     public static final String BEAN_NAME = "IdentityCardTypeServiceBean";
 
     @Local
-    public interface IdentityCardTypeServiceLocal extends IdentityCardTypeService {
+    public interface IdentityCardTypeServiceLocal
+	    extends ElementsServiceLocal<IdentityCardType>, IdentityCardTypeService {
     }
 
     @Remote
-    public interface IdentityCardTypeServiceRemote extends IdentityCardTypeService {
+    public interface IdentityCardTypeServiceRemote
+	    extends ElementsServiceRemote<IdentityCardType>, IdentityCardTypeService {
     }
 }

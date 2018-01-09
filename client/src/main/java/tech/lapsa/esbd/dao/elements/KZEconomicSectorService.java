@@ -5,15 +5,17 @@ import javax.ejb.Remote;
 
 import com.lapsa.kz.economic.KZEconomicSector;
 
-public interface KZEconomicSectorService extends ElementsService<KZEconomicSector, Integer> {
+public interface KZEconomicSectorService extends ElementsService<KZEconomicSector> {
 
     public static final String BEAN_NAME = "KZEconomicSectorServiceBean";
 
     @Local
-    public interface KZEconomicSectorServiceLocal extends KZEconomicSectorService {
+    public interface KZEconomicSectorServiceLocal
+	    extends ElementsServiceLocal<KZEconomicSector>, KZEconomicSectorService {
     }
 
     @Remote
-    public interface KZEconomicSectorServiceRemote extends KZEconomicSectorService {
+    public interface KZEconomicSectorServiceRemote
+	    extends ElementsServiceRemote<KZEconomicSector>, KZEconomicSectorService {
     }
 }

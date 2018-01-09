@@ -5,15 +5,15 @@ import javax.ejb.Remote;
 
 import com.lapsa.kz.country.KZArea;
 
-public interface KZAreaService extends ElementsService<KZArea, Integer> {
+public interface KZAreaService extends ElementsService<KZArea> {
 
     public static final String BEAN_NAME = "KZAreaServiceBean";
 
     @Local
-    public interface KZAreaServiceLocal extends KZAreaService {
+    public interface KZAreaServiceLocal extends ElementsServiceLocal<KZArea>, KZAreaService {
     }
 
     @Remote
-    public interface KZAreaServiceRemote extends KZAreaService {
+    public interface KZAreaServiceRemote extends ElementsServiceRemote<KZArea>, KZAreaService {
     }
 }

@@ -16,63 +16,41 @@ public class SubjectCompanyEntity extends SubjectEntity {
 
     private static final long serialVersionUID = 1L;
 
-    // Juridical_Person_Name s:string Наименование (для юр. лица)
-    private String companyName;
-
-    // MAIN_CHIEF s:string Первый руководитель
-    private String headName;
-
-    // MAIN_ACCOUNTANT s:string Главный бухгалтер
-    private String accountantName;
-
-    // ACTIVITY_KIND_ID s:int Вид деятельности (справочник ACTIVITY_KINDS)
-    private long companyActivityKindId;
-    private CompanyActivityKindEntity companyActivityKind;
-
     @Override
     public SubjectType getSubjectType() {
 	return SubjectType.COMPANY;
     }
 
-    // GENERATED
+    // Juridical_Person_Name s:string Наименование (для юр. лица)
+    String companyName;
 
     public String getCompanyName() {
 	return companyName;
     }
 
-    public void setCompanyName(final String companyName) {
-	this.companyName = companyName;
-    }
+    // MAIN_CHIEF s:string Первый руководитель
+    String headName;
 
     public String getHeadName() {
 	return headName;
     }
 
-    public void setHeadName(final String headName) {
-	this.headName = headName;
-    }
+    // MAIN_ACCOUNTANT s:string Главный бухгалтер
+    String accountantName;
 
     public String getAccountantName() {
 	return accountantName;
     }
 
-    public void setAccountantName(final String accountantName) {
-	this.accountantName = accountantName;
-    }
-
-    public long getCompanyActivityKindId() {
-	return companyActivityKindId;
-    }
-
-    public void setCompanyActivityKindId(final long companyActivityKindId) {
-	this.companyActivityKindId = companyActivityKindId;
-    }
+    // ACTIVITY_KIND_ID s:int Вид деятельности (справочник ACTIVITY_KINDS)
+    int _companyActivityKind;
+    CompanyActivityKindEntity companyActivityKind;
 
     public CompanyActivityKindEntity getCompanyActivityKind() {
 	return companyActivityKind;
     }
 
-    public void setCompanyActivityKind(final CompanyActivityKindEntity companyActivityKind) {
+    void setCompanyActivityKind(final CompanyActivityKindEntity companyActivityKind) {
 	this.companyActivityKind = companyActivityKind;
     }
 }

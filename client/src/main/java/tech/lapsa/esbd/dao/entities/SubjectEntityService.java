@@ -3,22 +3,17 @@ package tech.lapsa.esbd.dao.entities;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 
-import tech.lapsa.esbd.dao.GeneralService;
-import tech.lapsa.esbd.dao.NotFound;
-import tech.lapsa.java.commons.exceptions.IllegalArgument;
-import tech.lapsa.kz.taxpayer.TaxpayerNumber;
-
-public interface SubjectEntityService extends GeneralService<SubjectEntity, Integer> {
+public interface SubjectEntityService extends GeneralSubjectEntityService<SubjectEntity> {
 
     public static final String BEAN_NAME = "SubjectEntityServiceBean";
 
     @Local
-    public interface SubjectEntityServiceLocal extends SubjectEntityService {
+    public interface SubjectEntityServiceLocal
+	    extends GeneralSubjectEntityServiceLocal<SubjectEntity>, SubjectEntityService {
     }
 
     @Remote
-    public interface SubjectEntityServiceRemote extends SubjectEntityService {
+    public interface SubjectEntityServiceRemote
+	    extends GeneralSubjectEntityServiceRemote<SubjectEntity>, SubjectEntityService {
     }
-
-    SubjectEntity getByIdNumber(TaxpayerNumber taxpayerNumber) throws IllegalArgument, NotFound;
 }

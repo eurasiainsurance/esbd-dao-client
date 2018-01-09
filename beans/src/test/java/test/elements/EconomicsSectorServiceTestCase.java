@@ -11,8 +11,8 @@ import org.junit.Test;
 import com.lapsa.kz.economic.KZEconomicSector;
 
 import tech.lapsa.esbd.dao.NotFound;
-import tech.lapsa.esbd.dao.beans.elements.mapping.KZEconomicSectorMapping;
 import tech.lapsa.esbd.dao.elements.KZEconomicSectorService.KZEconomicSectorServiceLocal;
+import tech.lapsa.esbd.dao.elements.mapping.KZEconomicSectorMapping;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import test.ArquillianBaseTestCase;
 

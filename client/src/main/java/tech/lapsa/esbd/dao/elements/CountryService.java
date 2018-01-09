@@ -5,15 +5,15 @@ import javax.ejb.Remote;
 
 import com.lapsa.international.country.Country;
 
-public interface CountryService extends ElementsService<Country, Integer> {
+public interface CountryService extends ElementsService<Country> {
 
     public static final String BEAN_NAME = "CountryServiceBean";
 
     @Local
-    public interface CountryServiceLocal extends CountryService {
+    public interface CountryServiceLocal extends ElementsServiceLocal<Country>, CountryService {
     }
 
     @Remote
-    public interface CountryServiceRemote extends CountryService {
+    public interface CountryServiceRemote extends ElementsServiceRemote<Country>, CountryService {
     }
 }

@@ -9,7 +9,7 @@
 
 	<groupId>tech.lapsa.esbd</groupId>
 	<artifactId>esbd-dao-root</artifactId>
-	<version>2.1.2-SNAPSHOT</version>
+	<version>2.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>ESBD Lib : DAO</name>
@@ -30,7 +30,7 @@
 		<patterns-domain.version>1.0</patterns-domain.version>
 		<!-- oldies -->
 		<insurance-lib.version>2.4</insurance-lib.version>
-		<kz-lib.version>3.2</kz-lib.version>
+		<kz-lib.version>3.2.1</kz-lib.version>
 		<international-lib.version>3.3</international-lib.version>
 		<!-- ASB -->
 		<asb.keystore.path>${env.ASB_PATH}</asb.keystore.path>
