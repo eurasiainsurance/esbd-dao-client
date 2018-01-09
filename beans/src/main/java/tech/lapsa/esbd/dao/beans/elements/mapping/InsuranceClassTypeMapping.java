@@ -29,6 +29,6 @@ public final class InsuranceClassTypeMapping extends AbsMapping<String, Insuranc
 	addMap(CLASS_11, "11");
 	addMap(CLASS_12, "12");
 	addMap(CLASS_13, "13");
-	addMap(CLASS_M, "М");
+	addMap(CLASS_M, "M");
     }
 }
