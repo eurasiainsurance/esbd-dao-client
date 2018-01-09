@@ -11,18 +11,18 @@ import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.esbd.dao.entities.SubjectPersonEntity;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 
-public interface InsuranceClassTypeService extends ElementsService<InsuranceClassType, Integer> {
+public interface InsuranceClassTypeService extends ElementsService<InsuranceClassType> {
 
     public static final String BEAN_NAME = "InsuranceClassTypeServiceBean";
 
     @Local
     public interface InsuranceClassTypeServiceLocal
-	    extends ElementsServiceLocal<InsuranceClassType, Integer>, InsuranceClassTypeService {
+	    extends ElementsServiceLocal<InsuranceClassType>, InsuranceClassTypeService {
     }
 
     @Remote
     public interface InsuranceClassTypeServiceRemote
-	    extends ElementsServiceRemote<InsuranceClassType, Integer>, InsuranceClassTypeService {
+	    extends ElementsServiceRemote<InsuranceClassType>, InsuranceClassTypeService {
     }
 
     InsuranceClassType getDefault();

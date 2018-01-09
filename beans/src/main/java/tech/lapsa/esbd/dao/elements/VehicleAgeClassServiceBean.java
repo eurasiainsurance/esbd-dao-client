@@ -9,10 +9,11 @@ import tech.lapsa.esbd.dao.elements.VehicleAgeClassService.VehicleAgeClassServic
 import tech.lapsa.esbd.dao.elements.mapping.VehicleAgeClassMapping;
 
 @Singleton(name = VehicleAgeClassService.BEAN_NAME)
-public class VehicleAgeClassServiceBean extends AElementsService<VehicleAgeClass, Integer>
+public class VehicleAgeClassServiceBean
+	extends AElementsService<VehicleAgeClass>
 	implements VehicleAgeClassServiceLocal, VehicleAgeClassServiceRemote {
 
     public VehicleAgeClassServiceBean() {
-	super(VehicleAgeClassMapping.getInstance()::forId, VehicleAgeClassService.class);
+	super(VehicleAgeClassService.class, VehicleAgeClassMapping.getInstance()::forId);
     }
 }

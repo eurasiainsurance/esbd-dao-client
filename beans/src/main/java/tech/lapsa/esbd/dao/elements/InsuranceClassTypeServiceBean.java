@@ -25,7 +25,8 @@ import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.java.commons.logging.MyLogger;
 
 @Stateless(name = InsuranceClassTypeService.BEAN_NAME)
-public class InsuranceClassTypeServiceBean implements InsuranceClassTypeServiceLocal, InsuranceClassTypeServiceRemote {
+public class InsuranceClassTypeServiceBean
+	implements InsuranceClassTypeServiceLocal, InsuranceClassTypeServiceRemote {
 
     private final MyLogger logger = MyLogger.newBuilder() //
 	    .withNameOf(InsuranceClassTypeService.class) //

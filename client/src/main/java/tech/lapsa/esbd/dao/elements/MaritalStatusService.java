@@ -5,18 +5,18 @@ import javax.ejb.Remote;
 
 import com.lapsa.insurance.elements.MaritalStatus;
 
-public interface MaritalStatusService extends ElementsService<MaritalStatus, Integer> {
+public interface MaritalStatusService extends ElementsService<MaritalStatus> {
 
     public static final String BEAN_NAME = "MaritalStatusServiceBean";
 
     @Local
     public interface MaritalStatusServiceLocal
-	    extends ElementsServiceLocal<MaritalStatus, Integer>, MaritalStatusService {
+	    extends ElementsServiceLocal<MaritalStatus>, MaritalStatusService {
     }
 
     @Remote
     public interface MaritalStatusServiceRemote
-	    extends ElementsServiceRemote<MaritalStatus, Integer>, MaritalStatusService {
+	    extends ElementsServiceRemote<MaritalStatus>, MaritalStatusService {
     }
 
 }
