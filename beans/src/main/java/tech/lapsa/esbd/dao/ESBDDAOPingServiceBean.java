@@ -8,13 +8,13 @@ import javax.ejb.TransactionAttributeType;
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionException;
 import tech.lapsa.esbd.connection.ConnectionPool;
-import tech.lapsa.esbd.dao.PingService.PingServiceLocal;
-import tech.lapsa.esbd.dao.PingService.PingServiceRemote;
+import tech.lapsa.esbd.dao.ESBDDAOPingService.ESBDDAOPingServiceLocal;
+import tech.lapsa.esbd.dao.ESBDDAOPingService.ESBDDAOPingServiceRemote;
 import tech.lapsa.java.commons.exceptions.IllegalState;
 import tech.lapsa.java.commons.function.MyExceptions;
 
-@Stateless(name = PingService.BEAN_NAME)
-public class PingServiceBean implements PingServiceLocal, PingServiceRemote {
+@Stateless(name = ESBDDAOPingService.BEAN_NAME)
+public class ESBDDAOPingServiceBean implements ESBDDAOPingServiceLocal, ESBDDAOPingServiceRemote {
 
     // PRIVATE
 
