@@ -5,7 +5,7 @@ import javax.ejb.Remote;
 
 import tech.lapsa.java.commons.exceptions.IllegalState;
 
-public interface PingService {
+public interface PingService extends EJBConstants {
 
     public static final String BEAN_NAME = "PingServiceBean";
 
