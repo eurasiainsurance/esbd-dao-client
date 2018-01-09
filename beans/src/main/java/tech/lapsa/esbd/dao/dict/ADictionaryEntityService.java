@@ -3,6 +3,7 @@ package tech.lapsa.esbd.dao.dict;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
@@ -19,26 +20,28 @@ import tech.lapsa.esbd.jaxws.wsimport.Item;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyOptionals;
+import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.java.commons.logging.MyLogger;
 
-public abstract class ADictionaryEntityService<T extends DictionaryEntity<I>, I extends Number>
-	implements DictionaryEntityService<T, I> {
+public abstract class ADictionaryEntityService<T extends DictionaryEntity>
+	implements DictionaryEntityService<T> {
 
-    private final String dictionaryName;
-    private final Function<Item, T> converter;
     private final MyLogger logger;
+    private final String dictionaryName;
+    private final Supplier<T> newEntitySupplier;
 
-    public ADictionaryEntityService(final String dictionaryName, final Function<Item, T> converter,
-	    final Class<?> clazz) {
-	this.dictionaryName = dictionaryName;
-	this.converter = converter;
+    protected ADictionaryEntityService(final Class<?> serviceClazz, final String dictionaryName,
+	    Supplier<T> newEntitySupplier) {
 	this.logger = MyLogger.newBuilder() //
-		.withNameOf(clazz) //
+		.withNameOf(MyObjects.requireNonNull(serviceClazz, "serviceClazz")) //
 		.build();
+	this.dictionaryName = MyStrings.requireNonEmpty(dictionaryName, "dictionaryName");
+	this.newEntitySupplier = MyObjects.requireNonNull(newEntitySupplier, "newEntitySupplier");
     }
 
-    private Map<I, T> allMap;
+    private Map<Integer, T> allMap;
 
     @PostConstruct
     public void loadDictionary() {
@@ -50,9 +53,8 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity<I>, I 
 		.map(ArrayOfItem::getItem) //
 		.map(List::stream) //
 		.orElseGet(Stream::empty) //
-		.map(converter) //
+		.map(this::convert) //
 		.collect(MyCollectors.unmodifiableMap(DictionaryEntity::getId, Function.identity()));
-
     }
 
     @Override
@@ -71,7 +73,7 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity<I>, I 
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public T getById(final I id) throws IllegalArgument, NotFound {
+    public T getById(final Integer id) throws IllegalArgument, NotFound {
 	try {
 	    return _getById(id);
 	} catch (final IllegalArgumentException e) {
@@ -87,11 +89,23 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity<I>, I 
     @EJB
     private ConnectionPool pool;
 
-    private T _getById(final I id) throws IllegalArgumentException, NotFound {
+    private T _getById(final Integer id) throws IllegalArgumentException, NotFound {
 	MyNumbers.requireNonZero(id, "id");
 	final T res = allMap.get(id);
 	if (res == null)
 	    throw new NotFound(String.format("Dictionary entity with id = '%1$s' is not found", id));
 	return res;
+    }
+
+    protected T convert(final Item source) {
+	final T target = newEntitySupplier.get();
+	fillValues(source, target);
+	return target;
+    }
+
+    protected void fillValues(final Item source, final T target) {
+	target.id = MyOptionals.of(source.getID()).orElse(null);
+	target.code = source.getCode();
+	target.name = source.getName();
     }
 }
