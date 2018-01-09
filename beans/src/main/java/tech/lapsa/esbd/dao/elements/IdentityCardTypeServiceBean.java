@@ -9,10 +9,11 @@ import tech.lapsa.esbd.dao.elements.IdentityCardTypeService.IdentityCardTypeServ
 import tech.lapsa.esbd.dao.elements.mapping.IdentityCardTypeMapping;
 
 @Singleton(name = IdentityCardTypeService.BEAN_NAME)
-public class IdentityCardTypeServiceBean extends AElementsService<IdentityCardType, Integer>
+public class IdentityCardTypeServiceBean
+	extends AElementsService<IdentityCardType>
 	implements IdentityCardTypeServiceLocal, IdentityCardTypeServiceRemote {
 
     public IdentityCardTypeServiceBean() {
-	super(IdentityCardTypeMapping.getInstance()::forId, IdentityCardTypeService.class);
+	super(IdentityCardTypeService.class, IdentityCardTypeMapping.getInstance()::forId);
     }
 }

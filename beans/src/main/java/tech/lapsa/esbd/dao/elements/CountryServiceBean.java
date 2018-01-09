@@ -9,10 +9,11 @@ import tech.lapsa.esbd.dao.elements.CountryService.CountryServiceRemote;
 import tech.lapsa.esbd.dao.elements.mapping.CountryMapping;
 
 @Singleton(name = CountryService.BEAN_NAME)
-public class CountryServiceBean extends AElementsService<Country, Integer>
+public class CountryServiceBean
+	extends AElementsService<Country>
 	implements CountryServiceLocal, CountryServiceRemote {
 
     public CountryServiceBean() {
-	super(CountryMapping.getInstance()::forId, CountryService.class);
+	super(CountryService.class, CountryMapping.getInstance()::forId);
     }
 }

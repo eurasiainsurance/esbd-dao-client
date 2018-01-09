@@ -9,24 +9,25 @@ import javax.ejb.TransactionAttributeType;
 import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.java.commons.logging.MyLogger;
 
-public abstract class AElementsService<T extends Enum<T>, I extends Number> implements ElementsService<T, I> {
+public abstract class AElementsService<T extends Enum<T>> implements ElementsService<T> {
 
-    private final Function<I, T> converter;
     private final MyLogger logger;
+    private final Function<Integer, T> converter;
 
-    AElementsService(final Function<I, T> converter, final Class<?> clazz) {
-	this.converter = converter;
+    AElementsService(final Class<?> serviceClazz, final Function<Integer, T> converter) {
 	this.logger = MyLogger.newBuilder() //
-		.withNameOf(clazz) //
+		.withNameOf(MyObjects.requireNonNull(serviceClazz, "serviceClazz")) //
 		.build();
+	this.converter = MyObjects.requireNonNull(converter, "converter");
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public T getById(final I id) throws NotFound, IllegalArgument {
+    public T getById(final Integer id) throws NotFound, IllegalArgument {
 	try {
 	    return _getById(id);
 	} catch (final IllegalArgumentException e) {
@@ -39,7 +40,7 @@ public abstract class AElementsService<T extends Enum<T>, I extends Number> impl
 
     // PRIVATE
 
-    private T _getById(final I id) throws IllegalArgumentException, NotFound {
+    private T _getById(final Integer id) throws IllegalArgumentException, NotFound {
 	MyNumbers.requireNonZero(id, "id");
 	return MyOptionals.of(converter.apply(id)) //
 		.orElseThrow(() -> new NotFound(String.format("Element not found with id = '%1$s'", id)));

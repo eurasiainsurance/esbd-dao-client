@@ -9,10 +9,11 @@ import tech.lapsa.esbd.dao.elements.VehicleClassService.VehicleClassServiceRemot
 import tech.lapsa.esbd.dao.elements.mapping.VehicleClassMapping;
 
 @Singleton(name = VehicleClassService.BEAN_NAME)
-public class VehicleClassServiceBean extends AElementsService<VehicleClass, Integer>
+public class VehicleClassServiceBean
+	extends AElementsService<VehicleClass>
 	implements VehicleClassServiceLocal, VehicleClassServiceRemote {
 
     public VehicleClassServiceBean() {
-	super(VehicleClassMapping.getInstance()::forId, VehicleClassService.class);
+	super(VehicleClassService.class, VehicleClassMapping.getInstance()::forId);
     }
 }
