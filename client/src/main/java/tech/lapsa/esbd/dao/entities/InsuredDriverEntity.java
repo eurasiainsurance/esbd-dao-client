@@ -111,7 +111,7 @@ public class InsuredDriverEntity extends Domain {
     // приравненного лица
     PrivilegerInfo privilegerInfo;
 
-    PrivilegerInfo getPrivilegerInfo() {
+    public PrivilegerInfo getPrivilegerInfo() {
 	return privilegerInfo;
     }
 
