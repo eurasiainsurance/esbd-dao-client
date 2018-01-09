@@ -3,17 +3,17 @@ package tech.lapsa.esbd.dao.dict;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 
-public interface BranchEntityService extends DictionaryEntityService<BranchEntity, Integer> {
+public interface BranchEntityService extends DictionaryEntityService<BranchEntity> {
 
     public static final String BEAN_NAME = "BranchEntityServiceBean";
 
     @Local
     public interface BranchEntityServiceLocal
-	    extends DictionaryEntityServiceLocal<BranchEntity, Integer>, BranchEntityService {
+	    extends DictionaryEntityServiceLocal<BranchEntity>, BranchEntityService {
     }
 
     @Remote
     public interface BranchEntityServiceRemote
-	    extends DictionaryEntityServiceRemote<BranchEntity, Integer>, BranchEntityService {
+	    extends DictionaryEntityServiceRemote<BranchEntity>, BranchEntityService {
     }
 }
