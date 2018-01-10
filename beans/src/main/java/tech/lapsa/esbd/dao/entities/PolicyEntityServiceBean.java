@@ -580,24 +580,27 @@ public class PolicyEntityServiceBean
 		VehicleAgeClass.class,
 		target._vehicleAgeClass);
 
-	// TF_NUMBER s:string Гос. номер ТС
-	// TF_REGISTRATION_CERTIFICATE s:string Номер тех. паспорта
-	// GIVE_DATE s:string Дата выдачи тех. паспорта
-	// REGION_ID s:int Идентификатор региона регистрации ТС (обязательно)
-	// BIG_CITY_BOOL s:int Признак города областного значения (обязательно)
-	target.certificate = new VehicleCertificateInfo();
-	target.certificate.registrationNumber = source.getTFNUMBER();
-	target.certificate.certificateNumber = source.getTFREGISTRATIONCERTIFICATE();
-	target.certificate.dateOfIssue = convertESBDDateToLocalDate(source.getGIVEDATE());
-	target.certificate.registrationMajorCity = source.getBIGCITYBOOL() == 1;
-	target.certificate._registrationRegion = source.getREGIONID();
-	Util.requireField(target,
-		target.getId(),
-		countryRegionService::getById,
-		target.certificate::setRegistrationRegion,
-		"Certificate.RegistrationRegion",
-		KZArea.class,
-		target.certificate._registrationRegion);
+	{
+	    // TF_NUMBER s:string Гос. номер ТС
+	    // TF_REGISTRATION_CERTIFICATE s:string Номер тех. паспорта
+	    // GIVE_DATE s:string Дата выдачи тех. паспорта
+	    // REGION_ID s:int Идентификатор региона регистрации ТС
+	    // (обязательно)
+	    // BIG_CITY_BOOL s:int Признак города областного значения
+	    // (обязательно)
+	    VehicleCertificateInfo.builder() //
+		    .withCertificateNumber(source.getTFREGISTRATIONCERTIFICATE())
+		    .withDateOfIssue(convertESBDDateToLocalDate(source.getGIVEDATE()))
+		    .withRegistrationMajorCity(source.getBIGCITYBOOL() == 1)
+		    .withRegistrationRegion(Util.reqField(InsuredVehicleEntity.class,
+			    id,
+			    countryRegionService::getById,
+			    "Certificate.RegistrationRegion",
+			    KZArea.class,
+			    source.getREGIONID()))
+		    .withRegistrationNumber(source.getTFNUMBER())
+		    .buildTo(builder::withCertificate);
+	}
 
 	// PURPOSE s:string Цель использования ТС
 	target.vehiclePurpose = source.getPURPOSE();
