@@ -74,7 +74,7 @@ final class Util {
 	fieldSeter.accept(fieldObject);
     }
 
-    static <T, F, FI> F reqField(final T target,
+    static <T, F, FI> F reqField(final Class<T> targetClazz,
 	    final Object targetId,
 	    final ThrowingFunction<FI, F> entityGeter,
 	    final String fieldName,
@@ -89,7 +89,7 @@ final class Util {
 	    if (ignoreException == null || !ignoreException.test(e)) {
 		final String message = MyStrings.format(
 			"Error while fetching %1$s ID = '%2$s' from ESBD. %3$s (%4$s ID=%5$s) not found",
-			target.getClass(), // 1,
+			targetClazz, // 1,
 			targetId, // 2
 			fieldName, // 3
 			fieldClazz.getSimpleName(), // 4
@@ -101,13 +101,13 @@ final class Util {
 	return fieldObject;
     }
 
-    static <T, F, FI> F reqField(final T target,
+    static <T, F, FI> F reqField(final Class<T> targetClazz,
 	    final Object targetId,
 	    final ThrowingFunction<FI, F> fieldGeter,
 	    final String fieldName,
 	    final Class<F> fieldClazz,
 	    final FI fieldId) {
-	return reqField(target, targetId, fieldGeter, fieldName, fieldClazz, fieldId, null);
+	return reqField(targetClazz, targetId, fieldGeter, fieldName, fieldClazz, fieldId, null);
     }
 
     // optionalField

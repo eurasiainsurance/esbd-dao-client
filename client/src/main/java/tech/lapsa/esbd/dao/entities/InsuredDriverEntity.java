@@ -1,5 +1,7 @@
 package tech.lapsa.esbd.dao.entities;
 
+import java.util.function.Consumer;
+
 import com.lapsa.insurance.elements.InsuranceClassType;
 import com.lapsa.insurance.elements.InsuredAgeAndExpirienceClass;
 import com.lapsa.insurance.elements.InsuredAgeClass;
@@ -8,6 +10,7 @@ import com.lapsa.insurance.elements.MaritalStatus;
 
 import tech.lapsa.esbd.dao.Domain;
 import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
+import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.patterns.domain.HashCodeMultiplier;
 
@@ -16,179 +19,202 @@ public class InsuredDriverEntity extends Domain {
 
     private static final long serialVersionUID = 1L;
 
-    // DRIVER_ID s:int Идентификатор водителя
-    Integer id;
+    public static final InsuredDriverEntityBuilder builder() {
+	return new InsuredDriverEntityBuilder();
+    }
+
+    public static final class InsuredDriverEntityBuilder {
+
+	private Integer id;
+	private PolicyEntity policy;
+	private SubjectPersonEntity insuredPerson;
+	private MaritalStatus maritalStatus;
+	private InsuredAgeAndExpirienceClass insuredAgeExpirienceClass;
+	private int drivingExpirience;
+	private DriverLicenseInfo driverLicense;
+	private InsuranceClassType insuraceClassType;
+	private PrivilegerInfo privilegerInfo;
+	private GPWParticipantInfo gpwParticipantInfo;
+	private PensionerInfo pensionerInfo;
+	private HandicappedInfo handicappedInfo;
+	private RecordOperationInfo created;
+	private RecordOperationInfo modified;
+	private InsuranceCompanyEntity insurer;
+
+	private InsuredDriverEntityBuilder() {
+	}
+
+	public InsuredDriverEntityBuilder withId(Integer id) {
+	    this.id = MyNumbers.requirePositive(id, "id");
+	    return this;
+	}
+
+	public InsuredDriverEntityBuilder withPolicy(PolicyEntity policy) {
+	    this.policy = MyObjects.requireNonNull(policy, "policy");
+	    return this;
+	}
+
+	public InsuredDriverEntityBuilder withInsuredPerson(SubjectPersonEntity insuredPerson) {
+	    this.insuredPerson = MyObjects.requireNonNull(insuredPerson, "insuredPerson");
+	    return this;
+	}
+
+	public InsuredDriverEntityBuilder withMaritalStatus(MaritalStatus maritalStatus) {
+	    this.maritalStatus = MyObjects.requireNonNull(maritalStatus, "maritalStatus");
+	    return this;
+	}
+
+	public InsuredDriverEntityBuilder withInsuredAgeExpirienceClass(
+		InsuredAgeAndExpirienceClass insuredAgeExpirienceClass) {
+	    this.insuredAgeExpirienceClass = MyObjects.requireNonNull(insuredAgeExpirienceClass,
+		    "insuredAgeExpirienceClass");
+	    return this;
+	}
+
+	public InsuredDriverEntityBuilder withDrivingExpirience(int drivingExpirience) {
+	    this.drivingExpirience = drivingExpirience;
+	    return this;
+	}
+
+	public InsuredDriverEntityBuilder withDriverLicense(DriverLicenseInfo driverLicense) {
+	    this.driverLicense = MyObjects.requireNonNull(driverLicense, "driverLicense");
+	    return this;
+	}
+
+	public InsuredDriverEntityBuilder withInsuraceClassType(InsuranceClassType insuraceClassType) {
+	    this.insuraceClassType = MyObjects.requireNonNull(insuraceClassType, "insuraceClassType");
+	    return this;
+	}
+
+	public InsuredDriverEntityBuilder withPrivilegerInfo(PrivilegerInfo privilegerInfo) {
+	    this.privilegerInfo = privilegerInfo;
+	    return this;
+	}
+
+	public InsuredDriverEntityBuilder withGpwParticipantInfo(GPWParticipantInfo gpwParticipantInfo) {
+	    this.gpwParticipantInfo = gpwParticipantInfo;
+	    return this;
+	}
+
+	public InsuredDriverEntityBuilder withPensionerInfo(PensionerInfo pensionerInfo) {
+	    this.pensionerInfo = pensionerInfo;
+	    return this;
+	}
+
+	public InsuredDriverEntityBuilder withHandicappedInfo(HandicappedInfo handicappedInfo) {
+	    this.handicappedInfo = handicappedInfo;
+	    return this;
+	}
+
+	public InsuredDriverEntityBuilder withCreated(RecordOperationInfo created) {
+	    this.created = MyObjects.requireNonNull(created, "created");
+	    return this;
+	}
+
+	public InsuredDriverEntityBuilder withModified(RecordOperationInfo modified) {
+	    this.modified = modified;
+	    return this;
+	}
+
+	public InsuredDriverEntityBuilder withInsurer(InsuranceCompanyEntity insurer) {
+	    this.insurer = MyObjects.requireNonNull(insurer, "insurer");
+	    return this;
+	}
+
+	public InsuredDriverEntity build() {
+	    return new InsuredDriverEntity(id,
+		    policy,
+		    insuredPerson,
+		    maritalStatus,
+		    insuredAgeExpirienceClass,
+		    drivingExpirience,
+		    driverLicense,
+		    insuraceClassType,
+		    privilegerInfo,
+		    gpwParticipantInfo,
+		    pensionerInfo,
+		    handicappedInfo,
+		    created,
+		    modified,
+		    insurer);
+	}
+
+	public void buildTo(final Consumer<InsuredDriverEntity> consumer) {
+	    consumer.accept(build());
+	}
+    }
+
+    private InsuredDriverEntity(final Integer id,
+	    final PolicyEntity policy,
+	    final SubjectPersonEntity insuredPerson,
+	    final MaritalStatus maritalStatus,
+	    final InsuredAgeAndExpirienceClass insuredAgeExpirienceClass,
+	    final int drivingExpirience,
+	    final DriverLicenseInfo driverLicense,
+	    final InsuranceClassType insuraceClassType,
+	    final PrivilegerInfo privilegerInfo,
+	    final GPWParticipantInfo gpwParticipantInfo,
+	    final PensionerInfo pensionerInfo,
+	    final HandicappedInfo handicappedInfo,
+	    final RecordOperationInfo created,
+	    final RecordOperationInfo modified,
+	    final InsuranceCompanyEntity insurer) {
+	this.id = MyNumbers.requirePositive(id, "id");
+	this.policy = MyObjects.requireNonNull(policy, "policy");
+	this.insuredPerson = MyObjects.requireNonNull(insuredPerson, "insuredPerson");
+	this.maritalStatus = MyObjects.requireNonNull(maritalStatus, "maritalStatus");
+	this.insuredAgeExpirienceClass = MyObjects.requireNonNull(insuredAgeExpirienceClass,
+		"insuredAgeExpirienceClass");
+	this.drivingExpirience = drivingExpirience;
+	this.driverLicense = MyObjects.requireNonNull(driverLicense, "driverLicense");
+	this.insuraceClassType = MyObjects.requireNonNull(insuraceClassType, "insuraceClassType");
+	this.privilegerInfo = privilegerInfo;
+	this.gpwParticipantInfo = gpwParticipantInfo;
+	this.pensionerInfo = pensionerInfo;
+	this.handicappedInfo = handicappedInfo;
+	this.created = MyObjects.requireNonNull(created, "created");
+	this.modified = modified;
+	this.insurer = MyObjects.requireNonNull(insurer, "insurer");
+    }
+
+    // id
+
+    private final Integer id;
 
     public Integer getId() {
 	return id;
     }
 
-    // POLICY_ID s:int Идентификатор полиса
-    int _policy;
-    PolicyEntity policy;
+    // policy
+
+    private final PolicyEntity policy;
 
     public PolicyEntity getPolicy() {
 	return policy;
     }
 
-    void setPolicy(final PolicyEntity policy) {
-	this.policy = policy;
-    }
+    // insuredPerson
 
-    // CLIENT_ID s:int Идентификатор клиента (обязательно)
-    int _insuredPerson;
-    SubjectPersonEntity insuredPerson;
+    private final SubjectPersonEntity insuredPerson;
 
     public SubjectPersonEntity getInsuredPerson() {
 	return insuredPerson;
     }
 
-    void setInsuredPerson(final SubjectPersonEntity insuredPerson) {
-	this.insuredPerson = insuredPerson;
-    }
+    // maritalStatus
 
-    // HOUSEHOLD_POSITION_ID s:int Идентификатор семейного положения
-    int _maritalStatus;
-    MaritalStatus maritalStatus;
+    private final MaritalStatus maritalStatus;
 
     public MaritalStatus getMaritalStatus() {
 	return maritalStatus;
     }
 
-    void setMaritalStatus(final MaritalStatus maritalStatus) {
-	this.maritalStatus = maritalStatus;
-    }
+    // insuredAgeExpirienceClass
 
-    // AGE_EXPERIENCE_ID s:int Идентификатор возраста\стажа вождения
-    int _insuredAgeExpirienceClass;
-    InsuredAgeAndExpirienceClass insuredAgeExpirienceClass;
+    private final InsuredAgeAndExpirienceClass insuredAgeExpirienceClass;
 
     public InsuredAgeAndExpirienceClass getInsuredAgeExpirienceClass() {
 	return insuredAgeExpirienceClass;
-    }
-
-    void setInsuredAgeExpirienceClass(final InsuredAgeAndExpirienceClass insuredAgeExpirienceClass) {
-	this.insuredAgeExpirienceClass = insuredAgeExpirienceClass;
-    }
-
-    // EXPERIENCE s:int Стаж вождения
-    int drivingExpirience;
-
-    public int getDrivingExpirience() {
-	return drivingExpirience;
-    }
-
-    // DRIVER_CERTIFICATE s:string Номер водительского удостоверения
-    // DRIVER_CERTIFICATE_DATE s:string Дата выдачи водительского удостоверения
-    DriverLicenseInfo driverLicense;
-
-    public DriverLicenseInfo getDriverLicense() {
-	return driverLicense;
-    }
-
-    // getClassId
-    int _insuraceClassType;
-    InsuranceClassType insuraceClassType;
-
-    public InsuranceClassType getInsuraceClassType() {
-	return insuraceClassType;
-    }
-
-    void setInsuraceClassType(final InsuranceClassType insuraceClassType) {
-	this.insuraceClassType = insuraceClassType;
-    }
-
-    // PRIVELEGER_BOOL s:int Признак приравненного лица
-    boolean privileger;
-
-    public boolean isPrivileger() {
-	return privileger;
-    }
-
-    // PRIVELEDGER_TYPE s:string Тип приравненного лица
-    // PRIVELEDGER_CERTIFICATE s:string Удостоверение приравненного лица
-    // PRIVELEDGER_CERTIFICATE_DATE s:string Дата выдачи удостоверения
-    // приравненного лица
-    PrivilegerInfo privilegerInfo;
-
-    public PrivilegerInfo getPrivilegerInfo() {
-	return privilegerInfo;
-    }
-
-    // WOW_BOOL s:int Признак участника ВОВ
-    boolean gpwParticipant;
-
-    public boolean isGpwParticipant() {
-	return gpwParticipant;
-    }
-
-    // WOW_CERTIFICATE s:string Удостоверение участника ВОВ
-    // WOW_CERTIFICATE_DATE s:string Дата выдачи удостоверения участника ВОВ
-    GPWParticipantInfo gpwParticipantInfo;
-
-    public GPWParticipantInfo getGpwParticipantInfo() {
-	return gpwParticipantInfo;
-    }
-
-    // PENSIONER_BOOL s:int Признак пенсионера
-    boolean pensioner;
-
-    public boolean isPensioner() {
-	return pensioner;
-    }
-
-    // PENSIONER_CERTIFICATE s:string Удостоверение пенсионера
-    // PENSIONER_CERTIFICATE_DATE s:string Дата выдачи удостоверения пенсионера
-    PensionerInfo pensionerInfo;
-
-    public PensionerInfo getPensionerInfo() {
-	return pensionerInfo;
-    }
-
-    // INVALID_BOOL s:int Признак инвалида
-    boolean handicapped;
-
-    public boolean isHandicapped() {
-	return handicapped;
-    }
-
-    // INVALID_CERTIFICATE s:string Удостоверение инвалида
-    // INVALID_CERTIFICATE_BEG_DATE s:string Дата выдачи удостоверения инвалида
-    // INVALID_CERTIFICATE_END_DATE s:string Дата завершения удостоверения
-    // инвалида
-
-    HandicappedInfo handicappedInfo;
-
-    public HandicappedInfo getHandicappedInfo() {
-	return handicappedInfo;
-    }
-
-    // CREATED_BY_USER_ID s:int Идентификатор пользователя, создавшего запись
-    // INPUT_DATE s:string Дата\время ввода записи в систему
-    RecordOperationInfo created;
-
-    public RecordOperationInfo getCreated() {
-	return created;
-    }
-
-    // RECORD_CHANGED_AT s:string Дата\время изменения записи
-    // CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего запись
-    RecordOperationInfo modified;
-
-    public RecordOperationInfo getModified() {
-	return modified;
-    }
-
-    // SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
-    int _insurer;
-    InsuranceCompanyEntity insurer;
-
-    public InsuranceCompanyEntity getInsurer() {
-	return insurer;
-    }
-
-    void setInsurer(final InsuranceCompanyEntity insurer) {
-	this.insurer = insurer;
     }
 
     public InsuredAgeClass getAgeClass() {
@@ -201,5 +227,103 @@ public class InsuredDriverEntity extends Domain {
 	return MyObjects.isNull(insuredAgeExpirienceClass)
 		? null
 		: insuredAgeExpirienceClass.getExpirienceClass();
+    }
+
+    // drivingExpirience
+
+    private final int drivingExpirience;
+
+    public int getDrivingExpirience() {
+	return drivingExpirience;
+    }
+
+    private final DriverLicenseInfo driverLicense;
+
+    public DriverLicenseInfo getDriverLicense() {
+	return driverLicense;
+    }
+
+    // insuraceClassType
+
+    private final InsuranceClassType insuraceClassType;
+
+    public InsuranceClassType getInsuraceClassType() {
+	return insuraceClassType;
+    }
+
+    // privilegerInfo
+
+    private final PrivilegerInfo privilegerInfo;
+
+    public boolean isPrivileger() {
+	return MyObjects.nonNull(privilegerInfo);
+    }
+
+    public PrivilegerInfo getPrivilegerInfo() {
+	return privilegerInfo;
+    }
+
+    // gpwParticipantInfo
+
+    private final GPWParticipantInfo gpwParticipantInfo;
+
+    public boolean isGpwParticipant() {
+	return MyObjects.nonNull(gpwParticipantInfo);
+    }
+
+    public GPWParticipantInfo getGpwParticipantInfo() {
+	return gpwParticipantInfo;
+    }
+
+    // pensionerInfo
+
+    private final PensionerInfo pensionerInfo;
+
+    public boolean isPensioner() {
+	return MyObjects.nonNull(pensionerInfo);
+    }
+
+    public PensionerInfo getPensionerInfo() {
+	return pensionerInfo;
+    }
+
+    // handicappedInfo
+
+    private final HandicappedInfo handicappedInfo;
+
+    public boolean isHandicapped() {
+	return MyObjects.nonNull(handicappedInfo);
+    }
+
+    public HandicappedInfo getHandicappedInfo() {
+	return handicappedInfo;
+    }
+
+    // created
+
+    private final RecordOperationInfo created;
+
+    public RecordOperationInfo getCreated() {
+	return created;
+    }
+
+    // modified
+
+    private final RecordOperationInfo modified;
+
+    public boolean isModified() {
+	return MyObjects.nonNull(modified);
+    }
+
+    public RecordOperationInfo getModified() {
+	return modified;
+    }
+
+    // insurer
+
+    private final InsuranceCompanyEntity insurer;
+
+    public InsuranceCompanyEntity getInsurer() {
+	return insurer;
     }
 }

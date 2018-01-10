@@ -128,7 +128,7 @@ public abstract class ASubjectEntityService<T extends SubjectEntity>
 		.withNumber(source.getDOCUMENTNUMBER())
 		.withDateOfIssue(convertESBDDateToLocalDate(source.getDOCUMENTGIVEDDATE()))
 		.withIssuingAuthority(source.getDOCUMENTGIVEDBY()) //
-		.withIdentityCardType(Util.reqField(target,
+		.withIdentityCardType(Util.reqField(target.getClass(),
 			target.getId(),
 			identityCardTypes::getById,
 			"IdentityCard.IdentityCardType",
