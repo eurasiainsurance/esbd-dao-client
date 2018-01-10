@@ -13,6 +13,6 @@ public class InsuranceCompanyEntityServiceBean
     private static final String DICT_NAME = "INSURANCE_COMPANIES";
 
     public InsuranceCompanyEntityServiceBean() {
-	super(InsuranceCompanyEntityService.class, DICT_NAME, InsuranceCompanyEntity::new);
+	super(InsuranceCompanyEntityService.class, DICT_NAME, InsuranceCompanyEntity::builder);
     }
 }

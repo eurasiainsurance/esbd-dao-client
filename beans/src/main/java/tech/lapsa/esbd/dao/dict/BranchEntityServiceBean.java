@@ -13,6 +13,6 @@ public class BranchEntityServiceBean
     private static final String DICT_NAME = "BRANCHES";
 
     public BranchEntityServiceBean() {
-	super(BranchEntityService.class, DICT_NAME, BranchEntity::new);
+	super(BranchEntityService.class, DICT_NAME, BranchEntity::builder);
     }
 }

@@ -13,6 +13,6 @@ public class CompanyActivityKindEntityServiceBean
     private static final String DICT_NAME = "ACTIVITY_KINDS";
 
     public CompanyActivityKindEntityServiceBean() {
-	super(CompanyActivityKindEntityService.class, DICT_NAME, CompanyActivityKindEntity::new);
+	super(CompanyActivityKindEntityService.class, DICT_NAME, CompanyActivityKindEntity::builder);
     }
 }

@@ -15,6 +15,7 @@ import javax.ejb.TransactionAttributeType;
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.dict.DictionaryEntity.DictionaryEntityBuilder;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfItem;
 import tech.lapsa.esbd.jaxws.wsimport.Item;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
@@ -30,15 +31,16 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity>
 
     private final MyLogger logger;
     private final String dictionaryName;
-    private final Supplier<T> newEntitySupplier;
+    private final Supplier<DictionaryEntityBuilder<T>> newBuilderSupplier;
 
-    protected ADictionaryEntityService(final Class<?> serviceClazz, final String dictionaryName,
-	    Supplier<T> newEntitySupplier) {
+    protected ADictionaryEntityService(final Class<?> serviceClazz,
+	    final String dictionaryName,
+	    final Supplier<DictionaryEntityBuilder<T>> newBuilderSupplier) {
 	this.logger = MyLogger.newBuilder() //
 		.withNameOf(MyObjects.requireNonNull(serviceClazz, "serviceClazz")) //
 		.build();
 	this.dictionaryName = MyStrings.requireNonEmpty(dictionaryName, "dictionaryName");
-	this.newEntitySupplier = MyObjects.requireNonNull(newEntitySupplier, "newEntitySupplier");
+	this.newBuilderSupplier = MyObjects.requireNonNull(newBuilderSupplier, "newBuilderSupplier");
     }
 
     @EJB
@@ -98,14 +100,11 @@ public abstract class ADictionaryEntityService<T extends DictionaryEntity>
     }
 
     protected T convert(final Item source) {
-	final T target = newEntitySupplier.get();
-	fillValues(source, target);
-	return target;
+	return newBuilderSupplier.get()
+		.withId(MyOptionals.of(source.getID()).orElse(null))
+		.withCode(source.getCode())
+		.withName(source.getName())
+		.build();
     }
 
-    protected void fillValues(final Item source, final T target) {
-	target.id = MyOptionals.of(source.getID()).orElse(null);
-	target.code = source.getCode();
-	target.name = source.getName();
-    }
 }
