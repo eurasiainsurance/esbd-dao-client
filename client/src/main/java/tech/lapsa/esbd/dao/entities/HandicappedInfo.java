@@ -6,7 +6,7 @@ import tech.lapsa.esbd.dao.Domain;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(61)
-public class InvalidInfo extends Domain {
+public class HandicappedInfo extends Domain {
 
     private static final long serialVersionUID = 1L;
 
