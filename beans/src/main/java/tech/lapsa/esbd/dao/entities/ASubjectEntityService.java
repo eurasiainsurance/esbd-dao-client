@@ -107,27 +107,34 @@ public abstract class ASubjectEntityService<T extends SubjectEntity>
 	// Middle_Name s:string Отчество (для физ. лица)
 	// Born s:string Дата рождения
 	// Sex_ID s:int Пол (справочник SEX)
-	target.personal = new PersonalInfo();
-	target.personal.name = source.getFirstName();
-	target.personal.surename = source.getLastName();
-	target.personal.patronymic = source.getMiddleName();
-	target.personal.dayOfBirth = convertESBDDateToLocalDate(source.getBorn());
-	target.personal._gender = source.getSexID();
-	Util.optionalField(target, target.id, genders::getById, target.personal::setGender, "Personal.Gender",
-		Sex.class, MyOptionals.of(target.personal._gender));
+	PersonalInfo.builder()
+		.withName(source.getFirstName())
+		.withSurename(source.getLastName())
+		.withPatronymic(source.getMiddleName())
+		.withDayOfBirth(convertESBDDateToLocalDate(source.getBorn()))
+		.withGender(Util.optField(target,
+			target.id,
+			genders::getById,
+			"Personal.Gender",
+			Sex.class,
+			MyOptionals.of(source.getSexID())))
+		.buildTo(x -> target.personal = x);
 
 	// DOCUMENT_TYPE_ID s:int Тип документа (справочник DOCUMENTS_TYPES)
 	// DOCUMENT_NUMBER s:string Номер документа
 	// DOCUMENT_GIVED_BY s:string Документ выдан
 	// DOCUMENT_GIVED_DATE s:string Дата выдачи документа
-	target.identityCard = new IdentityCardInfo();
-	target.identityCard.dateOfIssue = convertESBDDateToLocalDate(source.getDOCUMENTGIVEDDATE());
-	target.identityCard.issuingAuthority = source.getDOCUMENTGIVEDBY();
-	target.identityCard.number = source.getDOCUMENTNUMBER();
-	target.identityCard._identityCardType = source.getDOCUMENTTYPEID();
-	Util.optionalField(target, target.getId(), identityCardTypes::getById,
-		target.identityCard::setIdentityCardType, "IdentityCard.IdentityCardType", IdentityCardType.class,
-		MyOptionals.of(target.identityCard._identityCardType));
+	IdentityCardInfo.builder() //
+		.withNumber(source.getDOCUMENTNUMBER())
+		.withDateOfIssue(convertESBDDateToLocalDate(source.getDOCUMENTGIVEDDATE()))
+		.withIssuingAuthority(source.getDOCUMENTGIVEDBY()) //
+		.withIdentityCardType(Util.reqField(target,
+			target.getId(),
+			identityCardTypes::getById,
+			"IdentityCard.IdentityCardType",
+			IdentityCardType.class,
+			source.getDOCUMENTTYPEID()))
+		.buildTo(x -> target.identityCard = x);
     }
 
     void fillValues(final Client source, final SubjectCompanyEntity target) {
@@ -157,26 +164,32 @@ public abstract class ASubjectEntityService<T extends SubjectEntity>
 	// RESIDENT_BOOL s:int Признак резидентства (обязательно)
 	// COUNTRY_ID s:int Страна (справочник COUNTRIES)
 	// SETTLEMENT_ID s:int Населенный пункт (справочник SETTLEMENTS)
-	target.origin = new OriginInfo();
-	target.origin.resident = source.getRESIDENTBOOL() == 1;
-	target.origin._country = source.getCOUNTRYID();
-	Util.optionalField(target, target.id, countries::getById, target.origin::setCountry, "Origin.Country",
-		Country.class, MyOptionals.of(target.origin._country));
-	target.origin._city = source.getSETTLEMENTID();
-	Util.optionalField(target, target.id, cityies::getById, target.origin::setCity, "Origin.City", KZCity.class,
-		MyOptionals.of(target.origin._city));
+	OriginInfo.builder() //
+		.withResident(source.getRESIDENTBOOL() == 1)
+		.withCountry(Util.optField(target,
+			target.id,
+			countries::getById,
+			"Origin.Country",
+			Country.class, MyOptionals.of(source.getCOUNTRYID())))
+		.withCity(Util.optField(target,
+			target.id,
+			cityies::getById,
+			"Origin.City",
+			KZCity.class,
+			MyOptionals.of(source.getSETTLEMENTID())))
+		.buildTo(x -> target.origin = x);
 
 	// PHONES s:string Номера телефонов
 	// EMAIL s:string Адрес электронной почты
 	// Address s:string Адрес
 	// WWW s:string Сайт
-	target.contact = new ContactInfo();
-	target.contact.phone = MyOptionals.of(source.getPHONES())
-		.map(PhoneNumber::assertValid)
-		.orElse(null);
-	target.contact.email = source.getEMAIL();
-	target.contact.homeAdress = source.getAddress();
-	target.contact.siteUrl = source.getWWW();
+	ContactInfo.builder() //
+		.withPhone(MyOptionals.of(source.getPHONES())
+			.map(PhoneNumber::assertValid)) //
+		.withHomeAdress(source.getAddress()) //
+		.withEmail(source.getEMAIL()) //
+		.withSiteUrl(source.getWWW())
+		.buildTo(x -> target.contact = x);
 
 	// TPRN s:string РНН
 	target.taxPayerNumber = source.getTPRN();

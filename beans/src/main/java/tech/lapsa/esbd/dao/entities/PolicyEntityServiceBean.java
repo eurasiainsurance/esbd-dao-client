@@ -272,21 +272,29 @@ public class PolicyEntityServiceBean
 
 	// CREATED_BY_USER_ID s:int Идентификатор пользователя, создавшего полис
 	// INPUT_DATE s:string Дата\время ввода полиса в систему
-	target.created = new RecordOperationInfo();
-	target.created.date = convertESBDDateToLocalDate(source.getINPUTDATE());
-	target.created._author = source.getCREATEDBYUSERID();
-	Util.requireField(target, target.getId(), userService::getById, target.created::setAuthor,
-		"Created.Author", UserEntity.class, target.created._author);
+	RecordOperationInfo.builder()
+		.withDate(convertESBDDateToLocalDate(source.getINPUTDATE()))
+		.withAuthor(Util.reqField(target,
+			target.getId(),
+			userService::getById,
+			"Created.Author",
+			UserEntity.class,
+			source.getCREATEDBYUSERID()))
+		.buildTo(x -> target.created = x);
 
 	// RECORD_CHANGED_AT s:string Дата\время изменения полиса
 	// RECORD_CHANGED_AT_DATETIME s:string Дата\время изменения полиса
 	// CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего
 	// полис
-	target.modified = new RecordOperationInfo();
-	target.modified.date = convertESBDDateToLocalDate(source.getRECORDCHANGEDAT());
-	target.modified._author = source.getCHANGEDBYUSERID();
-	Util.optionalField(target, target.getId(), userService::getById, target.modified::setAuthor,
-		"Modified.Author", UserEntity.class, MyOptionals.of(target.modified._author));
+	RecordOperationInfo.builder()
+		.withDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()))
+		.withAuthor(Util.reqField(target,
+			target.getId(),
+			userService::getById,
+			"Modified.Author",
+			UserEntity.class,
+			source.getCHANGEDBYUSERID()))
+		.buildTo(x -> target.modified = x);
 
 	// ScheduledPayments tns:ArrayOfSCHEDULED_PAYMENT Плановые платежи по
 	// полису
@@ -340,9 +348,10 @@ public class PolicyEntityServiceBean
 	// DRIVER_CERTIFICATE s:string Номер водительского удостоверения
 	// DRIVER_CERTIFICATE_DATE s:string Дата выдачи водительского
 	// удостоверения
-	target.driverLicense = new DriverLicenseInfo();
-	target.driverLicense.number = source.getDRIVERCERTIFICATE();
-	target.driverLicense.dateOfIssue = convertESBDDateToLocalDate(source.getDRIVERCERTIFICATEDATE());
+	DriverLicenseInfo.builder() //
+		.withDateOfIssue(convertESBDDateToLocalDate(source.getDRIVERCERTIFICATEDATE())) //
+		.withNumber(source.getDRIVERCERTIFICATE()) //
+		.buildTo(x -> target.driverLicense = x);
 
 	// getClassId
 	target._insuraceClassType = source.getClassId();
@@ -354,37 +363,35 @@ public class PolicyEntityServiceBean
 	// PRIVELEDGER_CERTIFICATE s:string Удостоверение приравненного лица
 	// PRIVELEDGER_CERTIFICATE_DATE s:string Дата выдачи удостоверения
 	// приравненного лица
-	target.privilegerInfo = new PrivilegerInfo();
 	target.privileger = source.getPRIVELEGERBOOL() == 1;
-	if (target.privileger) {
-	    target.privilegerInfo.type = source.getPRIVELEDGERTYPE();
-	    target.privilegerInfo.certificateNumber = source.getPRIVELEDGERCERTIFICATE();
-	    target.privilegerInfo.certificateDateOfIssue = convertESBDDateToLocalDate(
-		    source.getPRIVELEDGERCERTIFICATEDATE());
-	}
+	if (target.privileger)
+	    PrivilegerInfo.builder() //
+		    .withType(source.getPRIVELEDGERTYPE())
+		    .withCertificateNumber(source.getPRIVELEDGERCERTIFICATE()) //
+		    .withCertificateDateOfIssue(convertESBDDateToLocalDate(source.getPRIVELEDGERCERTIFICATEDATE())) //
+		    .buildTo(x -> target.privilegerInfo = x);
 
 	// WOW_BOOL s:int Признак участника ВОВ
 	// WOW_CERTIFICATE s:string Удостоверение участника ВОВ
 	// WOW_CERTIFICATE_DATE s:string Дата выдачи удостоверения участника ВОВ
-	target.gpwParticipantInfo = new GPWParticipantInfo();
+
 	target.gpwParticipant = source.getWOWBOOL() == 1;
-	if (target.gpwParticipant) {
-	    target.gpwParticipantInfo.certificateNumber = source.getWOWCERTIFICATE();
-	    target.gpwParticipantInfo.certificateDateOfIssue = convertESBDDateToLocalDate(
-		    source.getWOWCERTIFICATEDATE());
-	}
+	if (target.gpwParticipant)
+	    GPWParticipantInfo.builder() //
+		    .withCertificateDateOfIssue(convertESBDDateToLocalDate(source.getWOWCERTIFICATEDATE())) //
+		    .withCertificateNumber(source.getWOWCERTIFICATE()) //
+		    .buildTo(x -> target.gpwParticipantInfo = x);
 
 	// PENSIONER_BOOL s:int Признак пенсионера
 	// PENSIONER_CERTIFICATE s:string Удостоверение пенсионера
 	// PENSIONER_CERTIFICATE_DATE s:string Дата выдачи удостоверения
 	// пенсионера
-	target.pensionerInfo = new PensionerInfo();
 	target.pensioner = source.getPENSIONERBOOL() == 1;
-	if (target.pensioner) {
-	    target.pensionerInfo.certificateNumber = source.getPENSIONERCERTIFICATE();
-	    target.pensionerInfo.certiticateDateOfIssue = convertESBDDateToLocalDate(
-		    source.getPENSIONERCERTIFICATEDATE());
-	}
+	if (target.pensioner)
+	    PensionerInfo.builder() //
+		    .withCertificateNumber(source.getPENSIONERCERTIFICATE()) //
+		    .withCertiticateDateOfIssue(convertESBDDateToLocalDate(source.getPENSIONERCERTIFICATEDATE())) //
+		    .buildTo(x -> target.pensionerInfo = x);
 
 	// INVALID_BOOL s:int Признак инвалида
 	// INVALID_CERTIFICATE s:string Удостоверение инвалида
@@ -392,31 +399,39 @@ public class PolicyEntityServiceBean
 	// инвалида
 	// INVALID_CERTIFICATE_END_DATE s:string Дата завершения удостоверения
 	// инвалида
-	target.invalidInfo = new InvalidInfo();
-	target.invalid = source.getINVALIDBOOL() == 1;
-	if (target.invalid) {
-	    target.invalidInfo.certificateNumber = source.getINVALIDCERTIFICATE();
-	    target.invalidInfo.certificateValidFrom = convertESBDDateToLocalDate(source.getINVALIDCERTIFICATEBEGDATE());
-	    target.invalidInfo.certificateValidTill = convertESBDDateToLocalDate(source.getINVALIDCERTIFICATEENDDATE());
-	}
+	target.handicapped = source.getINVALIDBOOL() == 1;
+	if (target.handicapped)
+	    HandicappedInfo.builder() //
+		    .withCertificateNumber(source.getINVALIDCERTIFICATE()) //
+		    .withCertificateValidFrom(convertESBDDateToLocalDate(source.getINVALIDCERTIFICATEBEGDATE())) //
+		    .withCertificateValidTill(convertESBDDateToLocalDate(source.getINVALIDCERTIFICATEENDDATE())) //
+		    .buildTo(x -> target.handicappedInfo = x);
 
 	// CREATED_BY_USER_ID s:int Идентификатор пользователя, создавшего
 	// запись
 	// INPUT_DATE s:string Дата\время ввода записи в систему
-	target.created = new RecordOperationInfo();
-	target.created.date = convertESBDDateToLocalDate(source.getINPUTDATE());
-	target.created._author = source.getCREATEDBYUSERID();
-	Util.requireField(target, target.id, userService::getById, target.created::setAuthor,
-		"Created.Author", UserEntity.class, target.created._author);
+	RecordOperationInfo.builder()
+		.withDate(convertESBDDateToLocalDate(source.getINPUTDATE()))
+		.withAuthor(Util.reqField(target,
+			target.getId(),
+			userService::getById,
+			"Created.Author",
+			UserEntity.class,
+			source.getCREATEDBYUSERID()))
+		.buildTo(x -> target.created = x);
 
 	// RECORD_CHANGED_AT s:string Дата\время изменения записи
 	// CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего
 	// запись
-	target.modified = new RecordOperationInfo();
-	target.modified.date = convertESBDDateToLocalDate(source.getRECORDCHANGEDAT());
-	target.modified._author = source.getCHANGEDBYUSERID();
-	Util.optionalField(target, target.getId(), userService::getById, target.modified::setAuthor,
-		"Modified.Author", UserEntity.class, MyOptionals.of(target.modified._author));
+	RecordOperationInfo.builder()
+		.withDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()))
+		.withAuthor(Util.reqField(target,
+			target.getId(),
+			userService::getById,
+			"Modified.Author",
+			UserEntity.class,
+			source.getCHANGEDBYUSERID()))
+		.buildTo(x -> target.modified = x);
 
 	// SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
 	target._insurer = source.getSYSTEMDELIMITERID();
@@ -481,20 +496,28 @@ public class PolicyEntityServiceBean
 	// CREATED_BY_USER_ID s:int Идентификатор пользователя, создавшего
 	// запись
 	// INPUT_DATE s:string Дата\время ввода записи в систему
-	target.created = new RecordOperationInfo();
-	target.created.date = convertESBDDateToLocalDate(source.getINPUTDATE());
-	target.created._author = source.getCREATEDBYUSERID();
-	Util.requireField(target, target.getId(), userService::getById, target.created::setAuthor,
-		"Created.Author", UserEntity.class, target.created._author);
+	RecordOperationInfo.builder()
+		.withDate(convertESBDDateToLocalDate(source.getINPUTDATE()))
+		.withAuthor(Util.reqField(target,
+			target.getId(),
+			userService::getById,
+			"Created.Author",
+			UserEntity.class,
+			source.getCREATEDBYUSERID()))
+		.buildTo(x -> target.created = x);
 
 	// RECORD_CHANGED_AT s:string Дата\время изменения записи
 	// CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего
 	// запись
-	target.modified = new RecordOperationInfo();
-	target.modified.date = convertESBDDateToLocalDate(source.getRECORDCHANGEDAT());
-	target.modified._author = source.getCHANGEDBYUSERID();
-	Util.optionalField(target, target.getId(), userService::getById, target.modified::setAuthor,
-		"Modified.Author", UserEntity.class, MyOptionals.of(target.modified._author));
+	RecordOperationInfo.builder()
+		.withDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()))
+		.withAuthor(Util.reqField(target,
+			target.getId(),
+			userService::getById,
+			"Modified.Author",
+			UserEntity.class,
+			source.getCHANGEDBYUSERID()))
+		.buildTo(x -> target.modified = x);
 
 	// SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
 	target._insurer = source.getSYSTEMDELIMITERID();

@@ -12,5 +12,6 @@ public interface GeneralEntityService<T, I> extends GeneralService<T, I> {
     public interface GeneralEntityServiceRemote<T, I> extends GeneralServiceRemote<T, I>, GeneralEntityService<T, I> {
     }
 
+    @Override
     T getById(I id) throws IllegalArgument, NotFound;
 }

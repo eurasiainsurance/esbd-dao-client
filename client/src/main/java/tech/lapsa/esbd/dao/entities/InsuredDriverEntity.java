@@ -146,10 +146,10 @@ public class InsuredDriverEntity extends Domain {
     }
 
     // INVALID_BOOL s:int Признак инвалида
-    boolean invalid;
+    boolean handicapped;
 
-    public boolean isInvalid() {
-	return invalid;
+    public boolean isHandicapped() {
+	return handicapped;
     }
 
     // INVALID_CERTIFICATE s:string Удостоверение инвалида
@@ -157,10 +157,10 @@ public class InsuredDriverEntity extends Domain {
     // INVALID_CERTIFICATE_END_DATE s:string Дата завершения удостоверения
     // инвалида
 
-    InvalidInfo invalidInfo;
+    HandicappedInfo handicappedInfo;
 
-    public InvalidInfo getInvalidInfo() {
-	return invalidInfo;
+    public HandicappedInfo getHandicappedInfo() {
+	return handicappedInfo;
     }
 
     // CREATED_BY_USER_ID s:int Идентификатор пользователя, создавшего запись

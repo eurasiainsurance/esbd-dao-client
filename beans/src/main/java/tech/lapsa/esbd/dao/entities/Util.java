@@ -9,6 +9,7 @@ import javax.ejb.EJBException;
 
 import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.java.commons.function.MyExceptions;
+import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.java.commons.function.MyStrings;
 
 final class Util {
@@ -73,7 +74,82 @@ final class Util {
 	fieldSeter.accept(fieldObject);
     }
 
+    static <T, F, FI> F reqField(final T target,
+	    final Object targetId,
+	    final ThrowingFunction<FI, F> entityGeter,
+	    final String fieldName,
+	    final Class<F> fieldClazz,
+	    final FI fieldId,
+	    final Predicate<Throwable> ignoreException) {
+
+	F fieldObject = null;
+	try {
+	    fieldObject = entityGeter.apply(fieldId);
+	} catch (final Exception e) {
+	    if (ignoreException == null || !ignoreException.test(e)) {
+		final String message = MyStrings.format(
+			"Error while fetching %1$s ID = '%2$s' from ESBD. %3$s (%4$s ID=%5$s) not found",
+			target.getClass(), // 1,
+			targetId, // 2
+			fieldName, // 3
+			fieldClazz.getSimpleName(), // 4
+			fieldId // 5
+		);
+		throw new EJBException(message, e);
+	    }
+	}
+	return fieldObject;
+    }
+
+    static <T, F, FI> F reqField(final T target,
+	    final Object targetId,
+	    final ThrowingFunction<FI, F> fieldGeter,
+	    final String fieldName,
+	    final Class<F> fieldClazz,
+	    final FI fieldId) {
+	return reqField(target, targetId, fieldGeter, fieldName, fieldClazz, fieldId, null);
+    }
+
     // optionalField
+
+    static <T, F, FI> Optional<F> optField(final T target,
+	    final Object targetId,
+	    final ThrowingFunction<FI, F> entityGeter,
+	    final String fieldName,
+	    final Class<F> fieldClazz,
+	    final Optional<FI> optFieldId,
+	    final Predicate<Throwable> ignoreException) {
+
+	if (!optFieldId.isPresent())
+	    return Optional.empty();
+
+	F fieldObject = null;
+	try {
+	    fieldObject = entityGeter.apply(optFieldId.get());
+	} catch (final Exception e) {
+	    if (ignoreException == null || !ignoreException.test(e)) {
+		final String message = MyStrings.format(
+			"Error while fetching %1$s ID = '%2$s' from ESBD. %3$s (%4$s ID=%5$s) not found",
+			target.getClass(), // 1,
+			targetId, // 2
+			fieldName, // 3
+			fieldClazz.getSimpleName(), // 4
+			optFieldId.get() // 5
+		);
+		throw new EJBException(message, e);
+	    }
+	}
+	return MyOptionals.of(fieldObject);
+    }
+
+    static <T, F, FI> Optional<F> optField(final T target,
+	    final Object targetId,
+	    final ThrowingFunction<FI, F> fieldGeter,
+	    final String fieldName,
+	    final Class<F> fieldClazz,
+	    final Optional<FI> optFieldId) {
+	return optField(target, targetId, fieldGeter, fieldName, fieldClazz, optFieldId, null);
+    }
 
     static <T, F, FI> void optionalField(final T target,
 	    final Object targetId,

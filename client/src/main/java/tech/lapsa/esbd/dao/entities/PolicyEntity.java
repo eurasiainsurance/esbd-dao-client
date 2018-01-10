@@ -113,7 +113,7 @@ public class PolicyEntity extends Domain {
 	return cancelationReasonType;
     }
 
-    void setCancelationReasonType(CancelationReason cancelationReasonType) {
+    void setCancelationReasonType(final CancelationReason cancelationReasonType) {
 	this.cancelationReasonType = cancelationReasonType;
     }
 
