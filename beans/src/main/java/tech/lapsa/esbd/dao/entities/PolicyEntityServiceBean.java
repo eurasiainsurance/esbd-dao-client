@@ -34,6 +34,7 @@ import tech.lapsa.esbd.dao.elements.MaritalStatusService.MaritalStatusServiceLoc
 import tech.lapsa.esbd.dao.elements.VehicleAgeClassService.VehicleAgeClassServiceLocal;
 import tech.lapsa.esbd.dao.elements.VehicleClassService.VehicleClassServiceLocal;
 import tech.lapsa.esbd.dao.entities.InsuredDriverEntity.InsuredDriverEntityBuilder;
+import tech.lapsa.esbd.dao.entities.InsuredVehicleEntity.InsuredVehicleEntityBuilder;
 import tech.lapsa.esbd.dao.entities.PolicyEntityService.PolicyEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.PolicyEntityService.PolicyEntityServiceRemote;
 import tech.lapsa.esbd.dao.entities.SubjectEntityService.SubjectEntityServiceLocal;
@@ -317,15 +318,16 @@ public class PolicyEntityServiceBean
 	    // RECORD_CHANGED_AT_DATETIME s:string Дата\время изменения полиса
 	    // CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего
 	    // полис
-	    RecordOperationInfo.builder()
-		    .withDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()))
-		    .withAuthor(Util.reqField(PolicyEntity.class,
-			    id,
-			    userService::getById,
-			    "Modified.Author",
-			    UserEntity.class,
-			    source.getCHANGEDBYUSERID()))
-		    .buildTo(x -> target.modified = x);
+	    if (MyStrings.nonEmpty(source.getRECORDCHANGEDAT()))
+		RecordOperationInfo.builder()
+			.withDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()))
+			.withAuthor(Util.reqField(PolicyEntity.class,
+				id,
+				userService::getById,
+				"Modified.Author",
+				UserEntity.class,
+				source.getCHANGEDBYUSERID()))
+			.buildTo(x -> target.modified = x);
 	}
 
 	// ScheduledPayments tns:ArrayOfSCHEDULED_PAYMENT Плановые платежи по
@@ -523,62 +525,63 @@ public class PolicyEntityServiceBean
     }
 
     InsuredVehicleEntity convert(final PoliciesTF source, final PolicyEntity policy) {
-	final InsuredVehicleEntity target = new InsuredVehicleEntity();
+	final InsuredVehicleEntityBuilder target = InsuredVehicleEntity.builder();
 	fillValues(source, target, policy);
-	return target;
+	return target.build();
     }
 
-    void fillValues(final PoliciesTF source, final InsuredVehicleEntity target, final PolicyEntity policy) {
+    void fillValues(final PoliciesTF source, final InsuredVehicleEntityBuilder builder, final PolicyEntity policy) {
 
 	final int id = source.getPOLICYTFID();
 
 	{
 	    // POLICY_TF_ID s:int Идентификатор ТС полиса
-	    target.id = MyOptionals.of(id).orElse(null);
+	    builder.withId(MyOptionals.of(id).orElse(null));
 	}
 
-	target._policy = source.getPOLICYID();
-	// POLICY_ID s:int Идентификатор полиса
-	if (Integer.valueOf(target._policy).equals(policy.getId()))
-	    target.policy = policy;
-	else
-	    Util.requireField(target,
-		    target.getId(),
-		    this::getById,
-		    target::setPolicy,
-		    "Policy",
-		    PolicyEntity.class,
-		    target._policy);
+	{
+	    // POLICY_ID s:int Идентификатор полиса
+	    final int policy_id = source.getPOLICYID();
+	    if (Integer.valueOf(policy_id).equals(policy.getId()))
+		builder.withPolicy(policy);
+	    else
+		builder.withPolicy(Util.reqField(InsuredVehicleEntity.class,
+			id,
+			this::getById,
+			"Policy",
+			PolicyEntity.class,
+			policy_id));
+	}
 
-	// TF_ID s:int Идентификатор ТС
-	target._vehicle = source.getTFID();
-	Util.requireField(target,
-		target.getId(),
-		vehicleService::getById,
-		target::setVehicle,
-		"Vehicle",
-		VehicleEntity.class,
-		target._vehicle);
+	{
+	    // TF_ID s:int Идентификатор ТС
+	    builder.withVehicle(Util.reqField(InsuredVehicleEntity.class,
+		    id,
+		    vehicleService::getById,
+		    "Vehicle",
+		    VehicleEntity.class,
+		    source.getTFID()));
+	}
 
-	// TF_TYPE_ID s:int Идентификатор типа ТС (обязательно)
-	target._vehicleClass = source.getTFTYPEID();
-	Util.requireField(target,
-		target.getId(),
-		vehicleClassService::getById,
-		target::setVehicleClass,
-		"VehicleClass",
-		VehicleClass.class,
-		target._vehicleClass);
+	{
+	    // TF_TYPE_ID s:int Идентификатор типа ТС (обязательно)
+	    builder.withVehicleClass(Util.reqField(InsuredVehicleEntity.class,
+		    id,
+		    vehicleClassService::getById,
+		    "VehicleClass",
+		    VehicleClass.class,
+		    source.getTFTYPEID()));
+	}
 
-	// TF_AGE_ID s:int Идентификатор возраста ТС (обязательно)
-	target._vehicleAgeClass = source.getTFAGEID();
-	Util.requireField(target,
-		target.getId(),
-		vehicleAgeClassService::getById,
-		target::setVehicleAgeClass,
-		"VehicleAgeClass",
-		VehicleAgeClass.class,
-		target._vehicleAgeClass);
+	{
+	    // TF_AGE_ID s:int Идентификатор возраста ТС (обязательно)
+	    builder.withVehicleAgeClass(Util.reqField(InsuredVehicleEntity.class,
+		    id,
+		    vehicleAgeClassService::getById,
+		    "VehicleAgeClass",
+		    VehicleAgeClass.class,
+		    source.getTFAGEID()));
+	}
 
 	{
 	    // TF_NUMBER s:string Гос. номер ТС
@@ -602,45 +605,55 @@ public class PolicyEntityServiceBean
 		    .buildTo(builder::withCertificate);
 	}
 
-	// PURPOSE s:string Цель использования ТС
-	target.vehiclePurpose = source.getPURPOSE();
+	{
+	    // PURPOSE s:string Цель использования ТС
+	    builder.withVehiclePurpose(source.getPURPOSE());
+	}
 
-	// ODOMETER s:int Показания одометра
-	target.currentOdometerValue = source.getODOMETER();
+	{
+	    // ODOMETER s:int Показания одометра
+	    builder.withCurrentOdometerValue(source.getODOMETER());
+	}
 
-	// CREATED_BY_USER_ID s:int Идентификатор пользователя, создавшего
-	// запись
-	// INPUT_DATE s:string Дата\время ввода записи в систему
-	RecordOperationInfo.builder()
-		.withDate(convertESBDDateToLocalDate(source.getINPUTDATE()))
-		.withAuthor(Util.reqField(InsuredVehicleEntity.class,
-			id,
-			userService::getById,
-			"Created.Author",
-			UserEntity.class,
-			source.getCREATEDBYUSERID()))
-		.buildTo(x -> target.created = x);
+	{
+	    // CREATED_BY_USER_ID s:int Идентификатор пользователя, создавшего
+	    // запись
+	    // INPUT_DATE s:string Дата\время ввода записи в систему
+	    RecordOperationInfo.builder()
+		    .withDate(convertESBDDateToLocalDate(source.getINPUTDATE()))
+		    .withAuthor(Util.reqField(InsuredVehicleEntity.class,
+			    id,
+			    userService::getById,
+			    "Created.Author",
+			    UserEntity.class,
+			    source.getCREATEDBYUSERID()))
+		    .buildTo(builder::withCreated);
+	}
 
-	// RECORD_CHANGED_AT s:string Дата\время изменения записи
-	// CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего
-	// запись
-	RecordOperationInfo.builder()
-		.withDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()))
-		.withAuthor(Util.reqField(InsuredVehicleEntity.class,
-			id,
-			userService::getById,
-			"Modified.Author",
-			UserEntity.class,
-			source.getCHANGEDBYUSERID()))
-		.buildTo(x -> target.modified = x);
+	{
+	    // RECORD_CHANGED_AT s:string Дата\время изменения записи
+	    // CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего
+	    // запись
+	    if (MyStrings.nonEmpty(source.getRECORDCHANGEDAT()))
+		RecordOperationInfo.builder()
+			.withDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()))
+			.withAuthor(Util.reqField(InsuredVehicleEntity.class,
+				id,
+				userService::getById,
+				"Modified.Author",
+				UserEntity.class,
+				source.getCHANGEDBYUSERID()))
+			.buildTo(builder::withModified);
+	}
 
-	// SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
-	target._insurer = source.getSYSTEMDELIMITERID();
-	Util.requireField(target,
-		target.getId(),
-		insuranceCompanyService::getById,
-		target::setInsurer, "Insurer",
-		InsuranceCompanyEntity.class,
-		target._insurer);
+	{
+	    // SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
+	    builder.withInsurer(Util.reqField(InsuredVehicleEntity.class,
+		    id,
+		    insuranceCompanyService::getById,
+		    "Insurer",
+		    InsuranceCompanyEntity.class,
+		    source.getSYSTEMDELIMITERID()));
+	}
     }
 }
