@@ -36,12 +36,12 @@ final class Util {
 	R apply(T value) throws Exception;
     }
 
-    static <T> EJBException requireNonEmtyList(final T target,
+    static <T> EJBException requireNonEmtyList(final Class<T> targetClazz,
 	    final Object targetId,
 	    final String fieldName) {
 	final String message = MyStrings.format(
 		"Error while fetching %1$s ID = '%2$s' from ESBD. %3$s list is empty",
-		target.getClass(), // 1,
+		targetClazz, // 1,
 		targetId, // 2
 		fieldName // 3
 	);

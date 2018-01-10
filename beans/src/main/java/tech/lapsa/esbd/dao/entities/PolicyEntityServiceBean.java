@@ -21,6 +21,7 @@ import com.lapsa.kz.country.KZArea;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
+import tech.lapsa.esbd.dao.ESBDDates;
 import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.esbd.dao.dict.BranchEntity;
 import tech.lapsa.esbd.dao.dict.BranchEntityService.BranchEntityServiceLocal;
@@ -35,6 +36,7 @@ import tech.lapsa.esbd.dao.elements.VehicleAgeClassService.VehicleAgeClassServic
 import tech.lapsa.esbd.dao.elements.VehicleClassService.VehicleClassServiceLocal;
 import tech.lapsa.esbd.dao.entities.InsuredDriverEntity.InsuredDriverEntityBuilder;
 import tech.lapsa.esbd.dao.entities.InsuredVehicleEntity.InsuredVehicleEntityBuilder;
+import tech.lapsa.esbd.dao.entities.PolicyEntity.PolicyEntityBuilder;
 import tech.lapsa.esbd.dao.entities.PolicyEntityService.PolicyEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.PolicyEntityService.PolicyEntityServiceRemote;
 import tech.lapsa.esbd.dao.entities.SubjectEntityService.SubjectEntityServiceLocal;
@@ -186,117 +188,144 @@ public class PolicyEntityServiceBean
     }
 
     PolicyEntity convert(final Policy source) {
-	final PolicyEntity policy = new PolicyEntity();
-	fillValues(source, policy);
-	return policy;
+	final PolicyEntityBuilder builder = PolicyEntity.builder();
+	fillValues(source, builder);
+	return builder.build();
     }
 
-    void fillValues(final Policy source, final PolicyEntity target) {
+    void fillValues(final Policy source, final PolicyEntityBuilder builder) {
 
-	// POLICY_ID s:int Идентификатор полиса (обязательно)
 	final int id = source.getPOLICYID();
-	target.id = MyOptionals.of(id).orElse(null);
 
-	// GLOBAL_ID s:string Уникальный глобальный идентификатор полиса
-	target.number = source.getGLOBALID();
+	{
+	    // POLICY_ID s:int Идентификатор полиса (обязательно)
+	    builder.withId(MyOptionals.of(id).orElse(null));
+	}
 
-	// POLICY_NUMBER s:string Номер полиса (обязательно)
-	target.internalNumber = source.getPOLICYNUMBER();
+	{
+	    // GLOBAL_ID s:string Уникальный глобальный идентификатор полиса
+	    builder.withNumber(source.getGLOBALID());
+	}
 
-	// DATE_BEG s:string Дата начала действия полиса (обязательно)
-	target.validFrom = convertESBDDateToLocalDate(source.getDATEBEG());
+	{
+	    // POLICY_NUMBER s:string Номер полиса (обязательно)
+	    builder.withInternalNumber(source.getPOLICYNUMBER());
+	}
 
-	// DATE_END s:string Дата окончания действия полиса (обязательно)
-	target.validTill = convertESBDDateToLocalDate(source.getDATEEND());
+	{
+	    // DATE_BEG s:string Дата начала действия полиса (обязательно)
+	    builder.withValidFrom(convertESBDDateToLocalDate(source.getDATEBEG()));
+	}
 
-	// PREMIUM s:double Страховая премия (обязательно)
-	target.actualPremium = MyOptionals.of(source.getPREMIUM()).orElse(null);
+	{
+	    // DATE_END s:string Дата окончания действия полиса (обязательно)
+	    builder.withValidTill(convertESBDDateToLocalDate(source.getDATEEND()));
+	}
 
-	// CALCULATED_PREMIUM s:double Страховая премия рассчитанная системой
-	target.calculatedPremium = MyOptionals.of(source.getCALCULATEDPREMIUM()).orElse(null);
+	{
+	    // PREMIUM s:double Страховая премия (обязательно)
+	    builder.withActualPremium(MyOptionals.of(source.getPREMIUM()).orElse(null));
+	}
 
-	// SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
-	target._insurer = source.getSYSTEMDELIMITERID();
-	Util.requireField(target,
-		target.getId(),
-		insuranceCompanyService::getById,
-		target::setInsurer,
-		"Insurer",
-		InsuranceCompanyEntity.class,
-		target._insurer);
+	{
+	    // CALCULATED_PREMIUM s:double Страховая премия рассчитанная
+	    // системой
+	    builder.withCalculatedPremium(MyOptionals.of(source.getCALCULATEDPREMIUM()).orElse(null));
+	}
 
-	// CLIENT_ID s:int Идентификатор страхователя (обязательно)
-	target._insurant = source.getCLIENTID();
-	Util.requireField(target,
-		target.getId(),
-		subjectService::getById,
-		target::setInsurant,
-		"Insurant",
-		SubjectEntity.class,
-		target._insurant);
+	{
+	    // SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
+	    builder.withInsurer(Util.reqField(PolicyEntity.class,
+		    id,
+		    insuranceCompanyService::getById,
+		    "Insurer",
+		    InsuranceCompanyEntity.class,
+		    source.getSYSTEMDELIMITERID()));
+	}
 
-	// POLICY_DATE s:string Дата полиса
-	target.dateOfIssue = convertESBDDateToLocalDate(source.getPOLICYDATE());
+	{
+	    // CLIENT_ID s:int Идентификатор страхователя (обязательно)
+	    builder.withInsurant(Util.reqField(PolicyEntity.class,
+		    id,
+		    subjectService::getById,
+		    "Insurant",
+		    SubjectEntity.class,
+		    source.getCLIENTID()));
+	}
 
-	// RESCINDING_DATE s:string Дата расторжения полиса
-	target.dateOfCancelation = convertESBDDateToLocalDate(source.getRESCINDINGDATE());
+	{
+	    // POLICY_DATE s:string Дата полиса
+	    builder.withDateOfIssue(convertESBDDateToLocalDate(source.getPOLICYDATE()));
+	}
 
-	// RESCINDING_REASON_ID s:int Идентификатор причины расторжения
-	// non mandatory field
-	target._cancelationReasonType = source.getRESCINDINGREASONID();
-	Util.optionalField(target,
-		target.getId(),
-		cancelationReasonTypeService::getById,
-		target::setCancelationReasonType,
-		"CancelationReasonType",
-		CancelationReason.class,
-		MyOptionals.of(target._cancelationReasonType));
+	{
+	    // RESCINDING_DATE s:string Дата расторжения полиса
+	    MyOptionals.of(source.getRESCINDINGDATE())
+		    .map(ESBDDates::convertESBDDateToLocalDate)
+		    .ifPresent(builder::withDateOfCancelation);
+	}
 
-	// BRANCH_ID s:int Филиал (обязательно)
-	target._branch = source.getBRANCHID();
-	Util.requireField(target,
-		target.getId(),
-		branchService::getById,
-		target::setBranch,
-		"Branch",
-		BranchEntity.class,
-		target._branch);
+	{
+	    // RESCINDING_REASON_ID s:int Идентификатор причины расторжения
+	    // non mandatory field
+	    builder.withCancelationReasonType(Util.optField(PolicyEntity.class,
+		    id,
+		    cancelationReasonTypeService::getById,
+		    "CancelationReasonType",
+		    CancelationReason.class,
+		    MyOptionals.of(source.getRESCINDINGREASONID())));
+	}
 
-	// REWRITE_BOOL s:int Признак переоформления
-	target.reissued = source.getREWRITEBOOL() == 1;
+	{
+	    // BRANCH_ID s:int Филиал (обязательно)
+	    builder.withBranch(Util.reqField(PolicyEntity.class,
+		    id,
+		    branchService::getById,
+		    "Branch",
+		    BranchEntity.class,
+		    source.getBRANCHID()));
+	}
 
-	// REWRITE_POLICY_ID s:int Ссылка на переоформляемый полис
-	target._reissuedPolicy = source.getREWRITEPOLICYID();
-	if (target.reissued)
-	    Util.requireField(target,
-		    target.getId(),
-		    this::getById,
-		    target::setReissuedPolicy,
-		    "ReissuedPolicy",
-		    PolicyEntity.class,
-		    target._reissuedPolicy);
+	{
+	    // REWRITE_BOOL s:int Признак переоформления
+	    // REWRITE_POLICY_ID s:int Ссылка на переоформляемый полис
+	    final boolean reissued = source.getREWRITEBOOL() == 1;
+	    if (reissued)
+		Util.reqField(PolicyEntity.class,
+			id,
+			this::_getById,
+			"ReissuedPolicy",
+			PolicyEntity.class,
+			source.getREWRITEPOLICYID());
+	}
 
-	// DESCRIPTION s:string Комментарии к полису
-	target.comments = source.getDESCRIPTION();
+	{
+	    // DESCRIPTION s:string Комментарии к полису
+	    builder.withComments(source.getDESCRIPTION());
+	}
 
-	// Drivers tns:ArrayOfDriver Водители (обязательно)
-	MyOptionals.of(source) //
-		.map(Policy::getDrivers) //
-		.map(ArrayOfDriver::getDriver) //
-		.map(List::stream) //
-		.orElseThrow(() -> Util.requireNonEmtyList(target, target.getId(), "InsuredDrivers")) //
-		.map(x -> this.convert(x, target)) //
-		.forEach(target::addDriver);
+	{
+	    // Drivers tns:ArrayOfDriver Водители (обязательно)
+	    MyOptionals.of(source) //
+		    .map(Policy::getDrivers) //
+		    .map(ArrayOfDriver::getDriver) //
+		    .map(List::stream) //
+		    .orElseThrow(() -> Util.requireNonEmtyList(PolicyEntity.class, id, "InsuredDrivers")) //
+		    .map(x -> this.convert(x, builder))
+		    .forEach(builder::addDriver);
+	}
 
-	// PoliciesTF tns:ArrayOfPolicies_TF Транспортные средства полиса
-	// (обязательно)
-	MyOptionals.of(source) //
-		.map(Policy::getPoliciesTF) //
-		.map(ArrayOfPoliciesTF::getPoliciesTF) //
-		.map(List::stream) //
-		.orElseThrow(() -> Util.requireNonEmtyList(target, target.getId(), "InsuredVehicles")) //
-		.map(x -> this.convert(x, target)) //
-		.forEach(target::addVehicle);
+	{
+	    // PoliciesTF tns:ArrayOfPolicies_TF Транспортные средства полиса
+	    // (обязательно)
+	    MyOptionals.of(source) //
+		    .map(Policy::getPoliciesTF) //
+		    .map(ArrayOfPoliciesTF::getPoliciesTF) //
+		    .map(List::stream) //
+		    .orElseThrow(() -> Util.requireNonEmtyList(PolicyEntity.class, id, "InsuredVehicles")) //
+		    .map(x -> this.convert(x, builder)) //
+		    .forEach(builder::addVehicle);
+	}
 
 	{
 	    // CREATED_BY_USER_ID s:int Идентификатор пользователя, создавшего
@@ -310,7 +339,7 @@ public class PolicyEntityServiceBean
 			    "Created.Author",
 			    UserEntity.class,
 			    source.getCREATEDBYUSERID()))
-		    .buildTo(x -> target.created = x);
+		    .buildTo(builder::withCreated);
 	}
 
 	{
@@ -327,7 +356,7 @@ public class PolicyEntityServiceBean
 				"Modified.Author",
 				UserEntity.class,
 				source.getCHANGEDBYUSERID()))
-			.buildTo(x -> target.modified = x);
+			.buildTo(builder::withModified);
 	}
 
 	// ScheduledPayments tns:ArrayOfSCHEDULED_PAYMENT Плановые платежи по
@@ -340,13 +369,14 @@ public class PolicyEntityServiceBean
 	// CLIENT_FORM_ID s:int Форма клиента (справочник CLIENT_FORMS)
     }
 
-    InsuredDriverEntity convert(final Driver source, final PolicyEntity policy) {
+    InsuredDriverEntity convert(final Driver source, final PolicyEntityBuilder policyBuilder) {
 	final InsuredDriverEntityBuilder target = InsuredDriverEntity.builder();
-	fillValues(source, target, policy);
+	fillValues(source, target, policyBuilder);
 	return target.build();
     }
 
-    void fillValues(final Driver source, final InsuredDriverEntityBuilder builder, final PolicyEntity policy) {
+    void fillValues(final Driver source, final InsuredDriverEntityBuilder builder,
+	    final PolicyEntityBuilder policyBuilder) {
 
 	final int id = source.getPOLICYID();
 
@@ -358,8 +388,8 @@ public class PolicyEntityServiceBean
 	{
 	    // POLICY_ID s:int Идентификатор полиса
 	    final int policy_id = source.getPOLICYID();
-	    if (Integer.valueOf(policy_id).equals(policy.getId()))
-		builder.withPolicy(policy);
+	    if (Integer.valueOf(policy_id).equals(policyBuilder.getId()))
+		builder.withPolicy(policyBuilder);
 	    else
 		builder.withPolicy(Util.reqField(InsuredDriverEntity.class,
 			id,
@@ -524,13 +554,14 @@ public class PolicyEntityServiceBean
 	}
     }
 
-    InsuredVehicleEntity convert(final PoliciesTF source, final PolicyEntity policy) {
+    InsuredVehicleEntity convert(final PoliciesTF source, final PolicyEntityBuilder policyBuilder) {
 	final InsuredVehicleEntityBuilder target = InsuredVehicleEntity.builder();
-	fillValues(source, target, policy);
+	fillValues(source, target, policyBuilder);
 	return target.build();
     }
 
-    void fillValues(final PoliciesTF source, final InsuredVehicleEntityBuilder builder, final PolicyEntity policy) {
+    void fillValues(final PoliciesTF source, final InsuredVehicleEntityBuilder builder,
+	    final PolicyEntityBuilder policyBuilder) {
 
 	final int id = source.getPOLICYTFID();
 
@@ -542,8 +573,8 @@ public class PolicyEntityServiceBean
 	{
 	    // POLICY_ID s:int Идентификатор полиса
 	    final int policy_id = source.getPOLICYID();
-	    if (Integer.valueOf(policy_id).equals(policy.getId()))
-		builder.withPolicy(policy);
+	    if (Integer.valueOf(policy_id).equals(policyBuilder.getId()))
+		builder.withPolicy(policyBuilder);
 	    else
 		builder.withPolicy(Util.reqField(InsuredVehicleEntity.class,
 			id,
