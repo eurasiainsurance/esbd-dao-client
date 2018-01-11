@@ -34,7 +34,10 @@ public class GPWParticipantInfo extends Domain {
 	}
 
 	public GPWParticipantInfo build() {
-	    return new GPWParticipantInfo(certificateNumber, certificateDateOfIssue);
+	    final GPWParticipantInfo res = new GPWParticipantInfo();
+	    res.certificateNumber = certificateNumber;
+	    res.certificateDateOfIssue = certificateDateOfIssue;
+	    return res;
 	}
 
 	public void buildTo(final Consumer<GPWParticipantInfo> consumer) {
@@ -42,18 +45,20 @@ public class GPWParticipantInfo extends Domain {
 	}
     }
 
-    private GPWParticipantInfo(final String certificateNumber, final LocalDate certificateDateOfIssue) {
-	this.certificateNumber = certificateNumber;
-	this.certificateDateOfIssue = certificateDateOfIssue;
+    private GPWParticipantInfo() {
     }
 
-    private final String certificateNumber;
+    // certificateNumber
+
+    private String certificateNumber;
 
     public String getCertificateNumber() {
 	return certificateNumber;
     }
 
-    private final LocalDate certificateDateOfIssue;
+    // certificateDateOfIssue
+
+    private LocalDate certificateDateOfIssue;
 
     public LocalDate getCertificateDateOfIssue() {
 	return certificateDateOfIssue;

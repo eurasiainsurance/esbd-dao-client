@@ -59,45 +59,49 @@ public class ContactInfo extends Domain {
 	}
 
 	public ContactInfo build() {
-	    return new ContactInfo(phone, email, homeAdress, siteUrl);
+	    final ContactInfo res = new ContactInfo();
+	    res.phone = phone;
+	    res.email = email;
+	    res.homeAdress = homeAdress;
+	    res.siteUrl = siteUrl;
+	    return res;
 	}
 
 	public void buildTo(final Consumer<ContactInfo> consumer) {
 	    consumer.accept(build());
 	}
-
     }
 
-    private ContactInfo(final PhoneNumber phone, final String email, final String homeAdress, final String siteUrl) {
-	this.phone = phone;
-	this.email = email;
-	this.homeAdress = homeAdress;
-	this.siteUrl = siteUrl;
+    private ContactInfo() {
     }
 
-    // PHONES s:string Номера телефонов
-    private final PhoneNumber phone;
+    // phone
+
+    private PhoneNumber phone;
 
     public PhoneNumber getPhone() {
 	return phone;
     }
 
-    // EMAIL s:string Адрес электронной почты
-    private final String email;
+    // email
+
+    private String email;
 
     public String getEmail() {
 	return email;
     }
 
-    // Address s:string Адрес
-    private final String homeAdress;
+    // homeAdress
+
+    private String homeAdress;
 
     public String getHomeAdress() {
 	return homeAdress;
     }
 
-    // WWW s:string Сайт
-    private final String siteUrl;
+    // siteUrl
+
+    private String siteUrl;
 
     public String getSiteUrl() {
 	return siteUrl;

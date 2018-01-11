@@ -40,7 +40,11 @@ public class HandicappedInfo extends Domain {
 	}
 
 	public HandicappedInfo build() {
-	    return new HandicappedInfo(certificateNumber, certificateValidFrom, certificateValidTill);
+	    final HandicappedInfo res = new HandicappedInfo();
+	    res.certificateNumber = certificateNumber;
+	    res.certificateValidFrom = certificateValidFrom;
+	    res.certificateValidTill = certificateValidTill;
+	    return res;
 	}
 
 	public void buildTo(final Consumer<HandicappedInfo> consumer) {
@@ -48,26 +52,28 @@ public class HandicappedInfo extends Domain {
 	}
     }
 
-    private HandicappedInfo(final String certificateNumber, final LocalDate certificateValidFrom,
-	    final LocalDate certificateValidTill) {
-	this.certificateNumber = certificateNumber;
-	this.certificateValidFrom = certificateValidFrom;
-	this.certificateValidTill = certificateValidTill;
+    private HandicappedInfo() {
     }
 
-    private final String certificateNumber;
+    // certificateNumber
+
+    private String certificateNumber;
 
     public String getCertificateNumber() {
 	return certificateNumber;
     }
 
-    private final LocalDate certificateValidFrom;
+    // certificateValidFrom
+
+    private LocalDate certificateValidFrom;
 
     public LocalDate getCertificateValidFrom() {
 	return certificateValidFrom;
     }
 
-    private final LocalDate certificateValidTill;
+    // certificateValidTill
+
+    private LocalDate certificateValidTill;
 
     public LocalDate getCertificateValidTill() {
 	return certificateValidTill;

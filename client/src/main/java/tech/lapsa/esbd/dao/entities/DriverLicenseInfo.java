@@ -34,7 +34,10 @@ public class DriverLicenseInfo extends Domain {
 	}
 
 	public DriverLicenseInfo build() {
-	    return new DriverLicenseInfo(number, dateOfIssue);
+	    final DriverLicenseInfo res = new DriverLicenseInfo();
+	    res.number = number;
+	    res.dateOfIssue = dateOfIssue;
+	    return res;
 	}
 
 	public void buildTo(final Consumer<DriverLicenseInfo> consumer) {
@@ -42,18 +45,20 @@ public class DriverLicenseInfo extends Domain {
 	}
     }
 
-    private DriverLicenseInfo(final String number, final LocalDate dateOfIssue) {
-	this.number = number;
-	this.dateOfIssue = dateOfIssue;
+    private DriverLicenseInfo() {
     }
 
-    private final String number;
+    // number
+
+    private String number;
 
     public String getNumber() {
 	return number;
     }
 
-    private final LocalDate dateOfIssue;
+    // dateOfIssue
+
+    private LocalDate dateOfIssue;
 
     public LocalDate getDateOfIssue() {
 	return dateOfIssue;

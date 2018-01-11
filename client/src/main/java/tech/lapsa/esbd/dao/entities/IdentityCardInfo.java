@@ -50,7 +50,12 @@ public class IdentityCardInfo extends Domain {
 	}
 
 	public IdentityCardInfo build() {
-	    return new IdentityCardInfo(dateOfIssue, issuingAuthority, number, identityCardType);
+	    final IdentityCardInfo res = new IdentityCardInfo();
+	    res.dateOfIssue = MyObjects.requireNonNull(dateOfIssue, "dateOfIssue");
+	    res.issuingAuthority = issuingAuthority;
+	    res.number = MyStrings.requireNonEmpty(number, "number");
+	    res.identityCardType = MyObjects.requireNonNull(identityCardType, "identityCardType");
+	    return res;
 	}
 
 	public void buildTo(final Consumer<IdentityCardInfo> consumer) {
@@ -58,37 +63,36 @@ public class IdentityCardInfo extends Domain {
 	}
     }
 
-    private IdentityCardInfo(final LocalDate dateOfIssue, final String issuingAuthority, final String number,
-	    final IdentityCardType identityCardType) {
-	this.dateOfIssue = MyObjects.requireNonNull(dateOfIssue, "dateOfIssue");
-	this.issuingAuthority = issuingAuthority;
-	this.number = MyStrings.requireNonEmpty(number, "number");
-	this.identityCardType = MyObjects.requireNonNull(identityCardType, "identityCardType");
+    private IdentityCardInfo() {
     }
 
-    // DOCUMENT_GIVED_DATE s:string Дата выдачи документа
-    private final LocalDate dateOfIssue;
+    // dateOfIssue
+
+    private LocalDate dateOfIssue;
 
     public LocalDate getDateOfIssue() {
 	return dateOfIssue;
     }
 
-    // DOCUMENT_GIVED_BY s:string Документ выдан
-    private final String issuingAuthority;
+    // issuingAuthority
+
+    private String issuingAuthority;
 
     public String getIssuingAuthority() {
 	return issuingAuthority;
     }
 
-    // DOCUMENT_NUMBER s:string Номер документа
-    private final String number;
+    // number
+
+    private String number;
 
     public String getNumber() {
 	return number;
     }
 
-    // DOCUMENT_TYPE_ID s:int Тип документа (справочник DOCUMENTS_TYPES)
-    private final IdentityCardType identityCardType;
+    // identityCardType
+
+    private IdentityCardType identityCardType;
 
     public IdentityCardType getIdentityCardType() {
 	return identityCardType;

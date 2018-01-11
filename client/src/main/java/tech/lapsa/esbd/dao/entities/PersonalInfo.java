@@ -67,7 +67,13 @@ public class PersonalInfo extends Domain {
 	}
 
 	public PersonalInfo build() {
-	    return new PersonalInfo(name, surename, patronymic, dayOfBirth, gender);
+	    final PersonalInfo res = new PersonalInfo();
+	    res.name = name;
+	    res.surename = surename;
+	    res.patronymic = patronymic;
+	    res.dayOfBirth = dayOfBirth;
+	    res.gender = gender;
+	    return res;
 	}
 
 	public void buildTo(final Consumer<PersonalInfo> consumer) {
@@ -75,45 +81,44 @@ public class PersonalInfo extends Domain {
 	}
     }
 
-    private PersonalInfo(final String name, final String surename, final String patronymic, final LocalDate dayOfBirth,
-	    final Sex gender) {
-	this.name = name;
-	this.surename = surename;
-	this.patronymic = patronymic;
-	this.dayOfBirth = dayOfBirth;
-	this.gender = gender;
+    private PersonalInfo() {
     }
 
-    // First_Name s:string Имя (для физ. лица)
-    private final String name;
+    // name
+
+    private String name;
 
     public String getName() {
 	return name;
     }
 
-    // Last_Name s:string Фамилия (для физ. лица)
-    private final String surename;
+    // surename
+
+    private String surename;
 
     public String getSurename() {
 	return surename;
     }
 
-    // Middle_Name s:string Отчество (для физ. лица)
-    private final String patronymic;
+    // patronymic
+
+    private String patronymic;
 
     public String getPatronymic() {
 	return patronymic;
     }
 
-    // Born s:string Дата рождения
-    private final LocalDate dayOfBirth;
+    // dayOfBirth
+
+    private LocalDate dayOfBirth;
 
     public LocalDate getDayOfBirth() {
 	return dayOfBirth;
     }
 
-    // Sex_ID s:int Пол (справочник SEX)
-    private final Sex gender;
+    // gender
+
+    private Sex gender;
 
     public Sex getGender() {
 	return gender;

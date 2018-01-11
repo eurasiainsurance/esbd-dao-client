@@ -28,60 +28,52 @@ public class VehicleCertificateInfo extends Domain {
 	private VehicleCertificateInfoBuilder() {
 	}
 
-	public VehicleCertificateInfoBuilder withRegistrationNumber(String registrationNumber) {
+	public VehicleCertificateInfoBuilder withRegistrationNumber(final String registrationNumber) {
 	    this.registrationNumber = registrationNumber;
 	    return this;
 	}
 
-	public VehicleCertificateInfoBuilder withCertificateNumber(String certificateNumber) {
+	public VehicleCertificateInfoBuilder withCertificateNumber(final String certificateNumber) {
 	    this.certificateNumber = certificateNumber;
 	    return this;
 	}
 
-	public VehicleCertificateInfoBuilder withDateOfIssue(LocalDate dateOfIssue) {
+	public VehicleCertificateInfoBuilder withDateOfIssue(final LocalDate dateOfIssue) {
 	    this.dateOfIssue = dateOfIssue;
 	    return this;
 	}
 
-	public VehicleCertificateInfoBuilder withRegistrationRegion(KZArea registrationRegion) {
+	public VehicleCertificateInfoBuilder withRegistrationRegion(final KZArea registrationRegion) {
 	    this.registrationRegion = registrationRegion;
 	    return this;
 	}
 
-	public VehicleCertificateInfoBuilder withRegistrationMajorCity(boolean registrationMajorCity) {
+	public VehicleCertificateInfoBuilder withRegistrationMajorCity(final boolean registrationMajorCity) {
 	    this.registrationMajorCity = registrationMajorCity;
 	    return this;
 	}
 
 	public VehicleCertificateInfo build() {
-	    return new VehicleCertificateInfo(registrationNumber,
-		    certificateNumber,
-		    dateOfIssue,
-		    registrationRegion,
-		    registrationMajorCity);
+	    final VehicleCertificateInfo res = new VehicleCertificateInfo();
+	    res.registrationNumber = registrationNumber;
+	    res.certificateNumber = certificateNumber;
+	    res.dateOfIssue = dateOfIssue;
+	    res.registrationRegion = registrationRegion;
+	    res.registrationMajorCity = registrationMajorCity;
+	    return res;
 	}
 
 	public void buildTo(final Consumer<VehicleCertificateInfo> consumer) {
 	    consumer.accept(build());
 	}
-
     }
 
-    private VehicleCertificateInfo(final String registrationNumber,
-	    final String certificateNumber,
-	    final LocalDate dateOfIssue,
-	    final KZArea registrationRegion,
-	    final boolean registrationMajorCity) {
-	this.registrationNumber = registrationNumber;
-	this.certificateNumber = certificateNumber;
-	this.dateOfIssue = dateOfIssue;
-	this.registrationRegion = registrationRegion;
-	this.registrationMajorCity = registrationMajorCity;
+    private VehicleCertificateInfo() {
     }
 
     // registrationNumber
 
-    private final String registrationNumber;
+    private String registrationNumber;
 
     public String getRegistrationNumber() {
 	return registrationNumber;
@@ -89,7 +81,7 @@ public class VehicleCertificateInfo extends Domain {
 
     // certificateNumber
 
-    private final String certificateNumber;
+    private String certificateNumber;
 
     public String getCertificateNumber() {
 	return certificateNumber;
@@ -97,7 +89,7 @@ public class VehicleCertificateInfo extends Domain {
 
     // dateOfIssue
 
-    private final LocalDate dateOfIssue;
+    private LocalDate dateOfIssue;
 
     public LocalDate getDateOfIssue() {
 	return dateOfIssue;
@@ -105,7 +97,7 @@ public class VehicleCertificateInfo extends Domain {
 
     // registrationRegion
 
-    private final KZArea registrationRegion;
+    private KZArea registrationRegion;
 
     public KZArea getRegistrationRegion() {
 	return registrationRegion;
@@ -113,7 +105,7 @@ public class VehicleCertificateInfo extends Domain {
 
     // registrationMajorCity
 
-    private final boolean registrationMajorCity;
+    private boolean registrationMajorCity;
 
     boolean isRegistrationMajorCity() {
 	return registrationMajorCity;

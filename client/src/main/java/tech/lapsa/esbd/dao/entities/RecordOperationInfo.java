@@ -35,7 +35,10 @@ public class RecordOperationInfo extends Domain {
 	}
 
 	public RecordOperationInfo build() {
-	    return new RecordOperationInfo(date, author);
+	    final RecordOperationInfo res = new RecordOperationInfo();
+	    res.date = MyObjects.requireNonNull(date, "date");
+	    res.author = MyObjects.requireNonNull(author, "author");
+	    return res;
 	}
 
 	public void buildTo(final Consumer<RecordOperationInfo> consumer) {
@@ -43,18 +46,20 @@ public class RecordOperationInfo extends Domain {
 	}
     }
 
-    private RecordOperationInfo(final LocalDate date, final UserEntity author) {
-	this.date = MyObjects.requireNonNull(date, "date");
-	this.author = MyObjects.requireNonNull(author, "author");
+    private RecordOperationInfo() {
     }
 
-    private final LocalDate date;
+    // res
+
+    private LocalDate date;
 
     public LocalDate getDate() {
 	return date;
     }
 
-    private final UserEntity author;
+    // author
+
+    private UserEntity author;
 
     public UserEntity getAuthor() {
 	return author;

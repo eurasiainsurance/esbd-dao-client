@@ -40,7 +40,11 @@ public class PrivilegerInfo extends Domain {
 	}
 
 	public PrivilegerInfo build() {
-	    return new PrivilegerInfo(type, certificateNumber, certificateDateOfIssue);
+	    final PrivilegerInfo res = new PrivilegerInfo();
+	    res.type = type;
+	    res.certificateNumber = certificateNumber;
+	    res.certificateDateOfIssue = certificateDateOfIssue;
+	    return res;
 	}
 
 	public void buildTo(final Consumer<PrivilegerInfo> consumer) {
@@ -48,25 +52,28 @@ public class PrivilegerInfo extends Domain {
 	}
     }
 
-    private PrivilegerInfo(final String type, final String certificateNumber, final LocalDate certificateDateOfIssue) {
-	this.type = type;
-	this.certificateNumber = certificateNumber;
-	this.certificateDateOfIssue = certificateDateOfIssue;
+    private PrivilegerInfo() {
     }
 
-    private final String type;
+    // type
+
+    private String type;
 
     public String getType() {
 	return type;
     }
 
-    private final String certificateNumber;
+    // certificateNumber
+
+    private String certificateNumber;
 
     public String getCertificateNumber() {
 	return certificateNumber;
     }
 
-    private final LocalDate certificateDateOfIssue;
+    // certificateDateOfIssue
+
+    private LocalDate certificateDateOfIssue;
 
     public LocalDate getCertificateDateOfIssue() {
 	return certificateDateOfIssue;

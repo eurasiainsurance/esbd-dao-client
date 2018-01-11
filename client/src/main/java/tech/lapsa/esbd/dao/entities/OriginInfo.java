@@ -58,7 +58,11 @@ public class OriginInfo extends Domain {
 	}
 
 	public OriginInfo build() {
-	    return new OriginInfo(resident, country, city);
+	    final OriginInfo res = new OriginInfo();
+	    res.resident = resident;
+	    res.country = country;
+	    res.city = city;
+	    return res;
 	}
 
 	public void buildTo(final Consumer<OriginInfo> consumer) {
@@ -66,28 +70,28 @@ public class OriginInfo extends Domain {
 	}
     }
 
-    private OriginInfo(final boolean resident, final Country country, final KZCity city) {
-	this.resident = resident;
-	this.country = country;
-	this.city = city;
+    private OriginInfo() {
     }
 
-    // RESIDENT_BOOL s:int Признак резидентства (обязательно)
-    private final boolean resident;
+    // resident
+
+    private boolean resident;
 
     public boolean isResident() {
 	return resident;
     }
 
-    // COUNTRY_ID s:int Страна (справочник COUNTRIES)
-    private final Country country;
+    // country
+
+    private Country country;
 
     public Country getCountry() {
 	return country;
     }
 
-    // SETTLEMENT_ID s:int Населенный пункт (справочник SETTLEMENTS)
-    private final KZCity city;
+    // city
+
+    private KZCity city;
 
     public KZCity getCity() {
 	return city;

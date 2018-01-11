@@ -34,7 +34,10 @@ public class PensionerInfo extends Domain {
 	}
 
 	public PensionerInfo build() {
-	    return new PensionerInfo(certificateNumber, certiticateDateOfIssue);
+	    final PensionerInfo res = new PensionerInfo();
+	    res.certificateNumber = certificateNumber;
+	    res.certiticateDateOfIssue = certiticateDateOfIssue;
+	    return res;
 	}
 
 	public void buildTo(final Consumer<PensionerInfo> consumer) {
@@ -42,18 +45,20 @@ public class PensionerInfo extends Domain {
 	}
     }
 
-    private PensionerInfo(final String certificateNumber, final LocalDate certiticateDateOfIssue) {
-	this.certificateNumber = certificateNumber;
-	this.certiticateDateOfIssue = certiticateDateOfIssue;
+    private PensionerInfo() {
     }
 
-    private final String certificateNumber;
+    // certificateNumber
+
+    private String certificateNumber;
 
     public String getCertificateNumber() {
 	return certificateNumber;
     }
 
-    private final LocalDate certiticateDateOfIssue;
+    // certiticateDateOfIssue
+
+    private LocalDate certiticateDateOfIssue;
 
     public LocalDate getCertiticateDateOfIssue() {
 	return certiticateDateOfIssue;
