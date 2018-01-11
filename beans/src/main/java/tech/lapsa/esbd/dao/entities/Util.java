@@ -88,7 +88,7 @@ final class Util {
 	} catch (final Exception e) {
 	    if (ignoreException == null || !ignoreException.test(e)) {
 		final String message = MyStrings.format(
-			"Error while fetching %1$s ID = '%2$s' from ESBD. %3$s (%4$s ID=%5$s) not found",
+			"Error while fetching %1$s ID = '%2$s' from ESBD. %3$s (%4$s ID=%5$s)",
 			targetClazz, // 1,
 			targetId, // 2
 			fieldName, // 3
@@ -129,7 +129,7 @@ final class Util {
 	} catch (final Exception e) {
 	    if (ignoreException == null || !ignoreException.test(e)) {
 		final String message = MyStrings.format(
-			"Error while fetching %1$s ID = '%2$s' from ESBD. %3$s (%4$s ID=%5$s) not found",
+			"Error while fetching %1$s ID = '%2$s' from ESBD. %3$s (%4$s ID=%5$s)",
 			target.getClass(), // 1,
 			targetId, // 2
 			fieldName, // 3
