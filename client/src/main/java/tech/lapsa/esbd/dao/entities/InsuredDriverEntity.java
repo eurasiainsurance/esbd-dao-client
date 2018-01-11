@@ -44,142 +44,127 @@ public class InsuredDriverEntity extends Domain {
 	private InsuredDriverEntityBuilder() {
 	}
 
-	public InsuredDriverEntityBuilder withId(Integer id) {
+	public InsuredDriverEntityBuilder withId(final Integer id) throws IllegalArgumentException {
 	    this.id = MyNumbers.requirePositive(id, "id");
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withPolicy(PolicyEntity policy) {
+	public InsuredDriverEntityBuilder withPolicy(final PolicyEntity policy) throws IllegalArgumentException {
 	    this.policy = MyObjects.requireNonNull(policy, "policy");
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withInsuredPerson(SubjectPersonEntity insuredPerson) {
+	public InsuredDriverEntityBuilder withInsuredPerson(final SubjectPersonEntity insuredPerson)
+		throws IllegalArgumentException {
 	    this.insuredPerson = MyObjects.requireNonNull(insuredPerson, "insuredPerson");
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withMaritalStatus(MaritalStatus maritalStatus) {
+	public InsuredDriverEntityBuilder withMaritalStatus(final MaritalStatus maritalStatus)
+		throws IllegalArgumentException {
 	    this.maritalStatus = MyObjects.requireNonNull(maritalStatus, "maritalStatus");
 	    return this;
 	}
 
 	public InsuredDriverEntityBuilder withInsuredAgeExpirienceClass(
-		InsuredAgeAndExpirienceClass insuredAgeExpirienceClass) {
+		final InsuredAgeAndExpirienceClass insuredAgeExpirienceClass) throws IllegalArgumentException {
 	    this.insuredAgeExpirienceClass = MyObjects.requireNonNull(insuredAgeExpirienceClass,
 		    "insuredAgeExpirienceClass");
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withDrivingExpirience(int drivingExpirience) {
+	public InsuredDriverEntityBuilder withDrivingExpirience(final int drivingExpirience)
+		throws IllegalArgumentException {
 	    this.drivingExpirience = drivingExpirience;
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withDriverLicense(DriverLicenseInfo driverLicense) {
+	public InsuredDriverEntityBuilder withDriverLicense(final DriverLicenseInfo driverLicense)
+		throws IllegalArgumentException {
 	    this.driverLicense = MyObjects.requireNonNull(driverLicense, "driverLicense");
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withInsuraceClassType(InsuranceClassType insuraceClassType) {
+	public InsuredDriverEntityBuilder withInsuraceClassType(final InsuranceClassType insuraceClassType)
+		throws IllegalArgumentException {
 	    this.insuraceClassType = MyObjects.requireNonNull(insuraceClassType, "insuraceClassType");
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withPrivilegerInfo(PrivilegerInfo privilegerInfo) {
+	public InsuredDriverEntityBuilder withPrivilegerInfo(final PrivilegerInfo privilegerInfo)
+		throws IllegalArgumentException {
 	    this.privilegerInfo = privilegerInfo;
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withGpwParticipantInfo(GPWParticipantInfo gpwParticipantInfo) {
+	public InsuredDriverEntityBuilder withGpwParticipantInfo(final GPWParticipantInfo gpwParticipantInfo)
+		throws IllegalArgumentException {
 	    this.gpwParticipantInfo = gpwParticipantInfo;
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withPensionerInfo(PensionerInfo pensionerInfo) {
+	public InsuredDriverEntityBuilder withPensionerInfo(final PensionerInfo pensionerInfo)
+		throws IllegalArgumentException {
 	    this.pensionerInfo = pensionerInfo;
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withHandicappedInfo(HandicappedInfo handicappedInfo) {
+	public InsuredDriverEntityBuilder withHandicappedInfo(final HandicappedInfo handicappedInfo)
+		throws IllegalArgumentException {
 	    this.handicappedInfo = handicappedInfo;
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withCreated(RecordOperationInfo created) {
+	public InsuredDriverEntityBuilder withCreated(final RecordOperationInfo created)
+		throws IllegalArgumentException {
 	    this.created = MyObjects.requireNonNull(created, "created");
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withModified(RecordOperationInfo modified) {
+	public InsuredDriverEntityBuilder withModified(final RecordOperationInfo modified)
+		throws IllegalArgumentException {
 	    this.modified = modified;
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withInsurer(InsuranceCompanyEntity insurer) {
+	public InsuredDriverEntityBuilder withInsurer(final InsuranceCompanyEntity insurer)
+		throws IllegalArgumentException {
 	    this.insurer = MyObjects.requireNonNull(insurer, "insurer");
 	    return this;
 	}
 
-	public InsuredDriverEntity build() {
-	    return new InsuredDriverEntity(id,
-		    policy,
-		    insuredPerson,
-		    maritalStatus,
-		    insuredAgeExpirienceClass,
-		    drivingExpirience,
-		    driverLicense,
-		    insuraceClassType,
-		    privilegerInfo,
-		    gpwParticipantInfo,
-		    pensionerInfo,
-		    handicappedInfo,
-		    created,
-		    modified,
-		    insurer);
+	public InsuredDriverEntity build() throws IllegalArgumentException {
+	    final InsuredDriverEntity res = new InsuredDriverEntity();
+	    res.id = MyNumbers.requirePositive(id, "id");
+	    res.policy = MyObjects.requireNonNull(policy, "policy");
+	    res.insuredPerson = MyObjects.requireNonNull(insuredPerson, "insuredPerson");
+	    res.maritalStatus = MyObjects.requireNonNull(maritalStatus, "maritalStatus");
+	    res.insuredAgeExpirienceClass = MyObjects.requireNonNull(insuredAgeExpirienceClass,
+		    "insuredAgeExpirienceClass");
+	    res.drivingExpirience = drivingExpirience;
+	    res.driverLicense = MyObjects.requireNonNull(driverLicense, "driverLicense");
+	    res.insuraceClassType = MyObjects.requireNonNull(insuraceClassType, "insuraceClassType");
+	    res.privilegerInfo = privilegerInfo;
+	    res.gpwParticipantInfo = gpwParticipantInfo;
+	    res.pensionerInfo = pensionerInfo;
+	    res.handicappedInfo = handicappedInfo;
+	    res.created = MyObjects.requireNonNull(created, "created");
+	    res.modified = modified;
+	    res.insurer = MyObjects.requireNonNull(insurer, "insurer");
+	    return res;
 	}
 
-	public void buildTo(final Consumer<InsuredDriverEntity> consumer) {
+	public void buildTo(final Consumer<InsuredDriverEntity> consumer) throws IllegalArgumentException {
 	    consumer.accept(build());
 	}
     }
 
-    private InsuredDriverEntity(final Integer id,
-	    final PolicyEntity policy,
-	    final SubjectPersonEntity insuredPerson,
-	    final MaritalStatus maritalStatus,
-	    final InsuredAgeAndExpirienceClass insuredAgeExpirienceClass,
-	    final int drivingExpirience,
-	    final DriverLicenseInfo driverLicense,
-	    final InsuranceClassType insuraceClassType,
-	    final PrivilegerInfo privilegerInfo,
-	    final GPWParticipantInfo gpwParticipantInfo,
-	    final PensionerInfo pensionerInfo,
-	    final HandicappedInfo handicappedInfo,
-	    final RecordOperationInfo created,
-	    final RecordOperationInfo modified,
-	    final InsuranceCompanyEntity insurer) {
-	this.id = MyNumbers.requirePositive(id, "id");
-	this.policy = MyObjects.requireNonNull(policy, "policy");
-	this.insuredPerson = MyObjects.requireNonNull(insuredPerson, "insuredPerson");
-	this.maritalStatus = MyObjects.requireNonNull(maritalStatus, "maritalStatus");
-	this.insuredAgeExpirienceClass = MyObjects.requireNonNull(insuredAgeExpirienceClass,
-		"insuredAgeExpirienceClass");
-	this.drivingExpirience = drivingExpirience;
-	this.driverLicense = MyObjects.requireNonNull(driverLicense, "driverLicense");
-	this.insuraceClassType = MyObjects.requireNonNull(insuraceClassType, "insuraceClassType");
-	this.privilegerInfo = privilegerInfo;
-	this.gpwParticipantInfo = gpwParticipantInfo;
-	this.pensionerInfo = pensionerInfo;
-	this.handicappedInfo = handicappedInfo;
-	this.created = MyObjects.requireNonNull(created, "created");
-	this.modified = modified;
-	this.insurer = MyObjects.requireNonNull(insurer, "insurer");
+    private InsuredDriverEntity() {
     }
 
     // id
 
-    private final Integer id;
+    private Integer id;
 
     public Integer getId() {
 	return id;
@@ -187,7 +172,7 @@ public class InsuredDriverEntity extends Domain {
 
     // policy
 
-    private final PolicyEntity policy;
+    private PolicyEntity policy;
 
     public PolicyEntity getPolicy() {
 	return policy;
@@ -195,7 +180,7 @@ public class InsuredDriverEntity extends Domain {
 
     // insuredPerson
 
-    private final SubjectPersonEntity insuredPerson;
+    private SubjectPersonEntity insuredPerson;
 
     public SubjectPersonEntity getInsuredPerson() {
 	return insuredPerson;
@@ -203,7 +188,7 @@ public class InsuredDriverEntity extends Domain {
 
     // maritalStatus
 
-    private final MaritalStatus maritalStatus;
+    private MaritalStatus maritalStatus;
 
     public MaritalStatus getMaritalStatus() {
 	return maritalStatus;
@@ -211,7 +196,7 @@ public class InsuredDriverEntity extends Domain {
 
     // insuredAgeExpirienceClass
 
-    private final InsuredAgeAndExpirienceClass insuredAgeExpirienceClass;
+    private InsuredAgeAndExpirienceClass insuredAgeExpirienceClass;
 
     public InsuredAgeAndExpirienceClass getInsuredAgeExpirienceClass() {
 	return insuredAgeExpirienceClass;
@@ -231,13 +216,13 @@ public class InsuredDriverEntity extends Domain {
 
     // drivingExpirience
 
-    private final int drivingExpirience;
+    private int drivingExpirience;
 
     public int getDrivingExpirience() {
 	return drivingExpirience;
     }
 
-    private final DriverLicenseInfo driverLicense;
+    private DriverLicenseInfo driverLicense;
 
     public DriverLicenseInfo getDriverLicense() {
 	return driverLicense;
@@ -245,7 +230,7 @@ public class InsuredDriverEntity extends Domain {
 
     // insuraceClassType
 
-    private final InsuranceClassType insuraceClassType;
+    private InsuranceClassType insuraceClassType;
 
     public InsuranceClassType getInsuraceClassType() {
 	return insuraceClassType;
@@ -253,7 +238,7 @@ public class InsuredDriverEntity extends Domain {
 
     // privilegerInfo
 
-    private final PrivilegerInfo privilegerInfo;
+    private PrivilegerInfo privilegerInfo;
 
     public boolean isPrivileger() {
 	return MyObjects.nonNull(privilegerInfo);
@@ -265,7 +250,7 @@ public class InsuredDriverEntity extends Domain {
 
     // gpwParticipantInfo
 
-    private final GPWParticipantInfo gpwParticipantInfo;
+    private GPWParticipantInfo gpwParticipantInfo;
 
     public boolean isGpwParticipant() {
 	return MyObjects.nonNull(gpwParticipantInfo);
@@ -277,7 +262,7 @@ public class InsuredDriverEntity extends Domain {
 
     // pensionerInfo
 
-    private final PensionerInfo pensionerInfo;
+    private PensionerInfo pensionerInfo;
 
     public boolean isPensioner() {
 	return MyObjects.nonNull(pensionerInfo);
@@ -289,7 +274,7 @@ public class InsuredDriverEntity extends Domain {
 
     // handicappedInfo
 
-    private final HandicappedInfo handicappedInfo;
+    private HandicappedInfo handicappedInfo;
 
     public boolean isHandicapped() {
 	return MyObjects.nonNull(handicappedInfo);
@@ -301,7 +286,7 @@ public class InsuredDriverEntity extends Domain {
 
     // created
 
-    private final RecordOperationInfo created;
+    private RecordOperationInfo created;
 
     public RecordOperationInfo getCreated() {
 	return created;
@@ -309,7 +294,7 @@ public class InsuredDriverEntity extends Domain {
 
     // modified
 
-    private final RecordOperationInfo modified;
+    private RecordOperationInfo modified;
 
     public boolean isModified() {
 	return MyObjects.nonNull(modified);
@@ -321,7 +306,7 @@ public class InsuredDriverEntity extends Domain {
 
     // insurer
 
-    private final InsuranceCompanyEntity insurer;
+    private InsuranceCompanyEntity insurer;
 
     public InsuranceCompanyEntity getInsurer() {
 	return insurer;

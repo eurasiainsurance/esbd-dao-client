@@ -156,7 +156,7 @@ public class PolicyEntityServiceBean
 	}
 	if (source == null)
 	    throw new NotFound(PolicyEntity.class.getSimpleName() + " not found with ID = '" + id + "'");
-	return convert(source);
+	return convertToBuilder(source).build();
     }
 
     private PolicyEntity _getByNumber(final String number) throws IllegalArgumentException, NotFound {
@@ -168,7 +168,7 @@ public class PolicyEntityServiceBean
 	}
 	if (MyObjects.isNull(source))
 	    throw new NotFound(PolicyEntity.class.getSimpleName() + " not found with NUMBER = '" + number + "'");
-	return convert(source);
+	return convertToBuilder(source).build();
     }
 
     private List<PolicyEntity> _getByInternalNumber(final String internalNumber) throws IllegalArgumentException {
@@ -183,508 +183,525 @@ public class PolicyEntityServiceBean
 		.map(ArrayOfPolicy::getPolicy) //
 		.map(List::stream) //
 		.orElseGet(Stream::empty) //
-		.map(this::convert) //
+		.map(this::convertToBuilder) //
+		.map(PolicyEntityBuilder::build)
 		.collect(MyCollectors.unmodifiableList());
     }
 
-    PolicyEntity convert(final Policy source) {
-	final PolicyEntityBuilder builder = PolicyEntity.builder();
-	fillValues(source, builder);
-	return builder.build();
-    }
+    PolicyEntityBuilder convertToBuilder(final Policy source) throws EJBException {
+	try {
 
-    void fillValues(final Policy source, final PolicyEntityBuilder builder) {
+	    final PolicyEntityBuilder builder = PolicyEntity.builder();
 
-	final int id = source.getPOLICYID();
+	    final int id = source.getPOLICYID();
 
-	{
-	    // POLICY_ID s:int Идентификатор полиса (обязательно)
-	    builder.withId(MyOptionals.of(id).orElse(null));
-	}
+	    {
+		// POLICY_ID s:int Идентификатор полиса (обязательно)
+		builder.withId(MyOptionals.of(id).orElse(null));
+	    }
 
-	{
-	    // GLOBAL_ID s:string Уникальный глобальный идентификатор полиса
-	    builder.withNumber(source.getGLOBALID());
-	}
+	    {
+		// GLOBAL_ID s:string Уникальный глобальный идентификатор полиса
+		builder.withNumber(source.getGLOBALID());
+	    }
 
-	{
-	    // POLICY_NUMBER s:string Номер полиса (обязательно)
-	    builder.withInternalNumber(source.getPOLICYNUMBER());
-	}
+	    {
+		// POLICY_NUMBER s:string Номер полиса (обязательно)
+		builder.withInternalNumber(source.getPOLICYNUMBER());
+	    }
 
-	{
-	    // DATE_BEG s:string Дата начала действия полиса (обязательно)
-	    builder.withValidFrom(convertESBDDateToLocalDate(source.getDATEBEG()));
-	}
+	    {
+		// DATE_BEG s:string Дата начала действия полиса (обязательно)
+		builder.withValidFrom(convertESBDDateToLocalDate(source.getDATEBEG()));
+	    }
 
-	{
-	    // DATE_END s:string Дата окончания действия полиса (обязательно)
-	    builder.withValidTill(convertESBDDateToLocalDate(source.getDATEEND()));
-	}
+	    {
+		// DATE_END s:string Дата окончания действия полиса
+		// (обязательно)
+		builder.withValidTill(convertESBDDateToLocalDate(source.getDATEEND()));
+	    }
 
-	{
-	    // PREMIUM s:double Страховая премия (обязательно)
-	    builder.withActualPremium(MyOptionals.of(source.getPREMIUM()).orElse(null));
-	}
+	    {
+		// PREMIUM s:double Страховая премия (обязательно)
+		builder.withActualPremium(MyOptionals.of(source.getPREMIUM()).orElse(null));
+	    }
 
-	{
-	    // CALCULATED_PREMIUM s:double Страховая премия рассчитанная
-	    // системой
-	    builder.withCalculatedPremium(MyOptionals.of(source.getCALCULATEDPREMIUM()).orElse(null));
-	}
+	    {
+		// CALCULATED_PREMIUM s:double Страховая премия рассчитанная
+		// системой
+		builder.withCalculatedPremium(MyOptionals.of(source.getCALCULATEDPREMIUM()).orElse(null));
+	    }
 
-	{
-	    // SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
-	    builder.withInsurer(Util.reqField(PolicyEntity.class,
-		    id,
-		    insuranceCompanyService::getById,
-		    "Insurer",
-		    InsuranceCompanyEntity.class,
-		    source.getSYSTEMDELIMITERID()));
-	}
-
-	{
-	    // CLIENT_ID s:int Идентификатор страхователя (обязательно)
-	    builder.withInsurant(Util.reqField(PolicyEntity.class,
-		    id,
-		    subjectService::getById,
-		    "Insurant",
-		    SubjectEntity.class,
-		    source.getCLIENTID()));
-	}
-
-	{
-	    // POLICY_DATE s:string Дата полиса
-	    builder.withDateOfIssue(convertESBDDateToLocalDate(source.getPOLICYDATE()));
-	}
-
-	{
-	    // RESCINDING_DATE s:string Дата расторжения полиса
-	    MyOptionals.of(source.getRESCINDINGDATE())
-		    .map(ESBDDates::convertESBDDateToLocalDate)
-		    .ifPresent(builder::withDateOfCancelation);
-	}
-
-	{
-	    // RESCINDING_REASON_ID s:int Идентификатор причины расторжения
-	    // non mandatory field
-	    builder.withCancelationReasonType(Util.optField(PolicyEntity.class,
-		    id,
-		    cancelationReasonTypeService::getById,
-		    "CancelationReasonType",
-		    CancelationReason.class,
-		    MyOptionals.of(source.getRESCINDINGREASONID())));
-	}
-
-	{
-	    // BRANCH_ID s:int Филиал (обязательно)
-	    builder.withBranch(Util.reqField(PolicyEntity.class,
-		    id,
-		    branchService::getById,
-		    "Branch",
-		    BranchEntity.class,
-		    source.getBRANCHID()));
-	}
-
-	{
-	    // REWRITE_BOOL s:int Признак переоформления
-	    // REWRITE_POLICY_ID s:int Ссылка на переоформляемый полис
-	    final boolean reissued = source.getREWRITEBOOL() == 1;
-	    if (reissued)
-		Util.reqField(PolicyEntity.class,
+	    {
+		// SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
+		builder.withInsurer(Util.reqField(PolicyEntity.class,
 			id,
-			this::_getById,
-			"ReissuedPolicy",
-			PolicyEntity.class,
-			source.getREWRITEPOLICYID());
-	}
+			insuranceCompanyService::getById,
+			"Insurer",
+			InsuranceCompanyEntity.class,
+			source.getSYSTEMDELIMITERID()));
+	    }
 
-	{
-	    // DESCRIPTION s:string Комментарии к полису
-	    builder.withComments(source.getDESCRIPTION());
-	}
+	    {
+		// CLIENT_ID s:int Идентификатор страхователя (обязательно)
+		builder.withInsurant(Util.reqField(PolicyEntity.class,
+			id,
+			subjectService::getById,
+			"Insurant",
+			SubjectEntity.class,
+			source.getCLIENTID()));
+	    }
 
-	{
-	    // Drivers tns:ArrayOfDriver Водители (обязательно)
-	    MyOptionals.of(source) //
-		    .map(Policy::getDrivers) //
-		    .map(ArrayOfDriver::getDriver) //
-		    .map(List::stream) //
-		    .orElseThrow(() -> Util.requireNonEmtyList(PolicyEntity.class, id, "InsuredDrivers")) //
-		    .map(x -> this.convert(x, builder))
-		    .forEach(builder::addDriver);
-	}
+	    {
+		// POLICY_DATE s:string Дата полиса
+		builder.withDateOfIssue(convertESBDDateToLocalDate(source.getPOLICYDATE()));
+	    }
 
-	{
-	    // PoliciesTF tns:ArrayOfPolicies_TF Транспортные средства полиса
-	    // (обязательно)
-	    MyOptionals.of(source) //
-		    .map(Policy::getPoliciesTF) //
-		    .map(ArrayOfPoliciesTF::getPoliciesTF) //
-		    .map(List::stream) //
-		    .orElseThrow(() -> Util.requireNonEmtyList(PolicyEntity.class, id, "InsuredVehicles")) //
-		    .map(x -> this.convert(x, builder)) //
-		    .forEach(builder::addVehicle);
-	}
+	    {
+		// RESCINDING_DATE s:string Дата расторжения полиса
+		MyOptionals.of(source.getRESCINDINGDATE())
+			.map(ESBDDates::convertESBDDateToLocalDate)
+			.ifPresent(builder::withDateOfCancelation);
+	    }
 
-	{
-	    // CREATED_BY_USER_ID s:int Идентификатор пользователя, создавшего
-	    // полис
-	    // INPUT_DATE s:string Дата\время ввода полиса в систему
-	    RecordOperationInfo.builder()
-		    .withDate(convertESBDDateToLocalDate(source.getINPUTDATE()))
-		    .withAuthor(Util.reqField(PolicyEntity.class,
+	    {
+		// RESCINDING_REASON_ID s:int Идентификатор причины расторжения
+		// non mandatory field
+		builder.withCancelationReasonType(Util.optField(PolicyEntity.class,
+			id,
+			cancelationReasonTypeService::getById,
+			"CancelationReasonType",
+			CancelationReason.class,
+			MyOptionals.of(source.getRESCINDINGREASONID())));
+	    }
+
+	    {
+		// BRANCH_ID s:int Филиал (обязательно)
+		builder.withBranch(Util.reqField(PolicyEntity.class,
+			id,
+			branchService::getById,
+			"Branch",
+			BranchEntity.class,
+			source.getBRANCHID()));
+	    }
+
+	    {
+		// REWRITE_BOOL s:int Признак переоформления
+		// REWRITE_POLICY_ID s:int Ссылка на переоформляемый полис
+		final boolean reissued = source.getREWRITEBOOL() == 1;
+		if (reissued)
+		    Util.reqField(PolicyEntity.class,
 			    id,
-			    userService::getById,
-			    "Created.Author",
-			    UserEntity.class,
-			    source.getCREATEDBYUSERID()))
-		    .buildTo(builder::withCreated);
-	}
+			    this::_getById,
+			    "ReissuedPolicy",
+			    PolicyEntity.class,
+			    source.getREWRITEPOLICYID());
+	    }
 
-	{
-	    // RECORD_CHANGED_AT s:string Дата\время изменения полиса
-	    // RECORD_CHANGED_AT_DATETIME s:string Дата\время изменения полиса
-	    // CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего
-	    // полис
-	    if (MyStrings.nonEmpty(source.getRECORDCHANGEDAT()))
+	    {
+		// DESCRIPTION s:string Комментарии к полису
+		builder.withComments(source.getDESCRIPTION());
+	    }
+
+	    {
+		// Drivers tns:ArrayOfDriver Водители (обязательно)
+		MyOptionals.of(source) //
+			.map(Policy::getDrivers) //
+			.map(ArrayOfDriver::getDriver) //
+			.map(List::stream) //
+			.orElseThrow(() -> Util.requireNonEmtyList(PolicyEntity.class, id, "InsuredDrivers")) //
+			.peek(x -> MyNumbers.requireEqualsMsg(id, x.getPOLICYID(),
+				"%1$s.POLICYID (%3$s) and %2$s.POLICYID (%4$s) are not equals",
+				Policy.class.getName(),
+				Driver.class.getName(),
+				id,
+				x.getPOLICYID())) //
+			.map(this::convertToBuilder)
+			.forEach(builder::addDriverBuilder);
+	    }
+
+	    {
+		// PoliciesTF tns:ArrayOfPolicies_TF Транспортные средства
+		// полиса
+		// (обязательно)
+		MyOptionals.of(source) //
+			.map(Policy::getPoliciesTF) //
+			.map(ArrayOfPoliciesTF::getPoliciesTF) //
+			.map(List::stream) //
+			.orElseThrow(() -> Util.requireNonEmtyList(PolicyEntity.class, id, "InsuredVehicles")) //
+			.peek(x -> MyNumbers.requireEqualsMsg(EJBException::new, id, x.getPOLICYID(),
+				"%1$s.POLICYID (%3$s) and %2$s.POLICYID (%4$s) are not equals",
+				Policy.class.getName(),
+				PoliciesTF.class.getName(),
+				id,
+				x.getPOLICYID())) //
+			.map(this::convertToBuilder) //
+			.forEach(builder::addVehicleBuilder);
+	    }
+
+	    {
+		// CREATED_BY_USER_ID s:int Идентификатор пользователя,
+		// создавшего
+		// полис
+		// INPUT_DATE s:string Дата\время ввода полиса в систему
 		RecordOperationInfo.builder()
-			.withDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()))
+			.withDate(convertESBDDateToLocalDate(source.getINPUTDATE()))
 			.withAuthor(Util.reqField(PolicyEntity.class,
 				id,
 				userService::getById,
-				"Modified.Author",
+				"Created.Author",
 				UserEntity.class,
-				source.getCHANGEDBYUSERID()))
-			.buildTo(builder::withModified);
-	}
+				source.getCREATEDBYUSERID()))
+			.buildTo(builder::withCreated);
+	    }
 
-	// ScheduledPayments tns:ArrayOfSCHEDULED_PAYMENT Плановые платежи по
-	// полису
-	// PAYMENT_ORDER_TYPE_ID s:int Порядок оплаты (Идентификатор)
-	// PAYMENT_ORDER_TYPE s:string Порядок оплаты
-	// PAYMENT_DATE s:string Дата оплаты
-	// MIDDLEMAN_ID s:int Посредник (Идентификатор)
-	// MIDDLEMAN_CONTRACT_NUMBER s:string Номер договора посредника
-	// CLIENT_FORM_ID s:int Форма клиента (справочник CLIENT_FORMS)
+	    {
+		// RECORD_CHANGED_AT s:string Дата\время изменения полиса
+		// RECORD_CHANGED_AT_DATETIME s:string Дата\время изменения
+		// полиса
+		// CHANGED_BY_USER_ID s:int Идентификатор пользователя,
+		// изменившего
+		// полис
+		if (MyStrings.nonEmpty(source.getRECORDCHANGEDAT()))
+		    RecordOperationInfo.builder()
+			    .withDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()))
+			    .withAuthor(Util.reqField(PolicyEntity.class,
+				    id,
+				    userService::getById,
+				    "Modified.Author",
+				    UserEntity.class,
+				    source.getCHANGEDBYUSERID()))
+			    .buildTo(builder::withModified);
+	    }
+
+	    // ScheduledPayments tns:ArrayOfSCHEDULED_PAYMENT Плановые платежи
+	    // по
+	    // полису
+	    // PAYMENT_ORDER_TYPE_ID s:int Порядок оплаты (Идентификатор)
+	    // PAYMENT_ORDER_TYPE s:string Порядок оплаты
+	    // PAYMENT_DATE s:string Дата оплаты
+	    // MIDDLEMAN_ID s:int Посредник (Идентификатор)
+	    // MIDDLEMAN_CONTRACT_NUMBER s:string Номер договора посредника
+	    // CLIENT_FORM_ID s:int Форма клиента (справочник CLIENT_FORMS)
+
+	    return builder;
+
+	} catch (IllegalArgumentException e) {
+	    throw new EJBException(e);
+	}
     }
 
-    InsuredDriverEntity convert(final Driver source, final PolicyEntityBuilder policyBuilder) {
-	final InsuredDriverEntityBuilder target = InsuredDriverEntity.builder();
-	fillValues(source, target, policyBuilder);
-	return target.build();
-    }
+    InsuredDriverEntityBuilder convertToBuilder(final Driver source) {
+	try {
 
-    void fillValues(final Driver source, final InsuredDriverEntityBuilder builder,
-	    final PolicyEntityBuilder policyBuilder) {
+	    final InsuredDriverEntityBuilder builder = InsuredDriverEntity.builder();
 
-	final int id = source.getPOLICYID();
+	    final int id = source.getPOLICYID();
 
-	{
-	    // DRIVER_ID s:int Идентификатор водителя
-	    builder.withId(MyOptionals.of(source.getPOLICYID()).orElse(null));
-	}
+	    {
+		// DRIVER_ID s:int Идентификатор водителя
+		builder.withId(MyOptionals.of(source.getPOLICYID()).orElse(null));
+	    }
 
-	{
-	    // POLICY_ID s:int Идентификатор полиса
-	    final int policy_id = source.getPOLICYID();
-	    if (Integer.valueOf(policy_id).equals(policyBuilder.getId()))
-		builder.withPolicy(policyBuilder);
-	    else
-		builder.withPolicy(Util.reqField(InsuredDriverEntity.class,
+	    {
+		// POLICY_ID s:int Идентификатор полиса
+	    }
+
+	    {
+		// CLIENT_ID s:int Идентификатор клиента (обязательно)
+		builder.withInsuredPerson(Util.reqField(InsuredDriverEntity.class,
 			id,
-			this::getById,
-			"Policy",
-			PolicyEntity.class,
-			policy_id));
-	}
+			subjectPersonService::getById,
+			"InsuredPerson",
+			SubjectPersonEntity.class,
+			source.getCLIENTID()));
+	    }
 
-	{
-	    // CLIENT_ID s:int Идентификатор клиента (обязательно)
-	    builder.withInsuredPerson(Util.reqField(InsuredDriverEntity.class,
-		    id,
-		    subjectPersonService::getById,
-		    "InsuredPerson",
-		    SubjectPersonEntity.class,
-		    source.getCLIENTID()));
-	}
-
-	{
-	    // HOUSEHOLD_POSITION_ID s:int Идентификатор семейного положения
-	    builder.withMaritalStatus(Util.reqField(InsuredDriverEntity.class,
-		    id,
-		    maritalStatusService::getById,
-		    "MaritalStatus",
-		    MaritalStatus.class,
-		    source.getHOUSEHOLDPOSITIONID()));
-	}
-
-	{
-	    // AGE_EXPERIENCE_ID s:int Идентификатор возраста\стажа вождения
-	    builder.withInsuredAgeExpirienceClass(Util.reqField(InsuredDriverEntity.class,
-		    id,
-		    driverExpirienceClassificationService::getById,
-		    "InsuredAgeExpirienceClass",
-		    InsuredAgeAndExpirienceClass.class,
-		    source.getAGEEXPERIENCEID()));
-	}
-
-	{
-	    // EXPERIENCE s:int Стаж вождения
-	    builder.withDrivingExpirience(source.getEXPERIENCE());
-	}
-
-	{
-	    // DRIVER_CERTIFICATE s:string Номер водительского удостоверения
-	    // DRIVER_CERTIFICATE_DATE s:string Дата выдачи водительского
-	    // удостоверения
-	    DriverLicenseInfo.builder() //
-		    .withDateOfIssue(convertESBDDateToLocalDate(source.getDRIVERCERTIFICATEDATE())) //
-		    .withNumber(source.getDRIVERCERTIFICATE()) //
-		    .buildTo(builder::withDriverLicense);
-	}
-
-	{
-	    // getClassId
-	    final int class_id = source.getClassId();
-	    builder.withInsuraceClassType(Util.reqField(InsuredDriverEntity.class,
-		    id,
-		    insuranceClassTypeService::getById,
-		    "InsuraceClassType",
-		    InsuranceClassType.class,
-		    class_id));
-	}
-
-	{
-	    // PRIVELEGER_BOOL s:int Признак приравненного лица
-	    // PRIVELEDGER_TYPE s:string Тип приравненного лица
-	    // PRIVELEDGER_CERTIFICATE s:string Удостоверение приравненного лица
-	    // PRIVELEDGER_CERTIFICATE_DATE s:string Дата выдачи удостоверения
-	    // приравненного лица
-	    final boolean privileger = source.getPRIVELEGERBOOL() == 1;
-	    if (privileger)
-		PrivilegerInfo.builder() //
-			.withType(source.getPRIVELEDGERTYPE())
-			.withCertificateNumber(source.getPRIVELEDGERCERTIFICATE()) //
-			.withCertificateDateOfIssue(convertESBDDateToLocalDate(source.getPRIVELEDGERCERTIFICATEDATE())) //
-			.buildTo(builder::withPrivilegerInfo);
-	}
-
-	{
-	    // WOW_BOOL s:int Признак участника ВОВ
-	    // WOW_CERTIFICATE s:string Удостоверение участника ВОВ
-	    // WOW_CERTIFICATE_DATE s:string Дата выдачи удостоверения участника
-	    // ВОВ
-	    final boolean gpwParticipant = source.getWOWBOOL() == 1;
-	    if (gpwParticipant)
-		GPWParticipantInfo.builder() //
-			.withCertificateDateOfIssue(convertESBDDateToLocalDate(source.getWOWCERTIFICATEDATE())) //
-			.withCertificateNumber(source.getWOWCERTIFICATE()) //
-			.buildTo(builder::withGpwParticipantInfo);
-	}
-
-	{
-	    // PENSIONER_BOOL s:int Признак пенсионера
-	    // PENSIONER_CERTIFICATE s:string Удостоверение пенсионера
-	    // PENSIONER_CERTIFICATE_DATE s:string Дата выдачи удостоверения
-	    // пенсионера
-	    final boolean pensioner = source.getPENSIONERBOOL() == 1;
-	    if (pensioner)
-		PensionerInfo.builder() //
-			.withCertificateNumber(source.getPENSIONERCERTIFICATE()) //
-			.withCertiticateDateOfIssue(convertESBDDateToLocalDate(source.getPENSIONERCERTIFICATEDATE())) //
-			.buildTo(builder::withPensionerInfo);
-	}
-
-	{
-	    // INVALID_BOOL s:int Признак инвалида
-	    // INVALID_CERTIFICATE s:string Удостоверение инвалида
-	    // INVALID_CERTIFICATE_BEG_DATE s:string Дата выдачи удостоверения
-	    // инвалида
-	    // INVALID_CERTIFICATE_END_DATE s:string Дата завершения
-	    // удостоверения
-	    // инвалида
-	    final boolean handicapped = source.getINVALIDBOOL() == 1;
-	    if (handicapped)
-		HandicappedInfo.builder() //
-			.withCertificateNumber(source.getINVALIDCERTIFICATE()) //
-			.withCertificateValidFrom(convertESBDDateToLocalDate(source.getINVALIDCERTIFICATEBEGDATE())) //
-			.withCertificateValidTill(convertESBDDateToLocalDate(source.getINVALIDCERTIFICATEENDDATE())) //
-			.buildTo(builder::withHandicappedInfo);
-	}
-
-	{
-	    // CREATED_BY_USER_ID s:int Идентификатор пользователя, создавшего
-	    // запись
-	    // INPUT_DATE s:string Дата\время ввода записи в систему
-	    RecordOperationInfo.builder()
-		    .withDate(convertESBDDateToLocalDate(source.getINPUTDATE()))
-		    .withAuthor(Util.reqField(InsuredDriverEntity.class,
-			    id,
-			    userService::getById,
-			    "Created.Author",
-			    UserEntity.class,
-			    source.getCREATEDBYUSERID()))
-		    .buildTo(builder::withCreated);
-	}
-
-	{
-	    // RECORD_CHANGED_AT s:string Дата\время изменения записи
-	    // CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего
-	    // запись
-	    RecordOperationInfo.builder()
-		    .withDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()))
-		    .withAuthor(Util.reqField(InsuredDriverEntity.class,
-			    id,
-			    userService::getById,
-			    "Modified.Author",
-			    UserEntity.class,
-			    source.getCHANGEDBYUSERID()))
-		    .buildTo(builder::withModified);
-	}
-
-	{
-	    // SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
-	    builder.withInsurer(Util.reqField(InsuredDriverEntity.class,
-		    id,
-		    insuranceCompanyService::getById,
-		    "Insurer",
-		    InsuranceCompanyEntity.class,
-		    source.getSYSTEMDELIMITERID()));
-	}
-    }
-
-    InsuredVehicleEntity convert(final PoliciesTF source, final PolicyEntityBuilder policyBuilder) {
-	final InsuredVehicleEntityBuilder target = InsuredVehicleEntity.builder();
-	fillValues(source, target, policyBuilder);
-	return target.build();
-    }
-
-    void fillValues(final PoliciesTF source, final InsuredVehicleEntityBuilder builder,
-	    final PolicyEntityBuilder policyBuilder) {
-
-	final int id = source.getPOLICYTFID();
-
-	{
-	    // POLICY_TF_ID s:int Идентификатор ТС полиса
-	    builder.withId(MyOptionals.of(id).orElse(null));
-	}
-
-	{
-	    // POLICY_ID s:int Идентификатор полиса
-	    final int policy_id = source.getPOLICYID();
-	    if (Integer.valueOf(policy_id).equals(policyBuilder.getId()))
-		builder.withPolicy(policyBuilder);
-	    else
-		builder.withPolicy(Util.reqField(InsuredVehicleEntity.class,
+	    {
+		// HOUSEHOLD_POSITION_ID s:int Идентификатор семейного положения
+		builder.withMaritalStatus(Util.reqField(InsuredDriverEntity.class,
 			id,
-			this::getById,
-			"Policy",
-			PolicyEntity.class,
-			policy_id));
-	}
+			maritalStatusService::getById,
+			"MaritalStatus",
+			MaritalStatus.class,
+			source.getHOUSEHOLDPOSITIONID()));
+	    }
 
-	{
-	    // TF_ID s:int Идентификатор ТС
-	    builder.withVehicle(Util.reqField(InsuredVehicleEntity.class,
-		    id,
-		    vehicleService::getById,
-		    "Vehicle",
-		    VehicleEntity.class,
-		    source.getTFID()));
-	}
+	    {
+		// AGE_EXPERIENCE_ID s:int Идентификатор возраста\стажа вождения
+		builder.withInsuredAgeExpirienceClass(Util.reqField(InsuredDriverEntity.class,
+			id,
+			driverExpirienceClassificationService::getById,
+			"InsuredAgeExpirienceClass",
+			InsuredAgeAndExpirienceClass.class,
+			source.getAGEEXPERIENCEID()));
+	    }
 
-	{
-	    // TF_TYPE_ID s:int Идентификатор типа ТС (обязательно)
-	    builder.withVehicleClass(Util.reqField(InsuredVehicleEntity.class,
-		    id,
-		    vehicleClassService::getById,
-		    "VehicleClass",
-		    VehicleClass.class,
-		    source.getTFTYPEID()));
-	}
+	    {
+		// EXPERIENCE s:int Стаж вождения
+		builder.withDrivingExpirience(source.getEXPERIENCE());
+	    }
 
-	{
-	    // TF_AGE_ID s:int Идентификатор возраста ТС (обязательно)
-	    builder.withVehicleAgeClass(Util.reqField(InsuredVehicleEntity.class,
-		    id,
-		    vehicleAgeClassService::getById,
-		    "VehicleAgeClass",
-		    VehicleAgeClass.class,
-		    source.getTFAGEID()));
-	}
+	    {
+		// DRIVER_CERTIFICATE s:string Номер водительского удостоверения
+		// DRIVER_CERTIFICATE_DATE s:string Дата выдачи водительского
+		// удостоверения
+		DriverLicenseInfo.builder() //
+			.withDateOfIssue(convertESBDDateToLocalDate(source.getDRIVERCERTIFICATEDATE())) //
+			.withNumber(source.getDRIVERCERTIFICATE()) //
+			.buildTo(builder::withDriverLicense);
+	    }
 
-	{
-	    // TF_NUMBER s:string Гос. номер ТС
-	    // TF_REGISTRATION_CERTIFICATE s:string Номер тех. паспорта
-	    // GIVE_DATE s:string Дата выдачи тех. паспорта
-	    // REGION_ID s:int Идентификатор региона регистрации ТС
-	    // (обязательно)
-	    // BIG_CITY_BOOL s:int Признак города областного значения
-	    // (обязательно)
-	    VehicleCertificateInfo.builder() //
-		    .withCertificateNumber(source.getTFREGISTRATIONCERTIFICATE())
-		    .withDateOfIssue(convertESBDDateToLocalDate(source.getGIVEDATE()))
-		    .withRegistrationMajorCity(source.getBIGCITYBOOL() == 1)
-		    .withRegistrationRegion(Util.reqField(InsuredVehicleEntity.class,
-			    id,
-			    countryRegionService::getById,
-			    "Certificate.RegistrationRegion",
-			    KZArea.class,
-			    source.getREGIONID()))
-		    .withRegistrationNumber(source.getTFNUMBER())
-		    .buildTo(builder::withCertificate);
-	}
+	    {
+		// getClassId
+		final int class_id = source.getClassId();
+		builder.withInsuraceClassType(Util.reqField(InsuredDriverEntity.class,
+			id,
+			insuranceClassTypeService::getById,
+			"InsuraceClassType",
+			InsuranceClassType.class,
+			class_id));
+	    }
 
-	{
-	    // PURPOSE s:string Цель использования ТС
-	    builder.withVehiclePurpose(source.getPURPOSE());
-	}
+	    {
+		// PRIVELEGER_BOOL s:int Признак приравненного лица
+		// PRIVELEDGER_TYPE s:string Тип приравненного лица
+		// PRIVELEDGER_CERTIFICATE s:string Удостоверение приравненного
+		// лица
+		// PRIVELEDGER_CERTIFICATE_DATE s:string Дата выдачи
+		// удостоверения
+		// приравненного лица
+		final boolean privileger = source.getPRIVELEGERBOOL() == 1;
+		if (privileger)
+		    PrivilegerInfo.builder() //
+			    .withType(source.getPRIVELEDGERTYPE())
+			    .withCertificateNumber(source.getPRIVELEDGERCERTIFICATE()) //
+			    .withCertificateDateOfIssue(
+				    convertESBDDateToLocalDate(source.getPRIVELEDGERCERTIFICATEDATE())) //
+			    .buildTo(builder::withPrivilegerInfo);
+	    }
 
-	{
-	    // ODOMETER s:int Показания одометра
-	    builder.withCurrentOdometerValue(source.getODOMETER());
-	}
+	    {
+		// WOW_BOOL s:int Признак участника ВОВ
+		// WOW_CERTIFICATE s:string Удостоверение участника ВОВ
+		// WOW_CERTIFICATE_DATE s:string Дата выдачи удостоверения
+		// участника
+		// ВОВ
+		final boolean gpwParticipant = source.getWOWBOOL() == 1;
+		if (gpwParticipant)
+		    GPWParticipantInfo.builder() //
+			    .withCertificateDateOfIssue(convertESBDDateToLocalDate(source.getWOWCERTIFICATEDATE())) //
+			    .withCertificateNumber(source.getWOWCERTIFICATE()) //
+			    .buildTo(builder::withGpwParticipantInfo);
+	    }
 
-	{
-	    // CREATED_BY_USER_ID s:int Идентификатор пользователя, создавшего
-	    // запись
-	    // INPUT_DATE s:string Дата\время ввода записи в систему
-	    RecordOperationInfo.builder()
-		    .withDate(convertESBDDateToLocalDate(source.getINPUTDATE()))
-		    .withAuthor(Util.reqField(InsuredVehicleEntity.class,
-			    id,
-			    userService::getById,
-			    "Created.Author",
-			    UserEntity.class,
-			    source.getCREATEDBYUSERID()))
-		    .buildTo(builder::withCreated);
-	}
+	    {
+		// PENSIONER_BOOL s:int Признак пенсионера
+		// PENSIONER_CERTIFICATE s:string Удостоверение пенсионера
+		// PENSIONER_CERTIFICATE_DATE s:string Дата выдачи удостоверения
+		// пенсионера
+		final boolean pensioner = source.getPENSIONERBOOL() == 1;
+		if (pensioner)
+		    PensionerInfo.builder() //
+			    .withCertificateNumber(source.getPENSIONERCERTIFICATE()) //
+			    .withCertiticateDateOfIssue(
+				    convertESBDDateToLocalDate(source.getPENSIONERCERTIFICATEDATE())) //
+			    .buildTo(builder::withPensionerInfo);
+	    }
 
-	{
-	    // RECORD_CHANGED_AT s:string Дата\время изменения записи
-	    // CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего
-	    // запись
-	    if (MyStrings.nonEmpty(source.getRECORDCHANGEDAT()))
+	    {
+		// INVALID_BOOL s:int Признак инвалида
+		// INVALID_CERTIFICATE s:string Удостоверение инвалида
+		// INVALID_CERTIFICATE_BEG_DATE s:string Дата выдачи
+		// удостоверения
+		// инвалида
+		// INVALID_CERTIFICATE_END_DATE s:string Дата завершения
+		// удостоверения
+		// инвалида
+		final boolean handicapped = source.getINVALIDBOOL() == 1;
+		if (handicapped)
+		    HandicappedInfo.builder() //
+			    .withCertificateNumber(source.getINVALIDCERTIFICATE()) //
+			    .withCertificateValidFrom(convertESBDDateToLocalDate(source.getINVALIDCERTIFICATEBEGDATE())) //
+			    .withCertificateValidTill(convertESBDDateToLocalDate(source.getINVALIDCERTIFICATEENDDATE())) //
+			    .buildTo(builder::withHandicappedInfo);
+	    }
+
+	    {
+		// CREATED_BY_USER_ID s:int Идентификатор пользователя,
+		// создавшего
+		// запись
+		// INPUT_DATE s:string Дата\время ввода записи в систему
+		RecordOperationInfo.builder()
+			.withDate(convertESBDDateToLocalDate(source.getINPUTDATE()))
+			.withAuthor(Util.reqField(InsuredDriverEntity.class,
+				id,
+				userService::getById,
+				"Created.Author",
+				UserEntity.class,
+				source.getCREATEDBYUSERID()))
+			.buildTo(builder::withCreated);
+	    }
+
+	    {
+		// RECORD_CHANGED_AT s:string Дата\время изменения записи
+		// CHANGED_BY_USER_ID s:int Идентификатор пользователя,
+		// изменившего
+		// запись
 		RecordOperationInfo.builder()
 			.withDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()))
-			.withAuthor(Util.reqField(InsuredVehicleEntity.class,
+			.withAuthor(Util.reqField(InsuredDriverEntity.class,
 				id,
 				userService::getById,
 				"Modified.Author",
 				UserEntity.class,
 				source.getCHANGEDBYUSERID()))
 			.buildTo(builder::withModified);
-	}
+	    }
 
-	{
-	    // SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
-	    builder.withInsurer(Util.reqField(InsuredVehicleEntity.class,
-		    id,
-		    insuranceCompanyService::getById,
-		    "Insurer",
-		    InsuranceCompanyEntity.class,
-		    source.getSYSTEMDELIMITERID()));
+	    {
+		// SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
+		builder.withInsurer(Util.reqField(InsuredDriverEntity.class,
+			id,
+			insuranceCompanyService::getById,
+			"Insurer",
+			InsuranceCompanyEntity.class,
+			source.getSYSTEMDELIMITERID()));
+	    }
+	    return builder;
+
+	} catch (IllegalArgumentException e) {
+	    // it should not happens
+	    throw new EJBException(e.getMessage());
+	}
+    }
+
+    InsuredVehicleEntityBuilder convertToBuilder(final PoliciesTF source) {
+	try {
+
+	    final InsuredVehicleEntityBuilder builder = InsuredVehicleEntity.builder();
+
+	    final int id = source.getPOLICYTFID();
+
+	    {
+		// POLICY_TF_ID s:int Идентификатор ТС полиса
+		builder.withId(MyOptionals.of(id).orElse(null));
+	    }
+
+	    {
+		// POLICY_ID s:int Идентификатор полиса
+	    }
+
+	    {
+		// TF_ID s:int Идентификатор ТС
+		builder.withVehicle(Util.reqField(InsuredVehicleEntity.class,
+			id,
+			vehicleService::getById,
+			"Vehicle",
+			VehicleEntity.class,
+			source.getTFID()));
+	    }
+
+	    {
+		// TF_TYPE_ID s:int Идентификатор типа ТС (обязательно)
+		builder.withVehicleClass(Util.reqField(InsuredVehicleEntity.class,
+			id,
+			vehicleClassService::getById,
+			"VehicleClass",
+			VehicleClass.class,
+			source.getTFTYPEID()));
+	    }
+
+	    {
+		// TF_AGE_ID s:int Идентификатор возраста ТС (обязательно)
+		builder.withVehicleAgeClass(Util.reqField(InsuredVehicleEntity.class,
+			id,
+			vehicleAgeClassService::getById,
+			"VehicleAgeClass",
+			VehicleAgeClass.class,
+			source.getTFAGEID()));
+	    }
+
+	    {
+		// TF_NUMBER s:string Гос. номер ТС
+		// TF_REGISTRATION_CERTIFICATE s:string Номер тех. паспорта
+		// GIVE_DATE s:string Дата выдачи тех. паспорта
+		// REGION_ID s:int Идентификатор региона регистрации ТС
+		// (обязательно)
+		// BIG_CITY_BOOL s:int Признак города областного значения
+		// (обязательно)
+		VehicleCertificateInfo.builder() //
+			.withCertificateNumber(source.getTFREGISTRATIONCERTIFICATE())
+			.withDateOfIssue(convertESBDDateToLocalDate(source.getGIVEDATE()))
+			.withRegistrationMajorCity(source.getBIGCITYBOOL() == 1)
+			.withRegistrationRegion(Util.reqField(InsuredVehicleEntity.class,
+				id,
+				countryRegionService::getById,
+				"Certificate.RegistrationRegion",
+				KZArea.class,
+				source.getREGIONID()))
+			.withRegistrationNumber(source.getTFNUMBER())
+			.buildTo(builder::withCertificate);
+	    }
+
+	    {
+		// PURPOSE s:string Цель использования ТС
+		builder.withVehiclePurpose(source.getPURPOSE());
+	    }
+
+	    {
+		// ODOMETER s:int Показания одометра
+		builder.withCurrentOdometerValue(source.getODOMETER());
+	    }
+
+	    {
+		// CREATED_BY_USER_ID s:int Идентификатор пользователя,
+		// создавшего
+		// запись
+		// INPUT_DATE s:string Дата\время ввода записи в систему
+		RecordOperationInfo.builder()
+			.withDate(convertESBDDateToLocalDate(source.getINPUTDATE()))
+			.withAuthor(Util.reqField(InsuredVehicleEntity.class,
+				id,
+				userService::getById,
+				"Created.Author",
+				UserEntity.class,
+				source.getCREATEDBYUSERID()))
+			.buildTo(builder::withCreated);
+	    }
+
+	    {
+		// RECORD_CHANGED_AT s:string Дата\время изменения записи
+		// CHANGED_BY_USER_ID s:int Идентификатор пользователя,
+		// изменившего
+		// запись
+		if (MyStrings.nonEmpty(source.getRECORDCHANGEDAT()))
+		    RecordOperationInfo.builder()
+			    .withDate(convertESBDDateToLocalDate(source.getRECORDCHANGEDAT()))
+			    .withAuthor(Util.reqField(InsuredVehicleEntity.class,
+				    id,
+				    userService::getById,
+				    "Modified.Author",
+				    UserEntity.class,
+				    source.getCHANGEDBYUSERID()))
+			    .buildTo(builder::withModified);
+	    }
+
+	    {
+		// SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
+		builder.withInsurer(Util.reqField(InsuredVehicleEntity.class,
+			id,
+			insuranceCompanyService::getById,
+			"Insurer",
+			InsuranceCompanyEntity.class,
+			source.getSYSTEMDELIMITERID()));
+	    }
+
+	    return builder;
+
+	} catch (IllegalArgumentException e) {
+	    // it should not happens
+	    throw new EJBException(e.getMessage());
 	}
     }
 }
