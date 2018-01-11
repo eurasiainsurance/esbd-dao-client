@@ -14,6 +14,6 @@ public class MaritalStatusServiceBean
 	implements MaritalStatusServiceLocal, MaritalStatusServiceRemote {
 
     public MaritalStatusServiceBean() {
-	super(MaritalStatusService.class, MaritalStatusMapping.getInstance()::forId);
+	super(MaritalStatusService.class, MaritalStatusMapping.getInstance()::forId, MaritalStatus.class);
     }
 }

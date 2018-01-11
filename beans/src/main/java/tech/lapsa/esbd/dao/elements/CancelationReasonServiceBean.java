@@ -14,6 +14,6 @@ public class CancelationReasonServiceBean
 	implements CancelationReasonServiceLocal, CancelationReasonServiceRemote {
 
     public CancelationReasonServiceBean() {
-	super(CancelationReasonService.class, CancelationReasonMapping.getInstance()::forId);
+	super(CancelationReasonService.class, CancelationReasonMapping.getInstance()::forId, CancelationReason.class);
     }
 }

@@ -14,6 +14,6 @@ public class IdentityCardTypeServiceBean
 	implements IdentityCardTypeServiceLocal, IdentityCardTypeServiceRemote {
 
     public IdentityCardTypeServiceBean() {
-	super(IdentityCardTypeService.class, IdentityCardTypeMapping.getInstance()::forId);
+	super(IdentityCardTypeService.class, IdentityCardTypeMapping.getInstance()::forId, IdentityCardType.class);
     }
 }

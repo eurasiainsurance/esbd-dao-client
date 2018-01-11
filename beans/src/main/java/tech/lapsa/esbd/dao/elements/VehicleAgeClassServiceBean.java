@@ -14,6 +14,6 @@ public class VehicleAgeClassServiceBean
 	implements VehicleAgeClassServiceLocal, VehicleAgeClassServiceRemote {
 
     public VehicleAgeClassServiceBean() {
-	super(VehicleAgeClassService.class, VehicleAgeClassMapping.getInstance()::forId);
+	super(VehicleAgeClassService.class, VehicleAgeClassMapping.getInstance()::forId, VehicleAgeClass.class);
     }
 }

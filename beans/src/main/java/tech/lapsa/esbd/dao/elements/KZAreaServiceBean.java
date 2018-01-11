@@ -14,6 +14,6 @@ public class KZAreaServiceBean
 	implements KZAreaServiceLocal, KZAreaServiceRemote {
 
     public KZAreaServiceBean() {
-	super(KZAreaService.class, KZAreaMapping.getInstance()::forId);
+	super(KZAreaService.class, KZAreaMapping.getInstance()::forId, KZArea.class);
     }
 }

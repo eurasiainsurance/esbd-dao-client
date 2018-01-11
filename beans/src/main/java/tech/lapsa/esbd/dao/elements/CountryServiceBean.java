@@ -14,6 +14,6 @@ public class CountryServiceBean
 	implements CountryServiceLocal, CountryServiceRemote {
 
     public CountryServiceBean() {
-	super(CountryService.class, CountryMapping.getInstance()::forId);
+	super(CountryService.class, CountryMapping.getInstance()::forId, Country.class);
     }
 }

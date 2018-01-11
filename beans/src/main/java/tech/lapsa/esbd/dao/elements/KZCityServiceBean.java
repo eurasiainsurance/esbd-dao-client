@@ -14,6 +14,6 @@ public class KZCityServiceBean
 	implements KZCityServiceLocal, KZCityServiceRemote {
 
     public KZCityServiceBean() {
-	super(KZCityService.class, KZCityMapping.getInstance()::forId);
+	super(KZCityService.class, KZCityMapping.getInstance()::forId, KZCity.class);
     }
 }

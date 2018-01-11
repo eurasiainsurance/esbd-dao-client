@@ -14,6 +14,6 @@ public class KZEconomicSectorServiceBean
 	implements KZEconomicSectorServiceLocal, KZEconomicSectorServiceRemote {
 
     public KZEconomicSectorServiceBean() {
-	super(KZEconomicSectorService.class, KZEconomicSectorMapping.getInstance()::forId);
+	super(KZEconomicSectorService.class, KZEconomicSectorMapping.getInstance()::forId, KZEconomicSector.class);
     }
 }

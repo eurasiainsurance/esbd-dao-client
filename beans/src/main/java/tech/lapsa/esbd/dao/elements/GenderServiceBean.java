@@ -14,6 +14,6 @@ public class GenderServiceBean
 	implements GenderServiceLocal, GenderServiceRemote {
 
     public GenderServiceBean() {
-	super(GenderService.class, SexMapping.getInstance()::forId);
+	super(GenderService.class, SexMapping.getInstance()::forId, Sex.class);
     }
 }

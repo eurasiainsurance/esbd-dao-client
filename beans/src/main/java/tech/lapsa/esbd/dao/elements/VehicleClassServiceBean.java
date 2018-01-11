@@ -14,6 +14,6 @@ public class VehicleClassServiceBean
 	implements VehicleClassServiceLocal, VehicleClassServiceRemote {
 
     public VehicleClassServiceBean() {
-	super(VehicleClassService.class, VehicleClassMapping.getInstance()::forId);
+	super(VehicleClassService.class, VehicleClassMapping.getInstance()::forId, VehicleClass.class);
     }
 }
