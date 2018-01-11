@@ -237,7 +237,7 @@ public class PolicyEntityServiceBean
 		builder.withInsurer(Util.reqField(PolicyEntity.class,
 			id,
 			insuranceCompanyService::getById,
-			"Insurer",
+			"insurer",
 			InsuranceCompanyEntity.class,
 			source.getSYSTEMDELIMITERID()));
 	    }
@@ -247,7 +247,7 @@ public class PolicyEntityServiceBean
 		builder.withInsurant(Util.reqField(PolicyEntity.class,
 			id,
 			subjectService::getById,
-			"Insurant",
+			"insurant",
 			SubjectEntity.class,
 			source.getCLIENTID()));
 	    }
@@ -259,20 +259,17 @@ public class PolicyEntityServiceBean
 
 	    {
 		// RESCINDING_DATE s:string Дата расторжения полиса
-		MyOptionals.of(source.getRESCINDINGDATE())
-			.map(ESBDDates::convertESBDDateToLocalDate)
-			.ifPresent(builder::withDateOfCancelation);
-	    }
-
-	    {
 		// RESCINDING_REASON_ID s:int Идентификатор причины расторжения
-		// non mandatory field
-		builder.withCancelationReasonType(Util.optField(PolicyEntity.class,
-			id,
-			cancelationReasonTypeService::getById,
-			"CancelationReasonType",
-			CancelationReason.class,
-			MyOptionals.of(source.getRESCINDINGREASONID())));
+		if (MyStrings.nonEmpty(source.getRESCINDINGDATE())
+			|| MyNumbers.positive(source.getRESCINDINGREASONID()))
+		    builder.withCancelation(
+			    ESBDDates.convertESBDDateToLocalDate(source.getRESCINDINGDATE()),
+			    Util.reqField(PolicyEntity.class,
+				    id,
+				    cancelationReasonTypeService::getById,
+				    "cancelationReasonType",
+				    CancelationReason.class,
+				    source.getRESCINDINGREASONID()));
 	    }
 
 	    {
@@ -280,7 +277,7 @@ public class PolicyEntityServiceBean
 		builder.withBranch(Util.reqField(PolicyEntity.class,
 			id,
 			branchService::getById,
-			"Branch",
+			"branch",
 			BranchEntity.class,
 			source.getBRANCHID()));
 	    }
@@ -290,12 +287,7 @@ public class PolicyEntityServiceBean
 		// REWRITE_POLICY_ID s:int Ссылка на переоформляемый полис
 		final boolean reissued = source.getREWRITEBOOL() == 1;
 		if (reissued)
-		    Util.reqField(PolicyEntity.class,
-			    id,
-			    this::_getById,
-			    "ReissuedPolicy",
-			    PolicyEntity.class,
-			    source.getREWRITEPOLICYID());
+		    builder.withReissuedPolicyId(MyNumbers.requirePositive(source.getREWRITEPOLICYID()));
 	    }
 
 	    {
@@ -329,7 +321,7 @@ public class PolicyEntityServiceBean
 			.map(ArrayOfPoliciesTF::getPoliciesTF) //
 			.map(List::stream) //
 			.orElseThrow(() -> Util.requireNonEmtyList(PolicyEntity.class, id, "InsuredVehicles")) //
-			.peek(x -> MyNumbers.requireEqualsMsg(EJBException::new, id, x.getPOLICYID(),
+			.peek(x -> MyNumbers.requireEqualsMsg(id, x.getPOLICYID(),
 				"%1$s.POLICYID (%3$s) and %2$s.POLICYID (%4$s) are not equals",
 				Policy.class.getName(),
 				PoliciesTF.class.getName(),
@@ -349,7 +341,7 @@ public class PolicyEntityServiceBean
 			.withAuthor(Util.reqField(PolicyEntity.class,
 				id,
 				userService::getById,
-				"Created.Author",
+				"created.author",
 				UserEntity.class,
 				source.getCREATEDBYUSERID()))
 			.buildTo(builder::withCreated);
@@ -368,13 +360,14 @@ public class PolicyEntityServiceBean
 			    .withAuthor(Util.reqField(PolicyEntity.class,
 				    id,
 				    userService::getById,
-				    "Modified.Author",
+				    "modified.author",
 				    UserEntity.class,
 				    source.getCHANGEDBYUSERID()))
 			    .buildTo(builder::withModified);
 	    }
 
-	    // ScheduledPayments tns:ArrayOfSCHEDULED_PAYMENT Плановые платежи
+	    // ScheduledPayments tns:ArrayOfSCHEDULED_PAYMENT Плановые
+	    // платежи
 	    // по
 	    // полису
 	    // PAYMENT_ORDER_TYPE_ID s:int Порядок оплаты (Идентификатор)
@@ -387,7 +380,8 @@ public class PolicyEntityServiceBean
 	    return builder;
 
 	} catch (IllegalArgumentException e) {
-	    throw new EJBException(e);
+	    // it should not happens
+	    throw new EJBException(e.getMessage());
 	}
     }
 
@@ -412,7 +406,7 @@ public class PolicyEntityServiceBean
 		builder.withInsuredPerson(Util.reqField(InsuredDriverEntity.class,
 			id,
 			subjectPersonService::getById,
-			"InsuredPerson",
+			"insuredPerson",
 			SubjectPersonEntity.class,
 			source.getCLIENTID()));
 	    }
@@ -422,7 +416,7 @@ public class PolicyEntityServiceBean
 		builder.withMaritalStatus(Util.reqField(InsuredDriverEntity.class,
 			id,
 			maritalStatusService::getById,
-			"MaritalStatus",
+			"maritalStatus",
 			MaritalStatus.class,
 			source.getHOUSEHOLDPOSITIONID()));
 	    }
@@ -432,7 +426,7 @@ public class PolicyEntityServiceBean
 		builder.withInsuredAgeExpirienceClass(Util.reqField(InsuredDriverEntity.class,
 			id,
 			driverExpirienceClassificationService::getById,
-			"InsuredAgeExpirienceClass",
+			"insuredAgeExpirienceClass",
 			InsuredAgeAndExpirienceClass.class,
 			source.getAGEEXPERIENCEID()));
 	    }
@@ -454,13 +448,12 @@ public class PolicyEntityServiceBean
 
 	    {
 		// getClassId
-		final int class_id = source.getClassId();
 		builder.withInsuraceClassType(Util.reqField(InsuredDriverEntity.class,
 			id,
 			insuranceClassTypeService::getById,
-			"InsuraceClassType",
+			"insuraceClassType",
 			InsuranceClassType.class,
-			class_id));
+			source.getClassId()));
 	    }
 
 	    {
@@ -537,7 +530,7 @@ public class PolicyEntityServiceBean
 			.withAuthor(Util.reqField(InsuredDriverEntity.class,
 				id,
 				userService::getById,
-				"Created.Author",
+				"created.author",
 				UserEntity.class,
 				source.getCREATEDBYUSERID()))
 			.buildTo(builder::withCreated);
@@ -553,7 +546,7 @@ public class PolicyEntityServiceBean
 			.withAuthor(Util.reqField(InsuredDriverEntity.class,
 				id,
 				userService::getById,
-				"Modified.Author",
+				"modified.author",
 				UserEntity.class,
 				source.getCHANGEDBYUSERID()))
 			.buildTo(builder::withModified);
@@ -564,7 +557,7 @@ public class PolicyEntityServiceBean
 		builder.withInsurer(Util.reqField(InsuredDriverEntity.class,
 			id,
 			insuranceCompanyService::getById,
-			"Insurer",
+			"insurer",
 			InsuranceCompanyEntity.class,
 			source.getSYSTEMDELIMITERID()));
 	    }
@@ -597,7 +590,7 @@ public class PolicyEntityServiceBean
 		builder.withVehicle(Util.reqField(InsuredVehicleEntity.class,
 			id,
 			vehicleService::getById,
-			"Vehicle",
+			"vehicle",
 			VehicleEntity.class,
 			source.getTFID()));
 	    }
@@ -607,7 +600,7 @@ public class PolicyEntityServiceBean
 		builder.withVehicleClass(Util.reqField(InsuredVehicleEntity.class,
 			id,
 			vehicleClassService::getById,
-			"VehicleClass",
+			"vehicleClass",
 			VehicleClass.class,
 			source.getTFTYPEID()));
 	    }
@@ -617,7 +610,7 @@ public class PolicyEntityServiceBean
 		builder.withVehicleAgeClass(Util.reqField(InsuredVehicleEntity.class,
 			id,
 			vehicleAgeClassService::getById,
-			"VehicleAgeClass",
+			"vehicleAgeClass",
 			VehicleAgeClass.class,
 			source.getTFAGEID()));
 	    }
@@ -637,7 +630,7 @@ public class PolicyEntityServiceBean
 			.withRegistrationRegion(Util.reqField(InsuredVehicleEntity.class,
 				id,
 				countryRegionService::getById,
-				"Certificate.RegistrationRegion",
+				"certificate.registrationRegion",
 				KZArea.class,
 				source.getREGIONID()))
 			.withRegistrationNumber(source.getTFNUMBER())
@@ -664,7 +657,7 @@ public class PolicyEntityServiceBean
 			.withAuthor(Util.reqField(InsuredVehicleEntity.class,
 				id,
 				userService::getById,
-				"Created.Author",
+				"created.author",
 				UserEntity.class,
 				source.getCREATEDBYUSERID()))
 			.buildTo(builder::withCreated);
@@ -681,7 +674,7 @@ public class PolicyEntityServiceBean
 			    .withAuthor(Util.reqField(InsuredVehicleEntity.class,
 				    id,
 				    userService::getById,
-				    "Modified.Author",
+				    "modified.author",
 				    UserEntity.class,
 				    source.getCHANGEDBYUSERID()))
 			    .buildTo(builder::withModified);
@@ -692,7 +685,7 @@ public class PolicyEntityServiceBean
 		builder.withInsurer(Util.reqField(InsuredVehicleEntity.class,
 			id,
 			insuranceCompanyService::getById,
-			"Insurer",
+			"insurer",
 			InsuranceCompanyEntity.class,
 			source.getSYSTEMDELIMITERID()));
 	    }
