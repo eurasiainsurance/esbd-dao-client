@@ -113,7 +113,7 @@ final class Util {
 
     // optionalField
 
-    static <T, F, FI> Optional<F> optField(final T target,
+    static <T, F, FI> Optional<F> optField(final Class<T> targetClazz,
 	    final Object targetId,
 	    final ThrowingFunction<FI, F> entityGeter,
 	    final String fieldName,
@@ -131,7 +131,7 @@ final class Util {
 	    if (ignoreException == null || !ignoreException.test(e)) {
 		final String message = MyStrings.format(
 			"Error fetching %1$s(%2$s).%3$s -> %4$s(%5$s) '%6$s'",
-			target.getClass().getSimpleName(), // 1,
+			targetClazz.getSimpleName(), // 1,
 			targetId, // 2
 			fieldName, // 3
 			fieldClazz.getSimpleName(), // 4
@@ -144,13 +144,22 @@ final class Util {
 	return MyOptionals.of(fieldObject);
     }
 
-    static <T, F, FI> Optional<F> optField(final T target,
+    static <T, F, FI> Optional<F> optField(final Class<T> targetClazz,
 	    final Object targetId,
 	    final ThrowingFunction<FI, F> fieldGeter,
 	    final String fieldName,
 	    final Class<F> fieldClazz,
 	    final Optional<FI> optFieldId) {
-	return optField(target, targetId, fieldGeter, fieldName, fieldClazz, optFieldId, null);
+	return optField(targetClazz, targetId, fieldGeter, fieldName, fieldClazz, optFieldId, null);
+    }
+
+    static <T, F, FI> Optional<F> optFieldIgnoreFieldNotFound(final Class<T> targetClazz,
+	    final Object targetId,
+	    final ThrowingFunction<FI, F> fieldGeter,
+	    final String fieldName,
+	    final Class<F> fieldClazz,
+	    final Optional<FI> optFieldId) {
+	return optField(targetClazz, targetId, fieldGeter, fieldName, fieldClazz, optFieldId, e -> (e instanceof NotFound));
     }
 
     static <T, F, FI> void optionalField(final T target,

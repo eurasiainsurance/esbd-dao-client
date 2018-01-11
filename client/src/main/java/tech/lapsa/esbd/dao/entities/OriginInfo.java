@@ -45,7 +45,10 @@ public class OriginInfo extends Domain {
 	}
 
 	public OriginInfoBuilder withCountry(final Optional<Country> optCountry) {
-	    return withCountry(MyObjects.requireNonNull(optCountry, "optCountry").orElse(null));
+	    if (MyObjects.requireNonNull(optCountry, "optCountry").isPresent())
+		return withCountry(optCountry.get());
+	    this.country = null;
+	    return this;
 	}
 
 	public OriginInfoBuilder withCity(final KZCity city) {
@@ -54,7 +57,10 @@ public class OriginInfo extends Domain {
 	}
 
 	public OriginInfoBuilder withCity(final Optional<KZCity> optCity) {
-	    return withCity(MyObjects.requireNonNull(optCity, "optCity").orElse(null));
+	    if (MyObjects.requireNonNull(optCity, "optCity").isPresent())
+		return withCity(optCity.get());
+	    this.city = null;
+	    return this;
 	}
 
 	public OriginInfo build() {

@@ -15,27 +15,59 @@ public class SubjectPersonEntity extends SubjectEntity {
 
     private static final long serialVersionUID = 1L;
 
+    public static final SubjectPersonEntityBuilder builder() {
+	return new SubjectPersonEntityBuilder();
+    }
+
+    public static final class SubjectPersonEntityBuilder
+	    extends SubjectEntityBuilder<SubjectPersonEntity, SubjectPersonEntityBuilder> {
+
+	private PersonalInfo personal;
+	private IdentityCardInfo identityCard;
+
+	private SubjectPersonEntityBuilder() {
+	}
+
+	public SubjectPersonEntityBuilder withPersonal(PersonalInfo personal) {
+	    this.personal = personal;
+	    return this;
+	}
+
+	public SubjectPersonEntityBuilder withIdentityCard(IdentityCardInfo identityCard) {
+	    this.identityCard = identityCard;
+	    return this;
+	}
+
+	@Override
+	protected SubjectPersonEntityBuilder _this() {
+	    return this;
+	}
+
+	@Override
+	public SubjectPersonEntity build() throws IllegalArgumentException {
+	    final SubjectPersonEntity res = new SubjectPersonEntity();
+	    superFill(res);
+	    res.identityCard = identityCard;
+	    res.personal = personal;
+	    return res;
+	}
+    }
+
+    private SubjectPersonEntity() {
+    }
+
     @Override
     public SubjectType getSubjectType() {
 	return SubjectType.PERSON;
     }
 
-    // First_Name s:string Имя (для физ. лица)
-    // Last_Name s:string Фамилия (для физ. лица)
-    // Middle_Name s:string Отчество (для физ. лица)
-    // Born s:string Дата рождения
-    // Sex_ID s:int Пол (справочник SEX)
-    PersonalInfo personal;
+    private PersonalInfo personal;
 
     public PersonalInfo getPersonal() {
 	return personal;
     }
 
-    // DOCUMENT_TYPE_ID s:int Тип документа (справочник DOCUMENTS_TYPES)
-    // DOCUMENT_NUMBER s:string Номер документа
-    // DOCUMENT_GIVED_BY s:string Документ выдан
-    // DOCUMENT_GIVED_DATE s:string Дата выдачи документа
-    IdentityCardInfo identityCard;
+    private IdentityCardInfo identityCard;
 
     public IdentityCardInfo getIdentityCard() {
 	return identityCard;

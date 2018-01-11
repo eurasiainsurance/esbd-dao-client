@@ -10,6 +10,7 @@ import javax.ejb.TransactionAttributeType;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.entities.SubjectCompanyEntity.SubjectCompanyEntityBuilder;
 import tech.lapsa.esbd.dao.entities.SubjectCompanyEntityService.SubjectCompanyEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.SubjectCompanyEntityService.SubjectCompanyEntityServiceRemote;
 import tech.lapsa.esbd.jaxws.wsimport.Client;
@@ -106,8 +107,8 @@ public class SubjectCompanyEntityServiceBean
     SubjectCompanyEntity convert(final Client source) {
 	if (source.getNaturalPersonBool() != 0)
 	    throw MyExceptions.format(EJBException::new, "Client is not a legal person");
-	final SubjectCompanyEntity target = new SubjectCompanyEntity();
-	fillValues(source, target);
-	return target;
+	final SubjectCompanyEntityBuilder builder = SubjectCompanyEntity.builder();
+	fillValues(source, builder);
+	return builder.build();
     }
 }

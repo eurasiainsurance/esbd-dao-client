@@ -28,6 +28,9 @@ import tech.lapsa.esbd.dao.elements.KZCityService.KZCityServiceLocal;
 import tech.lapsa.esbd.dao.elements.KZEconomicSectorService.KZEconomicSectorServiceLocal;
 import tech.lapsa.esbd.dao.entities.GeneralSubjectEntityService.GeneralSubjectEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.GeneralSubjectEntityService.GeneralSubjectEntityServiceRemote;
+import tech.lapsa.esbd.dao.entities.SubjectCompanyEntity.SubjectCompanyEntityBuilder;
+import tech.lapsa.esbd.dao.entities.SubjectEntity.SubjectEntityBuilder;
+import tech.lapsa.esbd.dao.entities.SubjectPersonEntity.SubjectPersonEntityBuilder;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfClient;
 import tech.lapsa.esbd.jaxws.wsimport.Client;
 import tech.lapsa.java.commons.function.MyCollectors;
@@ -100,27 +103,31 @@ public abstract class ASubjectEntityService<T extends SubjectEntity>
 
     abstract T convert(Client source);
 
-    void fillValues(final Client source, final SubjectPersonEntity target) {
+    void fillValues(final Client source, final SubjectPersonEntityBuilder builder) {
 	try {
-	    fillValues(source, (SubjectEntity) target);
+	    final int id = source.getID();
 
-	    // First_Name s:string Имя (для физ. лица)
-	    // Last_Name s:string Фамилия (для физ. лица)
-	    // Middle_Name s:string Отчество (для физ. лица)
-	    // Born s:string Дата рождения
-	    // Sex_ID s:int Пол (справочник SEX)
-	    PersonalInfo.builder()
-		    .withName(source.getFirstName())
-		    .withSurename(source.getLastName())
-		    .withPatronymic(source.getMiddleName())
-		    .withDayOfBirth(convertESBDDateToLocalDate(source.getBorn()))
-		    .withGender(Util.optField(target,
-			    target.id,
-			    genders::getById,
-			    "personal.gender",
-			    Sex.class,
-			    MyOptionals.of(source.getSexID())))
-		    .buildTo(x -> target.personal = x);
+	    fillValues(source, (SubjectEntityBuilder<?, ?>) builder);
+
+	    {
+		// First_Name s:string Имя (для физ. лица)
+		// Last_Name s:string Фамилия (для физ. лица)
+		// Middle_Name s:string Отчество (для физ. лица)
+		// Born s:string Дата рождения
+		// Sex_ID s:int Пол (справочник SEX)
+		PersonalInfo.builder()
+			.withName(source.getFirstName())
+			.withSurename(source.getLastName())
+			.withPatronymic(source.getMiddleName())
+			.withDayOfBirth(convertESBDDateToLocalDate(source.getBorn()))
+			.withGender(Util.optField(SubjectPersonEntity.class,
+				id,
+				genders::getById,
+				"personal.gender",
+				Sex.class,
+				MyOptionals.of(source.getSexID())))
+			.buildTo(builder::withPersonal);
+	    }
 
 	    // DOCUMENT_TYPE_ID s:int Тип документа (справочник DOCUMENTS_TYPES)
 	    // DOCUMENT_NUMBER s:string Номер документа
@@ -130,13 +137,13 @@ public abstract class ASubjectEntityService<T extends SubjectEntity>
 		    .withNumber(MyOptionals.of(source.getDOCUMENTNUMBER()))
 		    .withDateOfIssue(MyOptionals.of(convertESBDDateToLocalDate(source.getDOCUMENTGIVEDDATE())))
 		    .withIssuingAuthority(source.getDOCUMENTGIVEDBY()) //
-		    .withIdentityCardType(Util.optField(target.getClass(),
-			    target.getId(),
+		    .withIdentityCardType(Util.optField(SubjectPersonEntity.class,
+			    id,
 			    identityCardTypes::getById,
 			    "identityCard.identityCardType",
 			    IdentityCardType.class,
 			    MyOptionals.of(source.getDOCUMENTTYPEID())))
-		    .buildTo(x -> target.identityCard = x);
+		    .buildTo(builder::withIdentityCard);
 
 	} catch (IllegalArgumentException e) {
 	    // it should not happens
@@ -144,91 +151,119 @@ public abstract class ASubjectEntityService<T extends SubjectEntity>
 	}
     }
 
-    void fillValues(final Client source, final SubjectCompanyEntity target) {
+    void fillValues(final Client source, final SubjectCompanyEntityBuilder builder) {
 	try {
-	    fillValues(source, (SubjectEntity) target);
+	    final int id = source.getID();
 
-	    // Juridical_Person_Name s:string Наименование (для юр. лица)
-	    target.companyName = source.getJuridicalPersonName();
+	    fillValues(source, (SubjectEntityBuilder<?, ?>) builder);
 
-	    // MAIN_CHIEF s:string Первый руководитель
-	    target.headName = source.getMAINCHIEF();
+	    {
+		// Juridical_Person_Name s:string Наименование (для юр. лица)
+		builder.withCompanyName(source.getJuridicalPersonName());
+	    }
 
-	    // MAIN_ACCOUNTANT s:string Главный бухгалтер
-	    target.accountantName = source.getMAINACCOUNTANT();
+	    {
+		// MAIN_CHIEF s:string Первый руководитель
+		builder.withHeadName(source.getMAINCHIEF());
+	    }
 
-	    // ACTIVITY_KIND_ID s:int Вид деятельности (справочник
-	    // ACTIVITY_KINDS)
-	    target._companyActivityKind = source.getACTIVITYKINDID();
-	    Util.optionalFieldIgnoreFieldNotFound(target,
-		    target.getId(),
-		    companyActivityKinds::getById,
-		    target::setCompanyActivityKind,
-		    "companyActivityKind",
-		    CompanyActivityKindEntity.class,
-		    MyOptionals.of(target._companyActivityKind));
+	    {
+		// MAIN_ACCOUNTANT s:string Главный бухгалтер
+		builder.withAccountantName(source.getMAINACCOUNTANT());
+	    }
+
+	    {
+		// ACTIVITY_KIND_ID s:int Вид деятельности (справочник
+		// ACTIVITY_KINDS)
+		builder.withCompanyActivityKind(Util.optFieldIgnoreFieldNotFound(SubjectCompanyEntity.class,
+			id,
+			companyActivityKinds::getById,
+			"companyActivityKind",
+			CompanyActivityKindEntity.class,
+			MyOptionals.of(source.getACTIVITYKINDID())));
+	    }
+
 	} catch (IllegalArgumentException e) {
 	    // it should not happens
 	    throw new EJBException(e.getMessage());
 	}
     }
 
-    void fillValues(final Client source, final SubjectEntity target) {
+    void fillValues(final Client source, final SubjectEntityBuilder<?, ?> builder) {
 	try {
-	    // ID s:int Идентификатор клиента (обязательно)
-	    target.id = MyOptionals.of(source.getID()).orElse(null);
+	    final int id = source.getID();
 
-	    // RESIDENT_BOOL s:int Признак резидентства (обязательно)
-	    // COUNTRY_ID s:int Страна (справочник COUNTRIES)
-	    // SETTLEMENT_ID s:int Населенный пункт (справочник SETTLEMENTS)
-	    OriginInfo.builder() //
-		    .withResident(source.getRESIDENTBOOL() == 1)
-		    .withCountry(Util.optField(target,
-			    target.id,
-			    countries::getById,
-			    "origin.country",
-			    Country.class,
-			    MyOptionals.of(source.getCOUNTRYID())))
-		    .withCity(Util.optField(target,
-			    target.id,
-			    cityies::getById,
-			    "origin.city",
-			    KZCity.class,
-			    MyOptionals.of(source.getSETTLEMENTID())))
-		    .buildTo(x -> target.origin = x);
+	    {
+		// ID s:int Идентификатор клиента (обязательно)
+		builder.withId(MyOptionals.of(id).orElse(null));
+	    }
 
-	    // PHONES s:string Номера телефонов
-	    // EMAIL s:string Адрес электронной почты
-	    // Address s:string Адрес
-	    // WWW s:string Сайт
-	    ContactInfo.builder() //
-		    .withPhone(MyOptionals.of(source.getPHONES())
-			    .map(PhoneNumber::assertValid)) //
-		    .withHomeAdress(source.getAddress()) //
-		    .withEmail(source.getEMAIL()) //
-		    .withSiteUrl(source.getWWW())
-		    .buildTo(x -> target.contact = x);
+	    {
+		// RESIDENT_BOOL s:int Признак резидентства (обязательно)
+		// COUNTRY_ID s:int Страна (справочник COUNTRIES)
+		// SETTLEMENT_ID s:int Населенный пункт (справочник SETTLEMENTS)
+		OriginInfo.builder() //
+			.withResident(source.getRESIDENTBOOL() == 1)
+			.withCountry(Util.optField(SubjectEntity.class,
+				id,
+				countries::getById,
+				"origin.country",
+				Country.class,
+				MyOptionals.of(source.getCOUNTRYID())))
+			.withCity(Util.optField(SubjectEntity.class,
+				id,
+				cityies::getById,
+				"origin.city",
+				KZCity.class,
+				MyOptionals.of(source.getSETTLEMENTID())))
+			.buildTo(builder::withOrigin);
+	    }
 
-	    // TPRN s:string РНН
-	    target.taxPayerNumber = source.getTPRN();
+	    {
+		// PHONES s:string Номера телефонов
+		// EMAIL s:string Адрес электронной почты
+		// Address s:string Адрес
+		// WWW s:string Сайт
+		ContactInfo.builder() //
+			.withPhone(MyOptionals.of(source.getPHONES())
+				.map(PhoneNumber::assertValid)) //
+			.withHomeAdress(source.getAddress()) //
+			.withEmail(source.getEMAIL()) //
+			.withSiteUrl(source.getWWW())
+			.buildTo(builder::withContact);
+	    }
 
-	    // DESCRIPTION s:string Примечание
-	    target.comments = source.getDESCRIPTION();
+	    {
+		// TPRN s:string РНН
+		builder.withTaxPayerNumber(source.getTPRN());
+	    }
 
-	    // RESIDENT_BOOL s:int Признак резидентства (обязательно)
-	    target.resident = source.getRESIDENTBOOL() == 1;
+	    {
+		// DESCRIPTION s:string Примечание
+		builder.withComments(source.getDESCRIPTION());
+	    }
 
-	    // IIN s:string ИИН/БИН
-	    target._idNumber = source.getIIN();
-	    target.idNumber = MyOptionals.of(target._idNumber)
-		    .map(TaxpayerNumber::assertValid)
-		    .orElse(null);
+	    {
+		// RESIDENT_BOOL s:int Признак резидентства (обязательно)
+		builder.withResident(source.getRESIDENTBOOL() == 1);
+	    }
 
-	    // ECONOMICS_SECTOR_ID s:int Сектор экономики (справочник
-	    // ECONOMICS_SECTORS)
-	    target._economicsSector = source.getECONOMICSSECTORID();
-	    Util.optionalField(target, target.getId(), economicsSectors::getById, target::setEconomicsSector,
-		    "EconomicsSector", KZEconomicSector.class, MyOptionals.of(target._economicsSector));
+	    {
+		// IIN s:string ИИН/БИН
+		builder.withIdNumber(MyOptionals.of(source.getIIN())
+			.map(TaxpayerNumber::assertValid));
+	    }
+
+	    {
+		// ECONOMICS_SECTOR_ID s:int Сектор экономики (справочник
+		// ECONOMICS_SECTORS)
+		builder.withEconomicsSector(Util.optField(SubjectEntity.class,
+			id,
+			economicsSectors::getById,
+			"EconomicsSector",
+			KZEconomicSector.class,
+			MyOptionals.of(source.getECONOMICSSECTORID())));
+	    }
 
 	} catch (IllegalArgumentException e) {
 	    // it should not happens

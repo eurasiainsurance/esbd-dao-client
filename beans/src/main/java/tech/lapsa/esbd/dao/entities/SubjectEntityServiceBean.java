@@ -11,9 +11,11 @@ import javax.ejb.TransactionAttributeType;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.entities.SubjectCompanyEntity.SubjectCompanyEntityBuilder;
 import tech.lapsa.esbd.dao.entities.SubjectCompanyEntityService.SubjectCompanyEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.SubjectEntityService.SubjectEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.SubjectEntityService.SubjectEntityServiceRemote;
+import tech.lapsa.esbd.dao.entities.SubjectPersonEntity.SubjectPersonEntityBuilder;
 import tech.lapsa.esbd.dao.entities.SubjectPersonEntityService.SubjectPersonEntityServiceLocal;
 import tech.lapsa.esbd.jaxws.wsimport.Client;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
@@ -105,13 +107,13 @@ public class SubjectEntityServiceBean
     @Override
     SubjectEntity convert(final Client source) {
 	if (source.getNaturalPersonBool() == 1) {
-	    final SubjectPersonEntity target = new SubjectPersonEntity();
-	    fillValues(source, target);
-	    return target;
+	    final SubjectPersonEntityBuilder builder = SubjectPersonEntity.builder();
+	    fillValues(source, builder);
+	    return builder.build();
 	} else {
-	    final SubjectCompanyEntity target = new SubjectCompanyEntity();
-	    fillValues(source, target);
-	    return target;
+	    final SubjectCompanyEntityBuilder builder = SubjectCompanyEntity.builder();
+	    fillValues(source, builder);
+	    return builder.build();
 	}
     }
 }
