@@ -1,5 +1,6 @@
 package tech.lapsa.esbd.dao.entities;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -12,6 +13,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
@@ -21,6 +23,7 @@ import tech.lapsa.esbd.dao.dict.BranchEntityService.BranchEntityServiceLocal;
 import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
 import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntityService.InsuranceCompanyEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.SubjectEntityService.SubjectEntityServiceLocal;
+import tech.lapsa.esbd.dao.entities.UserEntity.UserEntityBuilder;
 import tech.lapsa.esbd.dao.entities.UserEntityService.UserEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.UserEntityService.UserEntityServiceRemote;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfUser;
@@ -133,53 +136,71 @@ public class UserEntityServiceBean
 	}
     }
 
-    UserEntity convert(final User source) {
-	final UserEntity traget = new UserEntity();
-	fillValues(source, traget);
-	return traget;
-    }
-
     @EJB
     private SubjectEntityServiceLocal subjects;
 
-    void fillValues(final User source, final UserEntity target) {
+    UserEntity convert(final User source) {
 	try {
-	    // ID s:int Идентификатор пользователя
-	    target.id = MyOptionals.of(source.getID()).orElse(null);
 
-	    // Name s:string Имя пользователя
-	    target.login = source.getName();
+	    final UserEntityBuilder builder = UserEntity.builder();
 
-	    // Branch_ID s:int Филиал пользователя (справочник BRANCHES)
-	    // non mandatory field
-	    target._branch = source.getBranchID();
-	    Util.optionalField(target, target.id, branchService::getById,
-		    target::setBranch, "branch", BranchEntity.class,
-		    MyOptionals.of(target._branch));
+	    final int id = source.getID();
 
-	    // CLIENT_ID s:int Клиент пользователя (справочник CLIENTS)
-	    // non mandatory field
-	    target._subject = source.getCLIENTID();
-	    Util.optionalField(target, target.id, subjects::getById,
-		    target::setSubject, "subject", SubjectEntity.class,
-		    MyOptionals.of(target._subject));
+	    {
+		// ID s:int Идентификатор пользователя
+		builder.withId(MyOptionals.of(id).orElse(null));
+	    }
 
-	    // SYSTEM_DELIMITER_ID s:int Разделитель учета (справочник
-	    // SYSTEM_DELIMITER)
-	    // non mandatory field
-	    target._organization = source.getSYSTEMDELIMITERID();
-	    Util.optionalField(target, target.id, insuranceCompanyService::getById,
-		    target::setOrganization, "organization", InsuranceCompanyEntity.class,
-		    MyOptionals.of(target._organization));
+	    {
+		// Name s:string Имя пользователя
+		builder.withLogin(source.getName());
+	    }
+
+	    {
+		// Branch_ID s:int Филиал пользователя (справочник BRANCHES)
+		builder.withBranch(Util.optField(UserEntity.class,
+			id,
+			branchService::getById,
+			"branch",
+			BranchEntity.class,
+			MyOptionals.of(source.getBranchID())));
+	    }
+
+	    {
+		// CLIENT_ID s:int Клиент пользователя (справочник CLIENTS)
+		builder.withSubject(Util.optField(UserEntity.class,
+			id,
+			subjects::getById,
+			"subject", SubjectEntity.class,
+			MyOptionals.of(source.getCLIENTID())));
+	    }
+
+	    {
+		// SYSTEM_DELIMITER_ID s:int Разделитель учета (справочник
+		// SYSTEM_DELIMITER)
+		builder.withOrganization(Util.optField(UserEntity.class,
+			id,
+			insuranceCompanyService::getById,
+			"organization",
+			InsuranceCompanyEntity.class,
+			MyOptionals.of(source.getSYSTEMDELIMITERID())));
+	    }
 
 	    // IsAuthenticated s:int Пользователь аутентифицирован
-	    target.authentificated = source.getIsAuthenticated() == 1;
+	    builder.withAuthentificated(source.getIsAuthenticated() == 1);
 
 	    // SessionID s:string Идентификатор текущей сессии пользователя
-	    target.lastSesionId = source.getSessionID();
+	    builder.withLastSesionId(source.getSessionID());
+
+	    // LastRequestTime s:string Время последнего действия пользователя
+	    builder.withLastActivity(MyOptionals.of(source.getLastRequestTime())
+		    .map(XMLGregorianCalendar::toGregorianCalendar)
+		    .map(Calendar::toInstant));
 
 	    // ErrorMessage s:string Описание ошибки аутентификации
-	    // LastRequestTime s:string Время последнего действия пользователя
+
+	    return builder.build();
+
 	} catch (IllegalArgumentException e) {
 	    // it should not happens
 	    throw new EJBException(e.getMessage());
