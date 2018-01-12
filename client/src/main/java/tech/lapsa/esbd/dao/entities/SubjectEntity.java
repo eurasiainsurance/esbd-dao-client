@@ -7,6 +7,7 @@ import com.lapsa.insurance.elements.SubjectType;
 import com.lapsa.kz.economic.KZEconomicSector;
 
 import tech.lapsa.esbd.dao.Domain;
+import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
@@ -37,7 +38,7 @@ public abstract class SubjectEntity extends Domain {
 	}
 
 	public THIS withId(Integer id) {
-	    this.id = id;
+	    this.id = MyNumbers.requirePositive(id, "id");
 	    return _this();
 	}
 
@@ -97,7 +98,7 @@ public abstract class SubjectEntity extends Domain {
 	public abstract T build() throws IllegalArgumentException;
 
 	protected void superFill(SubjectEntity res) {
-	    res.id = id;
+	    res.id = MyNumbers.requirePositive(id, "id");
 	    res.origin = origin;
 	    res.contact = contact;
 	    res.taxPayerNumber = taxPayerNumber;
