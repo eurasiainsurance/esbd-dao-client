@@ -61,11 +61,15 @@ public class SubjectPersonEntity extends SubjectEntity {
 	return SubjectType.PERSON;
     }
 
+    // personal
+
     private PersonalInfo personal;
 
     public PersonalInfo getPersonal() {
 	return personal;
     }
+
+    // identityCard
 
     private IdentityCardInfo identityCard;
 

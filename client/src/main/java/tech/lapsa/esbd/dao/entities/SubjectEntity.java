@@ -114,11 +114,15 @@ public abstract class SubjectEntity extends Domain {
 
     public abstract SubjectType getSubjectType();
 
+    // id
+
     private Integer id;
 
     public Integer getId() {
 	return id;
     }
+
+    // origin
 
     private OriginInfo origin;
 
@@ -126,11 +130,15 @@ public abstract class SubjectEntity extends Domain {
 	return origin;
     }
 
+    // contact
+
     private ContactInfo contact;
 
     public ContactInfo getContact() {
 	return contact;
     }
+
+    // taxPayerNumber
 
     private String taxPayerNumber;
 
@@ -138,11 +146,15 @@ public abstract class SubjectEntity extends Domain {
 	return taxPayerNumber;
     }
 
+    // comments
+
     private String comments;
 
     public String getComments() {
 	return comments;
     }
+
+    // resident
 
     private boolean resident;
 
@@ -150,11 +162,15 @@ public abstract class SubjectEntity extends Domain {
 	return resident;
     }
 
+    // idNumber
+
     private TaxpayerNumber idNumber;
 
     public TaxpayerNumber getIdNumber() {
 	return idNumber;
     }
+
+    // economicsSector
 
     private KZEconomicSector economicsSector;
 

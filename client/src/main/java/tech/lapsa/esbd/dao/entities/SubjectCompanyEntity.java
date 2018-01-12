@@ -87,11 +87,15 @@ public class SubjectCompanyEntity extends SubjectEntity {
 	return SubjectType.COMPANY;
     }
 
+    // companyName
+
     private String companyName;
 
     public String getCompanyName() {
 	return companyName;
     }
+
+    // headName
 
     private String headName;
 
@@ -99,11 +103,15 @@ public class SubjectCompanyEntity extends SubjectEntity {
 	return headName;
     }
 
+    // accountantName
+
     private String accountantName;
 
     public String getAccountantName() {
 	return accountantName;
     }
+
+    // companyActivityKind
 
     private CompanyActivityKindEntity companyActivityKind;
 
