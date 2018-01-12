@@ -45,7 +45,7 @@ public abstract class AElementsService<T extends Enum<T>> implements ElementsSer
     // PRIVATE
 
     private T _getById(final Integer id) throws IllegalArgumentException, NotFound {
-	MyNumbers.requirePositive(id, "id");
+	MyNumbers.requireNonZero(id, "id");
 	return MyOptionals.of(converter.apply(id)) //
 		.orElseThrow(
 			MyExceptions.supplier(NotFound::new, "%1$s(%2$s) not found", entityClazz.getSimpleName(), id));
