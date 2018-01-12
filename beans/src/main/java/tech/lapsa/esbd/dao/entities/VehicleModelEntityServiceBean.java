@@ -14,6 +14,7 @@ import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceLocal;
+import tech.lapsa.esbd.dao.entities.VehicleModelEntity.VehicleModelEntityBuilder;
 import tech.lapsa.esbd.dao.entities.VehicleModelEntityService.VehicleModelEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.VehicleModelEntityService.VehicleModelEntityServiceRemote;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfVOITUREMODEL;
@@ -136,17 +137,39 @@ public class VehicleModelEntityServiceBean
     }
 
     VehicleModelEntity convert(final VOITUREMODEL source) {
-	final VehicleModelEntity vehicle = new VehicleModelEntity();
-	fillValues(source, vehicle);
-	return vehicle;
-    }
+	try {
 
-    void fillValues(final VOITUREMODEL source, final VehicleModelEntity target) {
-	target.id = MyOptionals.of(source.getID()).orElse(null);
-	target.name = source.getNAME();
-	target._manufacturer = source.getVOITUREMARKID();
-	Util.requireField(target, target.getId(), vehicleManufacturerService::getById, target::setManufacturer,
-		"Manufacturer", VehicleManufacturerEntity.class, target._manufacturer);
+	    final VehicleModelEntityBuilder builder = VehicleModelEntity.builder();
+
+	    final int id = source.getID();
+
+	    {
+		// ID s:int Идентификатор модели
+		builder.withId(MyOptionals.of(id).orElse(null));
+	    }
+
+	    {
+		// NAME s:string Наименование модели
+		builder.withName(source.getNAME());
+	    }
+
+	    {
+		// VOITURE_MARK_ID s:int Идентификатор марки ТС
+		builder.withManufacturer(Util.reqField(VehicleModelEntity.class,
+			id,
+			vehicleManufacturerService::getById,
+			"manufacturer",
+			VehicleManufacturerEntity.class,
+			source.getVOITUREMARKID()));
+	    }
+
+	    return builder.build();
+
+	} catch (IllegalArgumentException e) {
+	    // it should not happens
+	    throw new EJBException(e.getMessage());
+	}
+
     }
 
 }

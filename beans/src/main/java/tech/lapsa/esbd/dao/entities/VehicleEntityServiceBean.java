@@ -18,6 +18,7 @@ import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.esbd.dao.ESBDDates;
 import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.esbd.dao.elements.VehicleClassService.VehicleClassServiceLocal;
+import tech.lapsa.esbd.dao.entities.VehicleEntity.VehicleEntityBuilder;
 import tech.lapsa.esbd.dao.entities.VehicleEntityService.VehicleEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.VehicleEntityService.VehicleEntityServiceRemote;
 import tech.lapsa.esbd.dao.entities.VehicleModelEntityService.VehicleModelEntityServiceLocal;
@@ -105,8 +106,9 @@ public class VehicleEntityServiceBean
 		.map(ArrayOfTF::getTF) //
 		.map(Collection::stream) //
 		.orElseGet(Stream::empty) //
-		.map(this::convert) //
-		.peek(x -> x.setRegNum(regNumber))
+		.map(this::convertToBuilder) //
+		.peek(x -> x.withRegNum(regNumber))
+		.map(VehicleEntityBuilder::build)
 		.collect(MyCollectors.unmodifiableList());
     }
 
@@ -124,7 +126,7 @@ public class VehicleEntityServiceBean
 		.orElseThrow(MyExceptions.supplier(NotFound::new, "%1$s not found with ID = '%2$s'",
 			VehicleEntity.class.getSimpleName(), id));
 	final TF source = Util.requireSingle(list, VehicleEntity.class, "ID", id);
-	return convert(source);
+	return convertToBuilder(source).build();
     }
 
     private List<VehicleEntity> _getByVINCode(final String vinCode) throws IllegalArgumentException {
@@ -137,56 +139,82 @@ public class VehicleEntityServiceBean
 		.map(ArrayOfTF::getTF) //
 		.map(Collection::stream) //
 		.orElseGet(Stream::empty) //
-		.map(this::convert) //
+		.map(this::convertToBuilder) //
+		.map(VehicleEntityBuilder::build)
 		.collect(MyCollectors.unmodifiableList());
     }
 
-    VehicleEntity convert(final TF source) {
-	final VehicleEntity target = new VehicleEntity();
-	fillValues(source, target);
-	return target;
+    VehicleEntityBuilder convertToBuilder(final TF source) {
+	try {
+
+	    final VehicleEntityBuilder builder = VehicleEntity.builder();
+
+	    final int id = source.getTFID();
+
+	    {
+		// TF_ID s:int Идентификатор ТС
+		builder.withId(MyOptionals.of(id).orElse(null));
+	    }
+
+	    {
+		// TF_TYPE_ID s:int Тип ТС (справочник TF_TYPES)
+		builder.withVehicleClass(Util.reqField(VehicleEntity.class,
+			id,
+			vehicleClassService::getById,
+			"VehicleClass",
+			VehicleClass.class,
+			source.getTFTYPEID()));
+	    }
+
+	    {
+		// VIN s:string VIN код (номер кузова) (обязательно)
+		builder.withVinCode(source.getVIN());
+	    }
+
+	    {
+		// MODEL_ID s:int Марка\Модель (справочник VOITURE_MODELS)
+		// (обязательно)
+		builder.withVehicleModel(Util.reqField(VehicleEntity.class,
+			id,
+			vehicleModelService::getById,
+			"vehicleModel",
+			VehicleModelEntity.class,
+			source.getMODELID()));
+	    }
+
+	    {
+		// RIGHT_HAND_DRIVE_BOOL s:int Признак расположения руля (0 -
+		// слева;
+		// 1 -
+		// справа)
+		builder.withSteeringWheelLocation(source.getRIGHTHANDDRIVEBOOL() == 0
+			? SteeringWheelLocation.LEFT_SIDE
+			: SteeringWheelLocation.RIGHT_SIDE);
+	    }
+
+	    {
+		// ENGINE_VOLUME s:int Объем двигателя (куб.см.)
+		// ENGINE_NUMBER s:string Номер двигателя
+		// ENGINE_POWER s:int Мощность двигателя (квт.)
+		builder.withEngine(source.getENGINENUMBER(), source.getENGINEVOLUME(), source.getENGINEPOWER());
+	    }
+
+	    {
+		// COLOR s:string Цвет ТС
+		builder.withColor(source.getCOLOR());
+	    }
+
+	    {
+		// BORN s:string Год выпуска (обязательно)
+		// BORN_MONTH s:int Месяц выпуска ТС
+		builder.withRealeaseDate(ESBDDates.fromESBDYearMonth(source.getBORN(), source.getBORNMONTH()));
+	    }
+
+	    return builder;
+
+	} catch (IllegalArgumentException e) {
+	    // it should not happens
+	    throw new EJBException(e.getMessage());
+	}
     }
-
-    void fillValues(final TF source, final VehicleEntity target) {
-
-	// TF_ID s:int Идентификатор ТС
-	target.id = MyOptionals.of(source.getTFID()).orElse(null);
-
-	// TF_TYPE_ID s:int Тип ТС (справочник TF_TYPES)
-	// non mandatory field
-	target._vehicleClass = source.getTFTYPEID();
-	Util.requireField(target, target.id, vehicleClassService::getById, target::setVehicleClass, "VehicleClass",
-		VehicleClass.class, target._vehicleClass);
-
-	// VIN s:string VIN код (номер кузова) (обязательно)
-	target.vinCode = source.getVIN();
-
-	// MODEL_ID s:int Марка\Модель (справочник VOITURE_MODELS) (обязательно)
-	target._vehicleModel = source.getMODELID();
-	Util.requireField(target, target.getId(), vehicleModelService::getById, target::setVehicleModel,
-		"VehicleModel", VehicleModelEntity.class, target._vehicleModel);
-
-	// RIGHT_HAND_DRIVE_BOOL s:int Признак расположения руля (0 - слева; 1 -
-	// справа)
-	target.steeringWheelLocation = source.getRIGHTHANDDRIVEBOOL() == 0
-		? SteeringWheelLocation.LEFT_SIDE
-		: SteeringWheelLocation.RIGHT_SIDE;
-
-	// ENGINE_VOLUME s:int Объем двигателя (куб.см.)
-	target.enginePower = source.getENGINEVOLUME();
-
-	// ENGINE_NUMBER s:string Номер двигателя
-	target.enineNumber = source.getENGINENUMBER();
-
-	// ENGINE_POWER s:int Мощность двигателя (квт.)
-	target.enginePower = source.getENGINEPOWER();
-
-	// COLOR s:string Цвет ТС
-	target.color = source.getCOLOR();
-
-	// BORN s:string Год выпуска (обязательно)
-	// BORN_MONTH s:int Месяц выпуска ТС
-	target.realeaseDate = ESBDDates.fromESBDYearMonth(source.getBORN(), source.getBORNMONTH());
-    }
-
 }

@@ -13,6 +13,7 @@ import javax.ejb.TransactionAttributeType;
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntity.VehicleManufacturerEntityBuilder;
 import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceRemote;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfVOITUREMARK;
@@ -100,14 +101,32 @@ public class VehicleManufacturerEntityServiceBean
     }
 
     VehicleManufacturerEntity convert(final VOITUREMARK source) {
-	final VehicleManufacturerEntity manufacturer = new VehicleManufacturerEntity();
-	fillValues(source, manufacturer);
-	return manufacturer;
-    }
+	try {
 
-    void fillValues(final VOITUREMARK source, final VehicleManufacturerEntity target) {
-	target.id = MyOptionals.of(source.getID()).orElse(null);
-	target.name = source.getNAME();
-	target.foreign = source.getISFOREIGNBOOL() != 0;
+	    final VehicleManufacturerEntityBuilder builder = VehicleManufacturerEntity.builder();
+
+	    final int id = source.getID();
+
+	    {
+		// ID s:int Идентификатор
+		builder.withId(MyOptionals.of(id).orElse(null));
+	    }
+
+	    {
+		// NAME s:string Наименование марки
+		builder.withName(source.getNAME());
+	    }
+
+	    {
+		// IS_FOREIGN_BOOL s:int Признак иностранной марки
+		builder.withForeign(Boolean.valueOf(source.getISFOREIGNBOOL() != 0));
+	    }
+
+	    return builder.build();
+
+	} catch (IllegalArgumentException e) {
+	    // it should not happens
+	    throw new EJBException(e.getMessage());
+	}
     }
 }
