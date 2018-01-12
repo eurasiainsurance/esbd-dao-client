@@ -51,6 +51,9 @@ public class PolicyEntity extends Domain {
 	private RecordOperationInfo created;
 	private RecordOperationInfo modified;
 
+	private PolicyEntityBuilder() {
+	}
+
 	public PolicyEntityBuilder withId(final Integer id) throws IllegalArgumentException {
 	    this.id = MyNumbers.requirePositive(id, "id");
 	    return this;

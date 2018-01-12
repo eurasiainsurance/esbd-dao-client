@@ -32,6 +32,9 @@ public class UserEntity extends Domain {
 	private String lastSesionId;
 	private Instant lastActivity;
 
+	private UserEntityBuilder() {
+	}
+
 	public UserEntityBuilder withId(Integer id) throws IllegalArgumentException {
 	    this.id = MyNumbers.requirePositive(id, "id");
 	    return this;
