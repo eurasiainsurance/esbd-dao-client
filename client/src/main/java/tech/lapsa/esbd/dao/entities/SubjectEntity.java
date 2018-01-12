@@ -37,54 +37,54 @@ public abstract class SubjectEntity extends Domain {
 	protected SubjectEntityBuilder() {
 	}
 
-	public THIS withId(Integer id) {
+	public THIS withId(final Integer id) {
 	    this.id = MyNumbers.requirePositive(id, "id");
 	    return _this();
 	}
 
-	public THIS withOrigin(OriginInfo origin) {
+	public THIS withOrigin(final OriginInfo origin) {
 	    this.origin = origin;
 	    return _this();
 	}
 
-	public THIS withContact(ContactInfo contact) {
+	public THIS withContact(final ContactInfo contact) {
 	    this.contact = contact;
 	    return _this();
 	}
 
-	public THIS withTaxPayerNumber(String taxPayerNumber) {
+	public THIS withTaxPayerNumber(final String taxPayerNumber) {
 	    this.taxPayerNumber = taxPayerNumber;
 	    return _this();
 	}
 
-	public THIS withComments(String comments) {
+	public THIS withComments(final String comments) {
 	    this.comments = comments;
 	    return _this();
 	}
 
-	public THIS withResident(boolean resident) {
+	public THIS withResident(final boolean resident) {
 	    this.resident = resident;
 	    return _this();
 	}
 
-	public THIS withIdNumber(TaxpayerNumber idNumber) {
+	public THIS withIdNumber(final TaxpayerNumber idNumber) {
 	    this.idNumber = idNumber;
 	    return _this();
 	}
 
-	public THIS withIdNumber(Optional<TaxpayerNumber> optIdNumber) {
+	public THIS withIdNumber(final Optional<TaxpayerNumber> optIdNumber) {
 	    if (MyObjects.requireNonNull(optIdNumber, "optIdNumber").isPresent())
 		return withIdNumber(optIdNumber.get());
 	    this.idNumber = null;
 	    return _this();
 	}
 
-	public THIS withEconomicsSector(KZEconomicSector economicsSector) {
+	public THIS withEconomicsSector(final KZEconomicSector economicsSector) {
 	    this.economicsSector = economicsSector;
 	    return _this();
 	}
 
-	public THIS withEconomicsSector(Optional<KZEconomicSector> optEconomicsSector) {
+	public THIS withEconomicsSector(final Optional<KZEconomicSector> optEconomicsSector) {
 	    if (MyObjects.requireNonNull(optEconomicsSector, "optEconomicsSector").isPresent())
 		return withEconomicsSector(optEconomicsSector.get());
 	    this.economicsSector = null;
@@ -97,7 +97,7 @@ public abstract class SubjectEntity extends Domain {
 
 	public abstract T build() throws IllegalArgumentException;
 
-	protected void superFill(SubjectEntity res) {
+	protected void superFill(final SubjectEntity res) {
 	    res.id = MyNumbers.requirePositive(id, "id");
 	    res.origin = origin;
 	    res.contact = contact;

@@ -28,12 +28,12 @@ public class SubjectPersonEntity extends SubjectEntity {
 	private SubjectPersonEntityBuilder() {
 	}
 
-	public SubjectPersonEntityBuilder withPersonal(PersonalInfo personal) {
+	public SubjectPersonEntityBuilder withPersonal(final PersonalInfo personal) {
 	    this.personal = personal;
 	    return this;
 	}
 
-	public SubjectPersonEntityBuilder withIdentityCard(IdentityCardInfo identityCard) {
+	public SubjectPersonEntityBuilder withIdentityCard(final IdentityCardInfo identityCard) {
 	    this.identityCard = identityCard;
 	    return this;
 	}

@@ -14,17 +14,17 @@ public abstract class DictionaryEntity extends Domain {
 	protected String code;
 	protected String name;
 
-	public DictionaryEntityBuilder<T> withId(Integer id) {
+	public DictionaryEntityBuilder<T> withId(final Integer id) {
 	    this.id = id;
 	    return this;
 	}
 
-	public DictionaryEntityBuilder<T> withCode(String code) {
+	public DictionaryEntityBuilder<T> withCode(final String code) {
 	    this.code = code;
 	    return this;
 	}
 
-	public DictionaryEntityBuilder<T> withName(String name) {
+	public DictionaryEntityBuilder<T> withName(final String name) {
 	    this.name = name;
 	    return this;
 	}

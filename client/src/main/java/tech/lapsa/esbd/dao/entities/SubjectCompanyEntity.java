@@ -34,31 +34,32 @@ public class SubjectCompanyEntity extends SubjectEntity {
 	private SubjectCompanyEntityBuilder() {
 	}
 
-	public SubjectCompanyEntityBuilder withCompanyName(String companyName) {
+	public SubjectCompanyEntityBuilder withCompanyName(final String companyName) {
 	    this.companyName = companyName;
 	    return this;
 	}
 
-	public SubjectCompanyEntityBuilder withHeadName(String headName) {
+	public SubjectCompanyEntityBuilder withHeadName(final String headName) {
 	    this.headName = headName;
 	    return this;
 	}
 
-	public SubjectCompanyEntityBuilder withAccountantName(String accountantName) {
+	public SubjectCompanyEntityBuilder withAccountantName(final String accountantName) {
 	    this.accountantName = accountantName;
 	    return this;
 	}
 
-	public SubjectCompanyEntityBuilder withCompanyActivityKind(CompanyActivityKindEntity companyActivityKind) {
+	public SubjectCompanyEntityBuilder withCompanyActivityKind(
+		final CompanyActivityKindEntity companyActivityKind) {
 	    this.companyActivityKind = companyActivityKind;
 	    return this;
 	}
 
 	public SubjectCompanyEntityBuilder withCompanyActivityKind(
-		Optional<CompanyActivityKindEntity> optCompanyActivityKind) {
+		final Optional<CompanyActivityKindEntity> optCompanyActivityKind) {
 	    if (MyObjects.requireNonNull(optCompanyActivityKind, "optCompanyActivityKind").isPresent())
 		return withCompanyActivityKind(optCompanyActivityKind.get());
-	    this.companyActivityKind = null;
+	    companyActivityKind = null;
 	    return this;
 	}
 

@@ -25,7 +25,7 @@ public class ESBDDAOPingServiceBean implements ESBDDAOPingServiceLocal, ESBDDAOP
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public void ping() throws IllegalState {
 	try (Connection con = pool.getConnection()) {
-	} catch (ConnectionException ce) {
+	} catch (final ConnectionException ce) {
 	    throw MyExceptions.illegalStateFormat(ce.getMessage());
 	}
 

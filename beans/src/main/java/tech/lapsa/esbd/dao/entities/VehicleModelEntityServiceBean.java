@@ -165,7 +165,7 @@ public class VehicleModelEntityServiceBean
 
 	    return builder.build();
 
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    // it should not happens
 	    throw new EJBException(e.getMessage());
 	}

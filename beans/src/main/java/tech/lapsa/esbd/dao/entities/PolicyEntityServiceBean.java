@@ -379,7 +379,7 @@ public class PolicyEntityServiceBean
 
 	    return builder;
 
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    // it should not happens
 	    throw new EJBException(e.getMessage());
 	}
@@ -563,7 +563,7 @@ public class PolicyEntityServiceBean
 	    }
 	    return builder;
 
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    // it should not happens
 	    throw new EJBException(e.getMessage());
 	}
@@ -692,7 +692,7 @@ public class PolicyEntityServiceBean
 
 	    return builder;
 
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    // it should not happens
 	    throw new EJBException(e.getMessage());
 	}

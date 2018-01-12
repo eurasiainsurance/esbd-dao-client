@@ -159,7 +159,8 @@ final class Util {
 	    final String fieldName,
 	    final Class<F> fieldClazz,
 	    final Optional<FI> optFieldId) {
-	return optField(targetClazz, targetId, fieldGeter, fieldName, fieldClazz, optFieldId, e -> (e instanceof NotFound));
+	return optField(targetClazz, targetId, fieldGeter, fieldName, fieldClazz, optFieldId,
+		e -> (e instanceof NotFound));
     }
 
     static <T, F, FI> void optionalField(final T target,

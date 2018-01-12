@@ -35,72 +35,73 @@ public class UserEntity extends Domain {
 	private UserEntityBuilder() {
 	}
 
-	public UserEntityBuilder withId(Integer id) throws IllegalArgumentException {
+	public UserEntityBuilder withId(final Integer id) throws IllegalArgumentException {
 	    this.id = MyNumbers.requirePositive(id, "id");
 	    return this;
 	}
 
-	public UserEntityBuilder withLogin(String login) throws IllegalArgumentException {
+	public UserEntityBuilder withLogin(final String login) throws IllegalArgumentException {
 	    this.login = MyStrings.requireNonEmpty(login, "login");
 	    return this;
 	}
 
-	public UserEntityBuilder withBranch(BranchEntity branch) throws IllegalArgumentException {
+	public UserEntityBuilder withBranch(final BranchEntity branch) throws IllegalArgumentException {
 	    this.branch = MyObjects.requireNonNull(branch, "branch");
 	    return this;
 	}
 
-	public UserEntityBuilder withBranch(Optional<BranchEntity> optBranch) throws IllegalArgumentException {
+	public UserEntityBuilder withBranch(final Optional<BranchEntity> optBranch) throws IllegalArgumentException {
 	    if (MyObjects.requireNonNull(optBranch, "optBranch").isPresent())
 		return withBranch(optBranch.get());
-	    this.branch = null;
+	    branch = null;
 	    return this;
 	}
 
-	public UserEntityBuilder withSubject(SubjectEntity subject) throws IllegalArgumentException {
+	public UserEntityBuilder withSubject(final SubjectEntity subject) throws IllegalArgumentException {
 	    this.subject = MyObjects.requireNonNull(subject, "subject");
 	    return this;
 	}
 
-	public UserEntityBuilder withSubject(Optional<SubjectEntity> optSubject) throws IllegalArgumentException {
+	public UserEntityBuilder withSubject(final Optional<SubjectEntity> optSubject) throws IllegalArgumentException {
 	    if (MyObjects.requireNonNull(optSubject, "optSubject").isPresent())
 		return withSubject(optSubject.get());
-	    this.subject = null;
+	    subject = null;
 	    return this;
 	}
 
-	public UserEntityBuilder withOrganization(InsuranceCompanyEntity organization) throws IllegalArgumentException {
+	public UserEntityBuilder withOrganization(final InsuranceCompanyEntity organization)
+		throws IllegalArgumentException {
 	    this.organization = organization;
 	    return this;
 	}
 
-	public UserEntityBuilder withOrganization(Optional<InsuranceCompanyEntity> optOrganization)
+	public UserEntityBuilder withOrganization(final Optional<InsuranceCompanyEntity> optOrganization)
 		throws IllegalArgumentException {
 	    if (MyObjects.requireNonNull(optOrganization, "optOrganization").isPresent())
 		return withOrganization(optOrganization.get());
-	    this.organization = null;
+	    organization = null;
 	    return this;
 	}
 
-	public UserEntityBuilder withAuthentificated(boolean authentificated) {
+	public UserEntityBuilder withAuthentificated(final boolean authentificated) {
 	    this.authentificated = authentificated;
 	    return this;
 	}
 
-	public UserEntityBuilder withLastSesionId(String lastSesionId) {
+	public UserEntityBuilder withLastSesionId(final String lastSesionId) {
 	    this.lastSesionId = lastSesionId;
 	    return this;
 	}
 
-	public UserEntityBuilder withLastActivity(Instant lastActivity) {
+	public UserEntityBuilder withLastActivity(final Instant lastActivity) {
 	    this.lastActivity = MyObjects.requireNonNull(lastActivity, "lastActivity");
 	    return this;
 	}
 
-	public UserEntityBuilder withLastActivity(Optional<Instant> optLastActivity) {
+	public UserEntityBuilder withLastActivity(final Optional<Instant> optLastActivity) {
 	    if (MyObjects.requireNonNull(optLastActivity, "optLastActivity").isPresent())
 		return withLastActivity(optLastActivity.get());
-	    this.lastActivity = null;
+	    lastActivity = null;
 	    return this;
 	}
 

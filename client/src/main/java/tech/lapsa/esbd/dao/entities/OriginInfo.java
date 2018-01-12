@@ -47,7 +47,7 @@ public class OriginInfo extends Domain {
 	public OriginInfoBuilder withCountry(final Optional<Country> optCountry) {
 	    if (MyObjects.requireNonNull(optCountry, "optCountry").isPresent())
 		return withCountry(optCountry.get());
-	    this.country = null;
+	    country = null;
 	    return this;
 	}
 
@@ -59,7 +59,7 @@ public class OriginInfo extends Domain {
 	public OriginInfoBuilder withCity(final Optional<KZCity> optCity) {
 	    if (MyObjects.requireNonNull(optCity, "optCity").isPresent())
 		return withCity(optCity.get());
-	    this.city = null;
+	    city = null;
 	    return this;
 	}
 

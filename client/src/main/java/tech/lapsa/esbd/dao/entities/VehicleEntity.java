@@ -38,63 +38,64 @@ public class VehicleEntity extends Domain {
 	private VehicleEntityBuilder() {
 	}
 
-	public VehicleEntityBuilder withId(Integer id) {
+	public VehicleEntityBuilder withId(final Integer id) {
 	    this.id = id;
 	    return this;
 	}
 
-	public VehicleEntityBuilder withVehicleClass(VehicleClass vehicleClass) {
+	public VehicleEntityBuilder withVehicleClass(final VehicleClass vehicleClass) {
 	    this.vehicleClass = MyObjects.requireNonNull(vehicleClass, "vehicleClass");
 	    return this;
 	}
 
-	public VehicleEntityBuilder withVinCode(String vinCode) {
+	public VehicleEntityBuilder withVinCode(final String vinCode) {
 	    this.vinCode = vinCode;
 	    return this;
 	}
 
-	public VehicleEntityBuilder withVehicleModel(VehicleModelEntity vehicleModel) {
+	public VehicleEntityBuilder withVehicleModel(final VehicleModelEntity vehicleModel) {
 	    this.vehicleModel = MyObjects.requireNonNull(vehicleModel, "vehicleModel");
 	    return this;
 	}
 
-	public VehicleEntityBuilder withSteeringWheelLocation(SteeringWheelLocation steeringWheelLocation) {
+	public VehicleEntityBuilder withSteeringWheelLocation(final SteeringWheelLocation steeringWheelLocation) {
 	    this.steeringWheelLocation = MyObjects.requireNonNull(steeringWheelLocation, "steeringWheelLocation");
 	    return this;
 	}
 
-	public VehicleEntityBuilder withEngineVolume(int engineVolume) {
+	public VehicleEntityBuilder withEngineVolume(final int engineVolume) {
 	    this.engineVolume = engineVolume;
 	    return this;
 	}
 
-	public VehicleEntityBuilder withEngineNumber(String engineNumber) {
+	public VehicleEntityBuilder withEngineNumber(final String engineNumber) {
 	    this.engineNumber = engineNumber;
 	    return this;
 	}
 
-	public VehicleEntityBuilder withEnginePower(int enginePower) {
+	public VehicleEntityBuilder withEnginePower(final int enginePower) {
 	    this.enginePower = enginePower;
 	    return this;
 	}
 
-	public VehicleEntityBuilder withEngine(String engineNumber, int engineVolume, int enginePower) {
+	public VehicleEntityBuilder withEngine(final String engineNumber, final int engineVolume,
+		final int enginePower) {
 	    return withEngineNumber(engineNumber)
 		    .withEnginePower(enginePower)
 		    .withEngineVolume(engineVolume);
 	}
 
-	public VehicleEntityBuilder withColor(String color) {
+	public VehicleEntityBuilder withColor(final String color) {
 	    this.color = color;
 	    return this;
 	}
 
-	public VehicleEntityBuilder withRealeaseDate(LocalDate realeaseDate) {
+	public VehicleEntityBuilder withRealeaseDate(final LocalDate realeaseDate) {
 	    this.realeaseDate = realeaseDate;
 	    return this;
 	}
 
-	public VehicleEntityBuilder withRegNum(VehicleRegNumber regNum) {
+	public VehicleEntityBuilder withRegNum(final VehicleRegNumber regNum) {
 	    this.regNum = MyObjects.requireNonNull(regNum, "regNum");
 	    return this;
 	}

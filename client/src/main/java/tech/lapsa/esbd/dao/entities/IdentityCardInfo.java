@@ -38,7 +38,7 @@ public class IdentityCardInfo extends Domain {
 	public IdentityCardInfoBuilder withDateOfIssue(final Optional<LocalDate> optDateOfIssue) {
 	    if (MyObjects.requireNonNull(optDateOfIssue, "optDateOfIssue").isPresent())
 		return withDateOfIssue(optDateOfIssue.get());
-	    this.dateOfIssue = null;
+	    dateOfIssue = null;
 	    return this;
 	}
 
@@ -55,7 +55,7 @@ public class IdentityCardInfo extends Domain {
 	public IdentityCardInfoBuilder withNumber(final Optional<String> optNumber) {
 	    if (MyObjects.requireNonNull(optNumber, "optNumber").isPresent())
 		return withNumber(optNumber.get());
-	    this.number = null;
+	    number = null;
 	    return this;
 	}
 
@@ -67,7 +67,7 @@ public class IdentityCardInfo extends Domain {
 	public IdentityCardInfoBuilder withIdentityCardType(final Optional<IdentityCardType> optIdentityCardType) {
 	    if (MyObjects.requireNonNull(optIdentityCardType, "optIdentityCardType").isPresent())
 		return withIdentityCardType(optIdentityCardType.get());
-	    this.identityCardType = null;
+	    identityCardType = null;
 	    return this;
 	}
 

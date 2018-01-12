@@ -26,17 +26,17 @@ public class VehicleManufacturerEntity extends Domain {
 	private VehicleManufacturerEntityBuilder() {
 	}
 
-	public VehicleManufacturerEntityBuilder withId(Integer id) {
+	public VehicleManufacturerEntityBuilder withId(final Integer id) {
 	    this.id = MyNumbers.requirePositive(id, "id");
 	    return this;
 	}
 
-	public VehicleManufacturerEntityBuilder withName(String name) {
+	public VehicleManufacturerEntityBuilder withName(final String name) {
 	    this.name = MyStrings.requireNonEmpty(name, "name");
 	    return this;
 	}
 
-	public VehicleManufacturerEntityBuilder withForeign(Boolean foreign) {
+	public VehicleManufacturerEntityBuilder withForeign(final Boolean foreign) {
 	    this.foreign = MyObjects.requireNonNull(foreign, "foreign");
 	    return this;
 	}

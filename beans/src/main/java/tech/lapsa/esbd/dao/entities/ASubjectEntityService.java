@@ -145,7 +145,7 @@ public abstract class ASubjectEntityService<T extends SubjectEntity>
 			    MyOptionals.of(source.getDOCUMENTTYPEID())))
 		    .buildTo(builder::withIdentityCard);
 
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    // it should not happens
 	    throw new EJBException(e.getMessage());
 	}
@@ -183,7 +183,7 @@ public abstract class ASubjectEntityService<T extends SubjectEntity>
 			MyOptionals.of(source.getACTIVITYKINDID())));
 	    }
 
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    // it should not happens
 	    throw new EJBException(e.getMessage());
 	}
@@ -265,7 +265,7 @@ public abstract class ASubjectEntityService<T extends SubjectEntity>
 			MyOptionals.of(source.getECONOMICSSECTORID())));
 	    }
 
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    // it should not happens
 	    throw new EJBException(e.getMessage());
 	}

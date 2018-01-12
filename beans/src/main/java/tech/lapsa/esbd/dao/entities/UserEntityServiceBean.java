@@ -83,7 +83,7 @@ public class UserEntityServiceBean
 	private final User esbd;
 	private UserEntity fetched;
 
-	private Holder(User esbd) {
+	private Holder(final User esbd) {
 	    this.esbd = esbd;
 	}
     }
@@ -201,7 +201,7 @@ public class UserEntityServiceBean
 
 	    return builder.build();
 
-	} catch (IllegalArgumentException e) {
+	} catch (final IllegalArgumentException e) {
 	    // it should not happens
 	    throw new EJBException(e.getMessage());
 	}
