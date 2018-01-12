@@ -1,9 +1,13 @@
 package tech.lapsa.esbd.dao.entities;
 
+import java.util.Optional;
+import java.util.function.Consumer;
+
 import com.lapsa.international.country.Country;
 import com.lapsa.kz.country.KZCity;
 
 import tech.lapsa.esbd.dao.Domain;
+import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 /**
@@ -17,34 +21,85 @@ public class OriginInfo extends Domain {
 
     private static final long serialVersionUID = 1L;
 
-    // RESIDENT_BOOL s:int Признак резидентства (обязательно)
-    boolean resident;
+    public static final OriginInfoBuilder builder() {
+	return new OriginInfoBuilder();
+    }
+
+    public static final class OriginInfoBuilder {
+
+	private boolean resident;
+	private Country country;
+	private KZCity city;
+
+	private OriginInfoBuilder() {
+	}
+
+	public OriginInfoBuilder withResident(final boolean resident) {
+	    this.resident = resident;
+	    return this;
+	}
+
+	public OriginInfoBuilder withCountry(final Country country) {
+	    this.country = country;
+	    return this;
+	}
+
+	public OriginInfoBuilder withCountry(final Optional<Country> optCountry) {
+	    if (MyObjects.requireNonNull(optCountry, "optCountry").isPresent())
+		return withCountry(optCountry.get());
+	    country = null;
+	    return this;
+	}
+
+	public OriginInfoBuilder withCity(final KZCity city) {
+	    this.city = city;
+	    return this;
+	}
+
+	public OriginInfoBuilder withCity(final Optional<KZCity> optCity) {
+	    if (MyObjects.requireNonNull(optCity, "optCity").isPresent())
+		return withCity(optCity.get());
+	    city = null;
+	    return this;
+	}
+
+	public OriginInfo build() {
+	    final OriginInfo res = new OriginInfo();
+	    res.resident = resident;
+	    res.country = country;
+	    res.city = city;
+	    return res;
+	}
+
+	public void buildTo(final Consumer<OriginInfo> consumer) {
+	    consumer.accept(build());
+	}
+    }
+
+    private OriginInfo() {
+    }
+
+    // resident
+
+    private boolean resident;
 
     public boolean isResident() {
 	return resident;
     }
 
-    // COUNTRY_ID s:int Страна (справочник COUNTRIES)
-    int _country;
-    Country country;
+    // country
+
+    private Country country;
 
     public Country getCountry() {
 	return country;
     }
 
-    void setCountry(final Country country) {
-	this.country = country;
-    }
+    // city
 
-    // SETTLEMENT_ID s:int Населенный пункт (справочник SETTLEMENTS)
-    int _city;
-    KZCity city;
+    private KZCity city;
 
     public KZCity getCity() {
 	return city;
-    }
-
-    void setCity(final KZCity city) {
-	this.city = city;
     }
 }

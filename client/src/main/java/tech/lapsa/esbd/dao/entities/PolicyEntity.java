@@ -9,8 +9,13 @@ import com.lapsa.insurance.elements.CancelationReason;
 import tech.lapsa.esbd.dao.Domain;
 import tech.lapsa.esbd.dao.dict.BranchEntity;
 import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
+import tech.lapsa.esbd.dao.entities.InsuredDriverEntity.InsuredDriverEntityBuilder;
+import tech.lapsa.esbd.dao.entities.InsuredVehicleEntity.InsuredVehicleEntityBuilder;
+import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyCollectors;
-import tech.lapsa.java.commons.function.MyStreams;
+import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(17)
@@ -18,192 +23,335 @@ public class PolicyEntity extends Domain {
 
     private static final long serialVersionUID = 1L;
 
-    // POLICY_ID s:int Идентификатор полиса (обязательно)
-    Integer id;
+    public static final PolicyEntityBuilder builder() {
+	return new PolicyEntityBuilder();
+    }
+
+    public static final class PolicyEntityBuilder {
+
+	private Integer id;
+	private String number;
+	private String internalNumber;
+	private LocalDate validFrom;
+	private LocalDate validTill;
+	private Double actualPremium;
+	private Double calculatedPremium;
+	private InsuranceCompanyEntity insurer;
+	private SubjectEntity insurant;
+	private LocalDate dateOfIssue;
+
+	private LocalDate dateOfCancelation;
+	private CancelationReason cancelationReasonType;
+
+	private BranchEntity branch;
+	private Integer reissuedPolicyId;
+	private String comments;
+	private final List<InsuredDriverEntityBuilder> insuredDrivers = new ArrayList<>();
+	private final List<InsuredVehicleEntityBuilder> insuredVehicles = new ArrayList<>();
+	private RecordOperationInfo created;
+	private RecordOperationInfo modified;
+
+	private PolicyEntityBuilder() {
+	}
+
+	public PolicyEntityBuilder withId(final Integer id) throws IllegalArgumentException {
+	    this.id = MyNumbers.requirePositive(id, "id");
+	    return this;
+	}
+
+	public PolicyEntityBuilder withNumber(final String number) throws IllegalArgumentException {
+	    this.number = MyStrings.requireNonEmpty(number, "number");
+	    return this;
+	}
+
+	public PolicyEntityBuilder withInternalNumber(final String internalNumber) throws IllegalArgumentException {
+	    this.internalNumber = MyStrings.requireNonEmpty(internalNumber, "internalNumber");
+	    return this;
+	}
+
+	public PolicyEntityBuilder withValidFrom(final LocalDate validFrom) throws IllegalArgumentException {
+	    this.validFrom = MyObjects.requireNonNull(validFrom, "validFrom");
+	    return this;
+	}
+
+	public PolicyEntityBuilder withValidTill(final LocalDate validTill) throws IllegalArgumentException {
+	    this.validTill = MyObjects.requireNonNull(validTill, "validTill");
+	    return this;
+	}
+
+	public PolicyEntityBuilder withActualPremium(final Double actualPremium) throws IllegalArgumentException {
+	    this.actualPremium = MyNumbers.requirePositive(actualPremium, "actualPremium");
+	    return this;
+	}
+
+	public PolicyEntityBuilder withCalculatedPremium(final Double calculatedPremium)
+		throws IllegalArgumentException {
+	    this.calculatedPremium = MyNumbers.requirePositive(calculatedPremium, "calculatedPremium");
+	    return this;
+	}
+
+	public PolicyEntityBuilder withInsurer(final InsuranceCompanyEntity insurer) throws IllegalArgumentException {
+	    this.insurer = MyObjects.requireNonNull(insurer, "insurer");
+	    return this;
+	}
+
+	public PolicyEntityBuilder withInsurant(final SubjectEntity insurant) throws IllegalArgumentException {
+	    this.insurant = MyObjects.requireNonNull(insurant, "insurant");
+	    return this;
+	}
+
+	public PolicyEntityBuilder withDateOfIssue(final LocalDate dateOfIssue) throws IllegalArgumentException {
+	    this.dateOfIssue = MyObjects.requireNonNull(dateOfIssue, "dateOfIssue");
+	    return this;
+	}
+
+	public PolicyEntityBuilder withCancelation(final LocalDate dateOfCancelation,
+		final CancelationReason cancelationReasonType)
+		throws IllegalArgumentException {
+	    MyObjects.requireNonNull(dateOfCancelation, "dateOfCancelation");
+	    MyObjects.requireNonNull(cancelationReasonType, "cancelationReasonType");
+	    this.dateOfCancelation = dateOfCancelation;
+	    this.cancelationReasonType = cancelationReasonType;
+	    return this;
+	}
+
+	public PolicyEntityBuilder withBranch(final BranchEntity branch) throws IllegalArgumentException {
+	    this.branch = MyObjects.requireNonNull(branch, "branch");
+	    return this;
+	}
+
+	public PolicyEntityBuilder withReissuedPolicyId(final Integer reissuedPolicyId)
+		throws IllegalArgumentException {
+	    this.reissuedPolicyId = MyNumbers.requirePositive(reissuedPolicyId, "reissuedPolicyId");
+	    return this;
+	}
+
+	public PolicyEntityBuilder withComments(final String comments) throws IllegalArgumentException {
+	    this.comments = comments;
+	    return this;
+	}
+
+	public PolicyEntityBuilder addDriverBuilder(final InsuredDriverEntityBuilder insuredDriver)
+		throws IllegalArgumentException {
+	    insuredDrivers.add(MyObjects.requireNonNull(insuredDriver, "insuredDriver"));
+	    return this;
+	}
+
+	public PolicyEntityBuilder addVehicleBuilder(final InsuredVehicleEntityBuilder insuredVehicle)
+		throws IllegalArgumentException {
+	    insuredVehicles.add(MyObjects.requireNonNull(insuredVehicle, "insuredVehicle"));
+	    return this;
+	}
+
+	public PolicyEntityBuilder withCreated(final RecordOperationInfo created) throws IllegalArgumentException {
+	    this.created = MyObjects.requireNonNull(created, "created");
+	    return this;
+	}
+
+	public PolicyEntityBuilder withModified(final RecordOperationInfo modified) throws IllegalArgumentException {
+	    this.modified = MyObjects.requireNonNull(modified, "modified");
+	    return this;
+	}
+
+	public PolicyEntity build() throws IllegalArgumentException {
+	    final PolicyEntity res = new PolicyEntity();
+	    res.id = MyNumbers.requirePositive(id, "id");
+	    res.number = MyObjects.requireNonNull(number, "number");
+	    res.internalNumber = MyStrings.requireNonEmpty(internalNumber, "internalNumber");
+	    res.validFrom = MyObjects.requireNonNull(validFrom, "validFrom");
+	    res.validTill = MyObjects.requireNonNull(validTill, "validTill");
+	    res.actualPremium = MyNumbers.requirePositive(actualPremium, "actualPremium");
+	    res.calculatedPremium = MyNumbers.requirePositive(calculatedPremium, "calculatedPremium");
+	    res.insurer = MyObjects.requireNonNull(insurer, "insurer");
+	    res.insurant = MyObjects.requireNonNull(insurant, "insurant");
+	    res.dateOfIssue = MyObjects.requireNonNull(dateOfIssue, "dateOfIssue");
+	    if (MyObjects.nonNull(dateOfCancelation) || MyObjects.nonNull(cancelationReasonType)) {
+		res.dateOfCancelation = MyObjects.requireNonNull(dateOfCancelation, "dateOfCancelation");
+		res.cancelationReasonType = MyObjects.requireNonNull(cancelationReasonType, "cancelationReasonType");
+	    }
+	    res.branch = MyObjects.requireNonNull(branch, "branch");
+	    res.reissuedPolicyId = reissuedPolicyId;
+	    res.comments = comments;
+	    res.insuredDrivers = MyCollections.requireNonEmpty(insuredDrivers, "insuredDrivers")
+		    .stream()
+		    .map(x -> x.withPolicy(res))
+		    .map(InsuredDriverEntityBuilder::build)
+		    .collect(MyCollectors.unmodifiableList());
+	    res.insuredVehicles = MyCollections.requireNonEmpty(insuredVehicles, "insuredVehicles")
+		    .stream()
+		    .map(x -> x.withPolicy(res))
+		    .map(InsuredVehicleEntityBuilder::build)
+		    .collect(MyCollectors.unmodifiableList());
+	    res.created = MyObjects.requireNonNull(created, "created");
+	    res.modified = modified;
+	    return res;
+	}
+    }
+
+    private PolicyEntity() {
+    }
+
+    // id
+
+    private Integer id;
 
     public Integer getId() {
 	return id;
     }
 
-    // GLOBAL_ID s:string Уникальный глобальный идентификатор полиса
-    String number;
+    // number
+
+    private String number;
 
     public String getNumber() {
 	return number;
     }
 
-    // POLICY_NUMBER s:string Номер полиса (обязательно)
-    String internalNumber;
+    // internalNumber
+
+    private String internalNumber;
 
     public String getInternalNumber() {
 	return internalNumber;
     }
 
-    // DATE_BEG s:string Дата начала действия полиса (обязательно)
-    LocalDate validFrom;
+    // validFrom
+
+    private LocalDate validFrom;
 
     public LocalDate getValidFrom() {
 	return validFrom;
     }
 
-    // DATE_END s:string Дата окончания действия полиса (обязательно)
-    LocalDate validTill;
+    // validTill
+
+    private LocalDate validTill;
 
     public LocalDate getValidTill() {
 	return validTill;
     }
 
-    // PREMIUM s:double Страховая премия (обязательно)
-    Double actualPremium;
+    // actualPremium
+
+    private Double actualPremium;
 
     public Double getActualPremium() {
 	return actualPremium;
     }
 
-    // CALCULATED_PREMIUM s:double Страховая премия рассчитанная системой
-    Double calculatedPremium;
+    // calculatedPremium
+
+    private Double calculatedPremium;
 
     public Double getCalculatedPremium() {
 	return calculatedPremium;
     }
 
-    // SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
-    int _insurer;
-    InsuranceCompanyEntity insurer;
+    // insurer
+
+    private InsuranceCompanyEntity insurer;
 
     public InsuranceCompanyEntity getInsurer() {
 	return insurer;
     }
 
-    void setInsurer(final InsuranceCompanyEntity insurer) {
-	this.insurer = insurer;
-    }
+    // insurant
 
-    // CLIENT_ID s:int Идентификатор страхователя (обязательно)
-    int _insurant;
-    SubjectEntity insurant;
+    private SubjectEntity insurant;
 
     public SubjectEntity getInsurant() {
 	return insurant;
     }
 
-    void setInsurant(final SubjectEntity insurant) {
-	this.insurant = insurant;
-    }
+    // dateOfIssue
 
-    // POLICY_DATE s:string Дата полиса
-    LocalDate dateOfIssue;
+    private LocalDate dateOfIssue;
 
     public LocalDate getDateOfIssue() {
 	return dateOfIssue;
     }
 
-    // RESCINDING_DATE s:string Дата расторжения полиса
-    LocalDate dateOfCancelation;
+    // dateOfCancelation
+
+    private LocalDate dateOfCancelation;
 
     public LocalDate getDateOfCancelation() {
 	return dateOfCancelation;
     }
 
-    // RESCINDING_REASON_ID s:int Идентификатор причины расторжения
-    int _cancelationReasonType;
-    CancelationReason cancelationReasonType;
+    public boolean isCanceled() {
+	return dateOfCancelation != null;
+    }
+
+    // cancelationReasonType
+
+    private CancelationReason cancelationReasonType;
 
     public CancelationReason getCancelationReasonType() {
 	return cancelationReasonType;
     }
 
-    void setCancelationReasonType(CancelationReason cancelationReasonType) {
-	this.cancelationReasonType = cancelationReasonType;
-    }
+    // branch
 
-    // BRANCH_ID s:int Филиал (обязательно)
-    int _branch;
-    BranchEntity branch;
+    private BranchEntity branch;
 
     public BranchEntity getBranch() {
 	return branch;
     }
 
-    void setBranch(final BranchEntity branch) {
-	this.branch = branch;
-    }
+    // reissuedPolicy
 
-    // REWRITE_BOOL s:int Признак переоформления
-    boolean reissued = false;
+    private Integer reissuedPolicyId;
 
     public boolean isReissued() {
-	return reissued;
+	return MyObjects.nonNull(reissuedPolicyId);
     }
 
-    // REWRITE_POLICY_ID s:int Ссылка на переоформляемый полис
-    int _reissuedPolicy;
-    PolicyEntity reissuedPolicy;
-
-    public PolicyEntity getReissuedPolicy() {
-	return reissuedPolicy;
+    public Integer getReissuedPolicyId() {
+	return reissuedPolicyId;
     }
 
-    void setReissuedPolicy(final PolicyEntity reissuedPolicy) {
-	this.reissuedPolicy = reissuedPolicy;
-    }
+    // comments
 
-    // DESCRIPTION s:string Комментарии к полису
-    String comments;
+    private String comments;
 
     public String getComments() {
 	return comments;
     }
 
-    // Drivers tns:ArrayOfDriver Водители (обязательно)
+    // insuredDrivers
+
     private List<InsuredDriverEntity> insuredDrivers;
 
     public List<InsuredDriverEntity> getInsuredDrivers() {
-	return MyStreams.orEmptyOf(insuredDrivers).collect(MyCollectors.unmodifiableList());
+	return insuredDrivers;
     }
 
-    synchronized void addDriver(final InsuredDriverEntity driver) {
-	if (insuredDrivers == null)
-	    insuredDrivers = new ArrayList<>();
-	insuredDrivers.add(driver);
-    }
+    // insuredVehicles
 
-    // PoliciesTF tns:ArrayOfPolicies_TF Транспортные средства полиса
-    // (обязательно)
     private List<InsuredVehicleEntity> insuredVehicles;
 
     public List<InsuredVehicleEntity> getInsuredVehicles() {
-	return MyStreams.orEmptyOf(insuredVehicles).collect(MyCollectors.unmodifiableList());
+	return insuredVehicles;
     }
 
-    synchronized void addVehicle(final InsuredVehicleEntity vehicle) {
-	if (insuredVehicles == null)
-	    insuredVehicles = new ArrayList<>();
-	insuredVehicles.add(vehicle);
-    }
+    // created
 
-    // CREATED_BY_USER_ID s:int Идентификатор пользователя, создавшего полис
-    // INPUT_DATE s:string Дата\время ввода полиса в систему
-    RecordOperationInfo created;
+    private RecordOperationInfo created;
 
     public RecordOperationInfo getCreated() {
 	return created;
     }
 
-    // RECORD_CHANGED_AT s:string Дата\время изменения полиса
-    // RECORD_CHANGED_AT_DATETIME s:string Дата\время изменения полиса
-    // CHANGED_BY_USER_ID s:int Идентификатор пользователя, изменившего полис
-    RecordOperationInfo modified;
+    // modified
+
+    private RecordOperationInfo modified;
+
+    public boolean isModified() {
+	return MyObjects.nonNull(modified);
+    }
 
     public RecordOperationInfo getModified() {
 	return modified;
     }
-
-    // ScheduledPayments tns:ArrayOfSCHEDULED_PAYMENT Плановые платежи по полису
-    // PAYMENT_ORDER_TYPE_ID s:int Порядок оплаты (Идентификатор)
-    // PAYMENT_ORDER_TYPE s:string Порядок оплаты
-    // PAYMENT_DATE s:string Дата оплаты
-    // MIDDLEMAN_ID s:int Посредник (Идентификатор)
-    // MIDDLEMAN_CONTRACT_NUMBER s:string Номер договора посредника
-    // CLIENT_FORM_ID s:int Форма клиента (справочник CLIENT_FORMS)
 }

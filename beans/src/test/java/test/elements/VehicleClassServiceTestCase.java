@@ -10,9 +10,9 @@ import org.junit.Test;
 
 import com.lapsa.insurance.elements.VehicleClass;
 
+import tech.lapsa.esbd.beans.dao.elements.mapping.VehicleClassMapping;
 import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.esbd.dao.elements.VehicleClassService.VehicleClassServiceLocal;
-import tech.lapsa.esbd.dao.elements.mapping.VehicleClassMapping;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import test.ArquillianBaseTestCase;
 

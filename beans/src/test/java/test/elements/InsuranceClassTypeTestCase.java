@@ -12,9 +12,9 @@ import org.junit.Test;
 
 import com.lapsa.insurance.elements.InsuranceClassType;
 
+import tech.lapsa.esbd.beans.dao.elements.mapping.InsuranceClassTypeMapping;
 import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.esbd.dao.elements.InsuranceClassTypeService.InsuranceClassTypeServiceLocal;
-import tech.lapsa.esbd.dao.elements.mapping.InsuranceClassTypeMapping;
 import tech.lapsa.esbd.dao.entities.SubjectPersonEntity;
 import tech.lapsa.esbd.dao.entities.SubjectPersonEntityService.SubjectPersonEntityServiceLocal;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;

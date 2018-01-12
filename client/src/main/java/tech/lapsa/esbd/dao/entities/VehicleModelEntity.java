@@ -1,6 +1,11 @@
 package tech.lapsa.esbd.dao.entities;
 
+import java.util.function.Consumer;
+
 import tech.lapsa.esbd.dao.Domain;
+import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(41)
@@ -8,29 +13,71 @@ public class VehicleModelEntity extends Domain {
 
     private static final long serialVersionUID = 1L;
 
-    // ID s:int Идентификатор модели
-    Integer id;
+    public static final VehicleModelEntityBuilder builder() {
+	return new VehicleModelEntityBuilder();
+    }
+
+    public static final class VehicleModelEntityBuilder {
+
+	private Integer id;
+	private String name;
+	private VehicleManufacturerEntity manufacturer;
+
+	private VehicleModelEntityBuilder() {
+	}
+
+	public VehicleModelEntityBuilder withId(final Integer id) {
+	    this.id = MyNumbers.requirePositive(id, "id");
+	    return this;
+	}
+
+	public VehicleModelEntityBuilder withName(final String name) {
+	    this.name = MyStrings.requireNonEmpty(name, "name");
+	    return this;
+	}
+
+	public VehicleModelEntityBuilder withManufacturer(final VehicleManufacturerEntity manufacturer) {
+	    this.manufacturer = MyObjects.requireNonNull(manufacturer, "manufacturer");
+	    return this;
+	}
+
+	public VehicleModelEntity build() throws IllegalArgumentException {
+	    final VehicleModelEntity res = new VehicleModelEntity();
+	    res.id = MyNumbers.requirePositive(id, "id");
+	    res.name = MyStrings.requireNonEmpty(name, "name");
+	    res.manufacturer = MyObjects.requireNonNull(manufacturer, "manufacturer");
+	    return res;
+	}
+
+	public void buildTo(final Consumer<VehicleModelEntity> consumer) throws IllegalArgumentException {
+	    consumer.accept(build());
+	}
+    }
+
+    private VehicleModelEntity() {
+    }
+
+    // id
+
+    private Integer id;
 
     public Integer getId() {
 	return id;
     }
 
-    // NAME s:string Наименование модели
-    String name;
+    // name
+
+    private String name;
 
     public String getName() {
 	return name;
     }
 
-    // VOITURE_MARK_ID s:int Идентификатор марки ТС
-    int _manufacturer;
-    VehicleManufacturerEntity manufacturer;
+    // manufacturer
+
+    private VehicleManufacturerEntity manufacturer;
 
     public VehicleManufacturerEntity getManufacturer() {
 	return manufacturer;
-    }
-
-    void setManufacturer(final VehicleManufacturerEntity manufacturer) {
-	this.manufacturer = manufacturer;
     }
 }

@@ -1,11 +1,14 @@
 package tech.lapsa.esbd.dao.entities;
 
 import java.time.LocalDate;
+import java.util.function.Consumer;
 
 import com.lapsa.insurance.elements.SteeringWheelLocation;
 import com.lapsa.insurance.elements.VehicleClass;
 
 import tech.lapsa.esbd.dao.Domain;
+import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.kz.vehicle.VehicleRegNumber;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
@@ -14,95 +17,198 @@ public class VehicleEntity extends Domain {
 
     private static final long serialVersionUID = 1L;
 
-    // TF_ID s:int Идентификатор ТС
-    Integer id;
+    public static final VehicleEntityBuilder builder() {
+	return new VehicleEntityBuilder();
+    }
+
+    public static final class VehicleEntityBuilder {
+
+	private Integer id;
+	private VehicleClass vehicleClass;
+	private String vinCode;
+	private VehicleModelEntity vehicleModel;
+	private SteeringWheelLocation steeringWheelLocation;
+	private int engineVolume;
+	private String engineNumber;
+	private int enginePower;
+	private String color;
+	private LocalDate realeaseDate;
+	private VehicleRegNumber regNum;
+
+	private VehicleEntityBuilder() {
+	}
+
+	public VehicleEntityBuilder withId(final Integer id) {
+	    this.id = id;
+	    return this;
+	}
+
+	public VehicleEntityBuilder withVehicleClass(final VehicleClass vehicleClass) {
+	    this.vehicleClass = MyObjects.requireNonNull(vehicleClass, "vehicleClass");
+	    return this;
+	}
+
+	public VehicleEntityBuilder withVinCode(final String vinCode) {
+	    this.vinCode = vinCode;
+	    return this;
+	}
+
+	public VehicleEntityBuilder withVehicleModel(final VehicleModelEntity vehicleModel) {
+	    this.vehicleModel = MyObjects.requireNonNull(vehicleModel, "vehicleModel");
+	    return this;
+	}
+
+	public VehicleEntityBuilder withSteeringWheelLocation(final SteeringWheelLocation steeringWheelLocation) {
+	    this.steeringWheelLocation = MyObjects.requireNonNull(steeringWheelLocation, "steeringWheelLocation");
+	    return this;
+	}
+
+	public VehicleEntityBuilder withEngineVolume(final int engineVolume) {
+	    this.engineVolume = engineVolume;
+	    return this;
+	}
+
+	public VehicleEntityBuilder withEngineNumber(final String engineNumber) {
+	    this.engineNumber = engineNumber;
+	    return this;
+	}
+
+	public VehicleEntityBuilder withEnginePower(final int enginePower) {
+	    this.enginePower = enginePower;
+	    return this;
+	}
+
+	public VehicleEntityBuilder withEngine(final String engineNumber, final int engineVolume,
+		final int enginePower) {
+	    return withEngineNumber(engineNumber)
+		    .withEnginePower(enginePower)
+		    .withEngineVolume(engineVolume);
+	}
+
+	public VehicleEntityBuilder withColor(final String color) {
+	    this.color = color;
+	    return this;
+	}
+
+	public VehicleEntityBuilder withRealeaseDate(final LocalDate realeaseDate) {
+	    this.realeaseDate = realeaseDate;
+	    return this;
+	}
+
+	public VehicleEntityBuilder withRegNum(final VehicleRegNumber regNum) {
+	    this.regNum = MyObjects.requireNonNull(regNum, "regNum");
+	    return this;
+	}
+
+	public VehicleEntity build() throws IllegalArgumentException {
+	    final VehicleEntity res = new VehicleEntity();
+	    res.id = MyNumbers.requirePositive(id, "id");
+	    res.vehicleClass = MyObjects.requireNonNull(vehicleClass, "vehicleClass");
+	    res.vinCode = vinCode;
+	    res.vehicleModel = MyObjects.requireNonNull(vehicleModel, "vehicleModel");
+	    res.steeringWheelLocation = MyObjects.requireNonNull(steeringWheelLocation, "steeringWheelLocation");
+	    res.engineVolume = engineVolume;
+	    res.engineNumber = engineNumber;
+	    res.enginePower = enginePower;
+	    res.color = color;
+	    res.realeaseDate = realeaseDate;
+	    res.regNum = regNum;
+	    return res;
+	}
+
+	public void buildTo(final Consumer<VehicleEntity> consumer) throws IllegalArgumentException {
+	    consumer.accept(build());
+	}
+    }
+
+    private VehicleEntity() {
+    }
+
+    // id
+
+    private Integer id;
 
     public Integer getId() {
 	return id;
     }
 
-    // TF_TYPE_ID s:int Тип ТС (справочник TF_TYPES)
-    int _vehicleClass;
-    VehicleClass vehicleClass;
+    // vehicleClass
+
+    private VehicleClass vehicleClass;
 
     public VehicleClass getVehicleClass() {
 	return vehicleClass;
     }
 
-    void setVehicleClass(final VehicleClass vehicleClass) {
-	this.vehicleClass = vehicleClass;
-    }
+    // vinCode
 
-    // VIN s:string VIN код (номер кузова) (обязательно)
-    String vinCode;
+    private String vinCode;
 
     public String getVinCode() {
 	return vinCode;
     }
 
-    // MODEL_ID s:int Марка\Модель (справочник VOITURE_MODELS) (обязательно)
-    int _vehicleModel;
-    VehicleModelEntity vehicleModel;
+    // vehicleModel
+
+    private VehicleModelEntity vehicleModel;
 
     public VehicleModelEntity getVehicleModel() {
 	return vehicleModel;
     }
 
-    void setVehicleModel(final VehicleModelEntity vehicleModel) {
-	this.vehicleModel = vehicleModel;
-    }
+    // steeringWheelLocation
 
-    // RIGHT_HAND_DRIVE_BOOL s:int Признак расположения руля (0 - слева; 1 -
-    // справа)
-    SteeringWheelLocation steeringWheelLocation;
+    private SteeringWheelLocation steeringWheelLocation;
 
     public SteeringWheelLocation getSteeringWheelLocation() {
 	return steeringWheelLocation;
     }
 
-    // ENGINE_VOLUME s:int Объем двигателя (куб.см.)
-    int engineVolume;
+    // engineVolume
+
+    private int engineVolume;
 
     public int getEngineVolume() {
 	return engineVolume;
     }
 
-    // ENGINE_NUMBER s:string Номер двигателя
-    String enineNumber;
+    // engineNumber
 
-    public String getEnineNumber() {
-	return enineNumber;
+    private String engineNumber;
+
+    public String getEngineNumber() {
+	return engineNumber;
     }
 
-    // ENGINE_POWER s:int Мощность двигателя (квт.)
-    int enginePower;
+    // enginePower
+
+    private int enginePower;
 
     public int getEnginePower() {
 	return enginePower;
     }
 
-    // COLOR s:string Цвет ТС
-    String color;
+    // color
+
+    private String color;
 
     public String getColor() {
 	return color;
     }
 
-    // BORN s:string Год выпуска (обязательно)
-    // BORN_MONTH s:int Месяц выпуска ТС
-    LocalDate realeaseDate;
+    // realeaseDate
+
+    private LocalDate realeaseDate;
 
     public LocalDate getRealeaseDate() {
 	return realeaseDate;
     }
 
-    VehicleRegNumber regNum;
+    // regNum
+
+    private VehicleRegNumber regNum;
 
     public VehicleRegNumber getRegNum() {
 	return regNum;
-    }
-
-    void setRegNum(final VehicleRegNumber regNum) {
-	this.regNum = regNum;
     }
 }
