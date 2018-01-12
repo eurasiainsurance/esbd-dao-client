@@ -5,7 +5,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.junit.runner.RunWith;
 
-import tech.lapsa.esbd.dao.ESBDDates;
+import tech.lapsa.esbd.beans.dao.ESBDDates;
 import tech.lapsa.lapsa.arquillian.archive.ArchiveBuilderFactory;
 
 @RunWith(Arquillian.class)

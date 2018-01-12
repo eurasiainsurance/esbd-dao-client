@@ -10,9 +10,9 @@ import org.junit.Test;
 
 import com.lapsa.international.country.Country;
 
+import tech.lapsa.esbd.beans.dao.elements.mapping.CountryMapping;
 import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.esbd.dao.elements.CountryService.CountryServiceLocal;
-import tech.lapsa.esbd.dao.elements.mapping.CountryMapping;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import test.ArquillianBaseTestCase;
 
