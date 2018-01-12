@@ -8,32 +8,22 @@
 	</parent>
 
 	<groupId>tech.lapsa.esbd</groupId>
-	<artifactId>esbd-dao-root</artifactId>
+	<artifactId>esbd-dao-client</artifactId>
 	<version>2.2-SNAPSHOT</version>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 
-	<name>ESBD Lib : DAO</name>
-
-	<modules>
-		<module>client</module>
-		<module>beans</module>
-		<module>app</module>
-	</modules>
+	<name>ESBD Lib : DAO : EJB-client</name>
 
 	<properties>
 		<!-- BOMS -->
 		<javax-javaee-bom.version>7.0a</javax-javaee-bom.version>
 		<java-commons.version>1.2-SNAPSHOT</java-commons.version>
 		<!-- tech -->
-		<lapsa-arquillian-test.version>1.1</lapsa-arquillian-test.version>
-		<esbd-connection.version>1.2.1</esbd-connection.version>
 		<patterns-domain.version>1.0</patterns-domain.version>
 		<!-- oldies -->
 		<insurance-lib.version>2.4</insurance-lib.version>
 		<kz-lib.version>3.2.1</kz-lib.version>
 		<international-lib.version>3.3</international-lib.version>
-		<!-- ASB -->
-		<asb.keystore.path>${env.ASB_PATH}</asb.keystore.path>
 	</properties>
 
 	<dependencyManagement>
@@ -53,41 +43,11 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			<dependency>
-				<groupId>tech.lapsa.esbd</groupId>
-				<artifactId>esbd-connection-root</artifactId>
-				<version>${esbd-connection.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
 			<!-- tech -->
-			<dependency>
-				<groupId>tech.lapsa.lapsa</groupId>
-				<artifactId>lapsa-arquillian-test</artifactId>
-				<version>${lapsa-arquillian-test.version}</version>
-			</dependency>
 			<dependency>
 				<groupId>tech.lapsa.patterns</groupId>
 				<artifactId>patterns-domain</artifactId>
 				<version>${patterns-domain.version}</version>
-			</dependency>
-			<!-- own -->
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>esbd-dao-client</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>esbd-dao</artifactId>
-				<version>${project.version}</version>
-				<type>ejb</type>
-			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>esbd-dao-app</artifactId>
-				<version>${project.version}</version>
-				<type>ear</type>
 			</dependency>
 			<!-- oldies -->
 			<dependency>
@@ -114,15 +74,61 @@
 		</dependencies>
 	</dependencyManagement>
 
+	<dependencies>
+		<!-- tech -->
+		<dependency>
+			<groupId>tech.lapsa.patterns</groupId>
+			<artifactId>patterns-domain</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>tech.lapsa.java</groupId>
+			<artifactId>java-commons</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<!-- oldies -->
+		<dependency>
+			<groupId>com.lapsa.insurance-lib</groupId>
+			<artifactId>insurance-elements</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.lapsa.kz-lib</groupId>
+			<artifactId>kz-core</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.lapsa.international-lib</groupId>
+			<artifactId>international-core</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<!-- JavaEE -->
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.ejb</groupId>
+			<artifactId>javax.ejb-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
 	<scm>
-		<connection>scm:git:https://gitlab.lapsa.tech/lapsa/esbd/dao.git</connection>
-		<developerConnection>scm:git:https://gitlab.lapsa.tech/lapsa/esbd/dao.git</developerConnection>
+		<connection>scm:git:https://gitlab.lapsa.tech/lapsa/esbd/dao-client.git</connection>
+		<developerConnection>scm:git:https://gitlab.lapsa.tech/lapsa/esbd/dao-client.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
 	<issueManagement>
 		<system>gitlab</system>
-		<url>https://gitlab.lapsa.tech/lapsa/esbd/dao/issues</url>
+		<url>https://gitlab.lapsa.tech/lapsa/esbd/dao-client/issues</url>
 	</issueManagement>
 
 </project>
