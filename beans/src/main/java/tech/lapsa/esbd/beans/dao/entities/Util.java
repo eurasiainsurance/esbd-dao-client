@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.beans.dao.entities;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.elements.mapping;
+package tech.lapsa.esbd.beans.dao.elements.mapping;
 
 import static com.lapsa.insurance.elements.MaritalStatus.*;
 

@@ -21,7 +21,7 @@ public abstract class SubjectEntity extends Domain {
 
     private static final long serialVersionUID = 1L;
 
-    protected abstract static class SubjectEntityBuilder<T extends SubjectEntity, THIS> {
+    public abstract static class SubjectEntityBuilder<T extends SubjectEntity, THIS> {
 
 	private Integer id;
 	private OriginInfo origin;

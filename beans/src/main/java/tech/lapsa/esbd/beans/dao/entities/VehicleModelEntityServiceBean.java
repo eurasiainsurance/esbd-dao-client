@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.beans.dao.entities;
 
 import java.util.Collection;
 import java.util.List;
@@ -13,6 +13,9 @@ import javax.ejb.TransactionAttributeType;
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntity;
+import tech.lapsa.esbd.dao.entities.VehicleModelEntity;
+import tech.lapsa.esbd.dao.entities.VehicleModelEntityService;
 import tech.lapsa.esbd.dao.entities.VehicleManufacturerEntityService.VehicleManufacturerEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.VehicleModelEntity.VehicleModelEntityBuilder;
 import tech.lapsa.esbd.dao.entities.VehicleModelEntityService.VehicleModelEntityServiceLocal;

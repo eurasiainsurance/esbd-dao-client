@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.beans.dao.entities;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -10,6 +10,8 @@ import javax.ejb.TransactionAttributeType;
 
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.entities.SubjectPersonEntity;
+import tech.lapsa.esbd.dao.entities.SubjectPersonEntityService;
 import tech.lapsa.esbd.dao.entities.SubjectPersonEntity.SubjectPersonEntityBuilder;
 import tech.lapsa.esbd.dao.entities.SubjectPersonEntityService.SubjectPersonEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.SubjectPersonEntityService.SubjectPersonEntityServiceRemote;

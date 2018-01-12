@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.dict;
+package tech.lapsa.esbd.beans.dao.dict;
 
 import java.util.List;
 import java.util.Map;
@@ -15,6 +15,8 @@ import javax.ejb.TransactionAttributeType;
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
 import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.dict.DictionaryEntity;
+import tech.lapsa.esbd.dao.dict.DictionaryEntityService;
 import tech.lapsa.esbd.dao.dict.DictionaryEntity.DictionaryEntityBuilder;
 import tech.lapsa.esbd.jaxws.wsimport.ArrayOfItem;
 import tech.lapsa.esbd.jaxws.wsimport.Item;

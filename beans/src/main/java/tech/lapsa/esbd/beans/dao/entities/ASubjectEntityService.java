@@ -1,6 +1,6 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.beans.dao.entities;
 
-import static tech.lapsa.esbd.dao.ESBDDates.*;
+import static tech.lapsa.esbd.beans.dao.ESBDDates.*;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -26,6 +26,13 @@ import tech.lapsa.esbd.dao.elements.GenderService.GenderServiceLocal;
 import tech.lapsa.esbd.dao.elements.IdentityCardTypeService.IdentityCardTypeServiceLocal;
 import tech.lapsa.esbd.dao.elements.KZCityService.KZCityServiceLocal;
 import tech.lapsa.esbd.dao.elements.KZEconomicSectorService.KZEconomicSectorServiceLocal;
+import tech.lapsa.esbd.dao.entities.ContactInfo;
+import tech.lapsa.esbd.dao.entities.IdentityCardInfo;
+import tech.lapsa.esbd.dao.entities.OriginInfo;
+import tech.lapsa.esbd.dao.entities.PersonalInfo;
+import tech.lapsa.esbd.dao.entities.SubjectCompanyEntity;
+import tech.lapsa.esbd.dao.entities.SubjectEntity;
+import tech.lapsa.esbd.dao.entities.SubjectPersonEntity;
 import tech.lapsa.esbd.dao.entities.GeneralSubjectEntityService.GeneralSubjectEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.GeneralSubjectEntityService.GeneralSubjectEntityServiceRemote;
 import tech.lapsa.esbd.dao.entities.SubjectCompanyEntity.SubjectCompanyEntityBuilder;

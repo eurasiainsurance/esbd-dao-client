@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.elements.mapping;
+package tech.lapsa.esbd.beans.dao.elements.mapping;
 
 import java.util.HashMap;
 import java.util.HashSet;

@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao;
+package tech.lapsa.esbd.beans.dao;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -8,6 +8,7 @@ import javax.ejb.TransactionAttributeType;
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionException;
 import tech.lapsa.esbd.connection.ConnectionPool;
+import tech.lapsa.esbd.dao.ESBDDAOPingService;
 import tech.lapsa.esbd.dao.ESBDDAOPingService.ESBDDAOPingServiceLocal;
 import tech.lapsa.esbd.dao.ESBDDAOPingService.ESBDDAOPingServiceRemote;
 import tech.lapsa.java.commons.exceptions.IllegalState;

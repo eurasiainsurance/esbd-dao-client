@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao;
+package tech.lapsa.esbd.beans.dao;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

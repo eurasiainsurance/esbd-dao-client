@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.beans.dao.entities;
 
 import java.util.Calendar;
 import java.util.List;
@@ -22,6 +22,9 @@ import tech.lapsa.esbd.dao.dict.BranchEntity;
 import tech.lapsa.esbd.dao.dict.BranchEntityService.BranchEntityServiceLocal;
 import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
 import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntityService.InsuranceCompanyEntityServiceLocal;
+import tech.lapsa.esbd.dao.entities.SubjectEntity;
+import tech.lapsa.esbd.dao.entities.UserEntity;
+import tech.lapsa.esbd.dao.entities.UserEntityService;
 import tech.lapsa.esbd.dao.entities.SubjectEntityService.SubjectEntityServiceLocal;
 import tech.lapsa.esbd.dao.entities.UserEntity.UserEntityBuilder;
 import tech.lapsa.esbd.dao.entities.UserEntityService.UserEntityServiceLocal;

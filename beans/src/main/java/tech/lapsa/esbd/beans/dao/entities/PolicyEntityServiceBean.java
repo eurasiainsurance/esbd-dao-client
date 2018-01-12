@@ -1,6 +1,6 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.beans.dao.entities;
 
-import static tech.lapsa.esbd.dao.ESBDDates.*;
+import static tech.lapsa.esbd.beans.dao.ESBDDates.*;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -19,9 +19,9 @@ import com.lapsa.insurance.elements.VehicleAgeClass;
 import com.lapsa.insurance.elements.VehicleClass;
 import com.lapsa.kz.country.KZArea;
 
+import tech.lapsa.esbd.beans.dao.ESBDDates;
 import tech.lapsa.esbd.connection.Connection;
 import tech.lapsa.esbd.connection.ConnectionPool;
-import tech.lapsa.esbd.dao.ESBDDates;
 import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.esbd.dao.dict.BranchEntity;
 import tech.lapsa.esbd.dao.dict.BranchEntityService.BranchEntityServiceLocal;
@@ -34,6 +34,21 @@ import tech.lapsa.esbd.dao.elements.KZAreaService.KZAreaServiceLocal;
 import tech.lapsa.esbd.dao.elements.MaritalStatusService.MaritalStatusServiceLocal;
 import tech.lapsa.esbd.dao.elements.VehicleAgeClassService.VehicleAgeClassServiceLocal;
 import tech.lapsa.esbd.dao.elements.VehicleClassService.VehicleClassServiceLocal;
+import tech.lapsa.esbd.dao.entities.DriverLicenseInfo;
+import tech.lapsa.esbd.dao.entities.GPWParticipantInfo;
+import tech.lapsa.esbd.dao.entities.HandicappedInfo;
+import tech.lapsa.esbd.dao.entities.InsuredDriverEntity;
+import tech.lapsa.esbd.dao.entities.InsuredVehicleEntity;
+import tech.lapsa.esbd.dao.entities.PensionerInfo;
+import tech.lapsa.esbd.dao.entities.PolicyEntity;
+import tech.lapsa.esbd.dao.entities.PolicyEntityService;
+import tech.lapsa.esbd.dao.entities.PrivilegerInfo;
+import tech.lapsa.esbd.dao.entities.RecordOperationInfo;
+import tech.lapsa.esbd.dao.entities.SubjectEntity;
+import tech.lapsa.esbd.dao.entities.SubjectPersonEntity;
+import tech.lapsa.esbd.dao.entities.UserEntity;
+import tech.lapsa.esbd.dao.entities.VehicleCertificateInfo;
+import tech.lapsa.esbd.dao.entities.VehicleEntity;
 import tech.lapsa.esbd.dao.entities.InsuredDriverEntity.InsuredDriverEntityBuilder;
 import tech.lapsa.esbd.dao.entities.InsuredVehicleEntity.InsuredVehicleEntityBuilder;
 import tech.lapsa.esbd.dao.entities.PolicyEntity.PolicyEntityBuilder;

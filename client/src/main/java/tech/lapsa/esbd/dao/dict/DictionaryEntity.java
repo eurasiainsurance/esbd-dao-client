@@ -8,7 +8,7 @@ public abstract class DictionaryEntity extends Domain {
 
     private static final long serialVersionUID = 1L;
 
-    protected static abstract class DictionaryEntityBuilder<T extends DictionaryEntity> {
+    public static abstract class DictionaryEntityBuilder<T extends DictionaryEntity> {
 
 	protected Integer id;
 	protected String code;

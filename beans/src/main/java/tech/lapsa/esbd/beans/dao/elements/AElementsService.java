@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.elements;
+package tech.lapsa.esbd.beans.dao.elements;
 
 import java.util.function.Function;
 
@@ -7,6 +7,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
 import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.dao.elements.ElementsService;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyExceptions;
 import tech.lapsa.java.commons.function.MyNumbers;
