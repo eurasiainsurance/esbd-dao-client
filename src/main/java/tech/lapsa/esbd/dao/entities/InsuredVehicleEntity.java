@@ -103,7 +103,7 @@ public class InsuredVehicleEntity extends Domain {
 	public InsuredVehicleEntity build() throws IllegalArgumentException {
 	    final InsuredVehicleEntity res = new InsuredVehicleEntity();
 	    res.id = MyNumbers.requirePositive(id, "id");
-	    res.policy = MyObjects.requireNonNull(policy, "policy");
+	    res.policy = policy;
 	    res.vehicle = MyObjects.requireNonNull(vehicle, "vehicle");
 	    res.vehicleClass = MyObjects.requireNonNull(vehicleClass, "vehicleClass");
 	    res.vehicleAgeClass = MyObjects.requireNonNull(vehicleAgeClass, "vehicleAgeClass");

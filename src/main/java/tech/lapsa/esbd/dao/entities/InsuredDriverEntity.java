@@ -136,7 +136,7 @@ public class InsuredDriverEntity extends Domain {
 	public InsuredDriverEntity build() throws IllegalArgumentException {
 	    final InsuredDriverEntity res = new InsuredDriverEntity();
 	    res.id = MyNumbers.requirePositive(id, "id");
-	    res.policy = MyObjects.requireNonNull(policy, "policy");
+	    res.policy = policy;
 	    res.insuredPerson = MyObjects.requireNonNull(insuredPerson, "insuredPerson");
 	    res.maritalStatus = MyObjects.requireNonNull(maritalStatus, "maritalStatus");
 	    res.insuredAgeExpirienceClass = MyObjects.requireNonNull(insuredAgeExpirienceClass,
