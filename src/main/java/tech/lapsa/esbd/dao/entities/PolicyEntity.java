@@ -9,8 +9,6 @@ import com.lapsa.insurance.elements.CancelationReason;
 import tech.lapsa.esbd.dao.Domain;
 import tech.lapsa.esbd.dao.dict.BranchEntity;
 import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
-import tech.lapsa.esbd.dao.entities.InsuredDriverEntity.InsuredDriverEntityBuilder;
-import tech.lapsa.esbd.dao.entities.InsuredVehicleEntity.InsuredVehicleEntityBuilder;
 import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyNumbers;
@@ -46,8 +44,8 @@ public class PolicyEntity extends Domain {
 	private BranchEntity branch;
 	private Integer reissuedPolicyId;
 	private String comments;
-	private final List<InsuredDriverEntityBuilder> insuredDrivers = new ArrayList<>();
-	private final List<InsuredVehicleEntityBuilder> insuredVehicles = new ArrayList<>();
+	private final List<InsuredDriverEntity> insuredDrivers = new ArrayList<>();
+	private final List<InsuredVehicleEntity> insuredVehicles = new ArrayList<>();
 	private RecordOperationInfo created;
 	private RecordOperationInfo modified;
 
@@ -131,15 +129,17 @@ public class PolicyEntity extends Domain {
 	    return this;
 	}
 
-	public PolicyEntityBuilder addDriverBuilder(final InsuredDriverEntityBuilder insuredDriver)
+	public PolicyEntityBuilder addDriver(final InsuredDriverEntity insuredDriver)
 		throws IllegalArgumentException {
-	    insuredDrivers.add(MyObjects.requireNonNull(insuredDriver, "insuredDriver"));
+	    insuredDrivers.add(MyObjects.requireNonNull(insuredDriver, "insuredDriver")
+		    .requireNotAttachedToPolicy());
 	    return this;
 	}
 
-	public PolicyEntityBuilder addVehicleBuilder(final InsuredVehicleEntityBuilder insuredVehicle)
+	public PolicyEntityBuilder addVehicle(final InsuredVehicleEntity insuredVehicle)
 		throws IllegalArgumentException {
-	    insuredVehicles.add(MyObjects.requireNonNull(insuredVehicle, "insuredVehicle"));
+	    insuredVehicles.add(MyObjects.requireNonNull(insuredVehicle, "insuredVehicle")
+		    .requireNotAttachedToPolicy());
 	    return this;
 	}
 
@@ -174,13 +174,11 @@ public class PolicyEntity extends Domain {
 	    res.comments = comments;
 	    res.insuredDrivers = MyCollections.requireNonEmpty(insuredDrivers, "insuredDrivers")
 		    .stream()
-		    .map(x -> x.withPolicy(res))
-		    .map(InsuredDriverEntityBuilder::build)
+		    .peek(x -> MyObjects.requireNonNull(x, "insuredDriver").attachToPolicy(res))
 		    .collect(MyCollectors.unmodifiableList());
 	    res.insuredVehicles = MyCollections.requireNonEmpty(insuredVehicles, "insuredVehicles")
 		    .stream()
-		    .map(x -> x.withPolicy(res))
-		    .map(InsuredVehicleEntityBuilder::build)
+		    .peek(x -> MyObjects.requireNonNull(x, "insuredVehicle").attachToPolicy(res))
 		    .collect(MyCollectors.unmodifiableList());
 	    res.created = MyObjects.requireNonNull(created, "created");
 	    res.modified = modified;
@@ -195,6 +193,11 @@ public class PolicyEntity extends Domain {
 
     private Integer id;
 
+    /**
+     * POLICY_ID s:int Идентификатор полиса (обязательно)
+     * 
+     * @return Идентификатор полиса
+     */
     public Integer getId() {
 	return id;
     }
@@ -211,6 +214,11 @@ public class PolicyEntity extends Domain {
 
     private String internalNumber;
 
+    /**
+     * POLICY_NUMBER s:string Номер полиса (обязательно)
+     * 
+     * @return Номер полиса
+     */
     public String getInternalNumber() {
 	return internalNumber;
     }
@@ -219,6 +227,11 @@ public class PolicyEntity extends Domain {
 
     private LocalDate validFrom;
 
+    /**
+     * DATE_BEG s:string Дата начала действия полиса (обязательно)
+     * 
+     * @return Дата начала действия полиса
+     */
     public LocalDate getValidFrom() {
 	return validFrom;
     }
@@ -227,6 +240,11 @@ public class PolicyEntity extends Domain {
 
     private LocalDate validTill;
 
+    /**
+     * DATE_END s:string Дата окончания действия полиса (обязательно)
+     * 
+     * @return Дата окончания действия полиса
+     */
     public LocalDate getValidTill() {
 	return validTill;
     }
@@ -235,6 +253,11 @@ public class PolicyEntity extends Domain {
 
     private Double actualPremium;
 
+    /**
+     * PREMIUM s:double Страховая премия (обязательно)
+     * 
+     * @return Страховая премия
+     */
     public Double getActualPremium() {
 	return actualPremium;
     }
@@ -243,6 +266,11 @@ public class PolicyEntity extends Domain {
 
     private Double calculatedPremium;
 
+    /**
+     * CALCULATED_PREMIUM s:double Страховая премия рассчитанная системой
+     * 
+     * @return Страховая премия рассчитанная системой
+     */
     public Double getCalculatedPremium() {
 	return calculatedPremium;
     }
@@ -251,6 +279,12 @@ public class PolicyEntity extends Domain {
 
     private InsuranceCompanyEntity insurer;
 
+    /**
+     * 
+     * SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
+     * 
+     * @return страховая компания
+     */
     public InsuranceCompanyEntity getInsurer() {
 	return insurer;
     }
@@ -259,6 +293,11 @@ public class PolicyEntity extends Domain {
 
     private SubjectEntity insurant;
 
+    /**
+     * CLIENT_ID s:int Идентификатор страхователя (обязательно)
+     * 
+     * @return клиент страхователь
+     */
     public SubjectEntity getInsurant() {
 	return insurant;
     }
@@ -354,4 +393,59 @@ public class PolicyEntity extends Domain {
     public RecordOperationInfo getModified() {
 	return modified;
     }
+    /**
+     * <pre>
+     * "RECORD_CHANGED_AT"
+     * protected String recordchangedat;
+     * "RECORD_CHANGED_AT_DATETIME"
+     * protected String recordchangedatdatetime;
+     * "CREATED_BY_USER_ID"
+     * protected int createdbyuserid;
+     * "INPUT_DATE"
+     * protected String inputdate;
+     * "INPUT_DATETIME"
+     * protected String inputdatetime;
+     * "CHANGED_BY_USER_ID"
+     * protected int changedbyuserid;
+     * "POLICY_DATE"
+     * protected String policydate;
+     * "RESCINDING_DATE"
+     * protected String rescindingdate;
+     * "REWRITE_BOOL"
+     * protected int rewritebool;
+     * "BRANCH_ID"
+     * protected int branchid;
+     * "REWRITE_POLICY_ID"
+     * protected int rewritepolicyid;
+     * "RESCINDING_REASON_ID"
+     * protected int rescindingreasonid;
+     * "Drivers"
+     * protected ArrayOfDriver drivers;
+     * "PoliciesTF"
+     * protected ArrayOfPoliciesTF policiesTF;
+     * "DESCRIPTION"
+     * protected String description;
+     * "GLOBAL_ID"
+     * protected String globalid;
+     * "PAYMENT_ORDER_TYPE_ID"
+     * protected int paymentordertypeid;
+     * "PAYMENT_ORDER_TYPE"
+     * protected String paymentordertype;
+     * "PAYMENT_DATE"
+     * protected String paymentdate;
+     * "MIDDLEMAN_ID"
+     * protected int middlemanid;
+     * "MIDDLEMAN_CONTRACT_NUMBER"
+     * protected String middlemancontractnumber;
+     * "ScheduledPayments"
+     * protected ArrayOfSCHEDULEDPAYMENT scheduledPayments;
+     * "CLIENT_FORM_ID"
+     * protected int clientformid;
+     * "PAYMENT_TYPE_ID"
+     * protected int paymenttypeid;
+     * "PAYMENT_TYPE"
+     * protected String paymenttype;
+     * </pre>
+     */
+
 }

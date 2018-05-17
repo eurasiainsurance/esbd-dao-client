@@ -140,6 +140,18 @@ public class InsuredVehicleEntity extends Domain {
 	return policy;
     }
 
+    InsuredVehicleEntity requireNotAttachedToPolicy() throws IllegalArgumentException {
+	MyObjects.requireNullMsg(policy, "%1$s already attached to %2$s", InsuredVehicleEntity.class,
+		PolicyEntity.class);
+	return this;
+    }
+
+    InsuredVehicleEntity attachToPolicy(final PolicyEntity res) throws IllegalArgumentException {
+	requireNotAttachedToPolicy();
+	policy = res;
+	return this;
+    }
+
     // vehicle
 
     private VehicleEntity vehicle;

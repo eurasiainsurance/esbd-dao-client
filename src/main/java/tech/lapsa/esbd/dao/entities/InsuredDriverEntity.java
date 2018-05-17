@@ -178,6 +178,18 @@ public class InsuredDriverEntity extends Domain {
 	return policy;
     }
 
+    InsuredDriverEntity requireNotAttachedToPolicy() throws IllegalArgumentException {
+	MyObjects.requireNullMsg(policy, "%1$s already attached to %2$s", InsuredDriverEntity.class,
+		PolicyEntity.class);
+	return this;
+    }
+
+    InsuredDriverEntity attachToPolicy(final PolicyEntity res) throws IllegalArgumentException {
+	requireNotAttachedToPolicy();
+	policy = res;
+	return this;
+    }
+
     // insuredPerson
 
     private SubjectPersonEntity insuredPerson;
@@ -196,7 +208,7 @@ public class InsuredDriverEntity extends Domain {
 
     // insuredAgeExpirienceClass
 
-    private InsuredAgeAndExpirienceClass insuredAgeExpirienceClass;
+    InsuredAgeAndExpirienceClass insuredAgeExpirienceClass;
 
     public InsuredAgeAndExpirienceClass getInsuredAgeExpirienceClass() {
 	return insuredAgeExpirienceClass;
