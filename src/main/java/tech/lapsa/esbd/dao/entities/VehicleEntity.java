@@ -9,7 +9,6 @@ import com.lapsa.insurance.elements.VehicleClass;
 import tech.lapsa.esbd.dao.Domain;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
-import tech.lapsa.kz.vehicle.VehicleRegNumber;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(31)
@@ -33,7 +32,6 @@ public class VehicleEntity extends Domain {
 	private int enginePower;
 	private String color;
 	private LocalDate realeaseDate;
-	private VehicleRegNumber regNum;
 
 	private VehicleEntityBuilder() {
 	}
@@ -95,11 +93,6 @@ public class VehicleEntity extends Domain {
 	    return this;
 	}
 
-	public VehicleEntityBuilder withRegNum(final VehicleRegNumber regNum) {
-	    this.regNum = MyObjects.requireNonNull(regNum, "regNum");
-	    return this;
-	}
-
 	public VehicleEntity build() throws IllegalArgumentException {
 	    final VehicleEntity res = new VehicleEntity();
 	    res.id = MyNumbers.requirePositive(id, "id");
@@ -112,7 +105,6 @@ public class VehicleEntity extends Domain {
 	    res.enginePower = enginePower;
 	    res.color = color;
 	    res.realeaseDate = realeaseDate;
-	    res.regNum = regNum;
 	    return res;
 	}
 
@@ -202,13 +194,5 @@ public class VehicleEntity extends Domain {
 
     public LocalDate getRealeaseDate() {
 	return realeaseDate;
-    }
-
-    // regNum
-
-    private VehicleRegNumber regNum;
-
-    public VehicleRegNumber getRegNum() {
-	return regNum;
     }
 }
