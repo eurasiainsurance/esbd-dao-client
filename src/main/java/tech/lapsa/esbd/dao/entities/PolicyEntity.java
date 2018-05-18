@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.lapsa.insurance.elements.PersonType;
+
 import tech.lapsa.esbd.dao.Domain;
 import tech.lapsa.esbd.dao.dict.BranchEntity;
 import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
-import tech.lapsa.esbd.dao.dict.PersonTypeEntity;
 import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
@@ -35,7 +36,7 @@ public class PolicyEntity extends Domain {
 	private Double calculatedPremium;
 	private InsuranceCompanyEntity insurer;
 	private SubjectEntity insurant;
-	private PersonTypeEntity insurantPersonType;
+	private PersonType insurantPersonType;
 	private LocalDate dateOfIssue;
 
 	private CancelationInfo cancelation;
@@ -97,7 +98,7 @@ public class PolicyEntity extends Domain {
 	    return this;
 	}
 
-	public PolicyEntityBuilder withInsurantPersonType(final PersonTypeEntity insurantPersonType)
+	public PolicyEntityBuilder withInsurantPersonType(final PersonType insurantPersonType)
 		throws IllegalArgumentException {
 	    this.insurantPersonType = MyObjects.requireNonNull(insurantPersonType, "insurantPersonType");
 	    return this;
@@ -258,9 +259,9 @@ public class PolicyEntity extends Domain {
 
     // insurantType
 
-    private PersonTypeEntity insurantPersonType;
+    private PersonType insurantPersonType;
 
-    public PersonTypeEntity getInsurantPersonType() {
+    public PersonType getInsurantPersonType() {
 	return insurantPersonType;
     }
 

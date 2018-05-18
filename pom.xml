@@ -21,7 +21,7 @@
 		<!-- tech -->
 		<patterns-domain.version>1.1</patterns-domain.version>
 		<!-- oldies -->
-		<insurance-lib.version>2.4.2</insurance-lib.version>
+		<insurance-lib.version>2.5-SNAPSHOT</insurance-lib.version>
 		<kz-lib.version>3.2.5</kz-lib.version>
 		<international-lib.version>3.3.1</international-lib.version>
 	</properties>
