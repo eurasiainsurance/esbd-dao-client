@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.lapsa.insurance.elements.PaymentType;
 import com.lapsa.insurance.elements.PersonType;
 
 import tech.lapsa.esbd.dao.Domain;
@@ -48,6 +49,9 @@ public class PolicyEntity extends Domain {
 	private final List<InsuredVehicleEntity> insuredVehicles = new ArrayList<>();
 	private RecordOperationInfo created;
 	private RecordOperationInfo modified;
+
+	private LocalDate dateOfPayment;
+	private PaymentType paymentType;
 
 	private PolicyEntityBuilder() {
 	}
@@ -153,6 +157,16 @@ public class PolicyEntity extends Domain {
 	    return this;
 	}
 
+	public PolicyEntityBuilder withDateOfPayment(final LocalDate dateOfPayment) throws IllegalArgumentException {
+	    this.dateOfPayment = MyObjects.requireNonNull(dateOfPayment, "dateOfPayment");
+	    return this;
+	}
+
+	public PolicyEntityBuilder withPaymentType(final PaymentType paymentType) {
+	    this.paymentType = MyObjects.requireNonNull(paymentType, "paymentType");
+	    return this;
+	}
+
 	public PolicyEntity build() throws IllegalArgumentException {
 	    final PolicyEntity res = new PolicyEntity();
 	    res.id = MyNumbers.requirePositive(id, "id");
@@ -172,12 +186,18 @@ public class PolicyEntity extends Domain {
 	    res.branch = MyObjects.requireNonNull(branch, "branch");
 	    res.reissuedPolicyId = reissuedPolicyId;
 	    res.comments = comments;
+
 	    res.insuredDrivers = Collections
 		    .unmodifiableList(MyCollections.requireNonEmpty(insuredDrivers, "insuredDrivers"));
 	    res.insuredVehicles = Collections
 		    .unmodifiableList(MyCollections.requireNonEmpty(insuredVehicles, "insuredVehicles"));
+
 	    res.created = MyObjects.requireNonNull(created, "created");
 	    res.modified = modified;
+
+	    res.dateOfPayment = dateOfPayment;
+	    res.paymentType = MyObjects.requireNonNull(paymentType, "paymentType");
+
 	    return res;
 	}
     }
@@ -347,5 +367,25 @@ public class PolicyEntity extends Domain {
 
     public RecordOperationInfo getModified() {
 	return modified;
+    }
+
+    // dateOfPayment
+
+    private LocalDate dateOfPayment;
+
+    public LocalDate getDateOfPayment() {
+	return dateOfPayment;
+    }
+    
+    public boolean isPaid() {
+	return MyObjects.nonNull(dateOfPayment);
+    }
+
+    // paymentType
+
+    private PaymentType paymentType;
+
+    public PaymentType getPaymentType() {
+	return paymentType;
     }
 }
