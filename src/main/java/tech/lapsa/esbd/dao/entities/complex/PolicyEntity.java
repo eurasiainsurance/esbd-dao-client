@@ -55,6 +55,8 @@ public class PolicyEntity extends AEntity {
 	private LocalDate dateOfPayment;
 	private PaymentType paymentType;
 
+	private InsuranceAgentEntity insuranceAgent;
+
 	private PolicyEntityBuilder() {
 	}
 
@@ -169,6 +171,11 @@ public class PolicyEntity extends AEntity {
 	    return this;
 	}
 
+	public PolicyEntityBuilder withInsuranceAgent(final InsuranceAgentEntity insuranceAgent) {
+	    this.insuranceAgent = MyObjects.requireNonNull(insuranceAgent, "insuranceAgent");
+	    return this;
+	}
+
 	public PolicyEntity build() throws IllegalArgumentException {
 	    final PolicyEntity res = new PolicyEntity();
 	    res.id = MyNumbers.requirePositive(id, "id");
@@ -199,6 +206,8 @@ public class PolicyEntity extends AEntity {
 
 	    res.dateOfPayment = dateOfPayment;
 	    res.paymentType = MyObjects.requireNonNull(paymentType, "paymentType");
+
+	    res.insuranceAgent = insuranceAgent;
 
 	    return res;
 	}
@@ -378,7 +387,7 @@ public class PolicyEntity extends AEntity {
     public LocalDate getDateOfPayment() {
 	return dateOfPayment;
     }
-    
+
     public boolean isPaid() {
 	return MyObjects.nonNull(dateOfPayment);
     }
@@ -389,5 +398,13 @@ public class PolicyEntity extends AEntity {
 
     public PaymentType getPaymentType() {
 	return paymentType;
+    }
+
+    // insuranceAgent
+
+    private InsuranceAgentEntity insuranceAgent;
+
+    public InsuranceAgentEntity getInsuranceAgent() {
+	return insuranceAgent;
     }
 }
