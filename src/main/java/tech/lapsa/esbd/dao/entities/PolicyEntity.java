@@ -9,6 +9,7 @@ import com.lapsa.insurance.elements.CancelationReason;
 
 import tech.lapsa.esbd.dao.Domain;
 import tech.lapsa.esbd.dao.dict.BranchEntity;
+import tech.lapsa.esbd.dao.dict.PersonTypeEntity;
 import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
 import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyNumbers;
@@ -36,6 +37,7 @@ public class PolicyEntity extends Domain {
 	private Double calculatedPremium;
 	private InsuranceCompanyEntity insurer;
 	private SubjectEntity insurant;
+	private PersonTypeEntity insurantPersonType;
 	private LocalDate dateOfIssue;
 
 	private LocalDate dateOfCancelation;
@@ -95,6 +97,11 @@ public class PolicyEntity extends Domain {
 
 	public PolicyEntityBuilder withInsurant(final SubjectEntity insurant) throws IllegalArgumentException {
 	    this.insurant = MyObjects.requireNonNull(insurant, "insurant");
+	    return this;
+	}
+
+	public PolicyEntityBuilder withInsurantPersonType(final PersonTypeEntity insurantPersonType) throws IllegalArgumentException {
+	    this.insurantPersonType = MyObjects.requireNonNull(insurantPersonType, "insurantPersonType");
 	    return this;
 	}
 
@@ -162,6 +169,7 @@ public class PolicyEntity extends Domain {
 	    res.calculatedPremium = MyNumbers.requirePositive(calculatedPremium, "calculatedPremium");
 	    res.insurer = MyObjects.requireNonNull(insurer, "insurer");
 	    res.insurant = MyObjects.requireNonNull(insurant, "insurant");
+	    res.insurantPersonType = insurantPersonType;
 	    res.dateOfIssue = MyObjects.requireNonNull(dateOfIssue, "dateOfIssue");
 	    if (MyObjects.nonNull(dateOfCancelation) || MyObjects.nonNull(cancelationReasonType)) {
 		res.dateOfCancelation = MyObjects.requireNonNull(dateOfCancelation, "dateOfCancelation");
@@ -253,6 +261,14 @@ public class PolicyEntity extends Domain {
 
     public SubjectEntity getInsurant() {
 	return insurant;
+    }
+
+    // insurantType
+
+    private PersonTypeEntity insurantPersonType;
+
+    public PersonTypeEntity getInsurantPersonType() {
+        return insurantPersonType;
     }
 
     // dateOfIssue

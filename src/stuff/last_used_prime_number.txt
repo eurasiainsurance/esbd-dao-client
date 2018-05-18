@@ -21,7 +21,7 @@
       79 tech.lapsa.esbd.dao.entities.PrivilegerInfo
       83 tech.lapsa.esbd.dao.entities.RecordOperationInfo
       89 tech.lapsa.esbd.dao.entities.VehicleCertificateInfo
-      97 
+      97 tech.lapsa.esbd.dao.dict.PersonTypeEntity
      101 
      103 
      107 
