@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.lapsa.insurance.elements.CancelationReason;
-
 import tech.lapsa.esbd.dao.Domain;
 import tech.lapsa.esbd.dao.dict.BranchEntity;
-import tech.lapsa.esbd.dao.dict.PersonTypeEntity;
 import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
+import tech.lapsa.esbd.dao.dict.PersonTypeEntity;
 import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
@@ -40,8 +38,7 @@ public class PolicyEntity extends Domain {
 	private PersonTypeEntity insurantPersonType;
 	private LocalDate dateOfIssue;
 
-	private LocalDate dateOfCancelation;
-	private CancelationReason cancelationReasonType;
+	private CancelationInfo cancelation;
 
 	private BranchEntity branch;
 	private Integer reissuedPolicyId;
@@ -100,7 +97,8 @@ public class PolicyEntity extends Domain {
 	    return this;
 	}
 
-	public PolicyEntityBuilder withInsurantPersonType(final PersonTypeEntity insurantPersonType) throws IllegalArgumentException {
+	public PolicyEntityBuilder withInsurantPersonType(final PersonTypeEntity insurantPersonType)
+		throws IllegalArgumentException {
 	    this.insurantPersonType = MyObjects.requireNonNull(insurantPersonType, "insurantPersonType");
 	    return this;
 	}
@@ -110,13 +108,9 @@ public class PolicyEntity extends Domain {
 	    return this;
 	}
 
-	public PolicyEntityBuilder withCancelation(final LocalDate dateOfCancelation,
-		final CancelationReason cancelationReasonType)
+	public PolicyEntityBuilder withCancelation(final CancelationInfo cancelation)
 		throws IllegalArgumentException {
-	    MyObjects.requireNonNull(dateOfCancelation, "dateOfCancelation");
-	    MyObjects.requireNonNull(cancelationReasonType, "cancelationReasonType");
-	    this.dateOfCancelation = dateOfCancelation;
-	    this.cancelationReasonType = cancelationReasonType;
+	    this.cancelation = MyObjects.requireNonNull(cancelation, "cancelation");
 	    return this;
 	}
 
@@ -169,12 +163,11 @@ public class PolicyEntity extends Domain {
 	    res.calculatedPremium = MyNumbers.requirePositive(calculatedPremium, "calculatedPremium");
 	    res.insurer = MyObjects.requireNonNull(insurer, "insurer");
 	    res.insurant = MyObjects.requireNonNull(insurant, "insurant");
-	    res.insurantPersonType = insurantPersonType;
+	    res.insurantPersonType = MyObjects.isA(insurant, SubjectPersonEntity.class)
+		    ? MyObjects.requireNonNull(insurantPersonType, "insurantPersonType")
+		    : MyObjects.requireNull(insurantPersonType, "insurantPersonType");
 	    res.dateOfIssue = MyObjects.requireNonNull(dateOfIssue, "dateOfIssue");
-	    if (MyObjects.nonNull(dateOfCancelation) || MyObjects.nonNull(cancelationReasonType)) {
-		res.dateOfCancelation = MyObjects.requireNonNull(dateOfCancelation, "dateOfCancelation");
-		res.cancelationReasonType = MyObjects.requireNonNull(cancelationReasonType, "cancelationReasonType");
-	    }
+	    res.cancelation = cancelation;
 	    res.branch = MyObjects.requireNonNull(branch, "branch");
 	    res.reissuedPolicyId = reissuedPolicyId;
 	    res.comments = comments;
@@ -268,7 +261,7 @@ public class PolicyEntity extends Domain {
     private PersonTypeEntity insurantPersonType;
 
     public PersonTypeEntity getInsurantPersonType() {
-        return insurantPersonType;
+	return insurantPersonType;
     }
 
     // dateOfIssue
@@ -279,24 +272,16 @@ public class PolicyEntity extends Domain {
 	return dateOfIssue;
     }
 
-    // dateOfCancelation
+    // cancelation
 
-    private LocalDate dateOfCancelation;
+    private CancelationInfo cancelation;
 
-    public LocalDate getDateOfCancelation() {
-	return dateOfCancelation;
+    public CancelationInfo getCancelation() {
+	return cancelation;
     }
 
     public boolean isCanceled() {
-	return dateOfCancelation != null;
-    }
-
-    // cancelationReasonType
-
-    private CancelationReason cancelationReasonType;
-
-    public CancelationReason getCancelationReasonType() {
-	return cancelationReasonType;
+	return cancelation != null;
     }
 
     // branch
