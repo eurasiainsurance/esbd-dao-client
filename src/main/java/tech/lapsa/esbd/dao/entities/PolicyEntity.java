@@ -274,7 +274,6 @@ public class PolicyEntity extends Domain {
     private InsuranceCompanyEntity insurer;
 
     /**
-     * 
      * SYSTEM_DELIMITER_ID s:int Идентификатор страховой компании
      * 
      * @return страховая компания
