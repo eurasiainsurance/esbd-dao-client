@@ -1,6 +1,6 @@
 package tech.lapsa.esbd.dao.entities;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.function.Consumer;
 
 import tech.lapsa.esbd.dao.Domain;
@@ -18,14 +18,14 @@ public class RecordOperationInfo extends Domain {
 
     public static final class RecordOperationInfoBuilder {
 
-	private LocalDate date;
+	private Instant instant;
 	private UserEntity author;
 
 	private RecordOperationInfoBuilder() {
 	}
 
-	public RecordOperationInfoBuilder withDate(final LocalDate date) {
-	    this.date = MyObjects.requireNonNull(date, "date");
+	public RecordOperationInfoBuilder withInstant(final Instant instant) {
+	    this.instant = MyObjects.requireNonNull(instant, "instant");
 	    return this;
 	}
 
@@ -36,7 +36,7 @@ public class RecordOperationInfo extends Domain {
 
 	public RecordOperationInfo build() {
 	    final RecordOperationInfo res = new RecordOperationInfo();
-	    res.date = MyObjects.requireNonNull(date, "date");
+	    res.instant = MyObjects.requireNonNull(instant, "instant");
 	    res.author = MyObjects.requireNonNull(author, "author");
 	    return res;
 	}
@@ -51,10 +51,10 @@ public class RecordOperationInfo extends Domain {
 
     // res
 
-    private LocalDate date;
+    private Instant instant;
 
-    public LocalDate getDate() {
-	return date;
+    public Instant getInstant() {
+	return instant;
     }
 
     // author
