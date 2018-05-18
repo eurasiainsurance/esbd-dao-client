@@ -2,6 +2,7 @@ package tech.lapsa.esbd.dao.entities;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.lapsa.insurance.elements.CancelationReason;
@@ -10,7 +11,6 @@ import tech.lapsa.esbd.dao.Domain;
 import tech.lapsa.esbd.dao.dict.BranchEntity;
 import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
 import tech.lapsa.java.commons.function.MyCollections;
-import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyStrings;
@@ -131,15 +131,13 @@ public class PolicyEntity extends Domain {
 
 	public PolicyEntityBuilder addDriver(final InsuredDriverEntity insuredDriver)
 		throws IllegalArgumentException {
-	    insuredDrivers.add(MyObjects.requireNonNull(insuredDriver, "insuredDriver")
-		    .requireNotAttachedToPolicy());
+	    insuredDrivers.add(MyObjects.requireNonNull(insuredDriver, "insuredDriver"));
 	    return this;
 	}
 
 	public PolicyEntityBuilder addVehicle(final InsuredVehicleEntity insuredVehicle)
 		throws IllegalArgumentException {
-	    insuredVehicles.add(MyObjects.requireNonNull(insuredVehicle, "insuredVehicle")
-		    .requireNotAttachedToPolicy());
+	    insuredVehicles.add(MyObjects.requireNonNull(insuredVehicle, "insuredVehicle"));
 	    return this;
 	}
 
@@ -172,14 +170,10 @@ public class PolicyEntity extends Domain {
 	    res.branch = MyObjects.requireNonNull(branch, "branch");
 	    res.reissuedPolicyId = reissuedPolicyId;
 	    res.comments = comments;
-	    res.insuredDrivers = MyCollections.requireNonEmpty(insuredDrivers, "insuredDrivers")
-		    .stream()
-		    .peek(x -> MyObjects.requireNonNull(x, "insuredDriver").attachToPolicy(res))
-		    .collect(MyCollectors.unmodifiableList());
-	    res.insuredVehicles = MyCollections.requireNonEmpty(insuredVehicles, "insuredVehicles")
-		    .stream()
-		    .peek(x -> MyObjects.requireNonNull(x, "insuredVehicle").attachToPolicy(res))
-		    .collect(MyCollectors.unmodifiableList());
+	    res.insuredDrivers = Collections
+		    .unmodifiableList(MyCollections.requireNonEmpty(insuredDrivers, "insuredDrivers"));
+	    res.insuredVehicles = Collections
+		    .unmodifiableList(MyCollections.requireNonEmpty(insuredVehicles, "insuredVehicles"));
 	    res.created = MyObjects.requireNonNull(created, "created");
 	    res.modified = modified;
 	    return res;

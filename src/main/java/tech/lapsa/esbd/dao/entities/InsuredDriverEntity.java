@@ -26,7 +26,6 @@ public class InsuredDriverEntity extends Domain {
     public static final class InsuredDriverEntityBuilder {
 
 	private Integer id;
-	private PolicyEntity policy;
 	private SubjectPersonEntity insuredPerson;
 	private MaritalStatus maritalStatus;
 	private InsuredAgeAndExpirienceClass insuredAgeExpirienceClass;
@@ -46,11 +45,6 @@ public class InsuredDriverEntity extends Domain {
 
 	public InsuredDriverEntityBuilder withId(final Integer id) throws IllegalArgumentException {
 	    this.id = MyNumbers.requirePositive(id, "id");
-	    return this;
-	}
-
-	public InsuredDriverEntityBuilder withPolicy(final PolicyEntity policy) throws IllegalArgumentException {
-	    this.policy = MyObjects.requireNonNull(policy, "policy");
 	    return this;
 	}
 
@@ -136,7 +130,6 @@ public class InsuredDriverEntity extends Domain {
 	public InsuredDriverEntity build() throws IllegalArgumentException {
 	    final InsuredDriverEntity res = new InsuredDriverEntity();
 	    res.id = MyNumbers.requirePositive(id, "id");
-	    res.policy = policy;
 	    res.insuredPerson = MyObjects.requireNonNull(insuredPerson, "insuredPerson");
 	    res.maritalStatus = MyObjects.requireNonNull(maritalStatus, "maritalStatus");
 	    res.insuredAgeExpirienceClass = MyObjects.requireNonNull(insuredAgeExpirienceClass,
@@ -168,26 +161,6 @@ public class InsuredDriverEntity extends Domain {
 
     public Integer getId() {
 	return id;
-    }
-
-    // policy
-
-    private PolicyEntity policy;
-
-    public PolicyEntity getPolicy() {
-	return policy;
-    }
-
-    InsuredDriverEntity requireNotAttachedToPolicy() throws IllegalArgumentException {
-	MyObjects.requireNullMsg(policy, "%1$s already attached to %2$s", InsuredDriverEntity.class,
-		PolicyEntity.class);
-	return this;
-    }
-
-    InsuredDriverEntity attachToPolicy(final PolicyEntity res) throws IllegalArgumentException {
-	requireNotAttachedToPolicy();
-	policy = res;
-	return this;
     }
 
     // insuredPerson
