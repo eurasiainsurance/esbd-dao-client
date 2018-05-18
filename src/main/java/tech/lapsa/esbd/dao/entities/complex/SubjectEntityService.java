@@ -1,0 +1,19 @@
+package tech.lapsa.esbd.dao.entities.complex;
+
+import javax.ejb.Local;
+import javax.ejb.Remote;
+
+public interface SubjectEntityService extends GeneralSubjectEntityService<SubjectEntity> {
+
+    public static final String BEAN_NAME = "SubjectEntityServiceBean";
+
+    @Local
+    public interface SubjectEntityServiceLocal
+	    extends GeneralSubjectEntityServiceLocal<SubjectEntity>, SubjectEntityService {
+    }
+
+    @Remote
+    public interface SubjectEntityServiceRemote
+	    extends GeneralSubjectEntityServiceRemote<SubjectEntity>, SubjectEntityService {
+    }
+}
