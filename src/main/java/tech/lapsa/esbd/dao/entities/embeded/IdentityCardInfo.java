@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.dao.entities.embeded;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -6,13 +6,13 @@ import java.util.function.Consumer;
 
 import com.lapsa.insurance.elements.IdentityCardType;
 
-import tech.lapsa.esbd.dao.Domain;
+import tech.lapsa.esbd.dao.entities.AEntity;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(59)
-public class IdentityCardInfo extends Domain {
+public class IdentityCardInfo extends AEntity {
 
     private static final long serialVersionUID = 1L;
 

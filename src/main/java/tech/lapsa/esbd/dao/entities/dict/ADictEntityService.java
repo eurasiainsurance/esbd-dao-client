@@ -1,17 +1,17 @@
-package tech.lapsa.esbd.dao.dict;
+package tech.lapsa.esbd.dao.entities.dict;
 
 import java.util.List;
 
-import tech.lapsa.esbd.dao.GeneralService;
+import tech.lapsa.esbd.dao.entities.AEntityService;
 
-public interface DictionaryEntityService<T extends DictionaryEntity> extends GeneralService<T, Integer> {
+public interface ADictEntityService<T extends ADictEntity> extends AEntityService<T, Integer> {
 
-    public interface DictionaryEntityServiceLocal<T extends DictionaryEntity>
-	    extends GeneralServiceLocal<T, Integer>, DictionaryEntityService<T> {
+    public interface ADictEntityServiceLocal<T extends ADictEntity>
+	    extends AEntityServiceLocal<T, Integer>, ADictEntityService<T> {
     }
 
-    public interface DictionaryEntityServiceRemote<T extends DictionaryEntity>
-	    extends GeneralServiceRemote<T, Integer>, DictionaryEntityService<T> {
+    public interface ADictEntityServiceRemote<T extends ADictEntity>
+	    extends AEntityServiceRemote<T, Integer>, ADictEntityService<T> {
     }
 
     List<T> getAll();

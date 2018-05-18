@@ -1,11 +1,11 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.dao.entities.embeded;
 
 import java.util.Optional;
 import java.util.function.Consumer;
 
 import com.lapsa.international.phone.PhoneNumber;
 
-import tech.lapsa.esbd.dao.Domain;
+import tech.lapsa.esbd.dao.entities.AEntity;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
@@ -16,7 +16,7 @@ import tech.lapsa.patterns.domain.HashCodePrime;
  *
  */
 @HashCodePrime(43)
-public class ContactInfo extends Domain {
+public class ContactInfo extends AEntity {
 
     private static final long serialVersionUID = 1L;
 

@@ -1,18 +1,20 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.dao.entities.complex;
 
 import java.util.function.Consumer;
 
 import com.lapsa.insurance.elements.VehicleAgeClass;
 import com.lapsa.insurance.elements.VehicleClass;
 
-import tech.lapsa.esbd.dao.Domain;
-import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
+import tech.lapsa.esbd.dao.entities.AEntity;
+import tech.lapsa.esbd.dao.entities.dict.InsuranceCompanyEntity;
+import tech.lapsa.esbd.dao.entities.embeded.RecordOperationInfo;
+import tech.lapsa.esbd.dao.entities.embeded.VehicleCertificateInfo;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(13)
-public class InsuredVehicleEntity extends Domain {
+public class InsuredVehicleEntity extends AEntity {
 
     private static final long serialVersionUID = 1L;
 

@@ -1,14 +1,15 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.dao.entities.embeded;
 
 import java.time.Instant;
 import java.util.function.Consumer;
 
-import tech.lapsa.esbd.dao.Domain;
+import tech.lapsa.esbd.dao.entities.AEntity;
+import tech.lapsa.esbd.dao.entities.complex.UserEntity;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(83)
-public class RecordOperationInfo extends Domain {
+public class RecordOperationInfo extends AEntity {
 
     private static final long serialVersionUID = 1L;
 

@@ -1,25 +1,26 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.dao.entities.complex;
 
 import java.util.List;
 
 import javax.ejb.Local;
 import javax.ejb.Remote;
 
+import tech.lapsa.esbd.dao.entities.AEntityService;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.kz.vehicle.VehicleRegNumber;
 
-public interface VehicleEntityService extends GeneralEntityService<VehicleEntity, Integer> {
+public interface VehicleEntityService extends AEntityService<VehicleEntity, Integer> {
 
     public static final String BEAN_NAME = "VehicleEntityServiceBean";
 
     @Local
     public interface VehicleEntityServiceLocal
-	    extends GeneralEntityServiceLocal<VehicleEntity, Integer>, VehicleEntityService {
+	    extends AEntityServiceLocal<VehicleEntity, Integer>, VehicleEntityService {
     }
 
     @Remote
     public interface VehicleEntityServiceRemote
-	    extends GeneralEntityServiceRemote<VehicleEntity, Integer>, VehicleEntityService {
+	    extends AEntityServiceRemote<VehicleEntity, Integer>, VehicleEntityService {
     }
 
     List<VehicleEntity> getByVINCode(String vinCode) throws IllegalArgument;

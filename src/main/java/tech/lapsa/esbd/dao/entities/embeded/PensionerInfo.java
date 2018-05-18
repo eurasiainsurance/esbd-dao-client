@@ -1,13 +1,13 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.dao.entities.embeded;
 
 import java.time.LocalDate;
 import java.util.function.Consumer;
 
-import tech.lapsa.esbd.dao.Domain;
+import tech.lapsa.esbd.dao.entities.AEntity;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(71)
-public class PensionerInfo extends Domain {
+public class PensionerInfo extends AEntity {
 
     private static final long serialVersionUID = 1L;
 

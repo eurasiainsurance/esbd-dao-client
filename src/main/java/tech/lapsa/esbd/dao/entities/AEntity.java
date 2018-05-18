@@ -1,14 +1,14 @@
-package tech.lapsa.esbd.dao;
+package tech.lapsa.esbd.dao.entities;
 
 import java.io.Serializable;
 
 import tech.lapsa.patterns.domain.MyHcEqToStr;
 
-public abstract class Domain implements Serializable {
+public abstract class AEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    protected Domain() {
+    protected AEntity() {
     }
 
     @Override

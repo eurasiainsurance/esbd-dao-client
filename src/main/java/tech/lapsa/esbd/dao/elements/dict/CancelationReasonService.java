@@ -1,9 +1,11 @@
-package tech.lapsa.esbd.dao.elements;
+package tech.lapsa.esbd.dao.elements.dict;
 
 import javax.ejb.Local;
 import javax.ejb.Remote;
 
 import com.lapsa.insurance.elements.CancelationReason;
+
+import tech.lapsa.esbd.dao.elements.ElementsService;
 
 public interface CancelationReasonService extends ElementsService<CancelationReason> {
 

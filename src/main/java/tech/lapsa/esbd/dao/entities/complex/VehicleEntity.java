@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.dao.entities.complex;
 
 import java.time.LocalDate;
 import java.util.function.Consumer;
@@ -6,13 +6,13 @@ import java.util.function.Consumer;
 import com.lapsa.insurance.elements.SteeringWheelLocation;
 import com.lapsa.insurance.elements.VehicleClass;
 
-import tech.lapsa.esbd.dao.Domain;
+import tech.lapsa.esbd.dao.entities.AEntity;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(31)
-public class VehicleEntity extends Domain {
+public class VehicleEntity extends AEntity {
 
     private static final long serialVersionUID = 1L;
 

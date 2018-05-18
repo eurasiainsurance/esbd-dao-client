@@ -1,10 +1,10 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.dao.entities.complex;
 
 import java.util.Optional;
 
 import com.lapsa.insurance.elements.SubjectType;
 
-import tech.lapsa.esbd.dao.dict.CompanyActivityKindEntity;
+import tech.lapsa.esbd.dao.entities.dict.CompanyActivityKindEntity;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.patterns.domain.HashCodePrime;
 

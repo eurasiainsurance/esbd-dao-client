@@ -1,14 +1,14 @@
-package tech.lapsa.esbd.dao.dict;
+package tech.lapsa.esbd.dao.entities.dict;
 
 import java.util.function.Consumer;
 
-import tech.lapsa.esbd.dao.Domain;
+import tech.lapsa.esbd.dao.entities.AEntity;
 
-public abstract class DictionaryEntity extends Domain {
+public abstract class ADictEntity extends AEntity {
 
     private static final long serialVersionUID = 1L;
 
-    public static abstract class DictionaryEntityBuilder<T extends DictionaryEntity> {
+    public static abstract class DictionaryEntityBuilder<T extends ADictEntity> {
 
 	protected Integer id;
 	protected String code;
@@ -41,7 +41,7 @@ public abstract class DictionaryEntity extends Domain {
     private final String code;
     private final String name;
 
-    protected DictionaryEntity(final Integer id, final String code, final String name) {
+    protected ADictEntity(final Integer id, final String code, final String name) {
 	this.id = id;
 	this.code = code;
 	this.name = name;

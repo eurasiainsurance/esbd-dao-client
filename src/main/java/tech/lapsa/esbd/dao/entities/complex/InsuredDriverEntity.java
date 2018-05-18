@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.dao.entities.complex;
 
 import java.util.function.Consumer;
 
@@ -8,14 +8,20 @@ import com.lapsa.insurance.elements.InsuredAgeClass;
 import com.lapsa.insurance.elements.InsuredExpirienceClass;
 import com.lapsa.insurance.elements.MaritalStatus;
 
-import tech.lapsa.esbd.dao.Domain;
-import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
+import tech.lapsa.esbd.dao.entities.AEntity;
+import tech.lapsa.esbd.dao.entities.dict.InsuranceCompanyEntity;
+import tech.lapsa.esbd.dao.entities.embeded.DriverLicenseInfo;
+import tech.lapsa.esbd.dao.entities.embeded.GPWParticipantInfo;
+import tech.lapsa.esbd.dao.entities.embeded.HandicappedInfo;
+import tech.lapsa.esbd.dao.entities.embeded.PensionerInfo;
+import tech.lapsa.esbd.dao.entities.embeded.PrivilegerInfo;
+import tech.lapsa.esbd.dao.entities.embeded.RecordOperationInfo;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.patterns.domain.HashCodeMultiplier;
 
 @HashCodeMultiplier(11)
-public class InsuredDriverEntity extends Domain {
+public class InsuredDriverEntity extends AEntity {
 
     private static final long serialVersionUID = 1L;
 

@@ -1,15 +1,15 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.dao.entities.complex;
 
 import java.util.function.Consumer;
 
-import tech.lapsa.esbd.dao.Domain;
+import tech.lapsa.esbd.dao.entities.AEntity;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(37)
-public class VehicleManufacturerEntity extends Domain {
+public class VehicleManufacturerEntity extends AEntity {
 
     private static final long serialVersionUID = 1L;
 

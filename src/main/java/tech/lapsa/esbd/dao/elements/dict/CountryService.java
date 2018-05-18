@@ -1,9 +1,11 @@
-package tech.lapsa.esbd.dao.elements;
+package tech.lapsa.esbd.dao.elements.dict;
 
 import javax.ejb.Local;
 import javax.ejb.Remote;
 
 import com.lapsa.international.country.Country;
+
+import tech.lapsa.esbd.dao.elements.ElementsService;
 
 public interface CountryService extends ElementsService<Country> {
 

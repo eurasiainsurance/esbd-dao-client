@@ -1,19 +1,19 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.dao.entities.complex;
 
 import java.time.Instant;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import tech.lapsa.esbd.dao.Domain;
-import tech.lapsa.esbd.dao.dict.BranchEntity;
-import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
+import tech.lapsa.esbd.dao.entities.AEntity;
+import tech.lapsa.esbd.dao.entities.dict.BranchEntity;
+import tech.lapsa.esbd.dao.entities.dict.InsuranceCompanyEntity;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(29)
-public class UserEntity extends Domain {
+public class UserEntity extends AEntity {
 
     private static final long serialVersionUID = 1L;
 

@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.dao.entities.complex;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,9 +8,11 @@ import java.util.List;
 import com.lapsa.insurance.elements.PaymentType;
 import com.lapsa.insurance.elements.PersonType;
 
-import tech.lapsa.esbd.dao.Domain;
-import tech.lapsa.esbd.dao.dict.BranchEntity;
-import tech.lapsa.esbd.dao.dict.InsuranceCompanyEntity;
+import tech.lapsa.esbd.dao.entities.AEntity;
+import tech.lapsa.esbd.dao.entities.dict.BranchEntity;
+import tech.lapsa.esbd.dao.entities.dict.InsuranceCompanyEntity;
+import tech.lapsa.esbd.dao.entities.embeded.CancelationInfo;
+import tech.lapsa.esbd.dao.entities.embeded.RecordOperationInfo;
 import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
@@ -18,7 +20,7 @@ import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(17)
-public class PolicyEntity extends Domain {
+public class PolicyEntity extends AEntity {
 
     private static final long serialVersionUID = 1L;
 

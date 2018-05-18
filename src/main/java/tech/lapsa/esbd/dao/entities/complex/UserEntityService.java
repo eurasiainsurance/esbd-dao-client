@@ -1,22 +1,24 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.dao.entities.complex;
 
 import java.util.List;
 
 import javax.ejb.Local;
 import javax.ejb.Remote;
 
-public interface UserEntityService extends GeneralEntityService<UserEntity, Integer> {
+import tech.lapsa.esbd.dao.entities.AEntityService;
+
+public interface UserEntityService extends AEntityService<UserEntity, Integer> {
 
     public static final String BEAN_NAME = "UserEntityServiceBean";
 
     @Local
     public interface UserEntityServiceLocal
-	    extends GeneralEntityServiceLocal<UserEntity, Integer>, UserEntityService {
+	    extends AEntityServiceLocal<UserEntity, Integer>, UserEntityService {
     }
 
     @Remote
     public interface UserEntityServiceRemote
-	    extends GeneralEntityServiceRemote<UserEntity, Integer>, UserEntityService {
+	    extends AEntityServiceRemote<UserEntity, Integer>, UserEntityService {
     }
 
     List<UserEntity> getAll();

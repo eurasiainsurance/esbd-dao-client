@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.dao.entities.complex;
 
 import javax.ejb.Local;
 import javax.ejb.Remote;

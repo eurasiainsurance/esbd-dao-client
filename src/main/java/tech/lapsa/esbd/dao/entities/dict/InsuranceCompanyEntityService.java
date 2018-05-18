@@ -1,19 +1,19 @@
-package tech.lapsa.esbd.dao.dict;
+package tech.lapsa.esbd.dao.entities.dict;
 
 import javax.ejb.Local;
 import javax.ejb.Remote;
 
-public interface InsuranceCompanyEntityService extends DictionaryEntityService<InsuranceCompanyEntity> {
+public interface InsuranceCompanyEntityService extends ADictEntityService<InsuranceCompanyEntity> {
 
     public static final String BEAN_NAME = "InsuranceCompanyEntityServiceBean";
 
     @Local
     public interface InsuranceCompanyEntityServiceLocal
-	    extends DictionaryEntityServiceLocal<InsuranceCompanyEntity>, InsuranceCompanyEntityService {
+	    extends ADictEntityServiceLocal<InsuranceCompanyEntity>, InsuranceCompanyEntityService {
     }
 
     @Remote
     public interface InsuranceCompanyEntityServiceRemote
-	    extends DictionaryEntityServiceRemote<InsuranceCompanyEntity>, InsuranceCompanyEntityService {
+	    extends ADictEntityServiceRemote<InsuranceCompanyEntity>, InsuranceCompanyEntityService {
     }
 }

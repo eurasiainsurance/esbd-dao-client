@@ -1,9 +1,9 @@
-package tech.lapsa.esbd.dao.dict;
+package tech.lapsa.esbd.dao.entities.dict;
 
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(7)
-public class InsuranceCompanyEntity extends DictionaryEntity {
+public class InsuranceCompanyEntity extends ADictEntity {
 
     private static final long serialVersionUID = 1L;
 
