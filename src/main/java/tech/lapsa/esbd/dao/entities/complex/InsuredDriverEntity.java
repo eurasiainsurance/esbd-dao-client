@@ -187,7 +187,7 @@ public class InsuredDriverEntity extends AEntity {
 
     // insuredAgeExpirienceClass
 
-    InsuredAgeAndExpirienceClass insuredAgeExpirienceClass;
+    private InsuredAgeAndExpirienceClass insuredAgeExpirienceClass;
 
     public InsuredAgeAndExpirienceClass getInsuredAgeExpirienceClass() {
 	return insuredAgeExpirienceClass;
