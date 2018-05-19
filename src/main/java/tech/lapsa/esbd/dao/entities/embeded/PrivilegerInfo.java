@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.function.Consumer;
 
 import tech.lapsa.esbd.dao.entities.AEntity;
+import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(79)
@@ -25,25 +27,25 @@ public class PrivilegerInfo extends AEntity {
 	}
 
 	public PrivilegerInfoBuilder withType(final String type) {
-	    this.type = type;
+	    this.type = MyStrings.requireNonEmpty(type, "type");
 	    return this;
 	}
 
 	public PrivilegerInfoBuilder withCertificateNumber(final String certificateNumber) {
-	    this.certificateNumber = certificateNumber;
+	    this.certificateNumber = MyStrings.requireNonEmpty(certificateNumber, "certificateNumber");
 	    return this;
 	}
 
 	public PrivilegerInfoBuilder withCertificateDateOfIssue(final LocalDate certificateDateOfIssue) {
-	    this.certificateDateOfIssue = certificateDateOfIssue;
+	    this.certificateDateOfIssue = MyObjects.requireNonNull(certificateDateOfIssue, "certificateDateOfIssue");
 	    return this;
 	}
 
 	public PrivilegerInfo build() {
 	    final PrivilegerInfo res = new PrivilegerInfo();
-	    res.type = type;
-	    res.certificateNumber = certificateNumber;
-	    res.certificateDateOfIssue = certificateDateOfIssue;
+	    res.type = MyStrings.requireNonEmpty(type, "type");
+	    res.certificateNumber = MyStrings.requireNonEmpty(certificateNumber, "certificateNumber");
+	    res.certificateDateOfIssue = MyObjects.requireNonNull(certificateDateOfIssue, "certificateDateOfIssue");
 	    return res;
 	}
 

@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.function.Consumer;
 
 import tech.lapsa.esbd.dao.entities.AEntity;
+import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(53)
@@ -24,19 +26,19 @@ public class GPWParticipantInfo extends AEntity {
 	}
 
 	public GPWParticipantInfoBuilder withCertificateNumber(final String certificateNumber) {
-	    this.certificateNumber = certificateNumber;
+	    this.certificateNumber = MyStrings.requireNonEmpty(certificateNumber, "certificateNumber");
 	    return this;
 	}
 
-	public GPWParticipantInfoBuilder withCertificateDateOfIssue(final LocalDate dateOfIssue) {
-	    certificateDateOfIssue = dateOfIssue;
+	public GPWParticipantInfoBuilder withCertificateDateOfIssue(final LocalDate certificateDateOfIssue) {
+	    this.certificateDateOfIssue = MyObjects.requireNonNull(certificateDateOfIssue, "certificateDateOfIssue");
 	    return this;
 	}
 
 	public GPWParticipantInfo build() {
 	    final GPWParticipantInfo res = new GPWParticipantInfo();
-	    res.certificateNumber = certificateNumber;
-	    res.certificateDateOfIssue = certificateDateOfIssue;
+	    res.certificateNumber = MyStrings.requireNonEmpty(certificateNumber, "certificateNumber");
+	    res.certificateDateOfIssue = MyObjects.requireNonNull(certificateDateOfIssue, "certificateDateOfIssue");
 	    return res;
 	}
 
