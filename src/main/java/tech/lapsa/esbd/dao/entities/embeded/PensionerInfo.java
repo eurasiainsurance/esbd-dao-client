@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.function.Consumer;
 
 import tech.lapsa.esbd.dao.entities.AEntity;
+import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(71)
@@ -24,19 +26,19 @@ public class PensionerInfo extends AEntity {
 	}
 
 	public PensionerInfoBuilder withCertificateNumber(final String certificateNumber) {
-	    this.certificateNumber = certificateNumber;
+	    this.certificateNumber = MyStrings.requireNonEmpty(certificateNumber, "certificateNumber");
 	    return this;
 	}
 
 	public PensionerInfoBuilder withCertiticateDateOfIssue(final LocalDate certiticateDateOfIssue) {
-	    this.certiticateDateOfIssue = certiticateDateOfIssue;
+	    this.certiticateDateOfIssue = MyObjects.requireNonNull(certiticateDateOfIssue, "certiticateDateOfIssue");
 	    return this;
 	}
 
 	public PensionerInfo build() {
 	    final PensionerInfo res = new PensionerInfo();
-	    res.certificateNumber = certificateNumber;
-	    res.certiticateDateOfIssue = certiticateDateOfIssue;
+	    res.certificateNumber = MyStrings.requireNonEmpty(certificateNumber, "certificateNumber");
+	    res.certiticateDateOfIssue = MyObjects.requireNonNull(certiticateDateOfIssue, "certiticateDateOfIssue");
 	    return res;
 	}
 
