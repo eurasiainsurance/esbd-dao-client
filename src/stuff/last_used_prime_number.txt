@@ -1,8 +1,8 @@
        3 tech.lapsa.esbd.dao.entities.dict.BranchEntity
        5 tech.lapsa.esbd.dao.entities.dict.CompanyActivityKindEntity
        7 tech.lapsa.esbd.dao.entities.dict.InsuranceCompanyEntity
-      11 tech.lapsa.esbd.dao.entities.complex.InsuredDriverEntity
-      13 tech.lapsa.esbd.dao.entities.complex.InsuredVehicleEntity
+      11 tech.lapsa.esbd.dao.entities.complex.PolicyDriverEntity
+      13 tech.lapsa.esbd.dao.entities.complex.PolicyVehicleEntity
       17 tech.lapsa.esbd.dao.entities.complex.PolicyEntity
       19 tech.lapsa.esbd.dao.entities.complex.SubjectCompanyEntity
       23 tech.lapsa.esbd.dao.entities.complex.SubjectPersonEntity
