@@ -76,7 +76,7 @@ public class PolicyDriverEntity extends AEntity {
 
 	public PolicyDriverEntityBuilder withDrivingExpirience(final Integer drivingExpirience)
 		throws IllegalArgumentException {
-	    this.drivingExpirience = MyObjects.requireNonNull(drivingExpirience, "drivingExpirience");;
+	    this.drivingExpirience = MyObjects.requireNonNull(drivingExpirience, "drivingExpirience");
 	    return this;
 	}
 
@@ -119,7 +119,7 @@ public class PolicyDriverEntity extends AEntity {
 
 	public PolicyDriverEntityBuilder withHandicappedInfo(final HandicappedInfo handicappedInfo)
 		throws IllegalArgumentException {
-	    this.handicappedInfo = handicappedInfo;
+	    this.handicappedInfo = MyObjects.requireNonNull(handicappedInfo, "handicappedInfo");
 	    return this;
 	}
 
