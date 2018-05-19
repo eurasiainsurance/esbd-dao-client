@@ -101,19 +101,19 @@ public class PolicyDriverEntity extends AEntity {
 
 	public PolicyDriverEntityBuilder withPrivilegerInfo(final PrivilegerInfo privilegerInfo)
 		throws IllegalArgumentException {
-	    this.privilegerInfo = privilegerInfo;
+	    this.privilegerInfo = MyObjects.requireNonNull(privilegerInfo, "privilegerInfo");
 	    return this;
 	}
 
 	public PolicyDriverEntityBuilder withGpwParticipantInfo(final GPWParticipantInfo gpwParticipantInfo)
 		throws IllegalArgumentException {
-	    this.gpwParticipantInfo = gpwParticipantInfo;
+	    this.gpwParticipantInfo = MyObjects.requireNonNull(gpwParticipantInfo, "gpwParticipantInfo");
 	    return this;
 	}
 
 	public PolicyDriverEntityBuilder withPensionerInfo(final PensionerInfo pensionerInfo)
 		throws IllegalArgumentException {
-	    this.pensionerInfo = pensionerInfo;
+	    this.pensionerInfo = MyObjects.requireNonNull(pensionerInfo, "pensionerInfo");
 	    return this;
 	}
 
