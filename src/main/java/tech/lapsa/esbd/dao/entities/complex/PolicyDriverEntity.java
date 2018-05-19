@@ -21,15 +21,15 @@ import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.patterns.domain.HashCodeMultiplier;
 
 @HashCodeMultiplier(11)
-public class InsuredDriverEntity extends AEntity {
+public class PolicyDriverEntity extends AEntity {
 
     private static final long serialVersionUID = 1L;
 
-    public static final InsuredDriverEntityBuilder builder() {
-	return new InsuredDriverEntityBuilder();
+    public static final PolicyDriverEntityBuilder builder() {
+	return new PolicyDriverEntityBuilder();
     }
 
-    public static final class InsuredDriverEntityBuilder {
+    public static final class PolicyDriverEntityBuilder {
 
 	private Integer id;
 	private SubjectPersonEntity insuredPerson;
@@ -46,95 +46,95 @@ public class InsuredDriverEntity extends AEntity {
 	private RecordOperationInfo modified;
 	private InsuranceCompanyEntity insurer;
 
-	private InsuredDriverEntityBuilder() {
+	private PolicyDriverEntityBuilder() {
 	}
 
-	public InsuredDriverEntityBuilder withId(final Integer id) throws IllegalArgumentException {
+	public PolicyDriverEntityBuilder withId(final Integer id) throws IllegalArgumentException {
 	    this.id = MyNumbers.requirePositive(id, "id");
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withInsuredPerson(final SubjectPersonEntity insuredPerson)
+	public PolicyDriverEntityBuilder withInsuredPerson(final SubjectPersonEntity insuredPerson)
 		throws IllegalArgumentException {
 	    this.insuredPerson = MyObjects.requireNonNull(insuredPerson, "insuredPerson");
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withMaritalStatus(final MaritalStatus maritalStatus)
+	public PolicyDriverEntityBuilder withMaritalStatus(final MaritalStatus maritalStatus)
 		throws IllegalArgumentException {
 	    this.maritalStatus = MyObjects.requireNonNull(maritalStatus, "maritalStatus");
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withInsuredAgeExpirienceClass(
+	public PolicyDriverEntityBuilder withInsuredAgeExpirienceClass(
 		final InsuredAgeAndExpirienceClass insuredAgeExpirienceClass) throws IllegalArgumentException {
 	    this.insuredAgeExpirienceClass = MyObjects.requireNonNull(insuredAgeExpirienceClass,
 		    "insuredAgeExpirienceClass");
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withDrivingExpirience(final int drivingExpirience)
+	public PolicyDriverEntityBuilder withDrivingExpirience(final int drivingExpirience)
 		throws IllegalArgumentException {
 	    this.drivingExpirience = drivingExpirience;
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withDriverLicense(final DriverLicenseInfo driverLicense)
+	public PolicyDriverEntityBuilder withDriverLicense(final DriverLicenseInfo driverLicense)
 		throws IllegalArgumentException {
 	    this.driverLicense = MyObjects.requireNonNull(driverLicense, "driverLicense");
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withInsuraceClassType(final InsuranceClassType insuraceClassType)
+	public PolicyDriverEntityBuilder withInsuraceClassType(final InsuranceClassType insuraceClassType)
 		throws IllegalArgumentException {
 	    this.insuraceClassType = MyObjects.requireNonNull(insuraceClassType, "insuraceClassType");
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withPrivilegerInfo(final PrivilegerInfo privilegerInfo)
+	public PolicyDriverEntityBuilder withPrivilegerInfo(final PrivilegerInfo privilegerInfo)
 		throws IllegalArgumentException {
 	    this.privilegerInfo = privilegerInfo;
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withGpwParticipantInfo(final GPWParticipantInfo gpwParticipantInfo)
+	public PolicyDriverEntityBuilder withGpwParticipantInfo(final GPWParticipantInfo gpwParticipantInfo)
 		throws IllegalArgumentException {
 	    this.gpwParticipantInfo = gpwParticipantInfo;
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withPensionerInfo(final PensionerInfo pensionerInfo)
+	public PolicyDriverEntityBuilder withPensionerInfo(final PensionerInfo pensionerInfo)
 		throws IllegalArgumentException {
 	    this.pensionerInfo = pensionerInfo;
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withHandicappedInfo(final HandicappedInfo handicappedInfo)
+	public PolicyDriverEntityBuilder withHandicappedInfo(final HandicappedInfo handicappedInfo)
 		throws IllegalArgumentException {
 	    this.handicappedInfo = handicappedInfo;
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withCreated(final RecordOperationInfo created)
+	public PolicyDriverEntityBuilder withCreated(final RecordOperationInfo created)
 		throws IllegalArgumentException {
 	    this.created = MyObjects.requireNonNull(created, "created");
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withModified(final RecordOperationInfo modified)
+	public PolicyDriverEntityBuilder withModified(final RecordOperationInfo modified)
 		throws IllegalArgumentException {
 	    this.modified = modified;
 	    return this;
 	}
 
-	public InsuredDriverEntityBuilder withInsurer(final InsuranceCompanyEntity insurer)
+	public PolicyDriverEntityBuilder withInsurer(final InsuranceCompanyEntity insurer)
 		throws IllegalArgumentException {
 	    this.insurer = MyObjects.requireNonNull(insurer, "insurer");
 	    return this;
 	}
 
-	public InsuredDriverEntity build() throws IllegalArgumentException {
-	    final InsuredDriverEntity res = new InsuredDriverEntity();
+	public PolicyDriverEntity build() throws IllegalArgumentException {
+	    final PolicyDriverEntity res = new PolicyDriverEntity();
 	    res.id = MyNumbers.requirePositive(id, "id");
 	    res.insuredPerson = MyObjects.requireNonNull(insuredPerson, "insuredPerson");
 	    res.maritalStatus = MyObjects.requireNonNull(maritalStatus, "maritalStatus");
@@ -153,12 +153,12 @@ public class InsuredDriverEntity extends AEntity {
 	    return res;
 	}
 
-	public void buildTo(final Consumer<InsuredDriverEntity> consumer) throws IllegalArgumentException {
+	public void buildTo(final Consumer<PolicyDriverEntity> consumer) throws IllegalArgumentException {
 	    consumer.accept(build());
 	}
     }
 
-    private InsuredDriverEntity() {
+    private PolicyDriverEntity() {
     }
 
     // id

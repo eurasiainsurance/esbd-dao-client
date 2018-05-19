@@ -47,8 +47,8 @@ public class PolicyEntity extends AEntity {
 	private BranchEntity branch;
 	private Integer reissuedPolicyId;
 	private String comments;
-	private final List<InsuredDriverEntity> insuredDrivers = new ArrayList<>();
-	private final List<InsuredVehicleEntity> insuredVehicles = new ArrayList<>();
+	private final List<PolicyDriverEntity> insuredDrivers = new ArrayList<>();
+	private final List<PolicyVehicleEntity> insuredVehicles = new ArrayList<>();
 	private RecordOperationInfo created;
 	private RecordOperationInfo modified;
 
@@ -139,13 +139,13 @@ public class PolicyEntity extends AEntity {
 	    return this;
 	}
 
-	public PolicyEntityBuilder addDriver(final InsuredDriverEntity insuredDriver)
+	public PolicyEntityBuilder addDriver(final PolicyDriverEntity insuredDriver)
 		throws IllegalArgumentException {
 	    insuredDrivers.add(MyObjects.requireNonNull(insuredDriver, "insuredDriver"));
 	    return this;
 	}
 
-	public PolicyEntityBuilder addVehicle(final InsuredVehicleEntity insuredVehicle)
+	public PolicyEntityBuilder addVehicle(final PolicyVehicleEntity insuredVehicle)
 		throws IllegalArgumentException {
 	    insuredVehicles.add(MyObjects.requireNonNull(insuredVehicle, "insuredVehicle"));
 	    return this;
@@ -346,17 +346,17 @@ public class PolicyEntity extends AEntity {
 
     // insuredDrivers
 
-    private List<InsuredDriverEntity> insuredDrivers;
+    private List<PolicyDriverEntity> insuredDrivers;
 
-    public List<InsuredDriverEntity> getInsuredDrivers() {
+    public List<PolicyDriverEntity> getInsuredDrivers() {
 	return insuredDrivers;
     }
 
     // insuredVehicles
 
-    private List<InsuredVehicleEntity> insuredVehicles;
+    private List<PolicyVehicleEntity> insuredVehicles;
 
-    public List<InsuredVehicleEntity> getInsuredVehicles() {
+    public List<PolicyVehicleEntity> getInsuredVehicles() {
 	return insuredVehicles;
     }
 
