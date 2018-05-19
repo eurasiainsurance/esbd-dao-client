@@ -1,5 +1,6 @@
 package tech.lapsa.esbd.dao.entities.complex;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import com.lapsa.insurance.elements.InsuranceClassType;
@@ -35,7 +36,7 @@ public class PolicyDriverEntity extends AEntity {
 	private SubjectPersonEntity insuredPerson;
 	private MaritalStatus maritalStatus;
 	private InsuredAgeAndExpirienceClass insuredAgeExpirienceClass;
-	private int drivingExpirience;
+	private Integer drivingExpirience;
 	private DriverLicenseInfo driverLicense;
 	private InsuranceClassType insuraceClassType;
 	private PrivilegerInfo privilegerInfo;
@@ -73,9 +74,16 @@ public class PolicyDriverEntity extends AEntity {
 	    return this;
 	}
 
-	public PolicyDriverEntityBuilder withDrivingExpirience(final int drivingExpirience)
+	public PolicyDriverEntityBuilder withDrivingExpirience(final Integer drivingExpirience)
 		throws IllegalArgumentException {
-	    this.drivingExpirience = drivingExpirience;
+	    this.drivingExpirience = MyObjects.requireNonNull(drivingExpirience, "drivingExpirience");;
+	    return this;
+	}
+
+	public PolicyDriverEntityBuilder withDrivingExpirience(Optional<Integer> optDrivingExpirience) {
+	    if (MyObjects.requireNonNull(optDrivingExpirience, "optDrivingExpirience").isPresent())
+		return withDrivingExpirience(optDrivingExpirience.get());
+	    optDrivingExpirience = null;
 	    return this;
 	}
 
@@ -207,9 +215,9 @@ public class PolicyDriverEntity extends AEntity {
 
     // drivingExpirience
 
-    private int drivingExpirience;
+    private Integer drivingExpirience;
 
-    public int getDrivingExpirience() {
+    public Integer getDrivingExpirience() {
 	return drivingExpirience;
     }
 
