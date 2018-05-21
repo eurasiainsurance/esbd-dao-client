@@ -6,6 +6,8 @@ import java.util.function.Consumer;
 import com.lapsa.kz.country.KZArea;
 
 import tech.lapsa.esbd.dao.entities.AEntity;
+import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(89)
@@ -23,43 +25,43 @@ public class VehicleCertificateInfo extends AEntity {
 	private String certificateNumber;
 	private LocalDate dateOfIssue;
 	private KZArea registrationRegion;
-	private boolean registrationMajorCity;
+	private Boolean registrationMajorCity;
 
 	private VehicleCertificateInfoBuilder() {
 	}
 
 	public VehicleCertificateInfoBuilder withRegistrationNumber(final String registrationNumber) {
-	    this.registrationNumber = registrationNumber;
+	    this.registrationNumber = MyStrings.requireNonEmpty(registrationNumber, "registrationNumber");
 	    return this;
 	}
 
 	public VehicleCertificateInfoBuilder withCertificateNumber(final String certificateNumber) {
-	    this.certificateNumber = certificateNumber;
+	    this.certificateNumber = MyStrings.requireNonEmpty(certificateNumber, "certificateNumber");
 	    return this;
 	}
 
 	public VehicleCertificateInfoBuilder withDateOfIssue(final LocalDate dateOfIssue) {
-	    this.dateOfIssue = dateOfIssue;
+	    this.dateOfIssue = MyObjects.requireNonNull(dateOfIssue, "dateOfIssue");
 	    return this;
 	}
 
 	public VehicleCertificateInfoBuilder withRegistrationRegion(final KZArea registrationRegion) {
-	    this.registrationRegion = registrationRegion;
+	    this.registrationRegion = MyObjects.requireNonNull(registrationRegion, "registrationRegion");
 	    return this;
 	}
 
-	public VehicleCertificateInfoBuilder withRegistrationMajorCity(final boolean registrationMajorCity) {
-	    this.registrationMajorCity = registrationMajorCity;
+	public VehicleCertificateInfoBuilder withRegistrationMajorCity(final Boolean registrationMajorCity) {
+	    this.registrationMajorCity = MyObjects.requireNonNull(registrationMajorCity, "registrationMajorCity");
 	    return this;
 	}
 
 	public VehicleCertificateInfo build() {
 	    final VehicleCertificateInfo res = new VehicleCertificateInfo();
-	    res.registrationNumber = registrationNumber;
-	    res.certificateNumber = certificateNumber;
-	    res.dateOfIssue = dateOfIssue;
-	    res.registrationRegion = registrationRegion;
-	    res.registrationMajorCity = registrationMajorCity;
+	    res.registrationNumber = MyStrings.requireNonEmpty(registrationNumber, "registrationNumber");
+	    res.certificateNumber = MyStrings.requireNonEmpty(certificateNumber, "certificateNumber");
+	    res.dateOfIssue = MyObjects.requireNonNull(dateOfIssue, "dateOfIssue");
+	    res.registrationRegion = MyObjects.requireNonNull(registrationRegion, "registrationRegion");
+	    res.registrationMajorCity = MyObjects.requireNonNull(registrationMajorCity, "registrationMajorCity");
 	    return res;
 	}
 
@@ -105,7 +107,7 @@ public class VehicleCertificateInfo extends AEntity {
 
     // registrationMajorCity
 
-    private boolean registrationMajorCity;
+    private Boolean registrationMajorCity;
 
     boolean isRegistrationMajorCity() {
 	return registrationMajorCity;
