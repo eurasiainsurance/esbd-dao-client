@@ -8,6 +8,7 @@ import com.lapsa.insurance.elements.Sex;
 
 import tech.lapsa.esbd.dao.entities.AEntity;
 import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 /**
@@ -38,41 +39,44 @@ public class PersonalInfo extends AEntity {
 	}
 
 	public PersonalInfoBuilder withName(final String name) {
-	    this.name = name;
+	    this.name = MyStrings.requireNonEmpty(name, "name");
 	    return this;
 	}
 
 	public PersonalInfoBuilder withSurename(final String surename) {
-	    this.surename = surename;
+	    this.surename = MyStrings.requireNonEmpty(surename, "surename");
 	    return this;
 	}
 
 	public PersonalInfoBuilder withPatronymic(final String patronymic) {
-	    this.patronymic = patronymic;
+	    this.patronymic = MyStrings.requireNonEmpty(patronymic, "patronymic");
+	    return this;
+	}
+
+	public PersonalInfoBuilder withPatronymic(final Optional<String> optPatronymic) {
+	    if (MyObjects.requireNonNull(optPatronymic, "optPatronymic").isPresent())
+		return withPatronymic(optPatronymic.get());
+	    this.patronymic = null;
 	    return this;
 	}
 
 	public PersonalInfoBuilder withDayOfBirth(final LocalDate dayOfBirth) {
-	    this.dayOfBirth = dayOfBirth;
+	    this.dayOfBirth = MyObjects.requireNonNull(dayOfBirth, "dayOfBirth");
 	    return this;
 	}
 
 	public PersonalInfoBuilder withGender(final Sex gender) {
-	    this.gender = gender;
+	    this.gender = MyObjects.requireNonNull(gender, "gender");
 	    return this;
-	}
-
-	public PersonalInfoBuilder withGender(final Optional<Sex> optGender) {
-	    return withGender(MyObjects.requireNonNull(optGender, "optGender").orElse(null));
 	}
 
 	public PersonalInfo build() {
 	    final PersonalInfo res = new PersonalInfo();
-	    res.name = name;
-	    res.surename = surename;
+	    res.name = MyStrings.requireNonEmpty(name, "name");
+	    res.surename = MyStrings.requireNonEmpty(surename, "surename");
 	    res.patronymic = patronymic;
-	    res.dayOfBirth = dayOfBirth;
-	    res.gender = gender;
+	    res.dayOfBirth = MyObjects.requireNonNull(dayOfBirth, "dayOfBirth");
+	    res.gender = MyObjects.requireNonNull(gender, "gender");
 	    return res;
 	}
 
