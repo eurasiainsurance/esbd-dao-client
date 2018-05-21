@@ -6,6 +6,7 @@ import com.lapsa.insurance.elements.SubjectType;
 
 import tech.lapsa.esbd.dao.entities.dict.CompanyActivityKindEntity;
 import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 /**
@@ -35,23 +36,23 @@ public class SubjectCompanyEntity extends SubjectEntity {
 	}
 
 	public SubjectCompanyEntityBuilder withCompanyName(final String companyName) {
-	    this.companyName = companyName;
+	    this.companyName = MyStrings.requireNonEmpty(companyName, "companyName");
 	    return this;
 	}
 
 	public SubjectCompanyEntityBuilder withHeadName(final String headName) {
-	    this.headName = headName;
+	    this.headName = MyStrings.requireNonEmpty(headName, "headName");
 	    return this;
 	}
 
 	public SubjectCompanyEntityBuilder withAccountantName(final String accountantName) {
-	    this.accountantName = accountantName;
+	    this.accountantName = MyStrings.requireNonEmpty(accountantName, "accountantName");
 	    return this;
 	}
 
 	public SubjectCompanyEntityBuilder withCompanyActivityKind(
 		final CompanyActivityKindEntity companyActivityKind) {
-	    this.companyActivityKind = companyActivityKind;
+	    this.companyActivityKind = MyObjects.requireNonNull(companyActivityKind, "companyActivityKind");
 	    return this;
 	}
 
@@ -72,9 +73,9 @@ public class SubjectCompanyEntity extends SubjectEntity {
 	public SubjectCompanyEntity build() throws IllegalArgumentException {
 	    final SubjectCompanyEntity res = new SubjectCompanyEntity();
 	    superFill(res);
-	    res.companyName = companyName;
-	    res.headName = headName;
-	    res.accountantName = accountantName;
+	    res.companyName = MyStrings.requireNonEmpty(companyName, "companyName");
+	    res.headName = MyStrings.requireNonEmpty(headName, "headName");
+	    res.accountantName =  MyStrings.requireNonEmpty(accountantName, "accountantName");
 	    res.companyActivityKind = companyActivityKind;
 	    return res;
 	}
