@@ -75,8 +75,8 @@ public class UserEntity extends AEntity {
 	    return this;
 	}
 
-	public UserEntityBuilder withAuthentificated(final boolean authentificated) {
-	    this.authentificated = authentificated;
+	public UserEntityBuilder withAuthentificated(final Boolean authentificated) {
+	    this.authentificated = MyObjects.requireNonNull(authentificated, "authentificated");
 	    return this;
 	}
 
@@ -160,9 +160,9 @@ public class UserEntity extends AEntity {
 
     // authentificated
 
-    private boolean authentificated;
+    private Boolean authentificated;
 
-    public boolean isAuthentificated() {
+    public Boolean isAuthentificated() {
 	return authentificated;
     }
 
