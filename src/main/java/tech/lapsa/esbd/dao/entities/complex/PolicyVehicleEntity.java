@@ -72,9 +72,9 @@ public class PolicyVehicleEntity extends AEntity {
 	    return this;
 	}
 
-	public PolicyVehicleEntityBuilder withCurrentOdometerValue(final int currentOdometerValue)
+	public PolicyVehicleEntityBuilder withCurrentOdometerValue(final Integer currentOdometerValue)
 		throws IllegalArgumentException {
-	    this.currentOdometerValue = currentOdometerValue;
+	    this.currentOdometerValue = MyNumbers.requirePositive(currentOdometerValue, "currentOdometerValue");
 	    return this;
 	}
 
@@ -169,9 +169,9 @@ public class PolicyVehicleEntity extends AEntity {
 
     // currentOdometerValue
 
-    private int currentOdometerValue;
+    private Integer currentOdometerValue;
 
-    public int getCurrentOdometerValue() {
+    public Integer getCurrentOdometerValue() {
 	return currentOdometerValue;
     }
 
