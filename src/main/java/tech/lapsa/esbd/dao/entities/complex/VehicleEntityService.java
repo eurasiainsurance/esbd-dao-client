@@ -6,6 +6,7 @@ import javax.ejb.Local;
 import javax.ejb.Remote;
 
 import tech.lapsa.esbd.dao.entities.AEntityService;
+import tech.lapsa.esbd.domain.complex.VehicleEntity;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.kz.vehicle.VehicleRegNumber;
 

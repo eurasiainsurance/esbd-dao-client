@@ -3,6 +3,8 @@ package tech.lapsa.esbd.dao.entities.dict;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 
+import tech.lapsa.esbd.domain.dict.BranchEntity;
+
 public interface BranchEntityService extends ADictEntityService<BranchEntity> {
 
     public static final String BEAN_NAME = "BranchEntityServiceBean";

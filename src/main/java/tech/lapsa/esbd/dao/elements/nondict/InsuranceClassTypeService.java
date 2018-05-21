@@ -9,7 +9,7 @@ import com.lapsa.insurance.elements.InsuranceClassType;
 
 import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.esbd.dao.elements.ElementsService;
-import tech.lapsa.esbd.dao.entities.complex.SubjectPersonEntity;
+import tech.lapsa.esbd.domain.complex.SubjectPersonEntity;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 
 public interface InsuranceClassTypeService extends ElementsService<InsuranceClassType> {
