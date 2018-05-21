@@ -3,6 +3,7 @@ package tech.lapsa.esbd.dao.entities.dict;
 import java.util.List;
 
 import tech.lapsa.esbd.dao.entities.AEntityService;
+import tech.lapsa.esbd.domain.dict.ADictEntity;
 
 public interface ADictEntityService<T extends ADictEntity> extends AEntityService<T, Integer> {
 

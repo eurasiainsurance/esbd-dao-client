@@ -3,6 +3,8 @@ package tech.lapsa.esbd.dao.entities.complex;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 
+import tech.lapsa.esbd.domain.complex.SubjectPersonEntity;
+
 public interface SubjectPersonEntityService extends GeneralSubjectEntityService<SubjectPersonEntity> {
 
     public static final String BEAN_NAME = "SubjectPersonEntityServiceBean";

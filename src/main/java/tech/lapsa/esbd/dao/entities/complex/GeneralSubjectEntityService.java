@@ -4,6 +4,7 @@ import java.util.List;
 
 import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.esbd.dao.entities.AEntityService;
+import tech.lapsa.esbd.domain.complex.SubjectEntity;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 

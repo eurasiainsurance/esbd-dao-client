@@ -7,6 +7,7 @@ import javax.ejb.Remote;
 
 import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.esbd.dao.entities.AEntityService;
+import tech.lapsa.esbd.domain.complex.PolicyEntity;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 
 public interface PolicyEntityService extends AEntityService<PolicyEntity, Integer> {
