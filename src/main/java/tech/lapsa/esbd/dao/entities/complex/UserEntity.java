@@ -71,15 +71,7 @@ public class UserEntity extends AEntity {
 
 	public UserEntityBuilder withOrganization(final InsuranceCompanyEntity organization)
 		throws IllegalArgumentException {
-	    this.organization = organization;
-	    return this;
-	}
-
-	public UserEntityBuilder withOrganization(final Optional<InsuranceCompanyEntity> optOrganization)
-		throws IllegalArgumentException {
-	    if (MyObjects.requireNonNull(optOrganization, "optOrganization").isPresent())
-		return withOrganization(optOrganization.get());
-	    organization = null;
+	    this.organization = MyObjects.requireNonNull(organization, "organization");
 	    return this;
 	}
 
@@ -111,7 +103,7 @@ public class UserEntity extends AEntity {
 	    res.login = MyStrings.requireNonEmpty(login, "login");
 	    res.branch = branch;
 	    res.subject = subject;
-	    res.organization = organization;
+	    res.organization = MyObjects.requireNonNull(organization, "organization");
 	    res.authentificated = authentificated;
 	    res.lastSesionId = lastSesionId;
 	    res.lastActivity = lastActivity;
@@ -183,6 +175,7 @@ public class UserEntity extends AEntity {
     }
 
     // lastActivity
+
     private Instant lastActivity;
 
     public Instant getLastActivity() {
