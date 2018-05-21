@@ -9,6 +9,7 @@ import com.lapsa.insurance.elements.VehicleClass;
 import tech.lapsa.esbd.dao.entities.AEntity;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(31)
@@ -37,7 +38,7 @@ public class VehicleEntity extends AEntity {
 	}
 
 	public VehicleEntityBuilder withId(final Integer id) {
-	    this.id = id;
+	    this.id = MyObjects.requireNonNull(id, "id");
 	    return this;
 	}
 
@@ -62,17 +63,17 @@ public class VehicleEntity extends AEntity {
 	}
 
 	public VehicleEntityBuilder withEngineVolume(final Integer engineVolume) {
-	    this.engineVolume = engineVolume;
+	    this.engineVolume = MyNumbers.requireNonZero(engineVolume, "engineVolume");
 	    return this;
 	}
 
 	public VehicleEntityBuilder withEngineNumber(final String engineNumber) {
-	    this.engineNumber = engineNumber;
+	    this.engineNumber = MyStrings.requireNonEmpty(engineNumber, "engineNumber");
 	    return this;
 	}
 
-	public VehicleEntityBuilder withEnginePower(final int enginePower) {
-	    this.enginePower = enginePower;
+	public VehicleEntityBuilder withEnginePower(final Integer enginePower) {
+	    this.enginePower = MyNumbers.requireNonZero(enginePower, "enginePower");
 	    return this;
 	}
 
@@ -84,12 +85,12 @@ public class VehicleEntity extends AEntity {
 	}
 
 	public VehicleEntityBuilder withColor(final String color) {
-	    this.color = color;
+	    this.color = MyStrings.requireNonEmpty(color, "color");
 	    return this;
 	}
 
 	public VehicleEntityBuilder withRealeaseDate(final LocalDate realeaseDate) {
-	    this.realeaseDate = realeaseDate;
+	    this.realeaseDate = MyObjects.requireNonNull(realeaseDate, "realeaseDate");
 	    return this;
 	}
 
@@ -158,9 +159,9 @@ public class VehicleEntity extends AEntity {
 
     // engineVolume
 
-    private int engineVolume;
+    private Integer engineVolume;
 
-    public int getEngineVolume() {
+    public Integer getEngineVolume() {
 	return engineVolume;
     }
 
