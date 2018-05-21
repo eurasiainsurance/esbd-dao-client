@@ -11,6 +11,7 @@ import tech.lapsa.esbd.dao.entities.embeded.RecordOperationInfo;
 import tech.lapsa.esbd.dao.entities.embeded.VehicleCertificateInfo;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(13)
@@ -68,7 +69,7 @@ public class PolicyVehicleEntity extends AEntity {
 
 	public PolicyVehicleEntityBuilder withVehiclePurpose(final String vehiclePurpose)
 		throws IllegalArgumentException {
-	    this.vehiclePurpose = vehiclePurpose;
+	    this.vehiclePurpose = MyStrings.requireNonEmpty(vehiclePurpose, "vehiclePurpose");
 	    return this;
 	}
 
