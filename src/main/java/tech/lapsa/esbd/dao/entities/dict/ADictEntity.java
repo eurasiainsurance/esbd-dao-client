@@ -3,6 +3,8 @@ package tech.lapsa.esbd.dao.entities.dict;
 import java.util.function.Consumer;
 
 import tech.lapsa.esbd.dao.entities.AEntity;
+import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.java.commons.function.MyStrings;
 
 public abstract class ADictEntity extends AEntity {
 
@@ -15,17 +17,17 @@ public abstract class ADictEntity extends AEntity {
 	protected String name;
 
 	public DictionaryEntityBuilder<T> withId(final Integer id) {
-	    this.id = id;
+	    this.id = MyNumbers.requirePositive(id, "id");
 	    return this;
 	}
 
 	public DictionaryEntityBuilder<T> withCode(final String code) {
-	    this.code = code;
+	    this.code = MyStrings.requireNonEmpty(code, "code");
 	    return this;
 	}
 
 	public DictionaryEntityBuilder<T> withName(final String name) {
-	    this.name = name;
+	    this.name = MyStrings.requireNonEmpty(name, "name");
 	    return this;
 	}
 
