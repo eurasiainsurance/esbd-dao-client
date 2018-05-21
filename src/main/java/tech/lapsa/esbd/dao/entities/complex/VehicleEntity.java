@@ -27,9 +27,9 @@ public class VehicleEntity extends AEntity {
 	private String vinCode;
 	private VehicleModelEntity vehicleModel;
 	private SteeringWheelLocation steeringWheelLocation;
-	private int engineVolume;
+	private Integer engineVolume;
 	private String engineNumber;
-	private int enginePower;
+	private Integer enginePower;
 	private String color;
 	private LocalDate realeaseDate;
 
@@ -61,7 +61,7 @@ public class VehicleEntity extends AEntity {
 	    return this;
 	}
 
-	public VehicleEntityBuilder withEngineVolume(final int engineVolume) {
+	public VehicleEntityBuilder withEngineVolume(final Integer engineVolume) {
 	    this.engineVolume = engineVolume;
 	    return this;
 	}
@@ -76,8 +76,8 @@ public class VehicleEntity extends AEntity {
 	    return this;
 	}
 
-	public VehicleEntityBuilder withEngine(final String engineNumber, final int engineVolume,
-		final int enginePower) {
+	public VehicleEntityBuilder withEngine(final String engineNumber, final Integer engineVolume,
+		final Integer enginePower) {
 	    return withEngineNumber(engineNumber)
 		    .withEnginePower(enginePower)
 		    .withEngineVolume(engineVolume);
@@ -174,9 +174,9 @@ public class VehicleEntity extends AEntity {
 
     // enginePower
 
-    private int enginePower;
+    private Integer enginePower;
 
-    public int getEnginePower() {
+    public Integer getEnginePower() {
 	return enginePower;
     }
 
