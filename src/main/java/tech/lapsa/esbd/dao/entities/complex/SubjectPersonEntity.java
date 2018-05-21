@@ -4,6 +4,7 @@ import com.lapsa.insurance.elements.SubjectType;
 
 import tech.lapsa.esbd.dao.entities.embeded.IdentityCardInfo;
 import tech.lapsa.esbd.dao.entities.embeded.PersonalInfo;
+import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 /**
@@ -31,12 +32,12 @@ public class SubjectPersonEntity extends SubjectEntity {
 	}
 
 	public SubjectPersonEntityBuilder withPersonal(final PersonalInfo personal) {
-	    this.personal = personal;
+	    this.personal = MyObjects.requireNonNull(personal, "personal");
 	    return this;
 	}
 
 	public SubjectPersonEntityBuilder withIdentityCard(final IdentityCardInfo identityCard) {
-	    this.identityCard = identityCard;
+	    this.identityCard = MyObjects.requireNonNull(identityCard, "identityCard");
 	    return this;
 	}
 
@@ -49,8 +50,8 @@ public class SubjectPersonEntity extends SubjectEntity {
 	public SubjectPersonEntity build() throws IllegalArgumentException {
 	    final SubjectPersonEntity res = new SubjectPersonEntity();
 	    superFill(res);
-	    res.identityCard = identityCard;
-	    res.personal = personal;
+	    res.identityCard = MyObjects.requireNonNull(identityCard, "identityCard");
+	    res.personal = MyObjects.requireNonNull(personal, "personal");
 	    return res;
 	}
     }
