@@ -1,7 +1,6 @@
 package tech.lapsa.esbd.dao.entities.embeded;
 
 import java.time.LocalDate;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 import com.lapsa.insurance.elements.IdentityCardType;
@@ -35,15 +34,8 @@ public class IdentityCardInfo extends AEntity {
 	    return this;
 	}
 
-	public IdentityCardInfoBuilder withDateOfIssue(final Optional<LocalDate> optDateOfIssue) {
-	    if (MyObjects.requireNonNull(optDateOfIssue, "optDateOfIssue").isPresent())
-		return withDateOfIssue(optDateOfIssue.get());
-	    dateOfIssue = null;
-	    return this;
-	}
-
 	public IdentityCardInfoBuilder withIssuingAuthority(final String issuingAuthority) {
-	    this.issuingAuthority = issuingAuthority;
+	    this.issuingAuthority = MyStrings.requireNonEmpty(issuingAuthority, "issuingAuthority");
 	    return this;
 	}
 
@@ -52,31 +44,17 @@ public class IdentityCardInfo extends AEntity {
 	    return this;
 	}
 
-	public IdentityCardInfoBuilder withNumber(final Optional<String> optNumber) {
-	    if (MyObjects.requireNonNull(optNumber, "optNumber").isPresent())
-		return withNumber(optNumber.get());
-	    number = null;
-	    return this;
-	}
-
 	public IdentityCardInfoBuilder withIdentityCardType(final IdentityCardType identityCardType) {
 	    this.identityCardType = MyObjects.requireNonNull(identityCardType, "identityCardType");
 	    return this;
 	}
 
-	public IdentityCardInfoBuilder withIdentityCardType(final Optional<IdentityCardType> optIdentityCardType) {
-	    if (MyObjects.requireNonNull(optIdentityCardType, "optIdentityCardType").isPresent())
-		return withIdentityCardType(optIdentityCardType.get());
-	    identityCardType = null;
-	    return this;
-	}
-
 	public IdentityCardInfo build() {
 	    final IdentityCardInfo res = new IdentityCardInfo();
-	    res.dateOfIssue = dateOfIssue;
-	    res.issuingAuthority = issuingAuthority;
-	    res.number = number;
-	    res.identityCardType = identityCardType;
+	    res.dateOfIssue = MyObjects.requireNonNull(dateOfIssue, "dateOfIssue");
+	    res.issuingAuthority = MyStrings.requireNonEmpty(issuingAuthority, "issuingAuthority");
+	    res.number = MyStrings.requireNonEmpty(number, "number");
+	    res.identityCardType = MyObjects.requireNonNull(identityCardType, "identityCardType");
 	    return res;
 	}
 
