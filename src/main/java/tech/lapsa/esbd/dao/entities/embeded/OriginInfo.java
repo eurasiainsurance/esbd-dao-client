@@ -27,16 +27,10 @@ public class OriginInfo extends AEntity {
 
     public static final class OriginInfoBuilder {
 
-	private boolean resident;
 	private Country country;
 	private KZCity city;
 
 	private OriginInfoBuilder() {
-	}
-
-	public OriginInfoBuilder withResident(final boolean resident) {
-	    this.resident = resident;
-	    return this;
 	}
 
 	public OriginInfoBuilder withCountry(final Country country) {
@@ -65,7 +59,6 @@ public class OriginInfo extends AEntity {
 
 	public OriginInfo build() {
 	    final OriginInfo res = new OriginInfo();
-	    res.resident = resident;
 	    res.country = country;
 	    res.city = city;
 	    return res;
@@ -77,14 +70,6 @@ public class OriginInfo extends AEntity {
     }
 
     private OriginInfo() {
-    }
-
-    // resident
-
-    private boolean resident;
-
-    public boolean isResident() {
-	return resident;
     }
 
     // country
