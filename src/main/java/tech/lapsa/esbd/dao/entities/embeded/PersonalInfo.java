@@ -1,7 +1,6 @@
 package tech.lapsa.esbd.dao.entities.embeded;
 
 import java.time.LocalDate;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 import com.lapsa.insurance.elements.Sex;
@@ -50,13 +49,6 @@ public class PersonalInfo extends AEntity {
 
 	public PersonalInfoBuilder withPatronymic(final String patronymic) {
 	    this.patronymic = MyStrings.requireNonEmpty(patronymic, "patronymic");
-	    return this;
-	}
-
-	public PersonalInfoBuilder withPatronymic(final Optional<String> optPatronymic) {
-	    if (MyObjects.requireNonNull(optPatronymic, "optPatronymic").isPresent())
-		return withPatronymic(optPatronymic.get());
-	    this.patronymic = null;
 	    return this;
 	}
 

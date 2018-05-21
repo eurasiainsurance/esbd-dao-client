@@ -1,6 +1,5 @@
 package tech.lapsa.esbd.dao.entities.embeded;
 
-import java.util.Optional;
 import java.util.function.Consumer;
 
 import com.lapsa.international.country.Country;
@@ -34,26 +33,12 @@ public class OriginInfo extends AEntity {
 	}
 
 	public OriginInfoBuilder withCountry(final Country country) {
-	    this.country = country;
-	    return this;
-	}
-
-	public OriginInfoBuilder withCountry(final Optional<Country> optCountry) {
-	    if (MyObjects.requireNonNull(optCountry, "optCountry").isPresent())
-		return withCountry(optCountry.get());
-	    country = null;
+	    this.country = MyObjects.requireNonNull(country, "country");
 	    return this;
 	}
 
 	public OriginInfoBuilder withCity(final KZCity city) {
-	    this.city = city;
-	    return this;
-	}
-
-	public OriginInfoBuilder withCity(final Optional<KZCity> optCity) {
-	    if (MyObjects.requireNonNull(optCity, "optCity").isPresent())
-		return withCity(optCity.get());
-	    city = null;
+	    this.city = MyObjects.requireNonNull(city, "city");
 	    return this;
 	}
 

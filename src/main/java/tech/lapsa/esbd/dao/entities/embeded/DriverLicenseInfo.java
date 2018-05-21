@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.function.Consumer;
 
 import tech.lapsa.esbd.dao.entities.AEntity;
+import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(47)
@@ -24,19 +26,19 @@ public class DriverLicenseInfo extends AEntity {
 	}
 
 	public DriverLicenseInfoBuilder withNumber(final String number) {
-	    this.number = number;
+	    this.number = MyStrings.requireNonEmpty(number, "number");
 	    return this;
 	}
 
 	public DriverLicenseInfoBuilder withDateOfIssue(final LocalDate dateOfIssue) {
-	    this.dateOfIssue = dateOfIssue;
+	    this.dateOfIssue = MyObjects.requireNonNull(dateOfIssue, "dateOfIssue");
 	    return this;
 	}
 
 	public DriverLicenseInfo build() {
 	    final DriverLicenseInfo res = new DriverLicenseInfo();
-	    res.number = number;
-	    res.dateOfIssue = dateOfIssue;
+	    res.number = MyStrings.requireNonEmpty(number, "number");
+	    res.dateOfIssue = MyObjects.requireNonNull(dateOfIssue, "dateOfIssue");
 	    return res;
 	}
 

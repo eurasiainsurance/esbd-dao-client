@@ -1,6 +1,5 @@
 package tech.lapsa.esbd.dao.entities.embeded;
 
-import java.util.Optional;
 import java.util.function.Consumer;
 
 import com.lapsa.international.phone.PhoneNumber;
@@ -40,22 +39,8 @@ public class ContactInfo extends AEntity {
 	    return this;
 	}
 
-	public ContactInfoBuilder withPhone(final Optional<PhoneNumber> optPhone) {
-	    if (MyObjects.requireNonNull(optPhone, "optPhone").isPresent())
-		return withPhone(optPhone.get());
-	    this.phone = null;
-	    return this;
-	}
-
 	public ContactInfoBuilder withEmail(final String email) {
 	    this.email = MyStrings.requireNonEmpty(email, "email");
-	    return this;
-	}
-
-	public ContactInfoBuilder withEmail(final Optional<String> optEmail) {
-	    if (MyObjects.requireNonNull(optEmail, "optHomeAdress").isPresent())
-		return withEmail(optEmail.get());
-	    this.homeAdress = null;
 	    return this;
 	}
 
@@ -64,22 +49,8 @@ public class ContactInfo extends AEntity {
 	    return this;
 	}
 
-	public ContactInfoBuilder withHomeAdress(final Optional<String> optHomeAdress) {
-	    if (MyObjects.requireNonNull(optHomeAdress, "optHomeAdress").isPresent())
-		return withHomeAdress(optHomeAdress.get());
-	    this.homeAdress = null;
-	    return this;
-	}
-
 	public ContactInfoBuilder withSiteUrl(final String siteUrl) {
 	    this.siteUrl = MyStrings.requireNonEmpty(siteUrl, "siteUrl");
-	    return this;
-	}
-
-	public ContactInfoBuilder withSiteUrl(final Optional<String> optSiteUrl) {
-	    if (MyObjects.requireNonNull(optSiteUrl, "optSiteUrl").isPresent())
-		return withSiteUrl(optSiteUrl.get());
-	    this.siteUrl = null;
 	    return this;
 	}
 
