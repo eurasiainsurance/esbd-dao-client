@@ -107,7 +107,7 @@ public abstract class SubjectEntity extends AEntity {
 	    res.taxPayerNumber = taxPayerNumber;
 	    res.comments = comments;
 	    res.resident = MyObjects.requireNonNull(resident, "resident");
-	    res.idNumber =  MyObjects.requireNonNull(idNumber, "idNumber");
+	    res.idNumber = idNumber; // origin DB has some entities with idNumber ommited
 	    res.economicsSector = economicsSector;
 	}
     }
