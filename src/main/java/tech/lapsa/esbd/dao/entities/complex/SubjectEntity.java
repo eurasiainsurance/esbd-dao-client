@@ -30,7 +30,7 @@ public abstract class SubjectEntity extends AEntity {
 	private ContactInfo contact;
 	private String taxPayerNumber;
 	private String comments;
-	private boolean resident;
+	private Boolean resident;
 	private TaxpayerNumber idNumber;
 	private KZEconomicSector economicsSector;
 
@@ -64,8 +64,8 @@ public abstract class SubjectEntity extends AEntity {
 	    return _this();
 	}
 
-	public THIS withResident(final boolean resident) {
-	    this.resident = resident;
+	public THIS withResident(final Boolean resident) {
+	    this.resident = MyObjects.requireNonNull(resident, "resident");
 	    return _this();
 	}
 
@@ -105,7 +105,7 @@ public abstract class SubjectEntity extends AEntity {
 	    res.contact = contact;
 	    res.taxPayerNumber = taxPayerNumber;
 	    res.comments = comments;
-	    res.resident = resident;
+	    res.resident = MyObjects.requireNonNull(resident, "resident");
 	    res.idNumber = idNumber;
 	    res.economicsSector = economicsSector;
 	}
@@ -158,9 +158,9 @@ public abstract class SubjectEntity extends AEntity {
 
     // resident
 
-    private boolean resident;
+    private Boolean resident;
 
-    public boolean isResident() {
+    public Boolean isResident() {
 	return resident;
     }
 
