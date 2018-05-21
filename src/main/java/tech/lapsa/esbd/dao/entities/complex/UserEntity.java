@@ -76,16 +76,14 @@ public class UserEntity extends AEntity {
 	}
 
 	public UserEntity build() throws IllegalArgumentException {
-	    final UserEntity res = new UserEntity();
-	    res.id = MyNumbers.requirePositive(id, "id");
-	    res.login = MyStrings.requireNonEmpty(login, "login");
-	    res.branch = branch;
-	    res.subject = subject;
-	    res.organization = MyObjects.requireNonNull(organization, "organization");
-	    res.authentificated = authentificated;
-	    res.lastSesionId = lastSesionId;
-	    res.lastActivity = lastActivity;
-	    return res;
+	    return new UserEntity(id,
+		    login,
+		    branch,
+		    subject,
+		    organization,
+		    authentificated,
+		    lastSesionId,
+		    lastActivity);
 	}
 
 	public void buildTo(final Consumer<UserEntity> consumer) throws IllegalArgumentException {
@@ -93,12 +91,29 @@ public class UserEntity extends AEntity {
 	}
     }
 
-    private UserEntity() {
+    // constructor
+
+    private UserEntity(final Integer id,
+	    final String login,
+	    final BranchEntity branch,
+	    final SubjectEntity subject,
+	    final InsuranceCompanyEntity organization,
+	    final Boolean authentificated,
+	    final String lastSesionId,
+	    final Instant lastActivity) {
+	this.id = id;
+	this.login = login;
+	this.branch = branch;
+	this.subject = subject;
+	this.organization = organization;
+	this.authentificated = authentificated;
+	this.lastSesionId = lastSesionId;
+	this.lastActivity = lastActivity;
     }
 
     // id
 
-    private Integer id;
+    private final Integer id;
 
     public Integer getId() {
 	return id;
@@ -106,7 +121,7 @@ public class UserEntity extends AEntity {
 
     // login
 
-    private String login;
+    private final String login;
 
     public String getLogin() {
 	return login;
@@ -114,7 +129,7 @@ public class UserEntity extends AEntity {
 
     // branch
 
-    private BranchEntity branch;
+    private final BranchEntity branch;
 
     public BranchEntity getBranch() {
 	return branch;
@@ -122,7 +137,7 @@ public class UserEntity extends AEntity {
 
     // subject
 
-    private SubjectEntity subject;
+    private final SubjectEntity subject;
 
     public SubjectEntity getSubject() {
 	return subject;
@@ -130,7 +145,7 @@ public class UserEntity extends AEntity {
 
     // organization
 
-    private InsuranceCompanyEntity organization;
+    private final InsuranceCompanyEntity organization;
 
     public InsuranceCompanyEntity getOrganization() {
 	return organization;
@@ -138,7 +153,7 @@ public class UserEntity extends AEntity {
 
     // authentificated
 
-    private Boolean authentificated;
+    private final Boolean authentificated;
 
     public Boolean isAuthentificated() {
 	return authentificated;
@@ -146,7 +161,7 @@ public class UserEntity extends AEntity {
 
     // lastSesionId
 
-    private String lastSesionId;
+    private final String lastSesionId;
 
     public String getLastSesionId() {
 	return lastSesionId;
@@ -154,7 +169,7 @@ public class UserEntity extends AEntity {
 
     // lastActivity
 
-    private Instant lastActivity;
+    private final Instant lastActivity;
 
     public Instant getLastActivity() {
 	return lastActivity;

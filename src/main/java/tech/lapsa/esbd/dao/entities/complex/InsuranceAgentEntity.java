@@ -28,9 +28,7 @@ public class InsuranceAgentEntity extends AEntity {
 	}
 
 	public InsuranceAgentEntity build() throws IllegalArgumentException {
-	    final InsuranceAgentEntity res = new InsuranceAgentEntity();
-	    res.id = MyNumbers.requirePositive(id, "id");
-	    return res;
+	    return new InsuranceAgentEntity(id);
 	}
 
 	public void buildTo(final Consumer<InsuranceAgentEntity> consumer) throws IllegalArgumentException {
@@ -38,12 +36,15 @@ public class InsuranceAgentEntity extends AEntity {
 	}
     }
 
-    private InsuranceAgentEntity() {
+    // constructor
+
+    private InsuranceAgentEntity(final Integer id) {
+	this.id = id;
     }
 
     // id
 
-    private Integer id;
+    private final Integer id;
 
     public Integer getId() {
 	return id;

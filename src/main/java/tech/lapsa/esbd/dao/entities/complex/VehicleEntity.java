@@ -95,18 +95,16 @@ public class VehicleEntity extends AEntity {
 	}
 
 	public VehicleEntity build() throws IllegalArgumentException {
-	    final VehicleEntity res = new VehicleEntity();
-	    res.id = MyNumbers.requirePositive(id, "id");
-	    res.vehicleClass = MyObjects.requireNonNull(vehicleClass, "vehicleClass");
-	    res.vinCode = vinCode;
-	    res.vehicleModel = MyObjects.requireNonNull(vehicleModel, "vehicleModel");
-	    res.steeringWheelLocation = MyObjects.requireNonNull(steeringWheelLocation, "steeringWheelLocation");
-	    res.engineVolume = engineVolume;
-	    res.engineNumber = engineNumber;
-	    res.enginePower = enginePower;
-	    res.color = color;
-	    res.realeaseDate = realeaseDate;
-	    return res;
+	    return new VehicleEntity(id,
+		    vehicleClass,
+		    vinCode,
+		    vehicleModel,
+		    steeringWheelLocation,
+		    engineVolume,
+		    engineNumber,
+		    enginePower,
+		    color,
+		    realeaseDate);
 	}
 
 	public void buildTo(final Consumer<VehicleEntity> consumer) throws IllegalArgumentException {
@@ -114,12 +112,33 @@ public class VehicleEntity extends AEntity {
 	}
     }
 
-    private VehicleEntity() {
+    // constructor
+
+    private VehicleEntity(final Integer id,
+	    final VehicleClass vehicleClass,
+	    final String vinCode,
+	    final VehicleModelEntity vehicleModel,
+	    final SteeringWheelLocation steeringWheelLocation,
+	    final Integer engineVolume,
+	    final String engineNumber,
+	    final Integer enginePower,
+	    final String color,
+	    final LocalDate realeaseDate) {
+	this.id = id;
+	this.vehicleClass = vehicleClass;
+	this.vinCode = vinCode;
+	this.vehicleModel = vehicleModel;
+	this.steeringWheelLocation = steeringWheelLocation;
+	this.engineVolume = engineVolume;
+	this.engineNumber = engineNumber;
+	this.enginePower = enginePower;
+	this.color = color;
+	this.realeaseDate = realeaseDate;
     }
 
     // id
 
-    private Integer id;
+    private final Integer id;
 
     public Integer getId() {
 	return id;
@@ -127,7 +146,7 @@ public class VehicleEntity extends AEntity {
 
     // vehicleClass
 
-    private VehicleClass vehicleClass;
+    private final VehicleClass vehicleClass;
 
     public VehicleClass getVehicleClass() {
 	return vehicleClass;
@@ -135,7 +154,7 @@ public class VehicleEntity extends AEntity {
 
     // vinCode
 
-    private String vinCode;
+    private final String vinCode;
 
     public String getVinCode() {
 	return vinCode;
@@ -143,7 +162,7 @@ public class VehicleEntity extends AEntity {
 
     // vehicleModel
 
-    private VehicleModelEntity vehicleModel;
+    private final VehicleModelEntity vehicleModel;
 
     public VehicleModelEntity getVehicleModel() {
 	return vehicleModel;
@@ -151,7 +170,7 @@ public class VehicleEntity extends AEntity {
 
     // steeringWheelLocation
 
-    private SteeringWheelLocation steeringWheelLocation;
+    private final SteeringWheelLocation steeringWheelLocation;
 
     public SteeringWheelLocation getSteeringWheelLocation() {
 	return steeringWheelLocation;
@@ -159,7 +178,7 @@ public class VehicleEntity extends AEntity {
 
     // engineVolume
 
-    private Integer engineVolume;
+    private final Integer engineVolume;
 
     public Integer getEngineVolume() {
 	return engineVolume;
@@ -167,7 +186,7 @@ public class VehicleEntity extends AEntity {
 
     // engineNumber
 
-    private String engineNumber;
+    private final String engineNumber;
 
     public String getEngineNumber() {
 	return engineNumber;
@@ -175,7 +194,7 @@ public class VehicleEntity extends AEntity {
 
     // enginePower
 
-    private Integer enginePower;
+    private final Integer enginePower;
 
     public Integer getEnginePower() {
 	return enginePower;
@@ -183,7 +202,7 @@ public class VehicleEntity extends AEntity {
 
     // color
 
-    private String color;
+    private final String color;
 
     public String getColor() {
 	return color;
@@ -191,7 +210,7 @@ public class VehicleEntity extends AEntity {
 
     // realeaseDate
 
-    private LocalDate realeaseDate;
+    private final LocalDate realeaseDate;
 
     public LocalDate getRealeaseDate() {
 	return realeaseDate;

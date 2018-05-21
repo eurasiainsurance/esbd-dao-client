@@ -1,18 +1,16 @@
 package tech.lapsa.esbd.dao.entities.complex;
 
 import com.lapsa.insurance.elements.SubjectType;
+import com.lapsa.kz.economic.KZEconomicSector;
 
+import tech.lapsa.esbd.dao.entities.embeded.ContactInfo;
 import tech.lapsa.esbd.dao.entities.embeded.IdentityCardInfo;
+import tech.lapsa.esbd.dao.entities.embeded.OriginInfo;
 import tech.lapsa.esbd.dao.entities.embeded.PersonalInfo;
 import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
-/**
- * Класс для представления данных о субъекте - физ.лице
- *
- * @author vadim.isaev
- *
- */
 @HashCodePrime(23)
 public class SubjectPersonEntity extends SubjectEntity {
 
@@ -48,16 +46,37 @@ public class SubjectPersonEntity extends SubjectEntity {
 
 	@Override
 	public SubjectPersonEntity build() throws IllegalArgumentException {
-	    final SubjectPersonEntity res = new SubjectPersonEntity();
-	    superFill(res);
-	    res.identityCard = MyObjects.requireNonNull(identityCard, "identityCard");
-	    res.personal = MyObjects.requireNonNull(personal, "personal");
-	    return res;
+	    return new SubjectPersonEntity(id,
+		    origin,
+		    contact,
+		    taxPayerNumber,
+		    comments,
+		    resident,
+		    idNumber,
+		    economicsSector,
+		    personal,
+		    identityCard);
 	}
     }
 
-    private SubjectPersonEntity() {
+    // constructor
+
+    private SubjectPersonEntity(final Integer id,
+	    final OriginInfo origin,
+	    final ContactInfo contact,
+	    final String taxPayerNumber,
+	    final String comments,
+	    final Boolean resident,
+	    final TaxpayerNumber idNumber,
+	    final KZEconomicSector economicsSector,
+	    final PersonalInfo personal,
+	    final IdentityCardInfo identityCard) {
+	super(id, origin, contact, taxPayerNumber, comments, resident, idNumber, economicsSector);
+	this.personal = personal;
+	this.identityCard = identityCard;
     }
+
+    // subjectType
 
     @Override
     public SubjectType getSubjectType() {
@@ -66,7 +85,7 @@ public class SubjectPersonEntity extends SubjectEntity {
 
     // personal
 
-    private PersonalInfo personal;
+    private final PersonalInfo personal;
 
     public PersonalInfo getPersonal() {
 	return personal;
@@ -74,7 +93,7 @@ public class SubjectPersonEntity extends SubjectEntity {
 
     // identityCard
 
-    private IdentityCardInfo identityCard;
+    private final IdentityCardInfo identityCard;
 
     public IdentityCardInfo getIdentityCard() {
 	return identityCard;

@@ -42,11 +42,9 @@ public class VehicleManufacturerEntity extends AEntity {
 	}
 
 	public VehicleManufacturerEntity build() throws IllegalArgumentException {
-	    final VehicleManufacturerEntity res = new VehicleManufacturerEntity();
-	    res.id = MyNumbers.requirePositive(id, "id");
-	    res.name = MyStrings.requireNonEmpty(name, "name");
-	    res.foreign = MyObjects.requireNonNull(foreign, "foreign");
-	    return res;
+	    return new VehicleManufacturerEntity(id,
+		    name,
+		    foreign);
 	}
 
 	public void buildTo(final Consumer<VehicleManufacturerEntity> consumer) throws IllegalArgumentException {
@@ -54,12 +52,19 @@ public class VehicleManufacturerEntity extends AEntity {
 	}
     }
 
-    private VehicleManufacturerEntity() {
+    // constructor
+
+    private VehicleManufacturerEntity(final Integer id,
+	    final String name,
+	    final Boolean foreign) {
+	this.id = id;
+	this.name = name;
+	this.foreign = foreign;
     }
 
     // id
 
-    private Integer id;
+    private final Integer id;
 
     public Integer getId() {
 	return id;
@@ -67,7 +72,7 @@ public class VehicleManufacturerEntity extends AEntity {
 
     // name
 
-    private String name;
+    private final String name;
 
     public String getName() {
 	return name;
@@ -75,7 +80,7 @@ public class VehicleManufacturerEntity extends AEntity {
 
     // foreign
 
-    private Boolean foreign;
+    private final Boolean foreign;
 
     public Boolean isForeign() {
 	return foreign;

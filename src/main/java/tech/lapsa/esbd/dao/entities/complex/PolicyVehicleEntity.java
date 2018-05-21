@@ -98,18 +98,16 @@ public class PolicyVehicleEntity extends AEntity {
 	}
 
 	public PolicyVehicleEntity build() throws IllegalArgumentException {
-	    final PolicyVehicleEntity res = new PolicyVehicleEntity();
-	    res.id = MyNumbers.requirePositive(id, "id");
-	    res.vehicle = MyObjects.requireNonNull(vehicle, "vehicle");
-	    res.vehicleClass = MyObjects.requireNonNull(vehicleClass, "vehicleClass");
-	    res.vehicleAgeClass = MyObjects.requireNonNull(vehicleAgeClass, "vehicleAgeClass");
-	    res.certificate = MyObjects.requireNonNull(certificate, "certificate");
-	    res.vehiclePurpose = vehiclePurpose;
-	    res.currentOdometerValue = currentOdometerValue;
-	    res.created = MyObjects.requireNonNull(created, "created");
-	    res.modified = modified;
-	    res.insurer = MyObjects.requireNonNull(insurer, "insurer");
-	    return res;
+	    return new PolicyVehicleEntity(id,
+		    vehicle,
+		    vehicleClass,
+		    vehicleAgeClass,
+		    certificate,
+		    vehiclePurpose,
+		    currentOdometerValue,
+		    created,
+		    modified,
+		    insurer);
 	}
 
 	public void buildTo(final Consumer<PolicyVehicleEntity> consumer) throws IllegalArgumentException {
@@ -117,12 +115,33 @@ public class PolicyVehicleEntity extends AEntity {
 	}
     }
 
-    private PolicyVehicleEntity() {
+    // constructor
+
+    private PolicyVehicleEntity(final Integer id,
+	    final VehicleEntity vehicle,
+	    final VehicleClass vehicleClass,
+	    final VehicleAgeClass vehicleAgeClass,
+	    final VehicleCertificateInfo certificate,
+	    final String vehiclePurpose,
+	    final Integer currentOdometerValue,
+	    final RecordOperationInfo created,
+	    final RecordOperationInfo modified,
+	    final InsuranceCompanyEntity insurer) {
+	this.id = id;
+	this.vehicle = vehicle;
+	this.vehicleClass = vehicleClass;
+	this.vehicleAgeClass = vehicleAgeClass;
+	this.certificate = certificate;
+	this.vehiclePurpose = vehiclePurpose;
+	this.currentOdometerValue = currentOdometerValue;
+	this.created = created;
+	this.modified = modified;
+	this.insurer = insurer;
     }
 
     // id
 
-    private Integer id;
+    private final Integer id;
 
     public Integer getId() {
 	return id;
@@ -130,7 +149,7 @@ public class PolicyVehicleEntity extends AEntity {
 
     // vehicle
 
-    private VehicleEntity vehicle;
+    private final VehicleEntity vehicle;
 
     public VehicleEntity getVehicle() {
 	return vehicle;
@@ -138,7 +157,7 @@ public class PolicyVehicleEntity extends AEntity {
 
     // vehicleClass
 
-    private VehicleClass vehicleClass;
+    private final VehicleClass vehicleClass;
 
     public VehicleClass getVehicleClass() {
 	return vehicleClass;
@@ -146,7 +165,7 @@ public class PolicyVehicleEntity extends AEntity {
 
     // vehicleAgeClass
 
-    private VehicleAgeClass vehicleAgeClass;
+    private final VehicleAgeClass vehicleAgeClass;
 
     public VehicleAgeClass getVehicleAgeClass() {
 	return vehicleAgeClass;
@@ -154,7 +173,7 @@ public class PolicyVehicleEntity extends AEntity {
 
     // certificate
 
-    private VehicleCertificateInfo certificate;
+    private final VehicleCertificateInfo certificate;
 
     public VehicleCertificateInfo getCertificate() {
 	return certificate;
@@ -162,7 +181,7 @@ public class PolicyVehicleEntity extends AEntity {
 
     // vehiclePurpose
 
-    private String vehiclePurpose;
+    private final String vehiclePurpose;
 
     public String getVehiclePurpose() {
 	return vehiclePurpose;
@@ -170,7 +189,7 @@ public class PolicyVehicleEntity extends AEntity {
 
     // currentOdometerValue
 
-    private Integer currentOdometerValue;
+    private final Integer currentOdometerValue;
 
     public Integer getCurrentOdometerValue() {
 	return currentOdometerValue;
@@ -178,7 +197,7 @@ public class PolicyVehicleEntity extends AEntity {
 
     // created
 
-    private RecordOperationInfo created;
+    private final RecordOperationInfo created;
 
     public RecordOperationInfo getCreated() {
 	return created;
@@ -186,7 +205,7 @@ public class PolicyVehicleEntity extends AEntity {
 
     // modified
 
-    private RecordOperationInfo modified;
+    private final RecordOperationInfo modified;
 
     public boolean isModified() {
 	return MyObjects.nonNull(modified);
@@ -198,7 +217,7 @@ public class PolicyVehicleEntity extends AEntity {
 
     // insurer
 
-    private InsuranceCompanyEntity insurer;
+    private final InsuranceCompanyEntity insurer;
 
     public InsuranceCompanyEntity getInsurer() {
 	return insurer;

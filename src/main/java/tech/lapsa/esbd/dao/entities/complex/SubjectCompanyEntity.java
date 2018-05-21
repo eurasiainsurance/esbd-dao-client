@@ -1,10 +1,14 @@
 package tech.lapsa.esbd.dao.entities.complex;
 
 import com.lapsa.insurance.elements.SubjectType;
+import com.lapsa.kz.economic.KZEconomicSector;
 
 import tech.lapsa.esbd.dao.entities.dict.CompanyActivityKindEntity;
+import tech.lapsa.esbd.dao.entities.embeded.ContactInfo;
+import tech.lapsa.esbd.dao.entities.embeded.OriginInfo;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyStrings;
+import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 /**
@@ -61,19 +65,43 @@ public class SubjectCompanyEntity extends SubjectEntity {
 
 	@Override
 	public SubjectCompanyEntity build() throws IllegalArgumentException {
-	    final SubjectCompanyEntity res = new SubjectCompanyEntity();
-	    superFill(res);
-	    res.companyName = MyStrings.requireNonEmpty(companyName, "companyName");
-	    res.headName = headName;
-	    res.accountantName = accountantName;
-	    // origin DB has some entities with companyActivityKind ommited
-	    res.companyActivityKind = companyActivityKind;
-	    return res;
+	    return new SubjectCompanyEntity(id,
+		    origin,
+		    contact,
+		    taxPayerNumber,
+		    comments,
+		    resident,
+		    idNumber,
+		    economicsSector,
+		    companyName,
+		    headName,
+		    accountantName,
+		    companyActivityKind);
 	}
     }
 
-    private SubjectCompanyEntity() {
+    // constructor
+
+    private SubjectCompanyEntity(Integer id,
+	    final OriginInfo origin,
+	    final ContactInfo contact,
+	    final String taxPayerNumber,
+	    final String comments,
+	    final Boolean resident,
+	    final TaxpayerNumber idNumber,
+	    final KZEconomicSector economicsSector,
+	    final String companyName,
+	    final String headName,
+	    final String accountantName,
+	    final CompanyActivityKindEntity companyActivityKind) {
+	super(id, origin, contact, taxPayerNumber, comments, resident, idNumber, economicsSector);
+	this.companyName = companyName;
+	this.headName = headName;
+	this.accountantName = accountantName;
+	this.companyActivityKind = companyActivityKind;
     }
+
+    // subjectType
 
     @Override
     public SubjectType getSubjectType() {
@@ -82,7 +110,7 @@ public class SubjectCompanyEntity extends SubjectEntity {
 
     // companyName
 
-    private String companyName;
+    private final String companyName;
 
     public String getCompanyName() {
 	return companyName;
@@ -90,7 +118,7 @@ public class SubjectCompanyEntity extends SubjectEntity {
 
     // headName
 
-    private String headName;
+    private final String headName;
 
     public String getHeadName() {
 	return headName;
@@ -98,7 +126,7 @@ public class SubjectCompanyEntity extends SubjectEntity {
 
     // accountantName
 
-    private String accountantName;
+    private final String accountantName;
 
     public String getAccountantName() {
 	return accountantName;
@@ -106,7 +134,7 @@ public class SubjectCompanyEntity extends SubjectEntity {
 
     // companyActivityKind
 
-    private CompanyActivityKindEntity companyActivityKind;
+    private final CompanyActivityKindEntity companyActivityKind;
 
     public CompanyActivityKindEntity getCompanyActivityKind() {
 	return companyActivityKind;

@@ -134,23 +134,20 @@ public class PolicyDriverEntity extends AEntity {
 	}
 
 	public PolicyDriverEntity build() throws IllegalArgumentException {
-	    final PolicyDriverEntity res = new PolicyDriverEntity();
-	    res.id = MyNumbers.requirePositive(id, "id");
-	    res.insuredPerson = MyObjects.requireNonNull(insuredPerson, "insuredPerson");
-	    res.maritalStatus = MyObjects.requireNonNull(maritalStatus, "maritalStatus");
-	    res.insuredAgeExpirienceClass = MyObjects.requireNonNull(insuredAgeExpirienceClass,
-		    "insuredAgeExpirienceClass");
-	    res.drivingExpirience = drivingExpirience;
-	    res.driverLicense = MyObjects.requireNonNull(driverLicense, "driverLicense");
-	    res.insuraceClassType = MyObjects.requireNonNull(insuraceClassType, "insuraceClassType");
-	    res.privilegerInfo = privilegerInfo;
-	    res.gpwParticipantInfo = gpwParticipantInfo;
-	    res.pensionerInfo = pensionerInfo;
-	    res.handicappedInfo = handicappedInfo;
-	    res.created = MyObjects.requireNonNull(created, "created");
-	    res.modified = modified;
-	    res.insurer = MyObjects.requireNonNull(insurer, "insurer");
-	    return res;
+	    return new PolicyDriverEntity(id,
+		    insuredPerson,
+		    maritalStatus,
+		    insuredAgeExpirienceClass,
+		    drivingExpirience,
+		    driverLicense,
+		    insuraceClassType,
+		    privilegerInfo,
+		    gpwParticipantInfo,
+		    pensionerInfo,
+		    handicappedInfo,
+		    created,
+		    modified,
+		    insurer);
 	}
 
 	public void buildTo(final Consumer<PolicyDriverEntity> consumer) throws IllegalArgumentException {
@@ -158,12 +155,41 @@ public class PolicyDriverEntity extends AEntity {
 	}
     }
 
-    private PolicyDriverEntity() {
+    // constructor
+
+    private PolicyDriverEntity(final Integer id,
+	    final SubjectPersonEntity insuredPerson,
+	    final MaritalStatus maritalStatus,
+	    final InsuredAgeAndExpirienceClass insuredAgeExpirienceClass,
+	    final Integer drivingExpirience,
+	    final DriverLicenseInfo driverLicense,
+	    final InsuranceClassType insuraceClassType,
+	    final PrivilegerInfo privilegerInfo,
+	    final GPWParticipantInfo gpwParticipantInfo,
+	    final PensionerInfo pensionerInfo,
+	    final HandicappedInfo handicappedInfo,
+	    final RecordOperationInfo created,
+	    final RecordOperationInfo modified,
+	    final InsuranceCompanyEntity insurer) {
+	this.id = id;
+	this.insuredPerson = insuredPerson;
+	this.maritalStatus = maritalStatus;
+	this.insuredAgeExpirienceClass = insuredAgeExpirienceClass;
+	this.drivingExpirience = drivingExpirience;
+	this.driverLicense = driverLicense;
+	this.insuraceClassType = insuraceClassType;
+	this.privilegerInfo = privilegerInfo;
+	this.gpwParticipantInfo = gpwParticipantInfo;
+	this.pensionerInfo = pensionerInfo;
+	this.handicappedInfo = handicappedInfo;
+	this.created = created;
+	this.modified = modified;
+	this.insurer = insurer;
     }
 
     // id
 
-    private Integer id;
+    private final Integer id;
 
     public Integer getId() {
 	return id;
@@ -171,7 +197,7 @@ public class PolicyDriverEntity extends AEntity {
 
     // insuredPerson
 
-    private SubjectPersonEntity insuredPerson;
+    private final SubjectPersonEntity insuredPerson;
 
     public SubjectPersonEntity getInsuredPerson() {
 	return insuredPerson;
@@ -179,7 +205,7 @@ public class PolicyDriverEntity extends AEntity {
 
     // maritalStatus
 
-    private MaritalStatus maritalStatus;
+    private final MaritalStatus maritalStatus;
 
     public MaritalStatus getMaritalStatus() {
 	return maritalStatus;
@@ -187,7 +213,7 @@ public class PolicyDriverEntity extends AEntity {
 
     // insuredAgeExpirienceClass
 
-    private InsuredAgeAndExpirienceClass insuredAgeExpirienceClass;
+    private final InsuredAgeAndExpirienceClass insuredAgeExpirienceClass;
 
     public InsuredAgeAndExpirienceClass getInsuredAgeExpirienceClass() {
 	return insuredAgeExpirienceClass;
@@ -207,13 +233,13 @@ public class PolicyDriverEntity extends AEntity {
 
     // drivingExpirience
 
-    private Integer drivingExpirience;
+    private final Integer drivingExpirience;
 
     public Integer getDrivingExpirience() {
 	return drivingExpirience;
     }
 
-    private DriverLicenseInfo driverLicense;
+    private final DriverLicenseInfo driverLicense;
 
     public DriverLicenseInfo getDriverLicense() {
 	return driverLicense;
@@ -221,7 +247,7 @@ public class PolicyDriverEntity extends AEntity {
 
     // insuraceClassType
 
-    private InsuranceClassType insuraceClassType;
+    private final InsuranceClassType insuraceClassType;
 
     public InsuranceClassType getInsuraceClassType() {
 	return insuraceClassType;
@@ -229,7 +255,7 @@ public class PolicyDriverEntity extends AEntity {
 
     // privilegerInfo
 
-    private PrivilegerInfo privilegerInfo;
+    private final PrivilegerInfo privilegerInfo;
 
     public boolean isPrivileger() {
 	return MyObjects.nonNull(privilegerInfo);
@@ -241,7 +267,7 @@ public class PolicyDriverEntity extends AEntity {
 
     // gpwParticipantInfo
 
-    private GPWParticipantInfo gpwParticipantInfo;
+    private final GPWParticipantInfo gpwParticipantInfo;
 
     public boolean isGpwParticipant() {
 	return MyObjects.nonNull(gpwParticipantInfo);
@@ -253,7 +279,7 @@ public class PolicyDriverEntity extends AEntity {
 
     // pensionerInfo
 
-    private PensionerInfo pensionerInfo;
+    private final PensionerInfo pensionerInfo;
 
     public boolean isPensioner() {
 	return MyObjects.nonNull(pensionerInfo);
@@ -265,7 +291,7 @@ public class PolicyDriverEntity extends AEntity {
 
     // handicappedInfo
 
-    private HandicappedInfo handicappedInfo;
+    private final HandicappedInfo handicappedInfo;
 
     public boolean isHandicapped() {
 	return MyObjects.nonNull(handicappedInfo);
@@ -277,7 +303,7 @@ public class PolicyDriverEntity extends AEntity {
 
     // created
 
-    private RecordOperationInfo created;
+    private final RecordOperationInfo created;
 
     public RecordOperationInfo getCreated() {
 	return created;
@@ -285,7 +311,7 @@ public class PolicyDriverEntity extends AEntity {
 
     // modified
 
-    private RecordOperationInfo modified;
+    private final RecordOperationInfo modified;
 
     public boolean isModified() {
 	return MyObjects.nonNull(modified);
@@ -297,7 +323,7 @@ public class PolicyDriverEntity extends AEntity {
 
     // insurer
 
-    private InsuranceCompanyEntity insurer;
+    private final InsuranceCompanyEntity insurer;
 
     public InsuranceCompanyEntity getInsurer() {
 	return insurer;

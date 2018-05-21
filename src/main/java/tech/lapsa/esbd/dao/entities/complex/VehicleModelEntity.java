@@ -42,11 +42,9 @@ public class VehicleModelEntity extends AEntity {
 	}
 
 	public VehicleModelEntity build() throws IllegalArgumentException {
-	    final VehicleModelEntity res = new VehicleModelEntity();
-	    res.id = MyNumbers.requirePositive(id, "id");
-	    res.name = MyStrings.requireNonEmpty(name, "name");
-	    res.manufacturer = MyObjects.requireNonNull(manufacturer, "manufacturer");
-	    return res;
+	    return new VehicleModelEntity(id,
+		    name,
+		    manufacturer);
 	}
 
 	public void buildTo(final Consumer<VehicleModelEntity> consumer) throws IllegalArgumentException {
@@ -54,12 +52,19 @@ public class VehicleModelEntity extends AEntity {
 	}
     }
 
-    private VehicleModelEntity() {
+    // constructor
+
+    private VehicleModelEntity(final Integer id,
+	    final String name,
+	    final VehicleManufacturerEntity manufacturer) {
+	this.id = id;
+	this.name = name;
+	this.manufacturer = manufacturer;
     }
 
     // id
 
-    private Integer id;
+    private final Integer id;
 
     public Integer getId() {
 	return id;
@@ -67,7 +72,7 @@ public class VehicleModelEntity extends AEntity {
 
     // name
 
-    private String name;
+    private final String name;
 
     public String getName() {
 	return name;
@@ -75,7 +80,7 @@ public class VehicleModelEntity extends AEntity {
 
     // manufacturer
 
-    private VehicleManufacturerEntity manufacturer;
+    private final VehicleManufacturerEntity manufacturer;
 
     public VehicleManufacturerEntity getManufacturer() {
 	return manufacturer;

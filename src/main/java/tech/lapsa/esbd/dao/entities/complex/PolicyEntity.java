@@ -13,7 +13,6 @@ import tech.lapsa.esbd.dao.entities.dict.BranchEntity;
 import tech.lapsa.esbd.dao.entities.dict.InsuranceCompanyEntity;
 import tech.lapsa.esbd.dao.entities.embeded.CancelationInfo;
 import tech.lapsa.esbd.dao.entities.embeded.RecordOperationInfo;
-import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyStrings;
@@ -47,8 +46,8 @@ public class PolicyEntity extends AEntity {
 	private BranchEntity branch;
 	private Integer reissuedPolicyId;
 	private String comments;
-	private final List<PolicyDriverEntity> insuredDrivers = new ArrayList<>();
-	private final List<PolicyVehicleEntity> insuredVehicles = new ArrayList<>();
+	private List<PolicyDriverEntity> insuredDrivers;
+	private List<PolicyVehicleEntity> insuredVehicles;
 	private RecordOperationInfo created;
 	private RecordOperationInfo modified;
 
@@ -141,13 +140,17 @@ public class PolicyEntity extends AEntity {
 
 	public PolicyEntityBuilder addDriver(final PolicyDriverEntity insuredDriver)
 		throws IllegalArgumentException {
-	    insuredDrivers.add(MyObjects.requireNonNull(insuredDriver, "insuredDriver"));
+	    MyObjects.requireNonNull(insuredDriver, "insuredDriver");
+	    (insuredDrivers = MyObjects.getIfNull(insuredDrivers, ArrayList::new))
+		    .add(insuredDriver);
 	    return this;
 	}
 
 	public PolicyEntityBuilder addVehicle(final PolicyVehicleEntity insuredVehicle)
 		throws IllegalArgumentException {
-	    insuredVehicles.add(MyObjects.requireNonNull(insuredVehicle, "insuredVehicle"));
+	    MyObjects.requireNonNull(insuredVehicle, "insuredVehicle");
+	    (insuredVehicles = MyObjects.getIfNull(insuredVehicles, ArrayList::new))
+		    .add(insuredVehicle);
 	    return this;
 	}
 
@@ -177,48 +180,82 @@ public class PolicyEntity extends AEntity {
 	}
 
 	public PolicyEntity build() throws IllegalArgumentException {
-	    final PolicyEntity res = new PolicyEntity();
-	    res.id = MyNumbers.requirePositive(id, "id");
-	    res.number = MyObjects.requireNonNull(number, "number");
-	    res.internalNumber = MyStrings.requireNonEmpty(internalNumber, "internalNumber");
-	    res.validFrom = MyObjects.requireNonNull(validFrom, "validFrom");
-	    res.validTill = MyObjects.requireNonNull(validTill, "validTill");
-	    res.actualPremium = MyNumbers.requirePositive(actualPremium, "actualPremium");
-	    res.calculatedPremium = MyNumbers.requirePositive(calculatedPremium, "calculatedPremium");
-	    res.insurer = MyObjects.requireNonNull(insurer, "insurer");
-	    res.insurant = MyObjects.requireNonNull(insurant, "insurant");
-	    res.insurantPersonType = MyObjects.isA(insurant, SubjectPersonEntity.class)
-		    ? MyObjects.requireNonNull(insurantPersonType, "insurantPersonType")
-		    : MyObjects.requireNull(insurantPersonType, "insurantPersonType");
-	    res.dateOfIssue = MyObjects.requireNonNull(dateOfIssue, "dateOfIssue");
-	    res.cancelation = cancelation;
-	    res.branch = MyObjects.requireNonNull(branch, "branch");
-	    res.reissuedPolicyId = reissuedPolicyId;
-	    res.comments = comments;
-
-	    res.insuredDrivers = Collections
-		    .unmodifiableList(MyCollections.requireNonEmpty(insuredDrivers, "insuredDrivers"));
-	    res.insuredVehicles = Collections
-		    .unmodifiableList(MyCollections.requireNonEmpty(insuredVehicles, "insuredVehicles"));
-
-	    res.created = MyObjects.requireNonNull(created, "created");
-	    res.modified = modified;
-
-	    res.dateOfPayment = dateOfPayment;
-	    res.paymentType = MyObjects.requireNonNull(paymentType, "paymentType");
-
-	    res.insuranceAgent = insuranceAgent;
-
-	    return res;
+	    return new PolicyEntity(id,
+		    number,
+		    internalNumber,
+		    validFrom,
+		    validTill,
+		    actualPremium,
+		    calculatedPremium,
+		    insurer,
+		    insurant,
+		    insurantPersonType,
+		    dateOfIssue,
+		    cancelation,
+		    branch,
+		    reissuedPolicyId,
+		    comments,
+		    insuredDrivers,
+		    insuredVehicles,
+		    created,
+		    modified,
+		    dateOfPayment,
+		    paymentType,
+		    insuranceAgent);
 	}
     }
 
-    private PolicyEntity() {
+    // constructor
+
+    private PolicyEntity(Integer id,
+	    final String number,
+	    final String internalNumber,
+	    final LocalDate validFrom,
+	    final LocalDate validTill,
+	    final Double actualPremium,
+	    final Double calculatedPremium,
+	    final InsuranceCompanyEntity insurer,
+	    final SubjectEntity insurant,
+	    final PersonType insurantPersonType,
+	    final LocalDate dateOfIssue,
+	    final CancelationInfo cancelation,
+	    final BranchEntity branch,
+	    final Integer reissuedPolicyId,
+	    final String comments,
+	    final List<PolicyDriverEntity> insuredDrivers,
+	    final List<PolicyVehicleEntity> insuredVehicles,
+	    final RecordOperationInfo created,
+	    final RecordOperationInfo modified,
+	    final LocalDate dateOfPayment,
+	    final PaymentType paymentType,
+	    final InsuranceAgentEntity insuranceAgent) {
+	this.id = id;
+	this.number = number;
+	this.internalNumber = internalNumber;
+	this.validFrom = validFrom;
+	this.validTill = validTill;
+	this.actualPremium = actualPremium;
+	this.calculatedPremium = calculatedPremium;
+	this.insurer = insurer;
+	this.insurant = insurant;
+	this.insurantPersonType = insurantPersonType;
+	this.dateOfIssue = dateOfIssue;
+	this.cancelation = cancelation;
+	this.branch = branch;
+	this.reissuedPolicyId = reissuedPolicyId;
+	this.comments = comments;
+	this.insuredDrivers = MyObjects.nullOrGet(insuredDrivers, Collections::unmodifiableList);
+	this.insuredVehicles = MyObjects.nullOrGet(insuredVehicles, Collections::unmodifiableList);
+	this.created = created;
+	this.modified = modified;
+	this.dateOfPayment = dateOfPayment;
+	this.paymentType = paymentType;
+	this.insuranceAgent = insuranceAgent;
     }
 
     // id
 
-    private Integer id;
+    private final Integer id;
 
     public Integer getId() {
 	return id;
@@ -226,7 +263,7 @@ public class PolicyEntity extends AEntity {
 
     // number
 
-    private String number;
+    private final String number;
 
     public String getNumber() {
 	return number;
@@ -234,7 +271,7 @@ public class PolicyEntity extends AEntity {
 
     // internalNumber
 
-    private String internalNumber;
+    private final String internalNumber;
 
     public String getInternalNumber() {
 	return internalNumber;
@@ -242,7 +279,7 @@ public class PolicyEntity extends AEntity {
 
     // validFrom
 
-    private LocalDate validFrom;
+    private final LocalDate validFrom;
 
     public LocalDate getValidFrom() {
 	return validFrom;
@@ -250,7 +287,7 @@ public class PolicyEntity extends AEntity {
 
     // validTill
 
-    private LocalDate validTill;
+    private final LocalDate validTill;
 
     public LocalDate getValidTill() {
 	return validTill;
@@ -258,7 +295,7 @@ public class PolicyEntity extends AEntity {
 
     // actualPremium
 
-    private Double actualPremium;
+    private final Double actualPremium;
 
     public Double getActualPremium() {
 	return actualPremium;
@@ -266,7 +303,7 @@ public class PolicyEntity extends AEntity {
 
     // calculatedPremium
 
-    private Double calculatedPremium;
+    private final Double calculatedPremium;
 
     public Double getCalculatedPremium() {
 	return calculatedPremium;
@@ -274,7 +311,7 @@ public class PolicyEntity extends AEntity {
 
     // insurer
 
-    private InsuranceCompanyEntity insurer;
+    private final InsuranceCompanyEntity insurer;
 
     public InsuranceCompanyEntity getInsurer() {
 	return insurer;
@@ -282,7 +319,7 @@ public class PolicyEntity extends AEntity {
 
     // insurant
 
-    private SubjectEntity insurant;
+    private final SubjectEntity insurant;
 
     public SubjectEntity getInsurant() {
 	return insurant;
@@ -290,7 +327,7 @@ public class PolicyEntity extends AEntity {
 
     // insurantType
 
-    private PersonType insurantPersonType;
+    private final PersonType insurantPersonType;
 
     public PersonType getInsurantPersonType() {
 	return insurantPersonType;
@@ -298,7 +335,7 @@ public class PolicyEntity extends AEntity {
 
     // dateOfIssue
 
-    private LocalDate dateOfIssue;
+    private final LocalDate dateOfIssue;
 
     public LocalDate getDateOfIssue() {
 	return dateOfIssue;
@@ -306,7 +343,7 @@ public class PolicyEntity extends AEntity {
 
     // cancelation
 
-    private CancelationInfo cancelation;
+    private final CancelationInfo cancelation;
 
     public CancelationInfo getCancelation() {
 	return cancelation;
@@ -318,7 +355,7 @@ public class PolicyEntity extends AEntity {
 
     // branch
 
-    private BranchEntity branch;
+    private final BranchEntity branch;
 
     public BranchEntity getBranch() {
 	return branch;
@@ -326,7 +363,7 @@ public class PolicyEntity extends AEntity {
 
     // reissuedPolicy
 
-    private Integer reissuedPolicyId;
+    private final Integer reissuedPolicyId;
 
     public boolean isReissued() {
 	return MyObjects.nonNull(reissuedPolicyId);
@@ -338,7 +375,7 @@ public class PolicyEntity extends AEntity {
 
     // comments
 
-    private String comments;
+    private final String comments;
 
     public String getComments() {
 	return comments;
@@ -346,7 +383,7 @@ public class PolicyEntity extends AEntity {
 
     // insuredDrivers
 
-    private List<PolicyDriverEntity> insuredDrivers;
+    private final List<PolicyDriverEntity> insuredDrivers;
 
     public List<PolicyDriverEntity> getInsuredDrivers() {
 	return insuredDrivers;
@@ -354,7 +391,7 @@ public class PolicyEntity extends AEntity {
 
     // insuredVehicles
 
-    private List<PolicyVehicleEntity> insuredVehicles;
+    private final List<PolicyVehicleEntity> insuredVehicles;
 
     public List<PolicyVehicleEntity> getInsuredVehicles() {
 	return insuredVehicles;
@@ -362,7 +399,7 @@ public class PolicyEntity extends AEntity {
 
     // created
 
-    private RecordOperationInfo created;
+    private final RecordOperationInfo created;
 
     public RecordOperationInfo getCreated() {
 	return created;
@@ -370,7 +407,7 @@ public class PolicyEntity extends AEntity {
 
     // modified
 
-    private RecordOperationInfo modified;
+    private final RecordOperationInfo modified;
 
     public boolean isModified() {
 	return MyObjects.nonNull(modified);
@@ -382,7 +419,7 @@ public class PolicyEntity extends AEntity {
 
     // dateOfPayment
 
-    private LocalDate dateOfPayment;
+    private final LocalDate dateOfPayment;
 
     public LocalDate getDateOfPayment() {
 	return dateOfPayment;
@@ -394,7 +431,7 @@ public class PolicyEntity extends AEntity {
 
     // paymentType
 
-    private PaymentType paymentType;
+    private final PaymentType paymentType;
 
     public PaymentType getPaymentType() {
 	return paymentType;
@@ -402,7 +439,7 @@ public class PolicyEntity extends AEntity {
 
     // insuranceAgent
 
-    private InsuranceAgentEntity insuranceAgent;
+    private final InsuranceAgentEntity insuranceAgent;
 
     public InsuranceAgentEntity getInsuranceAgent() {
 	return insuranceAgent;
