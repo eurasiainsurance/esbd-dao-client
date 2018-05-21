@@ -36,10 +36,8 @@ public class DriverLicenseInfo extends AEntity {
 	}
 
 	public DriverLicenseInfo build() {
-	    final DriverLicenseInfo res = new DriverLicenseInfo();
-	    res.number = MyStrings.requireNonEmpty(number, "number");
-	    res.dateOfIssue = MyObjects.requireNonNull(dateOfIssue, "dateOfIssue");
-	    return res;
+	    return new DriverLicenseInfo(number,
+		    dateOfIssue);
 	}
 
 	public void buildTo(final Consumer<DriverLicenseInfo> consumer) {
@@ -47,12 +45,15 @@ public class DriverLicenseInfo extends AEntity {
 	}
     }
 
-    private DriverLicenseInfo() {
+    private DriverLicenseInfo(final String number,
+	    final LocalDate dateOfIssue) {
+	this.number = number;
+	this.dateOfIssue = dateOfIssue;
     }
 
     // number
 
-    private String number;
+    private final String number;
 
     public String getNumber() {
 	return number;
@@ -60,7 +61,7 @@ public class DriverLicenseInfo extends AEntity {
 
     // dateOfIssue
 
-    private LocalDate dateOfIssue;
+    private final LocalDate dateOfIssue;
 
     public LocalDate getDateOfIssue() {
 	return dateOfIssue;

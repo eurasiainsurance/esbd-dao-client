@@ -57,13 +57,11 @@ public class VehicleCertificateInfo extends AEntity {
 	}
 
 	public VehicleCertificateInfo build() {
-	    final VehicleCertificateInfo res = new VehicleCertificateInfo();
-	    res.registrationNumber = MyObjects.requireNonNull(registrationNumber, "registrationNumber");
-	    res.certificateNumber = MyStrings.requireNonEmpty(certificateNumber, "certificateNumber");
-	    res.dateOfIssue = MyObjects.requireNonNull(dateOfIssue, "dateOfIssue");
-	    res.registrationRegion = MyObjects.requireNonNull(registrationRegion, "registrationRegion");
-	    res.registrationMajorCity = MyObjects.requireNonNull(registrationMajorCity, "registrationMajorCity");
-	    return res;
+	    return new VehicleCertificateInfo(registrationNumber,
+		    certificateNumber,
+		    dateOfIssue,
+		    registrationRegion,
+		    registrationMajorCity);
 	}
 
 	public void buildTo(final Consumer<VehicleCertificateInfo> consumer) {
@@ -71,12 +69,21 @@ public class VehicleCertificateInfo extends AEntity {
 	}
     }
 
-    private VehicleCertificateInfo() {
+    private VehicleCertificateInfo(final VehicleRegNumber registrationNumber,
+	    final String certificateNumber,
+	    final LocalDate dateOfIssue,
+	    final KZArea registrationRegion,
+	    final Boolean registrationMajorCity) {
+	this.registrationNumber = registrationNumber;
+	this.certificateNumber = certificateNumber;
+	this.dateOfIssue = dateOfIssue;
+	this.registrationRegion = registrationRegion;
+	this.registrationMajorCity = registrationMajorCity;
     }
 
     // registrationNumber
 
-    private VehicleRegNumber registrationNumber;
+    private final VehicleRegNumber registrationNumber;
 
     public VehicleRegNumber getRegistrationNumber() {
 	return registrationNumber;
@@ -84,7 +91,7 @@ public class VehicleCertificateInfo extends AEntity {
 
     // certificateNumber
 
-    private String certificateNumber;
+    private final String certificateNumber;
 
     public String getCertificateNumber() {
 	return certificateNumber;
@@ -92,7 +99,7 @@ public class VehicleCertificateInfo extends AEntity {
 
     // dateOfIssue
 
-    private LocalDate dateOfIssue;
+    private final LocalDate dateOfIssue;
 
     public LocalDate getDateOfIssue() {
 	return dateOfIssue;
@@ -100,7 +107,7 @@ public class VehicleCertificateInfo extends AEntity {
 
     // registrationRegion
 
-    private KZArea registrationRegion;
+    private final KZArea registrationRegion;
 
     public KZArea getRegistrationRegion() {
 	return registrationRegion;
@@ -108,7 +115,7 @@ public class VehicleCertificateInfo extends AEntity {
 
     // registrationMajorCity
 
-    private Boolean registrationMajorCity;
+    private final Boolean registrationMajorCity;
 
     boolean isRegistrationMajorCity() {
 	return registrationMajorCity;

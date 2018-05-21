@@ -36,10 +36,8 @@ public class PensionerInfo extends AEntity {
 	}
 
 	public PensionerInfo build() {
-	    final PensionerInfo res = new PensionerInfo();
-	    res.certificateNumber = MyStrings.requireNonEmpty(certificateNumber, "certificateNumber");
-	    res.certiticateDateOfIssue = MyObjects.requireNonNull(certiticateDateOfIssue, "certiticateDateOfIssue");
-	    return res;
+	    return new PensionerInfo(certificateNumber,
+		    certiticateDateOfIssue);
 	}
 
 	public void buildTo(final Consumer<PensionerInfo> consumer) {
@@ -47,12 +45,15 @@ public class PensionerInfo extends AEntity {
 	}
     }
 
-    private PensionerInfo() {
+    private PensionerInfo(final String certificateNumber,
+	    final LocalDate certiticateDateOfIssue) {
+	this.certificateNumber = certificateNumber;
+	this.certiticateDateOfIssue = certiticateDateOfIssue;
     }
 
     // certificateNumber
 
-    private String certificateNumber;
+    private final String certificateNumber;
 
     public String getCertificateNumber() {
 	return certificateNumber;
@@ -60,7 +61,7 @@ public class PensionerInfo extends AEntity {
 
     // certiticateDateOfIssue
 
-    private LocalDate certiticateDateOfIssue;
+    private final LocalDate certiticateDateOfIssue;
 
     public LocalDate getCertiticateDateOfIssue() {
 	return certiticateDateOfIssue;

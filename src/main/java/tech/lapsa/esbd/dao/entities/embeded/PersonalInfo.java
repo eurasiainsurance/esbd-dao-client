@@ -63,13 +63,11 @@ public class PersonalInfo extends AEntity {
 	}
 
 	public PersonalInfo build() {
-	    final PersonalInfo res = new PersonalInfo();
-	    res.name = MyStrings.requireNonEmpty(name, "name");
-	    res.surename = MyStrings.requireNonEmpty(surename, "surename");
-	    res.patronymic = patronymic;
-	    res.dayOfBirth = MyObjects.requireNonNull(dayOfBirth, "dayOfBirth");
-	    res.gender = MyObjects.requireNonNull(gender, "gender");
-	    return res;
+	    return new PersonalInfo(name,
+		    surename,
+		    patronymic,
+		    dayOfBirth,
+		    gender);
 	}
 
 	public void buildTo(final Consumer<PersonalInfo> consumer) {
@@ -77,12 +75,21 @@ public class PersonalInfo extends AEntity {
 	}
     }
 
-    private PersonalInfo() {
+    private PersonalInfo(final String name,
+	    final String surename,
+	    final String patronymic,
+	    final LocalDate dayOfBirth,
+	    final Sex gender) {
+	this.name = name;
+	this.surename = surename;
+	this.patronymic = patronymic;
+	this.dayOfBirth = dayOfBirth;
+	this.gender = gender;
     }
 
     // name
 
-    private String name;
+    private final String name;
 
     public String getName() {
 	return name;
@@ -90,7 +97,7 @@ public class PersonalInfo extends AEntity {
 
     // surename
 
-    private String surename;
+    private final String surename;
 
     public String getSurename() {
 	return surename;
@@ -98,7 +105,7 @@ public class PersonalInfo extends AEntity {
 
     // patronymic
 
-    private String patronymic;
+    private final String patronymic;
 
     public String getPatronymic() {
 	return patronymic;
@@ -106,7 +113,7 @@ public class PersonalInfo extends AEntity {
 
     // dayOfBirth
 
-    private LocalDate dayOfBirth;
+    private final LocalDate dayOfBirth;
 
     public LocalDate getDayOfBirth() {
 	return dayOfBirth;
@@ -114,7 +121,7 @@ public class PersonalInfo extends AEntity {
 
     // gender
 
-    private Sex gender;
+    private final Sex gender;
 
     public Sex getGender() {
 	return gender;

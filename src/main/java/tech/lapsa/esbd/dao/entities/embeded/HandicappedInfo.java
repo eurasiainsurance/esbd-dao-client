@@ -42,11 +42,9 @@ public class HandicappedInfo extends AEntity {
 	}
 
 	public HandicappedInfo build() {
-	    final HandicappedInfo res = new HandicappedInfo();
-	    res.certificateNumber = MyStrings.requireNonEmpty(certificateNumber, "certificateNumber");
-	    res.certificateValidFrom = MyObjects.requireNonNull(certificateValidFrom, "certificateValidFrom");
-	    res.certificateValidTill = MyObjects.requireNonNull(certificateValidTill, "certificateValidTill");
-	    return res;
+	    return new HandicappedInfo(certificateNumber,
+		    certificateValidFrom,
+		    certificateValidTill);
 	}
 
 	public void buildTo(final Consumer<HandicappedInfo> consumer) {
@@ -54,20 +52,25 @@ public class HandicappedInfo extends AEntity {
 	}
     }
 
-    private HandicappedInfo() {
+    private HandicappedInfo(final String certificateNumber,
+	    final LocalDate certificateValidFrom,
+	    final LocalDate certificateValidTill) {
+	this.certificateNumber = certificateNumber;
+	this.certificateValidFrom = certificateValidFrom;
+	this.certificateValidTill = certificateValidTill;
     }
 
     // certificateNumber
 
-    private String certificateNumber;
+    private final String certificateNumber;
 
-    public String getCertificateNumber() {
+    public final String getCertificateNumber() {
 	return certificateNumber;
     }
 
     // certificateValidFrom
 
-    private LocalDate certificateValidFrom;
+    private final LocalDate certificateValidFrom;
 
     public LocalDate getCertificateValidFrom() {
 	return certificateValidFrom;
@@ -75,7 +78,7 @@ public class HandicappedInfo extends AEntity {
 
     // certificateValidTill
 
-    private LocalDate certificateValidTill;
+    private final LocalDate certificateValidTill;
 
     public LocalDate getCertificateValidTill() {
 	return certificateValidTill;

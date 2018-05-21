@@ -36,10 +36,8 @@ public class RecordOperationInfo extends AEntity {
 	}
 
 	public RecordOperationInfo build() {
-	    final RecordOperationInfo res = new RecordOperationInfo();
-	    res.instant = MyObjects.requireNonNull(instant, "instant");
-	    res.author = MyObjects.requireNonNull(author, "author");
-	    return res;
+	    return new RecordOperationInfo(instant,
+		    author);
 	}
 
 	public void buildTo(final Consumer<RecordOperationInfo> consumer) {
@@ -47,12 +45,15 @@ public class RecordOperationInfo extends AEntity {
 	}
     }
 
-    private RecordOperationInfo() {
+    private RecordOperationInfo(final Instant instant,
+	    final UserEntity author) {
+	this.instant = instant;
+	this.author = author;
     }
 
     // res
 
-    private Instant instant;
+    private final Instant instant;
 
     public Instant getInstant() {
 	return instant;
@@ -60,7 +61,7 @@ public class RecordOperationInfo extends AEntity {
 
     // author
 
-    private UserEntity author;
+    private final UserEntity author;
 
     public UserEntity getAuthor() {
 	return author;

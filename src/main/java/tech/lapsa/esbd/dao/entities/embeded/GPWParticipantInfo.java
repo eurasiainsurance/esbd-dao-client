@@ -36,10 +36,8 @@ public class GPWParticipantInfo extends AEntity {
 	}
 
 	public GPWParticipantInfo build() {
-	    final GPWParticipantInfo res = new GPWParticipantInfo();
-	    res.certificateNumber = MyStrings.requireNonEmpty(certificateNumber, "certificateNumber");
-	    res.certificateDateOfIssue = MyObjects.requireNonNull(certificateDateOfIssue, "certificateDateOfIssue");
-	    return res;
+	    return new GPWParticipantInfo(certificateNumber,
+		    certificateDateOfIssue);
 	}
 
 	public void buildTo(final Consumer<GPWParticipantInfo> consumer) {
@@ -47,12 +45,15 @@ public class GPWParticipantInfo extends AEntity {
 	}
     }
 
-    private GPWParticipantInfo() {
+    private GPWParticipantInfo(final String certificateNumber,
+	    final LocalDate certificateDateOfIssue) {
+	this.certificateNumber = certificateNumber;
+	this.certificateDateOfIssue = certificateDateOfIssue;
     }
 
     // certificateNumber
 
-    private String certificateNumber;
+    private final String certificateNumber;
 
     public String getCertificateNumber() {
 	return certificateNumber;
@@ -60,7 +61,7 @@ public class GPWParticipantInfo extends AEntity {
 
     // certificateDateOfIssue
 
-    private LocalDate certificateDateOfIssue;
+    private final LocalDate certificateDateOfIssue;
 
     public LocalDate getCertificateDateOfIssue() {
 	return certificateDateOfIssue;

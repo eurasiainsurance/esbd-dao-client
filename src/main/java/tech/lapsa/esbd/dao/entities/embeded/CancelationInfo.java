@@ -37,10 +37,8 @@ public class CancelationInfo extends AEntity {
 	}
 
 	public CancelationInfo build() {
-	    final CancelationInfo res = new CancelationInfo();
-	    res.dateOf = MyObjects.requireNonNull(dateOf, "dateOf");
-	    res.reason = MyObjects.requireNonNull(reason, "reason");
-	    return res;
+	    return new CancelationInfo(dateOf,
+		    reason);
 	}
 
 	public void buildTo(final Consumer<CancelationInfo> consumer) {
@@ -48,12 +46,15 @@ public class CancelationInfo extends AEntity {
 	}
     }
 
-    private CancelationInfo() {
+    private CancelationInfo(final LocalDate dateOf,
+	    final CancelationReason reason) {
+	this.dateOf = dateOf;
+	this.reason = reason;
     }
 
     // dateOf
 
-    private LocalDate dateOf;
+    private final LocalDate dateOf;
 
     public LocalDate getDateOf() {
 	return dateOf;
@@ -61,7 +62,7 @@ public class CancelationInfo extends AEntity {
 
     // reason
 
-    private CancelationReason reason;
+    private final CancelationReason reason;
 
     public CancelationReason getReason() {
 	return reason;

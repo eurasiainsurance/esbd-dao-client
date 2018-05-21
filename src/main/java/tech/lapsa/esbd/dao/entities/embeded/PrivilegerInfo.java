@@ -42,11 +42,9 @@ public class PrivilegerInfo extends AEntity {
 	}
 
 	public PrivilegerInfo build() {
-	    final PrivilegerInfo res = new PrivilegerInfo();
-	    res.type = MyStrings.requireNonEmpty(type, "type");
-	    res.certificateNumber = MyStrings.requireNonEmpty(certificateNumber, "certificateNumber");
-	    res.certificateDateOfIssue = MyObjects.requireNonNull(certificateDateOfIssue, "certificateDateOfIssue");
-	    return res;
+	    return new PrivilegerInfo(type,
+		    certificateNumber,
+		    certificateDateOfIssue);
 	}
 
 	public void buildTo(final Consumer<PrivilegerInfo> consumer) {
@@ -54,12 +52,17 @@ public class PrivilegerInfo extends AEntity {
 	}
     }
 
-    private PrivilegerInfo() {
+    private PrivilegerInfo(final String type,
+	    final String certificateNumber,
+	    final LocalDate certificateDateOfIssue) {
+	this.type = type;
+	this.certificateNumber = certificateNumber;
+	this.certificateDateOfIssue = certificateDateOfIssue;
     }
 
     // type
 
-    private String type;
+    private final String type;
 
     public String getType() {
 	return type;
@@ -67,7 +70,7 @@ public class PrivilegerInfo extends AEntity {
 
     // certificateNumber
 
-    private String certificateNumber;
+    private final String certificateNumber;
 
     public String getCertificateNumber() {
 	return certificateNumber;
@@ -75,7 +78,7 @@ public class PrivilegerInfo extends AEntity {
 
     // certificateDateOfIssue
 
-    private LocalDate certificateDateOfIssue;
+    private final LocalDate certificateDateOfIssue;
 
     public LocalDate getCertificateDateOfIssue() {
 	return certificateDateOfIssue;

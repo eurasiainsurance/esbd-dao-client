@@ -43,10 +43,7 @@ public class OriginInfo extends AEntity {
 	}
 
 	public OriginInfo build() {
-	    final OriginInfo res = new OriginInfo();
-	    res.country = country;
-	    res.city = city;
-	    return res;
+	    return new OriginInfo(country, city);
 	}
 
 	public void buildTo(final Consumer<OriginInfo> consumer) {
@@ -54,12 +51,15 @@ public class OriginInfo extends AEntity {
 	}
     }
 
-    private OriginInfo() {
+    private OriginInfo(final Country country,
+	    final KZCity city) {
+	this.country = country;
+	this.city = city;
     }
 
     // country
 
-    private Country country;
+    private final Country country;
 
     public Country getCountry() {
 	return country;
@@ -67,7 +67,7 @@ public class OriginInfo extends AEntity {
 
     // city
 
-    private KZCity city;
+    private final KZCity city;
 
     public KZCity getCity() {
 	return city;

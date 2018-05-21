@@ -50,12 +50,10 @@ public class IdentityCardInfo extends AEntity {
 	}
 
 	public IdentityCardInfo build() {
-	    final IdentityCardInfo res = new IdentityCardInfo();
-	    res.dateOfIssue = MyObjects.requireNonNull(dateOfIssue, "dateOfIssue");
-	    res.issuingAuthority = MyStrings.requireNonEmpty(issuingAuthority, "issuingAuthority");
-	    res.number = MyStrings.requireNonEmpty(number, "number");
-	    res.identityCardType = MyObjects.requireNonNull(identityCardType, "identityCardType");
-	    return res;
+	    return new IdentityCardInfo(dateOfIssue,
+		    issuingAuthority,
+		    number,
+		    identityCardType);
 	}
 
 	public void buildTo(final Consumer<IdentityCardInfo> consumer) {
@@ -63,7 +61,14 @@ public class IdentityCardInfo extends AEntity {
 	}
     }
 
-    private IdentityCardInfo() {
+    private IdentityCardInfo(final LocalDate dateOfIssue,
+	    final String issuingAuthority,
+	    final String number,
+	    final IdentityCardType identityCardType) {
+	this.dateOfIssue = dateOfIssue;
+	this.issuingAuthority = issuingAuthority;
+	this.number = number;
+	this.identityCardType = identityCardType;
     }
 
     // dateOfIssue

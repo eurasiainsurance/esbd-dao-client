@@ -55,12 +55,10 @@ public class ContactInfo extends AEntity {
 	}
 
 	public ContactInfo build() {
-	    final ContactInfo res = new ContactInfo();
-	    res.phone = phone;
-	    res.email = email;
-	    res.homeAdress = homeAdress;
-	    res.siteUrl = siteUrl;
-	    return res;
+	    return new ContactInfo(phone,
+		    email,
+		    homeAdress,
+		    siteUrl);
 	}
 
 	public void buildTo(final Consumer<ContactInfo> consumer) {
@@ -68,12 +66,19 @@ public class ContactInfo extends AEntity {
 	}
     }
 
-    private ContactInfo() {
+    private ContactInfo(final PhoneNumber phone,
+	    final String email,
+	    final String homeAdress,
+	    final String siteUrl) {
+	this.phone = phone;
+	this.email = email;
+	this.homeAdress = homeAdress;
+	this.siteUrl = siteUrl;
     }
 
     // phone
 
-    private PhoneNumber phone;
+    private final PhoneNumber phone;
 
     public PhoneNumber getPhone() {
 	return phone;
@@ -81,7 +86,7 @@ public class ContactInfo extends AEntity {
 
     // email
 
-    private String email;
+    private final String email;
 
     public String getEmail() {
 	return email;
@@ -89,7 +94,7 @@ public class ContactInfo extends AEntity {
 
     // homeAdress
 
-    private String homeAdress;
+    private final String homeAdress;
 
     public String getHomeAdress() {
 	return homeAdress;
@@ -97,7 +102,7 @@ public class ContactInfo extends AEntity {
 
     // siteUrl
 
-    private String siteUrl;
+    private final String siteUrl;
 
     public String getSiteUrl() {
 	return siteUrl;
