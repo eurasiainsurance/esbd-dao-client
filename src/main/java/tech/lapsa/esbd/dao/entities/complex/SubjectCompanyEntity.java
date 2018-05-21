@@ -64,8 +64,8 @@ public class SubjectCompanyEntity extends SubjectEntity {
 	    final SubjectCompanyEntity res = new SubjectCompanyEntity();
 	    superFill(res);
 	    res.companyName = MyStrings.requireNonEmpty(companyName, "companyName");
-	    res.headName = MyStrings.requireNonEmpty(headName, "headName");
-	    res.accountantName = MyStrings.requireNonEmpty(accountantName, "accountantName");
+	    res.headName = headName;
+	    res.accountantName = accountantName;
 	    res.companyActivityKind = MyObjects.requireNonNull(companyActivityKind, "companyActivityKind");
 	    return res;
 	}
