@@ -66,7 +66,8 @@ public class SubjectCompanyEntity extends SubjectEntity {
 	    res.companyName = MyStrings.requireNonEmpty(companyName, "companyName");
 	    res.headName = headName;
 	    res.accountantName = accountantName;
-	    res.companyActivityKind = MyObjects.requireNonNull(companyActivityKind, "companyActivityKind");
+	    // origin DB has some entities with companyActivityKind ommited
+	    res.companyActivityKind = companyActivityKind;
 	    return res;
 	}
     }
