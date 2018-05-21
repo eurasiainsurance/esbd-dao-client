@@ -1,7 +1,5 @@
 package tech.lapsa.esbd.dao.entities.complex;
 
-import java.util.Optional;
-
 import com.lapsa.insurance.elements.SubjectType;
 
 import tech.lapsa.esbd.dao.entities.dict.CompanyActivityKindEntity;
@@ -56,14 +54,6 @@ public class SubjectCompanyEntity extends SubjectEntity {
 	    return this;
 	}
 
-	public SubjectCompanyEntityBuilder withCompanyActivityKind(
-		final Optional<CompanyActivityKindEntity> optCompanyActivityKind) {
-	    if (MyObjects.requireNonNull(optCompanyActivityKind, "optCompanyActivityKind").isPresent())
-		return withCompanyActivityKind(optCompanyActivityKind.get());
-	    companyActivityKind = null;
-	    return this;
-	}
-
 	@Override
 	protected SubjectCompanyEntityBuilder _this() {
 	    return this;
@@ -75,8 +65,8 @@ public class SubjectCompanyEntity extends SubjectEntity {
 	    superFill(res);
 	    res.companyName = MyStrings.requireNonEmpty(companyName, "companyName");
 	    res.headName = MyStrings.requireNonEmpty(headName, "headName");
-	    res.accountantName =  MyStrings.requireNonEmpty(accountantName, "accountantName");
-	    res.companyActivityKind = companyActivityKind;
+	    res.accountantName = MyStrings.requireNonEmpty(accountantName, "accountantName");
+	    res.companyActivityKind = MyObjects.requireNonNull(companyActivityKind, "companyActivityKind");
 	    return res;
 	}
     }
