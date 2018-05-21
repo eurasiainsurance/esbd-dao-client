@@ -8,6 +8,7 @@ import com.lapsa.kz.country.KZArea;
 import tech.lapsa.esbd.dao.entities.AEntity;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyStrings;
+import tech.lapsa.kz.vehicle.VehicleRegNumber;
 import tech.lapsa.patterns.domain.HashCodePrime;
 
 @HashCodePrime(89)
@@ -21,7 +22,7 @@ public class VehicleCertificateInfo extends AEntity {
 
     public static final class VehicleCertificateInfoBuilder {
 
-	private String registrationNumber;
+	private VehicleRegNumber registrationNumber;
 	private String certificateNumber;
 	private LocalDate dateOfIssue;
 	private KZArea registrationRegion;
@@ -30,8 +31,8 @@ public class VehicleCertificateInfo extends AEntity {
 	private VehicleCertificateInfoBuilder() {
 	}
 
-	public VehicleCertificateInfoBuilder withRegistrationNumber(final String registrationNumber) {
-	    this.registrationNumber = MyStrings.requireNonEmpty(registrationNumber, "registrationNumber");
+	public VehicleCertificateInfoBuilder withRegistrationNumber(final VehicleRegNumber registrationNumber) {
+	    this.registrationNumber = MyObjects.requireNonNull(registrationNumber, "registrationNumber");
 	    return this;
 	}
 
@@ -57,7 +58,7 @@ public class VehicleCertificateInfo extends AEntity {
 
 	public VehicleCertificateInfo build() {
 	    final VehicleCertificateInfo res = new VehicleCertificateInfo();
-	    res.registrationNumber = MyStrings.requireNonEmpty(registrationNumber, "registrationNumber");
+	    res.registrationNumber = MyObjects.requireNonNull(registrationNumber, "registrationNumber");
 	    res.certificateNumber = MyStrings.requireNonEmpty(certificateNumber, "certificateNumber");
 	    res.dateOfIssue = MyObjects.requireNonNull(dateOfIssue, "dateOfIssue");
 	    res.registrationRegion = MyObjects.requireNonNull(registrationRegion, "registrationRegion");
@@ -75,9 +76,9 @@ public class VehicleCertificateInfo extends AEntity {
 
     // registrationNumber
 
-    private String registrationNumber;
+    private VehicleRegNumber registrationNumber;
 
-    public String getRegistrationNumber() {
+    public VehicleRegNumber getRegistrationNumber() {
 	return registrationNumber;
     }
 
