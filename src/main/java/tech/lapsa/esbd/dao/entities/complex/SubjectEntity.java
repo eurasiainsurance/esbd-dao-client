@@ -11,6 +11,7 @@ import tech.lapsa.esbd.dao.entities.embeded.ContactInfo;
 import tech.lapsa.esbd.dao.entities.embeded.OriginInfo;
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 /**
@@ -50,17 +51,17 @@ public abstract class SubjectEntity extends AEntity {
 	}
 
 	public THIS withContact(final ContactInfo contact) {
-	    this.contact = contact;
+	    this.contact = MyObjects.requireNonNull(contact, "contact");
 	    return _this();
 	}
 
 	public THIS withTaxPayerNumber(final String taxPayerNumber) {
-	    this.taxPayerNumber = taxPayerNumber;
+	    this.taxPayerNumber = MyStrings.requireNonEmpty(taxPayerNumber, "taxPayerNumber");
 	    return _this();
 	}
 
 	public THIS withComments(final String comments) {
-	    this.comments = comments;
+	    this.comments = MyStrings.requireNonEmpty(comments, "comments");
 	    return _this();
 	}
 
@@ -70,7 +71,7 @@ public abstract class SubjectEntity extends AEntity {
 	}
 
 	public THIS withIdNumber(final TaxpayerNumber idNumber) {
-	    this.idNumber = idNumber;
+	    this.idNumber = MyObjects.requireNonNull(idNumber, "idNumber");
 	    return _this();
 	}
 
@@ -106,7 +107,7 @@ public abstract class SubjectEntity extends AEntity {
 	    res.taxPayerNumber = taxPayerNumber;
 	    res.comments = comments;
 	    res.resident = MyObjects.requireNonNull(resident, "resident");
-	    res.idNumber = idNumber;
+	    res.idNumber =  MyObjects.requireNonNull(idNumber, "idNumber");
 	    res.economicsSector = economicsSector;
 	}
     }
