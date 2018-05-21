@@ -135,7 +135,7 @@ public class PolicyEntity extends AEntity {
 	}
 
 	public PolicyEntityBuilder withComments(final String comments) throws IllegalArgumentException {
-	    this.comments = comments;
+	    this.comments = MyStrings.requireNonEmpty(comments, "comments");
 	    return this;
 	}
 

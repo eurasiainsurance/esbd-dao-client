@@ -1,6 +1,5 @@
 package tech.lapsa.esbd.dao.entities.complex;
 
-import java.util.Optional;
 import java.util.function.Consumer;
 
 import com.lapsa.insurance.elements.SubjectType;
@@ -46,7 +45,7 @@ public abstract class SubjectEntity extends AEntity {
 	}
 
 	public THIS withOrigin(final OriginInfo origin) {
-	    this.origin = origin;
+	    this.origin = MyObjects.requireNonNull(origin, "origin");
 	    return _this();
 	}
 
@@ -75,22 +74,8 @@ public abstract class SubjectEntity extends AEntity {
 	    return _this();
 	}
 
-	public THIS withIdNumber(final Optional<TaxpayerNumber> optIdNumber) {
-	    if (MyObjects.requireNonNull(optIdNumber, "optIdNumber").isPresent())
-		return withIdNumber(optIdNumber.get());
-	    this.idNumber = null;
-	    return _this();
-	}
-
 	public THIS withEconomicsSector(final KZEconomicSector economicsSector) {
 	    this.economicsSector = economicsSector;
-	    return _this();
-	}
-
-	public THIS withEconomicsSector(final Optional<KZEconomicSector> optEconomicsSector) {
-	    if (MyObjects.requireNonNull(optEconomicsSector, "optEconomicsSector").isPresent())
-		return withEconomicsSector(optEconomicsSector.get());
-	    this.economicsSector = null;
 	    return _this();
 	}
 

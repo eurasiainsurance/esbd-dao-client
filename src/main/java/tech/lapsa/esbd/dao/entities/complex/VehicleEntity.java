@@ -48,7 +48,7 @@ public class VehicleEntity extends AEntity {
 	}
 
 	public VehicleEntityBuilder withVinCode(final String vinCode) {
-	    this.vinCode = vinCode;
+	    this.vinCode = MyStrings.requireNonEmpty(vinCode, "vinCode");
 	    return this;
 	}
 

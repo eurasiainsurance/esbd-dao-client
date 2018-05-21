@@ -1,7 +1,6 @@
 package tech.lapsa.esbd.dao.entities.complex;
 
 import java.time.Instant;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 import tech.lapsa.esbd.dao.entities.AEntity;
@@ -50,22 +49,8 @@ public class UserEntity extends AEntity {
 	    return this;
 	}
 
-	public UserEntityBuilder withBranch(final Optional<BranchEntity> optBranch) throws IllegalArgumentException {
-	    if (MyObjects.requireNonNull(optBranch, "optBranch").isPresent())
-		return withBranch(optBranch.get());
-	    branch = null;
-	    return this;
-	}
-
 	public UserEntityBuilder withSubject(final SubjectEntity subject) throws IllegalArgumentException {
 	    this.subject = MyObjects.requireNonNull(subject, "subject");
-	    return this;
-	}
-
-	public UserEntityBuilder withSubject(final Optional<SubjectEntity> optSubject) throws IllegalArgumentException {
-	    if (MyObjects.requireNonNull(optSubject, "optSubject").isPresent())
-		return withSubject(optSubject.get());
-	    subject = null;
 	    return this;
 	}
 
@@ -87,13 +72,6 @@ public class UserEntity extends AEntity {
 
 	public UserEntityBuilder withLastActivity(final Instant lastActivity) {
 	    this.lastActivity = MyObjects.requireNonNull(lastActivity, "lastActivity");
-	    return this;
-	}
-
-	public UserEntityBuilder withLastActivity(final Optional<Instant> optLastActivity) {
-	    if (MyObjects.requireNonNull(optLastActivity, "optLastActivity").isPresent())
-		return withLastActivity(optLastActivity.get());
-	    lastActivity = null;
 	    return this;
 	}
 
