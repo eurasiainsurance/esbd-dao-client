@@ -19,11 +19,7 @@
 		<javax-javaee-bom.version>7.0a</javax-javaee-bom.version>
 		<java-commons.version>1.4-SNAPSHOT</java-commons.version>
 		<!-- tech -->
-		<patterns-domain.version>1.1</patterns-domain.version>
-		<!-- oldies -->
-		<insurance-lib.version>2.5-SNAPSHOT</insurance-lib.version>
-		<kz-lib.version>3.2.5</kz-lib.version>
-		<international-lib.version>3.3.1</international-lib.version>
+		<esbd-domain.version>2.3-SNAPSHOT</esbd-domain.version>
 	</properties>
 
 	<dependencyManagement>
@@ -45,68 +41,14 @@
 			</dependency>
 			<!-- tech -->
 			<dependency>
-				<groupId>tech.lapsa.patterns</groupId>
-				<artifactId>patterns-domain</artifactId>
-				<version>${patterns-domain.version}</version>
-			</dependency>
-			<!-- oldies -->
-			<dependency>
-				<groupId>com.lapsa.kz-lib</groupId>
-				<artifactId>kz-root</artifactId>
-				<version>${kz-lib.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.international-lib</groupId>
-				<artifactId>international-root</artifactId>
-				<version>${international-lib.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.insurance-lib</groupId>
-				<artifactId>insurance-root</artifactId>
-				<version>${insurance-lib.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
+				<groupId>tech.lapsa.esbd</groupId>
+				<artifactId>esbd-domain</artifactId>
+				<version>${esbd-domain.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>
-		<!-- tech -->
-		<dependency>
-			<groupId>tech.lapsa.patterns</groupId>
-			<artifactId>patterns-domain</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>tech.lapsa.java</groupId>
-			<artifactId>java-commons</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<!-- oldies -->
-		<dependency>
-			<groupId>com.lapsa.insurance-lib</groupId>
-			<artifactId>insurance-elements</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.kz-lib</groupId>
-			<artifactId>kz-core</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.international-lib</groupId>
-			<artifactId>international-core</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
 		<!-- JavaEE -->
 		<dependency>
 			<groupId>javax.enterprise</groupId>
@@ -117,6 +59,13 @@
 			<groupId>javax.ejb</groupId>
 			<artifactId>javax.ejb-api</artifactId>
 			<scope>provided</scope>
+		</dependency>
+		<!-- tech -->
+		<dependency>
+			<groupId>tech.lapsa.esbd</groupId>
+			<artifactId>esbd-domain</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
 		</dependency>
 	</dependencies>
 
