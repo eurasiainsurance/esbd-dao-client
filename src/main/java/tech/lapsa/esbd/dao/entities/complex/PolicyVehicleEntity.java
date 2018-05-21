@@ -30,7 +30,7 @@ public class PolicyVehicleEntity extends AEntity {
 	private VehicleAgeClass vehicleAgeClass;
 	private VehicleCertificateInfo certificate;
 	private String vehiclePurpose;
-	private int currentOdometerValue;
+	private Integer currentOdometerValue;
 	private RecordOperationInfo created;
 	private RecordOperationInfo modified;
 	private InsuranceCompanyEntity insurer;
@@ -86,7 +86,7 @@ public class PolicyVehicleEntity extends AEntity {
 
 	public PolicyVehicleEntityBuilder withModified(final RecordOperationInfo modified)
 		throws IllegalArgumentException {
-	    this.modified = modified;
+	    this.modified = MyObjects.requireNonNull(modified, "modified");
 	    return this;
 	}
 
