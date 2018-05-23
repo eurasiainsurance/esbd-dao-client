@@ -7,23 +7,23 @@ import javax.ejb.Remote;
 
 import com.lapsa.insurance.elements.InsuranceClassType;
 
+import tech.lapsa.esbd.dao.IElementsService;
 import tech.lapsa.esbd.dao.NotFound;
-import tech.lapsa.esbd.dao.elements.ElementsService;
 import tech.lapsa.esbd.domain.complex.SubjectPersonEntity;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 
-public interface InsuranceClassTypeService extends ElementsService<InsuranceClassType> {
+public interface InsuranceClassTypeService extends IElementsService<InsuranceClassType> {
 
     public static final String BEAN_NAME = "InsuranceClassTypeServiceBean";
 
     @Local
     public interface InsuranceClassTypeServiceLocal
-	    extends ElementsServiceLocal<InsuranceClassType>, InsuranceClassTypeService {
+	    extends IlementsServiceLocal<InsuranceClassType>, InsuranceClassTypeService {
     }
 
     @Remote
     public interface InsuranceClassTypeServiceRemote
-	    extends ElementsServiceRemote<InsuranceClassType>, InsuranceClassTypeService {
+	    extends IlementsServiceRemote<InsuranceClassType>, InsuranceClassTypeService {
     }
 
     InsuranceClassType getDefault();

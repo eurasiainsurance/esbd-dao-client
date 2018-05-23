@@ -1,14 +1,12 @@
-package tech.lapsa.esbd.dao.elements;
+package tech.lapsa.esbd.dao;
 
-import tech.lapsa.esbd.dao.GeneralService;
+public interface IElementsService<T extends Enum<T>> extends IService<T, Integer> {
 
-public interface ElementsService<T extends Enum<T>> extends GeneralService<T, Integer> {
-
-    public interface ElementsServiceLocal<T extends Enum<T>>
-	    extends GeneralServiceLocal<T, Integer>, ElementsService<T> {
+    public interface IlementsServiceLocal<T extends Enum<T>>
+	    extends IServiceLocal<T, Integer>, IElementsService<T> {
     }
 
-    public interface ElementsServiceRemote<T extends Enum<T>>
-	    extends GeneralServiceRemote<T, Integer>, ElementsService<T> {
+    public interface IlementsServiceRemote<T extends Enum<T>>
+	    extends IServiceRemote<T, Integer>, IElementsService<T> {
     }
 }

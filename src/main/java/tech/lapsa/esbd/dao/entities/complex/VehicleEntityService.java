@@ -5,23 +5,23 @@ import java.util.List;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 
-import tech.lapsa.esbd.dao.entities.AEntityService;
+import tech.lapsa.esbd.dao.IEntitiesService;
 import tech.lapsa.esbd.domain.complex.VehicleEntity;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.kz.vehicle.VehicleRegNumber;
 
-public interface VehicleEntityService extends AEntityService<VehicleEntity, Integer> {
+public interface VehicleEntityService extends IEntitiesService<VehicleEntity> {
 
     public static final String BEAN_NAME = "VehicleEntityServiceBean";
 
     @Local
     public interface VehicleEntityServiceLocal
-	    extends AEntityServiceLocal<VehicleEntity, Integer>, VehicleEntityService {
+	    extends IEntityServiceLocal<VehicleEntity>, VehicleEntityService {
     }
 
     @Remote
     public interface VehicleEntityServiceRemote
-	    extends AEntityServiceRemote<VehicleEntity, Integer>, VehicleEntityService {
+	    extends IEntityServiceRemote<VehicleEntity>, VehicleEntityService {
     }
 
     List<VehicleEntity> getByVINCode(String vinCode) throws IllegalArgument;

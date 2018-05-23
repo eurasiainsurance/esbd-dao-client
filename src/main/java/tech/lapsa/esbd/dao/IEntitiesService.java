@@ -1,15 +1,14 @@
-package tech.lapsa.esbd.dao.entities;
+package tech.lapsa.esbd.dao;
 
-import tech.lapsa.esbd.dao.GeneralService;
 import tech.lapsa.esbd.domain.AEntity;
 
-public interface AEntityService<T extends AEntity, I> extends GeneralService<T, I> {
+public interface IEntitiesService<DOMAIN extends AEntity> extends IService<DOMAIN, Integer> {
 
-    public interface AEntityServiceLocal<T extends AEntity, I>
-	    extends GeneralServiceLocal<T, I>, AEntityService<T, I> {
+    public interface IEntityServiceLocal<DOMAIN extends AEntity>
+	    extends IServiceLocal<DOMAIN, Integer>, IEntitiesService<DOMAIN> {
     }
 
-    public interface AEntityServiceRemote<T extends AEntity, I>
-	    extends GeneralServiceRemote<T, I>, AEntityService<T, I> {
+    public interface IEntityServiceRemote<DOMAIN extends AEntity>
+	    extends IServiceRemote<DOMAIN, Integer>, IEntitiesService<DOMAIN> {
     }
 }
