@@ -1,4 +1,4 @@
-package tech.lapsa.esbd.dao.elements.nondict;
+package tech.lapsa.esbd.dao.resolver;
 
 import java.time.LocalDate;
 
