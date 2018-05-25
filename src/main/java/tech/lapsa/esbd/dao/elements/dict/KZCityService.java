@@ -5,17 +5,15 @@ import javax.ejb.Remote;
 
 import com.lapsa.kz.country.KZCity;
 
-import tech.lapsa.esbd.dao.elements.ElementsService;
-
-public interface KZCityService extends ElementsService<KZCity> {
+public interface KZCityService extends IDictElementsService<KZCity> {
 
     public static final String BEAN_NAME = "KZCityServiceBean";
 
     @Local
-    public interface KZCityServiceLocal extends ElementsServiceLocal<KZCity>, KZCityService {
+    public interface KZCityServiceLocal extends IDictElementsServiceLocal<KZCity>, KZCityService {
     }
 
     @Remote
-    public interface KZCityServiceRemote extends ElementsServiceRemote<KZCity>, KZCityService {
+    public interface KZCityServiceRemote extends IDictElementsServiceRemote<KZCity>, KZCityService {
     }
 }

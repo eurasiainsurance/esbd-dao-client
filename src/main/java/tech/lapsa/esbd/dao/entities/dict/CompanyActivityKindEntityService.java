@@ -5,7 +5,7 @@ import javax.ejb.Remote;
 
 import tech.lapsa.esbd.domain.dict.CompanyActivityKindEntity;
 
-public interface CompanyActivityKindEntityService extends ADictEntityService<CompanyActivityKindEntity> {
+public interface CompanyActivityKindEntityService extends IDictEntitiesService<CompanyActivityKindEntity> {
 
     public static final String BEAN_NAME = "CompanyActivityKindEntityServiceBean";
 

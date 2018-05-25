@@ -1,26 +1,22 @@
 package tech.lapsa.esbd.dao.entities.complex;
 
-import java.util.List;
-
 import javax.ejb.Local;
 import javax.ejb.Remote;
 
-import tech.lapsa.esbd.dao.entities.AEntityService;
+import tech.lapsa.esbd.dao.entities.IPreloadedEntitiesService;
 import tech.lapsa.esbd.domain.complex.UserEntity;
 
-public interface UserEntityService extends AEntityService<UserEntity, Integer> {
+public interface UserEntityService extends IPreloadedEntitiesService<UserEntity> {
 
     public static final String BEAN_NAME = "UserEntityServiceBean";
 
     @Local
     public interface UserEntityServiceLocal
-	    extends AEntityServiceLocal<UserEntity, Integer>, UserEntityService {
+	    extends IPreloadedEntitiesServiceLocal<UserEntity>, UserEntityService {
     }
 
     @Remote
     public interface UserEntityServiceRemote
-	    extends AEntityServiceRemote<UserEntity, Integer>, UserEntityService {
+	    extends IPreloadedEntitiesServiceRemote<UserEntity>, UserEntityService {
     }
-
-    List<UserEntity> getAll();
 }

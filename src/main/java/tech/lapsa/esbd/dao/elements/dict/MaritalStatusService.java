@@ -5,20 +5,18 @@ import javax.ejb.Remote;
 
 import com.lapsa.insurance.elements.MaritalStatus;
 
-import tech.lapsa.esbd.dao.elements.ElementsService;
-
-public interface MaritalStatusService extends ElementsService<MaritalStatus> {
+public interface MaritalStatusService extends IDictElementsService<MaritalStatus> {
 
     public static final String BEAN_NAME = "MaritalStatusServiceBean";
 
     @Local
     public interface MaritalStatusServiceLocal
-	    extends ElementsServiceLocal<MaritalStatus>, MaritalStatusService {
+	    extends IDictElementsServiceLocal<MaritalStatus>, MaritalStatusService {
     }
 
     @Remote
     public interface MaritalStatusServiceRemote
-	    extends ElementsServiceRemote<MaritalStatus>, MaritalStatusService {
+	    extends IDictElementsServiceRemote<MaritalStatus>, MaritalStatusService {
     }
 
 }

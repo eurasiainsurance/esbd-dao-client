@@ -5,20 +5,18 @@ import javax.ejb.Remote;
 
 import com.lapsa.insurance.elements.InsuredAgeAndExpirienceClass;
 
-import tech.lapsa.esbd.dao.elements.ElementsService;
-
 public interface InsuredAgeAndExpirienceClassService
-	extends ElementsService<InsuredAgeAndExpirienceClass> {
+	extends IDictElementsService<InsuredAgeAndExpirienceClass> {
 
     public static final String BEAN_NAME = "InsuredAgeAndExpirienceClassServiceBean";
 
     @Local
     public interface InsuredAgeAndExpirienceClassServiceLocal
-	    extends ElementsServiceLocal<InsuredAgeAndExpirienceClass>, InsuredAgeAndExpirienceClassService {
+	    extends IDictElementsServiceLocal<InsuredAgeAndExpirienceClass>, InsuredAgeAndExpirienceClassService {
     }
 
     @Remote
     public interface InsuredAgeAndExpirienceClassServiceRemote
-	    extends ElementsServiceRemote<InsuredAgeAndExpirienceClass>, InsuredAgeAndExpirienceClassService {
+	    extends IDictElementsServiceRemote<InsuredAgeAndExpirienceClass>, InsuredAgeAndExpirienceClassService {
     }
 }

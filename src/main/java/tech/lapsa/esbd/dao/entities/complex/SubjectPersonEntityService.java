@@ -5,17 +5,17 @@ import javax.ejb.Remote;
 
 import tech.lapsa.esbd.domain.complex.SubjectPersonEntity;
 
-public interface SubjectPersonEntityService extends GeneralSubjectEntityService<SubjectPersonEntity> {
+public interface SubjectPersonEntityService extends ISubjectEntitiesService<SubjectPersonEntity> {
 
     public static final String BEAN_NAME = "SubjectPersonEntityServiceBean";
 
     @Local
     public interface SubjectPersonEntityServiceLocal
-	    extends GeneralSubjectEntityServiceLocal<SubjectPersonEntity>, SubjectPersonEntityService {
+	    extends ISubjectEntityServiceLocal<SubjectPersonEntity>, SubjectPersonEntityService {
     }
 
     @Remote
     public interface SubjectPersonEntityServiceRemote
-	    extends GeneralSubjectEntityServiceRemote<SubjectPersonEntity>, SubjectPersonEntityService {
+	    extends ISubjectEntityServiceRemote<SubjectPersonEntity>, SubjectPersonEntityService {
     }
 }

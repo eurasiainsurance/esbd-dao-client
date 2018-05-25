@@ -5,19 +5,17 @@ import javax.ejb.Remote;
 
 import com.lapsa.insurance.elements.VehicleAgeClass;
 
-import tech.lapsa.esbd.dao.elements.ElementsService;
-
-public interface VehicleAgeClassService extends ElementsService<VehicleAgeClass> {
+public interface VehicleAgeClassService extends IDictElementsService<VehicleAgeClass> {
 
     public static final String BEAN_NAME = "VehicleAgeClassServiceBean";
 
     @Local
     public interface VehicleAgeClassServiceLocal
-	    extends ElementsServiceLocal<VehicleAgeClass>, VehicleAgeClassService {
+	    extends IDictElementsServiceLocal<VehicleAgeClass>, VehicleAgeClassService {
     }
 
     @Remote
     public interface VehicleAgeClassServiceRemote
-	    extends ElementsServiceRemote<VehicleAgeClass>, VehicleAgeClassService {
+	    extends IDictElementsServiceRemote<VehicleAgeClass>, VehicleAgeClassService {
     }
 }
