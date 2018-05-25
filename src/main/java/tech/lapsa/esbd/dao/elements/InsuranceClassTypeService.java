@@ -1,11 +1,9 @@
-package tech.lapsa.esbd.dao.elements.dict;
+package tech.lapsa.esbd.dao.elements;
 
 import javax.ejb.Local;
 import javax.ejb.Remote;
 
 import com.lapsa.insurance.elements.InsuranceClassType;
-
-import tech.lapsa.esbd.dao.IElementsService;
 
 public interface InsuranceClassTypeService extends IElementsService<InsuranceClassType> {
 
@@ -13,11 +11,11 @@ public interface InsuranceClassTypeService extends IElementsService<InsuranceCla
 
     @Local
     public interface InsuranceClassTypeServiceLocal
-	    extends IlementsServiceLocal<InsuranceClassType>, InsuranceClassTypeService {
+	    extends IElementsServiceLocal<InsuranceClassType>, InsuranceClassTypeService {
     }
 
     @Remote
     public interface InsuranceClassTypeServiceRemote
-	    extends IlementsServiceRemote<InsuranceClassType>, InsuranceClassTypeService {
+	    extends IElementsServiceRemote<InsuranceClassType>, InsuranceClassTypeService {
     }
 }

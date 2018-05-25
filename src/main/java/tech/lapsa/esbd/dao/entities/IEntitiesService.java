@@ -1,5 +1,6 @@
-package tech.lapsa.esbd.dao;
+package tech.lapsa.esbd.dao.entities;
 
+import tech.lapsa.esbd.dao.IService;
 import tech.lapsa.esbd.domain.AEntity;
 
 public interface IEntitiesService<DOMAIN extends AEntity> extends IService<DOMAIN, Integer> {

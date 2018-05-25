@@ -3,7 +3,7 @@ package tech.lapsa.esbd.dao.entities.complex;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 
-import tech.lapsa.esbd.dao.IEntitiesService;
+import tech.lapsa.esbd.dao.entities.IEntitiesService;
 import tech.lapsa.esbd.domain.complex.InsuranceAgentEntity;
 
 public interface InsuranceAgentEntityService extends IEntitiesService<InsuranceAgentEntity> {

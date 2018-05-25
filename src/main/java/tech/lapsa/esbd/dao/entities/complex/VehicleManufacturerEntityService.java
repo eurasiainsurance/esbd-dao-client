@@ -5,7 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 
-import tech.lapsa.esbd.dao.IEntitiesService;
+import tech.lapsa.esbd.dao.entities.IEntitiesService;
 import tech.lapsa.esbd.domain.complex.VehicleManufacturerEntity;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 

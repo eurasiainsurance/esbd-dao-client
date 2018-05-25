@@ -1,7 +1,8 @@
-package tech.lapsa.esbd.dao;
+package tech.lapsa.esbd.dao.entities.dict;
 
 import java.util.List;
 
+import tech.lapsa.esbd.dao.entities.IEntitiesService;
 import tech.lapsa.esbd.domain.dict.ADictEntity;
 
 public interface IDictEntitiesService<T extends ADictEntity> extends IEntitiesService<T> {

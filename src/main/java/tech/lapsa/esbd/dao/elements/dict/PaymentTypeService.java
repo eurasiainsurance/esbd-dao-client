@@ -5,19 +5,17 @@ import javax.ejb.Remote;
 
 import com.lapsa.insurance.elements.PaymentType;
 
-import tech.lapsa.esbd.dao.IElementsService;
-
-public interface PaymentTypeService extends IElementsService<PaymentType> {
+public interface PaymentTypeService extends IDictElementsService<PaymentType> {
 
     public static final String BEAN_NAME = "PaymentTypeServiceBean";
 
     @Local
     public interface PaymentTypeServiceLocal
-	    extends IlementsServiceLocal<PaymentType>, PaymentTypeService {
+	    extends IDictElementsServiceLocal<PaymentType>, PaymentTypeService {
     }
 
     @Remote
     public interface PaymentTypeServiceRemote
-	    extends IlementsServiceRemote<PaymentType>, PaymentTypeService {
+	    extends IDictElementsServiceRemote<PaymentType>, PaymentTypeService {
     }
 }

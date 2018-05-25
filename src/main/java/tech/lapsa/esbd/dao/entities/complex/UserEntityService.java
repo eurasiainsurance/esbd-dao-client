@@ -3,7 +3,7 @@ package tech.lapsa.esbd.dao.entities.complex;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 
-import tech.lapsa.esbd.dao.IPreloadedEntitiesService;
+import tech.lapsa.esbd.dao.entities.IPreloadedEntitiesService;
 import tech.lapsa.esbd.domain.complex.UserEntity;
 
 public interface UserEntityService extends IPreloadedEntitiesService<UserEntity> {

@@ -5,17 +5,15 @@ import javax.ejb.Remote;
 
 import com.lapsa.kz.country.KZArea;
 
-import tech.lapsa.esbd.dao.IElementsService;
-
-public interface KZAreaService extends IElementsService<KZArea> {
+public interface KZAreaService extends IDictElementsService<KZArea> {
 
     public static final String BEAN_NAME = "KZAreaServiceBean";
 
     @Local
-    public interface KZAreaServiceLocal extends IlementsServiceLocal<KZArea>, KZAreaService {
+    public interface KZAreaServiceLocal extends IDictElementsServiceLocal<KZArea>, KZAreaService {
     }
 
     @Remote
-    public interface KZAreaServiceRemote extends IlementsServiceRemote<KZArea>, KZAreaService {
+    public interface KZAreaServiceRemote extends IDictElementsServiceRemote<KZArea>, KZAreaService {
     }
 }

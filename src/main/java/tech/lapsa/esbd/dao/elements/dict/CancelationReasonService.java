@@ -5,19 +5,17 @@ import javax.ejb.Remote;
 
 import com.lapsa.insurance.elements.CancelationReason;
 
-import tech.lapsa.esbd.dao.IElementsService;
-
-public interface CancelationReasonService extends IElementsService<CancelationReason> {
+public interface CancelationReasonService extends IDictElementsService<CancelationReason> {
 
     public static final String BEAN_NAME = "CancelationReasonServiceBean";
 
     @Local
     public interface CancelationReasonServiceLocal
-	    extends IlementsServiceLocal<CancelationReason>, CancelationReasonService {
+	    extends IDictElementsServiceLocal<CancelationReason>, CancelationReasonService {
     }
 
     @Remote
     public interface CancelationReasonServiceRemote
-	    extends IlementsServiceRemote<CancelationReason>, CancelationReasonService {
+	    extends IDictElementsServiceRemote<CancelationReason>, CancelationReasonService {
     }
 }
