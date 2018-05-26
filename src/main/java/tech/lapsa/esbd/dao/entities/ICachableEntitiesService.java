@@ -1,15 +1,18 @@
 package tech.lapsa.esbd.dao.entities;
 
-import tech.lapsa.esbd.dao.IService;
+import tech.lapsa.esbd.dao.NotFound;
 import tech.lapsa.esbd.domain.AEntity;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 
-public interface IEntitiesService<DOMAIN extends AEntity> extends IService<DOMAIN, Integer> {
+public interface ICachableEntitiesService<DOMAIN extends AEntity> extends IEntitiesService<DOMAIN> {
 
-    public interface IEntityServiceLocal<DOMAIN extends AEntity>
-	    extends IServiceLocal<DOMAIN, Integer>, IEntitiesService<DOMAIN> {
+    public interface ICachableEntityServiceLocal<DOMAIN extends AEntity>
+	    extends IEntitiesServiceLocal<DOMAIN>, ICachableEntitiesService<DOMAIN> {
     }
 
-    public interface IEntityServiceRemote<DOMAIN extends AEntity>
-	    extends IServiceRemote<DOMAIN, Integer>, IEntitiesService<DOMAIN> {
+    public interface ICachableEntityServiceRemote<DOMAIN extends AEntity>
+	    extends IEntitiesServiceRemote<DOMAIN>, ICachableEntitiesService<DOMAIN> {
     }
+
+    DOMAIN getByIdBypassCache(Integer id) throws IllegalArgument, NotFound;
 }
