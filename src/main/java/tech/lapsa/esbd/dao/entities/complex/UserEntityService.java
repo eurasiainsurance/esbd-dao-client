@@ -19,4 +19,6 @@ public interface UserEntityService extends IPreloadedEntitiesService<UserEntity>
     public interface UserEntityServiceRemote
 	    extends IPreloadedEntitiesServiceRemote<UserEntity>, UserEntityService {
     }
+    
+    UserEntity currentUser();
 }
