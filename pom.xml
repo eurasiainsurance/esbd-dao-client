@@ -17,6 +17,7 @@
 	<properties>
 		<!-- BOMS -->
 		<javax-javaee-bom.version>7.0a</javax-javaee-bom.version>
+		<payara-bom.version>4.1.2-2</payara-bom.version>
 		<!-- tech -->
 		<esbd-domain.version>3.0-SNAPSHOT</esbd-domain.version>
 	</properties>
@@ -30,6 +31,13 @@
 				<version>${javax-javaee-bom.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>tech.lapsa.payara</groupId>
+				<artifactId>payara-bom</artifactId>
+				<version>${payara-bom.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
 			</dependency>
 			<!-- tech -->
 			<dependency>
@@ -50,6 +58,12 @@
 		<dependency>
 			<groupId>javax.ejb</groupId>
 			<artifactId>javax.ejb-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Payara -->
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.core</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<!-- tech -->
