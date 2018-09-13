@@ -22,7 +22,7 @@
 		<patterns-domain.version>1.1</patterns-domain.version>
 		<!-- oldies -->
 		<insurance-lib.version>2.4</insurance-lib.version>
-		<kz-lib.version>3.3-SNAPSHOT</kz-lib.version>
+		<kz-lib.version>3.3</kz-lib.version>
 		<international-lib.version>3.3.1</international-lib.version>
 	</properties>
 
