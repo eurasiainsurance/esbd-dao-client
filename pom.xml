@@ -9,16 +9,16 @@
 
 	<groupId>tech.lapsa.esbd</groupId>
 	<artifactId>esbd-dao-client</artifactId>
-	<version>3.0-SNAPSHOT</version>
+	<version>CURRENT-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>ESBD Lib : DAO : EJB-client</name>
 
 	<properties>
 		<!-- BOMS -->
-		<javax-javaee-bom.version>7.0a</javax-javaee-bom.version>
+		<javax-javaee-bom.version>CURRENT-SNAPSHOT</javax-javaee-bom.version>
 		<!-- tech -->
-		<esbd-domain.version>2.2</esbd-domain.version>
+		<esbd-domain.version>CURRENT-SNAPSHOT</esbd-domain.version>
 	</properties>
 
 	<dependencyManagement>
