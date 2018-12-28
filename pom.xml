@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>tech.lapsa.maven</groupId>
@@ -19,11 +20,7 @@
 		<javax-javaee-bom.version>CURRENT-SNAPSHOT</javax-javaee-bom.version>
 		<java-commons.version>CURRENT-SNAPSHOT</java-commons.version>
 		<!-- tech -->
-		<patterns-domain.version>CURRENT-SNAPSHOT</patterns-domain.version>
-		<!-- oldies -->
-		<insurance-lib.version>CURRENT-SNAPSHOT</insurance-lib.version>
-		<kz-lib.version>CURRENT-SNAPSHOT</kz-lib.version>
-		<international-lib.version>CURRENT-SNAPSHOT</international-lib.version>
+		<esbd-domain.version>CURRENT-SNAPSHOT</esbd-domain.version>
 	</properties>
 
 	<dependencyManagement>
@@ -45,31 +42,9 @@
 			</dependency>
 			<!-- tech -->
 			<dependency>
-				<groupId>tech.lapsa.patterns</groupId>
-				<artifactId>patterns-domain</artifactId>
-				<version>${patterns-domain.version}</version>
-			</dependency>
-			<!-- oldies -->
-			<dependency>
-				<groupId>com.lapsa.kz-lib</groupId>
-				<artifactId>kz-root</artifactId>
-				<version>${kz-lib.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.international-lib</groupId>
-				<artifactId>international-root</artifactId>
-				<version>${international-lib.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.insurance-lib</groupId>
-				<artifactId>insurance-root</artifactId>
-				<version>${insurance-lib.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
+				<groupId>tech.lapsa.esbd</groupId>
+				<artifactId>esbd-domain</artifactId>
+				<version>${esbd-domain.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -77,33 +52,14 @@
 	<dependencies>
 		<!-- tech -->
 		<dependency>
-			<groupId>tech.lapsa.patterns</groupId>
-			<artifactId>patterns-domain</artifactId>
+			<groupId>tech.lapsa.esbd</groupId>
+			<artifactId>esbd-domain</artifactId>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>tech.lapsa.java</groupId>
 			<artifactId>java-commons</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<!-- oldies -->
-		<dependency>
-			<groupId>com.lapsa.insurance-lib</groupId>
-			<artifactId>insurance-elements</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.kz-lib</groupId>
-			<artifactId>kz-core</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.international-lib</groupId>
-			<artifactId>international-core</artifactId>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
