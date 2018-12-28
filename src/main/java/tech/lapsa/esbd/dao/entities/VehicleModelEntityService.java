@@ -5,6 +5,8 @@ import java.util.List;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 
+import tech.lapsa.esbd.domain.entities.VehicleManufacturerEntity;
+import tech.lapsa.esbd.domain.entities.VehicleModelEntity;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 
 public interface VehicleModelEntityService extends GeneralEntityService<VehicleModelEntity, Integer> {

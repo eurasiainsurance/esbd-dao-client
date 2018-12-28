@@ -3,6 +3,7 @@ package tech.lapsa.esbd.dao.entities;
 import java.util.List;
 
 import tech.lapsa.esbd.dao.NotFound;
+import tech.lapsa.esbd.domain.entities.SubjectEntity;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 

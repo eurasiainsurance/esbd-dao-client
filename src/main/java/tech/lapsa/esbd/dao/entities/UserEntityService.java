@@ -5,6 +5,8 @@ import java.util.List;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 
+import tech.lapsa.esbd.domain.entities.UserEntity;
+
 public interface UserEntityService extends GeneralEntityService<UserEntity, Integer> {
 
     public static final String BEAN_NAME = "UserEntityServiceBean";

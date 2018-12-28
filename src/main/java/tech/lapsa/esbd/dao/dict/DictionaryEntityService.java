@@ -3,6 +3,7 @@ package tech.lapsa.esbd.dao.dict;
 import java.util.List;
 
 import tech.lapsa.esbd.dao.GeneralService;
+import tech.lapsa.esbd.domain.dict.DictionaryEntity;
 
 public interface DictionaryEntityService<T extends DictionaryEntity> extends GeneralService<T, Integer> {
 
