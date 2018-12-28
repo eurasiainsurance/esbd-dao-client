@@ -8,7 +8,7 @@ import javax.ejb.Remote;
 import com.lapsa.insurance.elements.InsuranceClassType;
 
 import tech.lapsa.esbd.dao.NotFound;
-import tech.lapsa.esbd.dao.entities.SubjectPersonEntity;
+import tech.lapsa.esbd.domain.entities.SubjectPersonEntity;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 
 public interface InsuranceClassTypeService extends ElementsService<InsuranceClassType> {
