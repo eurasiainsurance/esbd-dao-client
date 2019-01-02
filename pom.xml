@@ -17,10 +17,10 @@
 
 	<properties>
 		<!-- BOMS -->
-		<javax-javaee-bom.version>CURRENT-SNAPSHOT</javax-javaee-bom.version>
-		<java-commons.version>CURRENT-SNAPSHOT</java-commons.version>
+		<javax-javaee-bom.version>20190103</javax-javaee-bom.version>
+		<java-commons.version>20190103</java-commons.version>
 		<!-- tech -->
-		<esbd-domain.version>CURRENT-SNAPSHOT</esbd-domain.version>
+		<esbd-domain.version>20190103</esbd-domain.version>
 	</properties>
 
 	<dependencyManagement>
